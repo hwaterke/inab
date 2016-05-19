@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Nauktis/inab/issues"
   },
-  "homepage": "https://github.com/Nauktis/inab#readme"
+  "homepage": "https://github.com/Nauktis/inab#readme",
+  "dependencies": {
+    "webpack": "^1.13.0"
+  }
 }
