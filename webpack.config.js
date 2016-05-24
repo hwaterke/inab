@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./src/components/Main.js",
+  entry: "./src/app.js",
 
 
   module: {
