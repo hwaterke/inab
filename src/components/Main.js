@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import TransactionTable from './TransactionTable';
+import NewEventLink from './NewEventLink';
 
 export default class Main extends React.Component {
   render() {
@@ -13,7 +15,8 @@ export default class Main extends React.Component {
               <Sidebar />
             </div>
             <div className="col-sm-9 col-md-10">
-              Page
+              <TransactionTable />
+              <NewEventLink />
             </div>
           </div>
         </div>
