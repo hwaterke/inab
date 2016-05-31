@@ -1,5 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
-import Main from './components/Main'
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import transactionReducer from './reducers'
+import Main from './components/Main';
 
-ReactDOM.render(<Main />, document.getElementById('app'));
+let store = createStore(transactionReducer);
+
+render(
+  <Provider store={store} >
+    <Main />
+  </Provider>,
+  document.getElementById('app')
+);
