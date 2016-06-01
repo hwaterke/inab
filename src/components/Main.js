@@ -15,8 +15,8 @@ export default class Main extends React.Component {
               <Sidebar />
             </div>
             <div className="col-sm-9 col-md-10">
-              <TransactionTable />
               <NewEventLink />
+              <TransactionTable />
             </div>
           </div>
         </div>

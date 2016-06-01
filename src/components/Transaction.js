@@ -2,10 +2,10 @@ import React from 'react';
 
 export default class Transaction extends React.Component {
   render() {
-    const { id, date, payee, category, description, amount } = this.props;
+    const { id, active, date, payee, category, description, amount, onClick } = this.props;
     return (
-      <tr>
-        <td>{id}</td>
+      <tr onClick={onClick}>
+        <td style={{backgroundColor: active ? "#CCF":"#CFC"}}>{id}</td>
         <td>{date}</td>
         <td>{payee}</td>
         <td>{category}</td>

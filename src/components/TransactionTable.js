@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Transaction from './Transaction';
+import EditableTransaction from './EditableTransaction';
+import * as actions from '../actions';
 
 class TransactionTable extends React.Component {
   render() {
@@ -9,12 +11,14 @@ class TransactionTable extends React.Component {
     const nodes = transactions.map(transaction =>
             <Transaction
               id={transaction.id}
+              active={transaction.active}
               date={transaction.date}
               payee={transaction.payee}
               category={transaction.category}
               description={transaction.description}
               amount={transaction.amount}
-              key={transaction.id}/>
+              key={transaction.id}
+              onClick={() => this.props.selectTransaction(transaction.id) }/>
         );
 
     return (
@@ -30,6 +34,7 @@ class TransactionTable extends React.Component {
           </tr>
         </thead>
         <tbody>
+          <EditableTransaction />
           {nodes}
         </tbody>
       </table>
@@ -38,9 +43,12 @@ class TransactionTable extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const tsObj = state['entities']['transactions'];
+  const ts = Object.keys(tsObj).map(key => tsObj[key]);
+  ts.forEach(t => { t['active'] = state['selectedTransactions'].includes(t.id); });
   return {
-    transactions: Object.keys(state['entities']['transactions']).map(key => state['entities']['transactions'][key])
+    transactions: ts
   };
 };
 
-export default connect(mapStateToProps)(TransactionTable);
+export default connect(mapStateToProps, actions)(TransactionTable);
