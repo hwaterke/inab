@@ -10,8 +10,7 @@ import { Provider } from 'react-redux';
 
 const store = createStore(
   transactionReducer,
-  applyMiddleware(thunk),
-  applyMiddleware(createLogger())
+  applyMiddleware(thunk, createLogger())
 );
 
 render(
