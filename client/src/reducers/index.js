@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import transactionsReducers from './transactions';
+import {reducer as formReducer} from 'redux-form';
 import Immutable from 'immutable';
 import * as types from '../actions/types';
 
@@ -17,5 +18,6 @@ function selectedTransactionsReducer(state = Immutable.Set(), action) {
 
 export default combineReducers({
   selectedTransactions: selectedTransactionsReducer,
-  transactions: transactionsReducers
+  transactions: transactionsReducers,
+  form: formReducer
 });

@@ -6,7 +6,26 @@ const standardActionCreators = reduxCrud.actionCreatorsFor('transactions');
 
 let actionCreators = {
   fetch() {
-    // TODO
+    return function(dispatch) {
+      dispatch(standardActionCreators.fetchStart());
+
+      // Send the request
+      const url = '/transactions';
+      const promise = axios({
+        url: url,
+        method: 'GET'
+      });
+
+      promise.then(function(response) {
+        dispatch(standardActionCreators.fetchSuccess(response.data));
+      }, function(response) {
+        dispatch(standardActionCreators.fetchError(response.data));
+      }).catch(function(error) {
+        console.error(error.toString());
+      });
+
+      return promise;
+    };
   },
 
   update() {
@@ -15,8 +34,7 @@ let actionCreators = {
 
   add(transaction) {
     return function(dispatch) {
-      const action = standardActionCreators.createStart(transaction);
-      dispatch(action);
+      dispatch(standardActionCreators.createStart(transaction));
 
       // Send the request
       const url = '/transactions';
@@ -27,12 +45,9 @@ let actionCreators = {
       });
 
       promise.then(function(response) {
-        // Dispatch the success action
-        const action = standardActionCreators.createSuccess(response.data, response.data.cid);
-        dispatch(action);
+        dispatch(standardActionCreators.createSuccess(response.data, response.data.cid));
       }, function(error) {
-        const action = standardActionCreators.createError(error.data, transaction);
-        dispatch(action);
+        dispatch(standardActionCreators.createError(error.data, transaction));
       }).catch(function(err) {
         console.log(err.toString());
       });
