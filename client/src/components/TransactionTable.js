@@ -7,25 +7,25 @@ import * as actions from '../actions';
 class TransactionTable extends React.Component {
   render() {
     const { transactions } = this.props;
-
-    const nodes = transactions.map(transaction =>
-            <Transaction
-              id={transaction.id}
-              active={transaction.active}
-              date={transaction.date}
-              payee={transaction.payee}
-              category={transaction.category}
-              description={transaction.description}
-              amount={transaction.amount}
-              key={transaction.id}
-              onClick={() => this.props.selectTransaction(transaction.id) }/>
-        );
+    const nodes = transactions.map(transaction => {
+      return <Transaction
+          busy={transaction.busy}
+          id={transaction.id}
+          active={transaction.active}
+          date={transaction.date}
+          payee={transaction.payee}
+          category={transaction.category}
+          description={transaction.description}
+          amount={transaction.amount}
+          key={transaction.id}
+          onClick={() => this.props.selectTransaction(transaction.id) }/>;
+    });
 
     return (
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>Id</th>
+            <th>Status</th>
             <th>Date</th>
             <th>Payee</th>
             <th>Category</th>
@@ -43,11 +43,12 @@ class TransactionTable extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const tsObj = state['entities']['transactions'];
-  const ts = Object.keys(tsObj).map(key => tsObj[key]);
-  ts.forEach(t => { t['active'] = state['selectedTransactions'].includes(t.id); });
+  // TODO Find out why doing map on Immutable does not work
+  const tsObj = state.transactions.toJS().map(t => {
+    return Object.assign({}, t, {active: state.selectedTransactions.includes(t.id)});
+  });
   return {
-    transactions: ts
+    transactions: tsObj
   };
 };
 
