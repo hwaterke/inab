@@ -45,12 +45,12 @@ end
 # Defines the different route for a given resource.
 def define_restful_api(model)
   get "/#{model.resource}" do
-    sleep settings.foo if settings.foo > 0
+    sleep settings.fake_latency if settings.fake_latency > 0
     catch_errors { json model.all }
   end
 
   get "/#{model.resource}/:id" do
-    sleep settings.foo if settings.foo > 0
+    sleep settings.fake_latency if settings.fake_latency > 0
     catch_errors do
       result = model.find_by_id(params[:id])
       halt 404 if result.nil?
@@ -59,17 +59,17 @@ def define_restful_api(model)
   end
 
   post "/#{model.resource}" do
-    sleep settings.foo if settings.foo > 0
+    sleep settings.fake_latency if settings.fake_latency > 0
     catch_errors { json model.create(@json_payload) }
   end
 
   patch "/#{model.resource}/:id" do
-    sleep settings.foo if settings.foo > 0
+    sleep settings.fake_latency if settings.fake_latency > 0
     catch_errors { json model.update(params[:id], @json_payload) }
   end
 
   delete "/#{model.resource}/:id" do
-    sleep settings.foo if settings.foo > 0
+    sleep settings.fake_latency if settings.fake_latency > 0
     catch_errors { model.delete(params[:id]) }
   end
 
