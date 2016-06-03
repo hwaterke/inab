@@ -11,10 +11,10 @@ export default class Main extends React.Component {
         <Header />
         <div className="container-fluid">
           <div className="row">
-            <div className="col-sm-3 col-md-2">
+            <div className="col-sm-3 col-md-2 sidebar">
               <Sidebar />
             </div>
-            <div className="col-sm-9 col-md-10">
+            <div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">
               <NewEventLink />
               <TransactionTable />
             </div>
