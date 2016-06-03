@@ -79,7 +79,6 @@ def define_restful_api(model)
   end
 end
 
-
 DB = Sequel.sqlite
 
 DB.create_table? :accounts do
@@ -101,3 +100,8 @@ end
 
 define_restful_api(Model.new(DB, :accounts))
 define_restful_api(Model.new(DB, :transactions))
+
+set :public_folder, '../client/public'
+get '/' do
+  send_file File.expand_path('index.html', settings.public_folder)
+end
