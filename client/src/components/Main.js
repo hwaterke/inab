@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 class Main extends React.Component {
   render() {
-    const page = (this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />;
     return (
       <div>
         <Header />
@@ -18,7 +17,7 @@ class Main extends React.Component {
               <Sidebar />
             </div>
             <div className="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">
-              {page}
+              {(this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />}
             </div>
           </div>
         </div>
@@ -31,5 +30,5 @@ Main.propTypes = {
   page: React.PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({page: state.selectedPage});
+const mapStateToProps = (state) => ({page: state.selectedPage.name});
 export default connect(mapStateToProps)(Main);

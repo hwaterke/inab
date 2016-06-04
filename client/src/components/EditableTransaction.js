@@ -4,8 +4,7 @@ require('react-datepicker/dist/react-datepicker.css');
 import moment from 'moment';
 import {reduxForm} from 'redux-form';
 import Link from './Link';
-import actions from '../actions/transactions';
-import cuid from 'cuid';
+import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 
 class EditableTransaction extends React.Component {
   constructor(props) {
@@ -14,8 +13,7 @@ class EditableTransaction extends React.Component {
   }
 
   onSubmit(data) {
-    this.props.add({
-      id: cuid(),
+    this.props.create({
       date: data.datee.format("YYYY-MM-DD"),
       payee: data.payee,
       category: data.category,
@@ -43,8 +41,12 @@ class EditableTransaction extends React.Component {
   }
 }
 
+EditableTransaction.propTypes = {
+  create: React.PropTypes.func.isRequired
+};
+
 export default reduxForm({
   form: 'transaction',
   fields: ['datee', 'payee', 'category', 'description', 'amount'],
   initialValues: {'datee': moment()}
-}, null, actions)(EditableTransaction);
+}, null, asyncActionCreatorsFor('transactions'))(EditableTransaction);

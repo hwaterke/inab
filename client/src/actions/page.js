@@ -1,3 +1,7 @@
 import * as types from './types';
 
-export const selectPage = (page) => ({type: types.SELECT_PAGE, page});
+export const selectPage = (name, data) => ({
+  type: types.SELECT_PAGE,
+  name: name,
+  data: data
+});

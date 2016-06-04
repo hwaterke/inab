@@ -1,7 +1,7 @@
 import React from 'react';
-import actions from '../actions/transactions';
 import { connect } from 'react-redux';
 import Button from './Button';
+import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 
 export default class FetchTransactionsButton extends React.Component {
   render() {
@@ -15,4 +15,4 @@ FetchTransactionsButton.propTypes = {
   fetch: React.PropTypes.func.isRequired
 };
 
-export default connect(null, actions)(FetchTransactionsButton);
+export default connect(null, asyncActionCreatorsFor('transactions'))(FetchTransactionsButton);

@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 import transactionsReducers from './transactions';
+import accountsReducers from './accounts';
 import {reducer as formReducer} from 'redux-form';
 import Immutable from 'immutable';
 import * as types from '../actions/types';
 
-function selectedPageReducer(state = 'BUDGET', action) {
+function selectedPageReducer(state = {name: 'BUDGET'}, action) {
   switch (action.type) {
     case types.SELECT_PAGE:
-      return action.page;
+      return {
+        name: action.name,
+        data: action.data
+      };
     default:
       return state;
   }
@@ -29,5 +33,6 @@ export default combineReducers({
   selectedPage: selectedPageReducer,
   selectedTransactions: selectedTransactionsReducer,
   transactions: transactionsReducers,
+  accounts: accountsReducers,
   form: formReducer
 });
