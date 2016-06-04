@@ -4,6 +4,8 @@ import Button from './Button';
 import * as actions from '../actions/page';
 import { connect } from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
+import {modal} from 'react-redux-modal';
+import AccountForm from './AccountForm'
 
 class Sidebar extends React.Component {
 
@@ -13,6 +15,13 @@ class Sidebar extends React.Component {
     }
   }
 
+  addModal() {
+    modal.add(AccountForm, {
+      size: 'medium', // large, medium or small,
+      closeOnOutsideClick: true,
+      hideCloseButton: true
+    });
+  }
 
   render() {
     return (
@@ -23,7 +32,7 @@ class Sidebar extends React.Component {
             <Link children={account.name} onClick={() => this.props.selectPage('ACCOUNT', account.id)} />
           </li>
         )}
-        <li><Button children="Add account" onClick={() => this.props.create({name: 'lol'})} /></li>
+        <li><Button children="Add account" onClick={this.addModal.bind(this)} /></li>
       </ul>
     );
   }

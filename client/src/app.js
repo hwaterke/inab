@@ -1,9 +1,9 @@
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import transactionReducer from './reducers'
+import transactionReducer from './reducers';
 import { applyMiddleware, createStore } from 'redux';
 import { render } from 'react-dom';
-
+import ReduxModal from 'react-redux-modal';
 import React from 'react';
 import Main from './components/Main';
 import { Provider } from 'react-redux';
@@ -15,7 +15,10 @@ const store = createStore(
 
 render(
   <Provider store={store} >
-    <Main />
+    <div>
+      <Main />
+      <ReduxModal />
+    </div>
   </Provider>,
   document.getElementById('app')
 );

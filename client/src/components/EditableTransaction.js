@@ -28,6 +28,7 @@ class EditableTransaction extends React.Component {
       <tr>
         <td><Link children={<span className="glyphicon glyphicon-plus" aria-hidden="true"></span>} onClick={handleSubmit(this.onSubmit)} /></td>
         <td>
+          {/* TODO Should this be dropped in favor of input type=date?*/}
           <DatePicker selected={datee.value} onChange={param => {
             return datee.onChange(param);
           }} />

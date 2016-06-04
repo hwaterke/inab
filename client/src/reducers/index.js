@@ -4,6 +4,7 @@ import accountsReducers from './accounts';
 import {reducer as formReducer} from 'redux-form';
 import Immutable from 'immutable';
 import * as types from '../actions/types';
+import {reducer as modalReducer} from 'react-redux-modal';
 
 function selectedPageReducer(state = {name: 'BUDGET'}, action) {
   switch (action.type) {
@@ -34,5 +35,6 @@ export default combineReducers({
   selectedTransactions: selectedTransactionsReducer,
   transactions: transactionsReducers,
   accounts: accountsReducers,
-  form: formReducer
+  form: formReducer,
+  modals: modalReducer
 });
