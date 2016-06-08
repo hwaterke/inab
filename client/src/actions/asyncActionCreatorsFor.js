@@ -28,10 +28,12 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.fetchSuccess(response.data));
         }, function(response) {
           dispatch(standardActionCreators.fetchError(response.data));
-        }).catch(function(error) {
+        });
+/*
+        .catch(function(error) {
           console.error(error.toString());
         });
-
+*/
         return promise;
       };
     },

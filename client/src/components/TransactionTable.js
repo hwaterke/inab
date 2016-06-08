@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Transaction from './Transaction';
 import EditableTransaction from './EditableTransaction';
 import * as actions from '../actions';
+import {getTransactions} from '../reducers/transactions'
 
 class TransactionTable extends React.Component {
   render() {
@@ -44,7 +45,7 @@ class TransactionTable extends React.Component {
 
 const mapStateToProps = (state) => {
   // TODO Find out why doing map on Immutable does not work
-  const tsObj = state.transactions.toJS().map(t => {
+  const tsObj = getTransactions(state).toJS().map(t => {
     return Object.assign({}, t, {active: state.selectedTransactions.includes(t.id)});
   });
   return {

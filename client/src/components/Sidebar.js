@@ -5,7 +5,8 @@ import * as actions from '../actions/page';
 import { connect } from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import {modal} from 'react-redux-modal';
-import AccountForm from './AccountForm'
+import AccountForm from './AccountForm';
+import { getAccounts } from '../reducers/accounts';
 
 class Sidebar extends React.Component {
 
@@ -45,5 +46,5 @@ Sidebar.propTypes = {
   create: React.PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({accounts: state.accounts});
+const mapStateToProps = (state) => ({accounts: getAccounts(state)});
 export default connect(mapStateToProps, Object.assign({}, actions, asyncActionCreatorsFor('accounts')))(Sidebar);

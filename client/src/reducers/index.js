@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import transactionsReducers from './transactions';
 import accountsReducers from './accounts';
+import categoriesReducers from './categories';
+import categoryGroupsReducers from './categoryGroups';
 import {reducer as formReducer} from 'redux-form';
 import Immutable from 'immutable';
 import * as types from '../actions/types';
@@ -35,6 +37,8 @@ export default combineReducers({
   selectedTransactions: selectedTransactionsReducer,
   transactions: transactionsReducers,
   accounts: accountsReducers,
+  categories: categoriesReducers,
+  categoryGroups: categoryGroupsReducers,
   form: formReducer,
   modals: modalReducer
 });

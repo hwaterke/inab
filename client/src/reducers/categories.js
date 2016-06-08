@@ -1,0 +1,19 @@
+import reduxCrud from 'redux-crud';
+import { createSelector } from 'reselect';
+export default reduxCrud.reducersFor('categories', {store: reduxCrud.STORE_MUTABLE});
+
+
+export const getCategories = state => state.categories;
+
+export const getCategoriesByGroupId = createSelector(
+  getCategories,
+  categories => {
+    const result = {};
+    categories.forEach(function (category) {
+      const k = category.group_id;
+      result[k] = result[k] || [];
+      result[k].push(category);
+    });
+    return result;
+  }
+);
