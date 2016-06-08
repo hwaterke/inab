@@ -86,24 +86,61 @@ end
 
 DB = Sequel.sqlite
 
+# TODO Dev (remove)
+require 'logger'
+DB.loggers << Logger.new($stdout)
+
 DB.create_table? :accounts do
   primary_key :id
-  String :name
+  String :name, null: false
   String :cid
 end
 
 DB.create_table? :transactions do
   primary_key :id
-  Date :date
+  Date :date, null: false
   String :payee
   String :category
   String :description
   Integer :amount # Amount in cents
   String :cid
   foreign_key :account_id, :accounts
+  # TODO second account id for the transfers?
 end
 
+DB.create_table? :category_groups do
+  primary_key :id
+  String :name, null: false
+  String :cid
+end
+
+DB.create_table? :categories do
+  primary_key :id
+  String :name, null: false
+  String :cid
+  foreign_key :group_id, :category_groups, null: false
+end
+
+DB.create_table? :budget_items do
+  Date :month, null: false
+  foreign_key :category_id, :categories, null: false
+  primary_key [:month, :category_id]
+  Integer :amount # Amount in cents
+end
+
+# TODO remove when development is finished.
 set :fake_latency, 1
+Model.new(DB, :accounts).create(name: 'Checking account')
+m = Model.new(DB, :category_groups)
+mb = m.create(name: 'Monthly Bills')
+ex = m.create(name: 'Everyday Expenses')
+m = Model.new(DB, :categories)
+m.create(name: 'Phone', group_id: mb[:id])
+m.create(name: 'Internet', group_id: mb[:id])
+m.create(name: 'Groceries', group_id: ex[:id])
+m.create(name: 'Restaurants', group_id: ex[:id])
+
+
 before do
   if request.body.size > 0
     request.body.rewind
@@ -113,6 +150,9 @@ end
 
 define_restful_api(Model.new(DB, :accounts))
 define_restful_api(Model.new(DB, :transactions))
+define_restful_api(Model.new(DB, :category_groups))
+define_restful_api(Model.new(DB, :categories))
+define_restful_api(Model.new(DB, :budget_items))
 
 set :public_folder, '../client/public'
 get '/' do
