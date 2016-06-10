@@ -9,7 +9,6 @@ import AccountForm from './AccountForm';
 import { getAccounts } from '../reducers/accounts';
 
 class Sidebar extends React.Component {
-
   componentDidMount() {
     if (this.props.accounts.length == 0) {
       this.props.fetch();
@@ -33,7 +32,7 @@ class Sidebar extends React.Component {
             <Link children={account.name} onClick={() => this.props.selectPage('ACCOUNT', account.id)} />
           </li>
         )}
-        <li><Button children="Add account" onClick={this.addModal.bind(this)} /></li>
+        <li><Button children="Add account" onClick={::this.addModal} /></li>
       </ul>
     );
   }

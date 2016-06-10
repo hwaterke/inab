@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { getCategoryGroups } from '../reducers/categoryGroups';
-import { getCategories, getCategoriesByGroupId } from '../reducers/categories';
+import { getCategoryCount, getCategoriesByGroupId } from '../reducers/categories';
 import {connect} from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import { bindActionCreators } from 'redux';
@@ -9,12 +9,19 @@ import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 
 class BudgetTable extends React.Component {
+  static propTypes = {
+    categoryGroups: React.PropTypes.array.isRequired,
+    categoryCount: React.PropTypes.number.isRequired,
+    categoriesByGroupId: React.PropTypes.object.isRequired,
+    categoriesApi: React.PropTypes.object.isRequired,
+    categoryGroupsApi: React.PropTypes.object.isRequired
+  }
 
   componentDidMount() {
     if (this.props.categoryGroups.length == 0) {
       this.props.categoryGroupsApi.fetch();
     }
-    if (this.props.categories.length == 0) {
+    if (this.props.categoryCount == 0) {
       this.props.categoriesApi.fetch();
     }
   }
@@ -25,7 +32,7 @@ class BudgetTable extends React.Component {
       rows.push(<CategoryGroupRow key={"cg"+cg.id} name={cg.name} />);
       if (this.props.categoriesByGroupId[cg.id]) {
         this.props.categoriesByGroupId[cg.id].forEach(c => {
-          rows.push(<CategoryRow key={"c"+cg.id} name={cg.name} />);
+          rows.push(<CategoryRow key={"c"+c.id} name={c.name} />);
         });
       }
     });
@@ -50,7 +57,7 @@ class BudgetTable extends React.Component {
 
 const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state),
-  categories: getCategories(state),
+  categoryCount: getCategoryCount(state),
   categoriesByGroupId: getCategoriesByGroupId(state)
 });
 const mapDispatchToProps = (dispatch) => ({

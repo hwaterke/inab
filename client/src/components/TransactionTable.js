@@ -3,9 +3,17 @@ import { connect } from 'react-redux';
 import Transaction from './Transaction';
 import EditableTransaction from './EditableTransaction';
 import * as actions from '../actions';
-import {getTransactions} from '../reducers/transactions'
+import {getTransactions} from '../reducers/transactions';
+import {getCategoriesById} from '../reducers/categories';
 
 class TransactionTable extends React.Component {
+
+  static propTypes = {
+    transactions: React.PropTypes.array.isRequired,
+    categoriesById: React.PropTypes.object.isRequired,
+    selectTransaction: React.PropTypes.func.isRequired
+  };
+
   render() {
     const { transactions } = this.props;
     const nodes = transactions.map(transaction => {
@@ -15,7 +23,7 @@ class TransactionTable extends React.Component {
           active={transaction.active}
           date={transaction.date}
           payee={transaction.payee}
-          category={transaction.category}
+          category={this.props.categoriesById[transaction.category_id].name}
           description={transaction.description}
           amount={transaction.amount}
           key={transaction.id}
@@ -49,6 +57,7 @@ const mapStateToProps = (state) => {
     return Object.assign({}, t, {active: state.selectedTransactions.includes(t.id)});
   });
   return {
+    categoriesById: getCategoriesById(state),
     transactions: tsObj
   };
 };

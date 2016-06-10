@@ -96,18 +96,6 @@ DB.create_table? :accounts do
   String :cid
 end
 
-DB.create_table? :transactions do
-  primary_key :id
-  Date :date, null: false
-  String :payee
-  String :category
-  String :description
-  Integer :amount # Amount in cents
-  String :cid
-  foreign_key :account_id, :accounts
-  # TODO second account id for the transfers?
-end
-
 DB.create_table? :category_groups do
   primary_key :id
   String :name, null: false
@@ -126,6 +114,18 @@ DB.create_table? :budget_items do
   foreign_key :category_id, :categories, null: false
   primary_key [:month, :category_id]
   Integer :amount # Amount in cents
+end
+
+DB.create_table? :transactions do
+  primary_key :id
+  Date :date, null: false
+  String :payee
+  foreign_key :category_id, :categories
+  String :description
+  Integer :amount # Amount in cents
+  String :cid
+  foreign_key :account_id, :accounts
+  # TODO second account id for the transfers?
 end
 
 # TODO remove when development is finished.

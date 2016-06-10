@@ -5,6 +5,17 @@ export default reduxCrud.reducersFor('categories', {store: reduxCrud.STORE_MUTAB
 
 export const getCategories = state => state.categories;
 
+export const getCategoriesById = createSelector(
+  getCategories,
+  categories => {
+    const result = {};
+    categories.forEach(function (c) {
+      result[c.id] = c;
+    });
+    return result;
+  }
+);
+
 export const getCategoriesByGroupId = createSelector(
   getCategories,
   categories => {
@@ -16,4 +27,9 @@ export const getCategoriesByGroupId = createSelector(
     });
     return result;
   }
+);
+
+export const getCategoryCount = createSelector(
+  getCategories,
+  categories => categories.length
 );

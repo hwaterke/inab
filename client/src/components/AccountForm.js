@@ -4,11 +4,6 @@ import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import {reduxForm} from 'redux-form';
 
 class AccountForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
   onSubmit(data) {
     this.props.create({
       name: data.name
@@ -22,7 +17,7 @@ class AccountForm extends React.Component {
       handleSubmit
     } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
+      <form onSubmit={handleSubmit(::this.onSubmit)}>
         <h2>Account</h2>
         <div className='form-group'>
           <label>Name</label>
