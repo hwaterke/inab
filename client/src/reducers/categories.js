@@ -1,7 +1,8 @@
 import reduxCrud from 'redux-crud';
 import { createSelector } from 'reselect';
-export default reduxCrud.reducersFor('categories', {store: reduxCrud.STORE_MUTABLE});
+import { getSelectedMonthTransactionsByCategoryId } from './transactions';
 
+export default reduxCrud.reducersFor('categories', {store: reduxCrud.STORE_MUTABLE});
 
 export const getCategories = state => state.categories;
 
@@ -32,4 +33,18 @@ export const getCategoriesByGroupId = createSelector(
 export const getCategoryCount = createSelector(
   getCategories,
   categories => categories.length
+);
+
+export const getSelectedMonthActivityByCategoryId = createSelector(
+  getSelectedMonthTransactionsByCategoryId,
+  transactions => {
+    const result = {};
+    for (let k in transactions) {
+      result[k] = transactions[k].reduce(function (a, b) {
+        return b.amount == null ? a : a + b.amount;
+      }, 0);
+    }
+    console.log("getSelectedMonthActivityByCategoryId", result);
+    return result;
+  }
 );

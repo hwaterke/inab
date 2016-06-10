@@ -5,31 +5,17 @@ import EditableTransaction from './EditableTransaction';
 import * as actions from '../actions';
 import {getTransactions} from '../reducers/transactions';
 import {getCategoriesById} from '../reducers/categories';
+import {getSelectedTransactions} from '../reducers/ui';
 
 class TransactionTable extends React.Component {
-
   static propTypes = {
     transactions: React.PropTypes.array.isRequired,
     categoriesById: React.PropTypes.object.isRequired,
+    selectedTransactions: React.PropTypes.object.isRequired,
     selectTransaction: React.PropTypes.func.isRequired
   };
 
   render() {
-    const { transactions } = this.props;
-    const nodes = transactions.map(transaction => {
-      return <Transaction
-          busy={transaction.busy}
-          id={transaction.id}
-          active={transaction.active}
-          date={transaction.date}
-          payee={transaction.payee}
-          category={this.props.categoriesById[transaction.category_id].name}
-          description={transaction.description}
-          amount={transaction.amount}
-          key={transaction.id}
-          onClick={() => this.props.selectTransaction(transaction.id) }/>;
-    });
-
     return (
       <table className="table table-striped">
         <thead>
@@ -44,7 +30,19 @@ class TransactionTable extends React.Component {
         </thead>
         <tbody>
           <EditableTransaction />
-          {nodes}
+          { this.props.transactions.map(t =>
+            <Transaction
+              busy={t.busy}
+              id={t.id}
+              date={t.date}
+              ayee={t.payee}
+              category={this.props.categoriesById[t.category_id].name}
+              description={t.description}
+              amount={t.amount}
+              selected={this.props.selectedTransactions.has(t.id)}
+              key={t.id}
+              onClick={() => this.props.selectTransaction(t.id) }/>)
+            }
         </tbody>
       </table>
     );
@@ -52,13 +50,10 @@ class TransactionTable extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  // TODO Find out why doing map on Immutable does not work
-  const tsObj = getTransactions(state).toJS().map(t => {
-    return Object.assign({}, t, {active: state.selectedTransactions.includes(t.id)});
-  });
   return {
     categoriesById: getCategoriesById(state),
-    transactions: tsObj
+    transactions: getTransactions(state),
+    selectedTransactions: getSelectedTransactions(state)
   };
 };
 

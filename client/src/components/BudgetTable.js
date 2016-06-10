@@ -2,6 +2,7 @@
 import React from 'react';
 import { getCategoryGroups } from '../reducers/categoryGroups';
 import { getCategoryCount, getCategoriesByGroupId } from '../reducers/categories';
+import { getSelectedMonthActivityByCategoryId } from '../reducers/categories';
 import {connect} from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import { bindActionCreators } from 'redux';
@@ -14,7 +15,8 @@ class BudgetTable extends React.Component {
     categoryCount: React.PropTypes.number.isRequired,
     categoriesByGroupId: React.PropTypes.object.isRequired,
     categoriesApi: React.PropTypes.object.isRequired,
-    categoryGroupsApi: React.PropTypes.object.isRequired
+    categoryGroupsApi: React.PropTypes.object.isRequired,
+    getSelectedMonthActivityByCategoryId: React.PropTypes.object.isRequired
   }
 
   componentDidMount() {
@@ -32,7 +34,7 @@ class BudgetTable extends React.Component {
       rows.push(<CategoryGroupRow key={"cg"+cg.id} name={cg.name} />);
       if (this.props.categoriesByGroupId[cg.id]) {
         this.props.categoriesByGroupId[cg.id].forEach(c => {
-          rows.push(<CategoryRow key={"c"+c.id} name={c.name} />);
+          rows.push(<CategoryRow key={"c"+c.id} name={c.name} activity={this.props.getSelectedMonthActivityByCategoryId[c.id]} />);
         });
       }
     });
@@ -58,7 +60,8 @@ class BudgetTable extends React.Component {
 const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state),
   categoryCount: getCategoryCount(state),
-  categoriesByGroupId: getCategoriesByGroupId(state)
+  categoriesByGroupId: getCategoriesByGroupId(state),
+  getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state)
 });
 const mapDispatchToProps = (dispatch) => ({
   categoriesApi: bindActionCreators(asyncActionCreatorsFor('categories'), dispatch),
