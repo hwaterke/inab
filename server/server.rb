@@ -162,11 +162,12 @@ define_restful_api(Model.new(DB, :categories))
 
 # Special model for the budget items
 class BudgetItemsModel < Model
+  # TODO Delete budget items if value == 0
+
   def create(values)
     # Create becomes an update if an item exist already.
     existing = @dataset.where(month: values['month'], category_id: values['category_id']).single_record
     if existing
-      puts "Existing budget item: #{existing}"
       ['cid', :cid].each { |v| values.delete(v) }
       update(existing[:id], values)
     else
