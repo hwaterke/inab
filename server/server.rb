@@ -4,6 +4,10 @@
 # In the future it might be replaced by a NodeJS server.
 require 'bundler'
 Bundler.require
+require 'logger'
+
+# Required for proper logging.
+$stdout.sync = true
 
 # Provides some syntactic sugar to CRUD a resource.
 class Model
@@ -78,6 +82,7 @@ def define_restful_api(model)
     begin
       yield
     rescue Exception => e
+      logger.fatal("Exception: #{e}")
       status 500
       json({'error' => e})
     end
@@ -87,8 +92,7 @@ end
 DB = Sequel.sqlite
 
 # TODO Dev (remove)
-require 'logger'
-DB.loggers << Logger.new($stdout)
+DB.loggers << Logger.new(STDOUT)
 
 DB.create_table? :accounts do
   primary_key :id
@@ -110,10 +114,12 @@ DB.create_table? :categories do
 end
 
 DB.create_table? :budget_items do
+  primary_key :id
   Date :month, null: false
   foreign_key :category_id, :categories, null: false
-  primary_key [:month, :category_id]
   Integer :amount # Amount in cents
+  String :cid
+  # primary_key [:month, :category_id]
 end
 
 DB.create_table? :transactions do
@@ -130,6 +136,7 @@ end
 
 # TODO remove when development is finished.
 set :fake_latency, 1
+enable :logging, :dump_errors, :raise_errors
 Model.new(DB, :accounts).create(name: 'Checking account')
 m = Model.new(DB, :category_groups)
 mb = m.create(name: 'Monthly Bills')
@@ -152,7 +159,23 @@ define_restful_api(Model.new(DB, :accounts))
 define_restful_api(Model.new(DB, :transactions))
 define_restful_api(Model.new(DB, :category_groups))
 define_restful_api(Model.new(DB, :categories))
-define_restful_api(Model.new(DB, :budget_items))
+
+# Special model for the budget items
+class BudgetItemsModel < Model
+  def create(values)
+    # Create becomes an update if an item exist already.
+    existing = @dataset.where(month: values['month'], category_id: values['category_id']).single_record
+    if existing
+      puts "Existing budget item: #{existing}"
+      ['cid', :cid].each { |v| values.delete(v) }
+      update(existing[:id], values)
+    else
+      super(values)
+    end
+  end
+end
+
+define_restful_api(BudgetItemsModel.new(DB, :budget_items))
 
 set :public_folder, '../client/public'
 get '/' do
