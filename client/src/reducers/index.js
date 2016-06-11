@@ -3,6 +3,7 @@ import transactionsReducers from './transactions';
 import accountsReducers from './accounts';
 import categoriesReducers from './categories';
 import categoryGroupsReducers from './categoryGroups';
+import budgetItemsReducers from './budgetItems';
 import {reducer as formReducer} from 'redux-form';
 import Immutable from 'immutable';
 import * as types from '../actions/types';
@@ -40,6 +41,7 @@ export default combineReducers({
   accounts: accountsReducers,
   categories: categoriesReducers,
   categoryGroups: categoryGroupsReducers,
+  budgetItems: budgetItemsReducers,
   form: formReducer,
   modals: modalReducer,
   ui: uiReducer

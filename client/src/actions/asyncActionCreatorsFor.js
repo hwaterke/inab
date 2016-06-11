@@ -61,6 +61,29 @@ function asyncActionCreatorsFor(resourceName, config) {
 
         return promise;
       };
+    },
+
+    update: function(resource) {
+      return function(dispatch) {
+        dispatch(standardActionCreators.updateStart(resource));
+
+        // Send the request
+        const promise = axios({
+          url: `${baseUrl}/${resource[key]}`,
+          method: 'PATCH',
+          data: resource
+        });
+
+        promise.then(function(response) {
+          dispatch(standardActionCreators.updateSuccess(response.data));
+        }, function(error) {
+          dispatch(standardActionCreators.updateError(error.data, resource));
+        }).catch(function(err) {
+          console.log(err.toString());
+        });
+
+        return promise;
+      };
     }
   };
 }

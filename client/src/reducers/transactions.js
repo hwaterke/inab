@@ -8,13 +8,10 @@ export const getTransactions = state => state.transactions;
 export const getSelectedMonthTransactions = createSelector(
   getSelectedMonth,
   getTransactions,
-  (selectedMonth, transactions) => {
-    const result = transactions.filter(t => {
-      const d = new Date(t.date);
-      return d.getFullYear() == selectedMonth.year && d.getMonth() + 1 == selectedMonth.month;
-    });
-    return result;
-  }
+  (selectedMonth, transactions) => transactions.filter(t => {
+    const d = new Date(t.date);
+    return d.getFullYear() == selectedMonth.year && d.getMonth() + 1 == selectedMonth.month;
+  })
 );
 
 export const getSelectedMonthTransactionsByCategoryId = createSelector(
