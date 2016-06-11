@@ -44,7 +44,6 @@ export const getSelectedMonthActivityByCategoryId = createSelector(
         return b.amount == null ? a : a + b.amount;
       }, 0);
     }
-    console.log("getSelectedMonthActivityByCategoryId", result);
     return result;
   }
 );

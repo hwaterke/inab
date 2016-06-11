@@ -5,8 +5,6 @@ import { getCategoryCount, getCategoriesByGroupId } from '../reducers/categories
 import { getSelectedMonthActivityByCategoryId } from '../reducers/categories';
 import { getSelectedMonthBudgetItemsByCategoryId } from '../reducers/budgetItems';
 import {connect} from 'react-redux';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import { bindActionCreators } from 'redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
@@ -19,21 +17,9 @@ import ui from 'redux-ui';
 class BudgetTable extends React.Component {
   static propTypes = {
     categoryGroups: React.PropTypes.array.isRequired,
-    categoryCount: React.PropTypes.number.isRequired,
     categoriesByGroupId: React.PropTypes.object.isRequired,
-    categoriesApi: React.PropTypes.object.isRequired,
-    categoryGroupsApi: React.PropTypes.object.isRequired,
     getSelectedMonthActivityByCategoryId: React.PropTypes.object.isRequired,
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.object.isRequired
-  }
-
-  componentDidMount() {
-    if (this.props.categoryGroups.length == 0) {
-      this.props.categoryGroupsApi.fetch();
-    }
-    if (this.props.categoryCount == 0) {
-      this.props.categoriesApi.fetch();
-    }
   }
 
   render() {
@@ -67,14 +53,9 @@ class BudgetTable extends React.Component {
 
 const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state),
-  categoryCount: getCategoryCount(state),
   categoriesByGroupId: getCategoriesByGroupId(state),
   getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state),
   getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state)
 });
-const mapDispatchToProps = (dispatch) => ({
-  categoriesApi: bindActionCreators(asyncActionCreatorsFor('categories'), dispatch),
-  categoryGroupsApi: bindActionCreators(asyncActionCreatorsFor('category_groups'), dispatch)
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(BudgetTable);
+export default connect(mapStateToProps)(BudgetTable);

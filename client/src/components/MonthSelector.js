@@ -1,7 +1,7 @@
-'use strict';
 import React from 'react';
 import ui from 'redux-ui';
 import Button from './Button';
+import FontAwesome from 'react-fontawesome';
 
 @ui()
 class MonthSelector extends React.Component {
@@ -20,6 +20,11 @@ class MonthSelector extends React.Component {
     }
   }
 
+  current() {
+    const d = new Date;
+    this.props.updateUI({year: d.getFullYear(), month: d.getMonth() + 1});
+  }
+
   next() {
     const current_month = this.props.ui.month;
     if (current_month == 12) {
@@ -32,9 +37,9 @@ class MonthSelector extends React.Component {
   render() {
     return (
       <div className="btn-group" role="group">
-        <Button onClick={::this.previous}>Previous</Button>
-        <Button>{this.props.ui.month}-{this.props.ui.year}</Button>
-        <Button onClick={::this.next}>Next</Button>
+        <Button onClick={::this.previous}><FontAwesome name='arrow-left' /></Button>
+        <Button onClick={::this.current}>{this.props.ui.month}-{this.props.ui.year}</Button>
+        <Button onClick={::this.next}><FontAwesome name='arrow-right' /></Button>
       </div>
     );
   }

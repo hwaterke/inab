@@ -1,4 +1,6 @@
 import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import Amount from './Amount';
 
 export default class Transaction extends React.Component {
   static propTypes = {
@@ -13,15 +15,14 @@ export default class Transaction extends React.Component {
   };
 
   render() {
-    const busy = (this.props.busy) ? <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> : <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>;
     return (
       <tr onClick={this.props.onClick}>
-        <td style={{backgroundColor: this.props.selected ? "#CCF":"#CFC"}}>{busy}</td>
+        <td style={{backgroundColor: this.props.selected ? "#CCF":"#CFC"}}>{this.props.busy && <FontAwesome name='refresh' spin />}</td>
         <td>{this.props.date}</td>
         <td>{this.props.payee}</td>
         <td>{this.props.category}</td>
         <td>{this.props.description}</td>
-        <td>{this.props.amount}</td>
+        <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} /></td>
       </tr>
     );
   }

@@ -6,6 +6,7 @@ import BudgetItemForm from './BudgetItemForm';
 import {connect} from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import moment from 'moment';
+import FontAwesome from 'react-fontawesome';
 
 @ui()
 class CategoryRow extends React.Component {
@@ -17,6 +18,12 @@ class CategoryRow extends React.Component {
     create: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
     budgetItem: React.PropTypes.object
+  }
+
+  editBudgetItem() {
+    if ( !(this.props.budgetItem && this.props.budgetItem.busy) ) {
+      this.props.updateUI('editingCategoryId', this.props.category.id);
+    }
   }
 
   render() {
@@ -44,7 +51,7 @@ class CategoryRow extends React.Component {
 
       budgetCell = <Cell><BudgetItemForm onSubmit={onSubmit.bind(this)} /></Cell>;
     } else {
-      budgetCell = <Cell onClick={() => this.props.updateUI('editingCategoryId', this.props.category.id)}>{this.props.budgetItem && this.props.budgetItem.amount}</Cell>;
+      budgetCell = <Cell onClick={() => this.editBudgetItem()}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}{this.props.budgetItem && this.props.budgetItem.amount}</Cell>;
     }
 
     return (

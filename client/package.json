@@ -27,6 +27,7 @@
     "react": "^15.0.2",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.2",
+    "react-fontawesome": "^1.1.0",
     "react-redux": "^4.4.5",
     "react-redux-modal": "^0.4.3",
     "redux": "^3.5.2",

@@ -4,6 +4,13 @@ import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import {reduxForm} from 'redux-form';
 
 class AccountForm extends React.Component {
+  static propTypes = {
+    fields: React.PropTypes.object.isRequired,
+    handleSubmit: React.PropTypes.func.isRequired,
+    create: React.PropTypes.func.isRequired,
+    removeModal: React.PropTypes.func.isRequired
+  };
+
   onSubmit(data) {
     this.props.create({
       name: data.name
@@ -28,13 +35,6 @@ class AccountForm extends React.Component {
     );
   }
 }
-
-AccountForm.propTypes = {
-  fields: React.PropTypes.object.isRequired,
-  handleSubmit: React.PropTypes.func.isRequired,
-  create: React.PropTypes.func.isRequired,
-  removeModal: React.PropTypes.func.isRequired
-};
 
 export default reduxForm({
   form: 'account',

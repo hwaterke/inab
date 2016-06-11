@@ -18,10 +18,8 @@ export const getSelectedMonthBudgetItems = createSelector(
 export const getSelectedMonthBudgetItemsByCategoryId = createSelector(
   getSelectedMonthBudgetItems,
   budgetItems => {
-    console.log('getSelectedMonthBudgetItems', budgetItems);
     const result = {};
     budgetItems.forEach(bi => result[bi.category_id] = bi);
-    console.log('getSelectedMonthBudgetItemsByCategoryId', result);
     return result;
   }
 );

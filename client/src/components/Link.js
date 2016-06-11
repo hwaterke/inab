@@ -3,7 +3,8 @@ import React from 'react';
 export default class Link extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    className: React.PropTypes.string
   };
 
   handleClick(e) {
@@ -15,7 +16,7 @@ export default class Link extends React.Component {
 
   render() {
     return (
-      <a href='#' onClick={::this.handleClick}>{this.props.children}</a>
+      <a href='#' className={this.props.className} onClick={::this.handleClick}>{this.props.children}</a>
     );
   }
 }
