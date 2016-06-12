@@ -137,18 +137,7 @@ DB.create_table? :transactions do
 end
 
 # TODO remove when development is finished.
-set :fake_latency, 1
-enable :logging, :dump_errors, :raise_errors
-Model.new(DB, :accounts).create(name: 'Checking account')
-m = Model.new(DB, :category_groups)
-mb = m.create(name: 'Monthly Bills')
-ex = m.create(name: 'Everyday Expenses')
-m = Model.new(DB, :categories)
-m.create(name: 'Phone', group_id: mb[:id])
-m.create(name: 'Internet', group_id: mb[:id])
-m.create(name: 'Groceries', group_id: ex[:id])
-m.create(name: 'Restaurants', group_id: ex[:id])
-
+require_relative './development'
 
 before do
   if request.body.size > 0
@@ -156,11 +145,6 @@ before do
     @json_payload = JSON.parse(request.body.read)
   end
 end
-
-define_restful_api(Model.new(DB, :accounts))
-define_restful_api(Model.new(DB, :transactions))
-define_restful_api(Model.new(DB, :category_groups))
-define_restful_api(Model.new(DB, :categories))
 
 # Special model for the budget items
 class BudgetItemsModel < Model
@@ -178,6 +162,10 @@ class BudgetItemsModel < Model
   end
 end
 
+define_restful_api(Model.new(DB, :accounts))
+define_restful_api(Model.new(DB, :transactions))
+define_restful_api(Model.new(DB, :category_groups))
+define_restful_api(Model.new(DB, :categories))
 define_restful_api(BudgetItemsModel.new(DB, :budget_items))
 
 set :public_folder, '../client/public'
