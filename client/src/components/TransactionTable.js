@@ -35,7 +35,7 @@ class TransactionTable extends React.Component {
               busy={t.busy}
               id={t.id}
               date={t.date}
-              ayee={t.payee}
+              payee={t.payee}
               category={this.props.categoriesById[t.category_id] && this.props.categoriesById[t.category_id].name}
               description={t.description}
               amount={t.amount}

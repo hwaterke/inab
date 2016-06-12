@@ -7,22 +7,25 @@ import Button from './Button';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import { getCategories } from '../reducers/categories';
 import FontAwesome from 'react-fontawesome';
+import { getSelectedAccount } from '../reducers/ui';
 
 class EditableTransaction extends React.Component {
   static propTypes = {
     fields: React.PropTypes.object.isRequired,
     create: React.PropTypes.func.isRequired,
     handleSubmit: React.PropTypes.func.isRequired,
-    categories: React.PropTypes.array.isRequired
+    categories: React.PropTypes.array.isRequired,
+    selectedAccount: React.PropTypes.number.isRequired
   };
 
   onSubmit(data) {
     this.props.create({
       date: data.datee.format("YYYY-MM-DD"),
       payee: data.payee,
+      account_id: this.props.selectedAccount,
       category_id: data.category,
       description: data.description,
-      amount: data.amount
+      amount: Number(data.amount) * 100
     });
   }
 
@@ -56,7 +59,8 @@ class EditableTransaction extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  categories: getCategories(state)
+  categories: getCategories(state),
+  selectedAccount: getSelectedAccount(state)
 });
 
 export default reduxForm({

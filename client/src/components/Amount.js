@@ -1,10 +1,17 @@
 import React from 'react';
 
 const amountStyle = {
+  fontWeight: 'bold'
+};
+
+const colorStyle = {
   color: 'white',
   padding: '2px 8px',
-  borderRadius: '10px',
-  fontWeight: 'bold'
+  borderRadius: '10px'
+};
+
+const neutral = {
+  color: '#888'
 };
 
 const positiveStyle = {
@@ -17,13 +24,21 @@ const negativeStyle = {
 
 class Amount extends React.Component {
   static propTypes= {
-    amount: React.PropTypes.number
+    amount: React.PropTypes.number,
+    color: React.PropTypes.bool
   };
 
   render() {
-    const styles = Object.assign({}, amountStyle, (this.props.amount >= 0 ? positiveStyle : negativeStyle));
+    const amount = this.props.amount || 0;
+    var styles;
+    if (this.props.color) {
+      styles = Object.assign({}, amountStyle, colorStyle, (amount >= 0 ? positiveStyle : negativeStyle));
+    } else {
+      styles = Object.assign({}, amountStyle, amount == 0 ? neutral : {} );
+    }
+
     return (
-      <span style={styles}>{(this.props.amount / 100).toFixed(2)}</span>
+      <span style={styles}>{(amount / 100).toFixed(2)}</span>
     );
   }
 }

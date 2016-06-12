@@ -1,9 +1,10 @@
 import AccountForm from './AccountForm';
 import Link from './Link';
+import Amount from './Amount';
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getAccounts } from '../reducers/accounts';
+import { getAccounts, getBalanceByAccountId } from '../reducers/accounts';
 import { modal } from 'react-redux-modal';
 import { selectPage } from '../actions/page';
 import FontAwesome from 'react-fontawesome';
@@ -11,7 +12,8 @@ import FontAwesome from 'react-fontawesome';
 class Header extends React.Component {
   static propTypes = {
     selectPage: React.PropTypes.func.isRequired,
-    accounts: React.PropTypes.array.isRequired
+    accounts: React.PropTypes.array.isRequired,
+    balanceByAccountId: React.PropTypes.object.isRequired
   };
 
   createAccountModal() {
@@ -43,7 +45,8 @@ class Header extends React.Component {
                 <ul className="dropdown-menu">
                   {this.props.accounts.map((account) =>
                   <li key={account.id}>
-                    <Link onClick={() => this.props.selectPage('ACCOUNT', account.id)}>{account.busy && <FontAwesome name='refresh' spin fixedWidth />}{account.name}</Link>
+                    {account.busy && <Link><FontAwesome name='refresh' spin fixedWidth />{account.name}</Link>}
+                    {(!account.busy) && <Link onClick={() => this.props.selectPage('ACCOUNT', account.id)}>{account.name}&nbsp;<Amount amount={this.props.balanceByAccountId[account.id]} color /></Link>}
                   </li>
                   )}
                   <li role="separator" className="divider"></li>
@@ -60,7 +63,10 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({accounts: getAccounts(state)});
+const mapStateToProps = (state) => ({
+  accounts: getAccounts(state),
+  balanceByAccountId: getBalanceByAccountId(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
   selectPage: bindActionCreators(selectPage, dispatch)

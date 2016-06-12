@@ -1,6 +1,6 @@
-'use strict';
 import React from 'react';
 import Cell from './Cell';
+import Amount from './Amount';
 import ui from 'redux-ui';
 import BudgetItemForm from './BudgetItemForm';
 import {connect} from 'react-redux';
@@ -58,7 +58,7 @@ class CategoryRow extends React.Component {
       <tr>
         <Cell>{this.props.category.name}</Cell>
         {budgetCell}
-        <td>{this.props.activity}</td>
+        <td><Amount amount={this.props.activity} /></td>
         <td />
       </tr>
     );

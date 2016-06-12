@@ -22,7 +22,7 @@ export default class Transaction extends React.Component {
         <td>{this.props.payee}</td>
         <td>{this.props.category}</td>
         <td>{this.props.description}</td>
-        <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} /></td>
+        <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} color /></td>
       </tr>
     );
   }
