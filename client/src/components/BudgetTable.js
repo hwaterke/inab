@@ -1,9 +1,10 @@
 'use strict';
 import React from 'react';
 import { getCategoryGroups } from '../reducers/categoryGroups';
-import { getCategoryCount, getCategoriesByGroupId } from '../reducers/categories';
+import { getCategoriesByGroupId } from '../reducers/categories';
 import { getSelectedMonthActivityByCategoryId } from '../reducers/categories';
-import { getSelectedMonthBudgetItemsByCategoryId } from '../reducers/budgetItems';
+import { getSelectedMonthBudgetItemsByCategoryId, getBudgetItemsSumUpToSelectedMonthByCategoryId } from '../reducers/budgetItems';
+import { getTransactionsSumUpToSelectedMonthByCategoryId } from '../reducers/transactions';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
@@ -19,7 +20,9 @@ class BudgetTable extends React.Component {
     categoryGroups: React.PropTypes.array.isRequired,
     categoriesByGroupId: React.PropTypes.object.isRequired,
     getSelectedMonthActivityByCategoryId: React.PropTypes.object.isRequired,
-    getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.object.isRequired
+    getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.object.isRequired,
+    transactionsSumUpToSelectedMonthByCategoryId: React.PropTypes.object.isRequired,
+    budgetItemsSumUpToSelectedMonthByCategoryId: React.PropTypes.object.isRequired
   }
 
   render() {
@@ -28,7 +31,12 @@ class BudgetTable extends React.Component {
       rows.push(<CategoryGroupRow key={"cg"+cg.id} name={cg.name} />);
       if (this.props.categoriesByGroupId[cg.id]) {
         this.props.categoriesByGroupId[cg.id].forEach(c => {
-          rows.push(<CategoryRow key={"c"+c.id} category={c} budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId[c.id]} activity={this.props.getSelectedMonthActivityByCategoryId[c.id]} />);
+          rows.push(<CategoryRow
+            key={"c"+c.id}
+            category={c}
+            budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId[c.id]}
+            activity={this.props.getSelectedMonthActivityByCategoryId[c.id]}
+            available={(this.props.budgetItemsSumUpToSelectedMonthByCategoryId[c.id] || 0) + (this.props.transactionsSumUpToSelectedMonthByCategoryId[c.id] || 0)} />);
         });
       }
     });
@@ -55,7 +63,9 @@ const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state),
   categoriesByGroupId: getCategoriesByGroupId(state),
   getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state),
-  getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state)
+  getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state),
+  transactionsSumUpToSelectedMonthByCategoryId: getTransactionsSumUpToSelectedMonthByCategoryId(state),
+  budgetItemsSumUpToSelectedMonthByCategoryId: getBudgetItemsSumUpToSelectedMonthByCategoryId(state)
 });
 
 export default connect(mapStateToProps)(BudgetTable);

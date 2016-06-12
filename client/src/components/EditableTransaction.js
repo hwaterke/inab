@@ -40,9 +40,7 @@ class EditableTransaction extends React.Component {
         </td>
         <td>
           {/* TODO Should this be dropped in favor of input type=date?*/}
-          <DatePicker className="form-control" selected={datee.value} onChange={param => {
-            return datee.onChange(param);
-          }} />
+          <DatePicker className="form-control" selected={datee.value} onChange={param => datee.onChange(param)} />
         </td>
         <td><input className="form-control" type="text" placeholder="Payee" {...payee} /></td>
         <td>

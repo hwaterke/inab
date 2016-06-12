@@ -13,6 +13,7 @@ class CategoryRow extends React.Component {
   static propTypes = {
     category: React.PropTypes.object.isRequired,
     activity: React.PropTypes.number,
+    available: React.PropTypes.number,
     ui: React.PropTypes.object,
     updateUI: React.PropTypes.func,
     create: React.PropTypes.func.isRequired,
@@ -31,19 +32,19 @@ class CategoryRow extends React.Component {
     // TODO this is way too much logic for a component. This should be moved somwhere else.
     if (this.props.ui.editingCategoryId == this.props.category.id) {
       const onSubmit = (data) => {
-        const m = moment([this.props.ui.year, this.props.ui.month]);
+        const m = moment([this.props.ui.year, this.props.ui.month - 1]);
         if (this.props.budgetItem) {
           this.props.update({
             id: this.props.budgetItem.id,
             month: m.format("YYYY-MM-DD"),
             category_id: this.props.category.id,
-            amount: data.amount
+            amount: Number(data.amount) * 100
           });
         } else {
           this.props.create({
             month: m.format("YYYY-MM-DD"),
             category_id: this.props.category.id,
-            amount: data.amount
+            amount: Number(data.amount) * 100
           });
         }
         this.props.updateUI('editingCategoryId', undefined);
@@ -51,7 +52,7 @@ class CategoryRow extends React.Component {
 
       budgetCell = <Cell><BudgetItemForm onSubmit={onSubmit.bind(this)} /></Cell>;
     } else {
-      budgetCell = <Cell onClick={() => this.editBudgetItem()}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}{this.props.budgetItem && this.props.budgetItem.amount}</Cell>;
+      budgetCell = <Cell onClick={() => this.editBudgetItem()}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}<Amount amount={this.props.budgetItem && this.props.budgetItem.amount} /></Cell>;
     }
 
     return (
@@ -59,7 +60,7 @@ class CategoryRow extends React.Component {
         <Cell>{this.props.category.name}</Cell>
         {budgetCell}
         <td><Amount amount={this.props.activity} /></td>
-        <td />
+        <td><Amount amount={this.props.available} color /></td>
       </tr>
     );
   }
