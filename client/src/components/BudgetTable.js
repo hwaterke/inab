@@ -42,7 +42,7 @@ class BudgetTable extends React.Component {
     });
 
     return (
-      <table className="table table-striped">
+      <table className="table">
         <thead>
           <tr>
             <th>Category</th>

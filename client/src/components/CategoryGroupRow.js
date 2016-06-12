@@ -1,6 +1,10 @@
 'use strict';
 import React from 'react';
 
+const style = {
+  backgroundColor: '#85C9E6'
+};
+
 class CategoryGroupRow extends React.Component {
   static propTypes = {
     name: React.PropTypes.string.isRequired
@@ -8,7 +12,7 @@ class CategoryGroupRow extends React.Component {
 
   render() {
     return (
-      <tr><th colSpan="4">{this.props.name}</th></tr>
+      <tr><th style={style} colSpan="4">{this.props.name}</th></tr>
     );
   }
 }

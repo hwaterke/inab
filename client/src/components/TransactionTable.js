@@ -17,7 +17,7 @@ class TransactionTable extends React.Component {
 
   render() {
     return (
-      <table className="table table-striped">
+      <table className="table">
         <thead>
           <tr>
             <th>Status</th>
@@ -41,6 +41,7 @@ class TransactionTable extends React.Component {
               amount={t.amount}
               selected={this.props.selectedTransactions.has(t.id)}
               key={t.id}
+              inflow_to_be_budgeted={t.inflow_to_be_budgeted}
               onClick={() => this.props.selectTransaction(t.id) }/>)
             }
         </tbody>

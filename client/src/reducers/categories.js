@@ -1,6 +1,7 @@
 import reduxCrud from 'redux-crud';
 import { createSelector } from 'reselect';
 import { getSelectedMonthTransactionsByCategoryId } from './transactions';
+import { sumOf } from './utils';
 
 export default reduxCrud.reducersFor('categories', {store: reduxCrud.STORE_MUTABLE});
 
@@ -40,9 +41,7 @@ export const getSelectedMonthActivityByCategoryId = createSelector(
   transactions => {
     const result = {};
     for (let k in transactions) {
-      result[k] = transactions[k].reduce(function (a, b) {
-        return b.amount == null ? a : a + b.amount;
-      }, 0);
+      result[k] = sumOf(transactions[k], 'amount')
     }
     return result;
   }

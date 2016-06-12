@@ -1,7 +1,7 @@
 import reduxCrud from 'redux-crud';
 import { createSelector } from 'reselect';
 import { getSelectedMonth } from './ui';
-import { groupBy } from './utils';
+import { groupBy, sumOf } from './utils';
 
 export default reduxCrud.reducersFor('budget_items', {store: reduxCrud.STORE_MUTABLE});
 
@@ -39,6 +39,16 @@ export const getBudgetItemsUpToSelectedMonthByCategoryId = createSelector(
   budgetItems => groupBy(budgetItems, 'category_id')
 );
 
+export const getBudgetItemsSum = createSelector(
+  getBudgetItems,
+  budgetItems => sumOf(budgetItems, 'amount')
+);
+
+export const getBudgetItemsSumUpToSelectedMonth = createSelector(
+  getBudgetItemsUpToSelectedMonth,
+  budgetItems => sumOf(budgetItems, 'amount')
+);
+
 export const getBudgetItemsSumUpToSelectedMonthByCategoryId = createSelector(
   getBudgetItemsUpToSelectedMonthByCategoryId,
   budgetItems => {
@@ -48,7 +58,6 @@ export const getBudgetItemsSumUpToSelectedMonthByCategoryId = createSelector(
         return b.amount == null ? a : a + b.amount;
       }, 0);
     }
-    console.log('getBudgetItemsSumUpToSelectedMonthByCategoryId', result);
     return result;
   }
 );

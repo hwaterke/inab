@@ -2,7 +2,7 @@ import reduxCrud from 'redux-crud';
 export default reduxCrud.reducersFor('transactions', {store: reduxCrud.STORE_MUTABLE});
 import { createSelector } from 'reselect';
 import { getSelectedMonth } from './ui';
-import { groupBy } from './utils';
+import { groupBy, sumOf } from './utils';
 
 export const getTransactions = state => state.transactions;
 
@@ -46,3 +46,7 @@ export const getTransactionsSumUpToSelectedMonthByCategoryId = createSelector(
     return result;
   }
 );
+
+export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
+  getTransactionsUpToSelectedMonth,
+  transactions => sumOf(transactions.filter(t => t.inflow_to_be_budgeted), 'amount'));

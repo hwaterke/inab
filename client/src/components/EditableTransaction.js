@@ -23,9 +23,10 @@ class EditableTransaction extends React.Component {
       date: data.datee.format("YYYY-MM-DD"),
       payee: data.payee,
       account_id: this.props.selectedAccount,
-      category_id: data.category,
+      category_id: (data.category != 'tbb' ? data.category : null),
       description: data.description,
-      amount: Number(data.amount) * 100
+      amount: Number(data.amount) * 100,
+      inflow_to_be_budgeted: (data.category == 'tbb')
     });
   }
 
@@ -46,6 +47,7 @@ class EditableTransaction extends React.Component {
         <td>
           <select className="form-control" {...category} value={category.value || ''}>
             <option></option>
+            <option value="tbb">To Be Budgeted</option>
             {this.props.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </td>
