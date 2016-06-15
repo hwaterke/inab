@@ -1,10 +1,8 @@
-'use strict';
 import React from 'react';
-import { getCategoryGroups } from '../reducers/categoryGroups';
-import { getCategoriesByGroupId } from '../reducers/categories';
-import { getSelectedMonthActivityByCategoryId } from '../reducers/categories';
-import { getSelectedMonthBudgetItemsByCategoryId, getBudgetItemsSumUpToSelectedMonthByCategoryId } from '../reducers/budgetItems';
-import { getTransactionsSumUpToSelectedMonthByCategoryId } from '../reducers/transactions';
+import { getCategoryGroups } from '../selectors/categoryGroups';
+import { getCategoriesByGroupId } from '../selectors/categories';
+import { getSelectedMonthBudgetItemsByCategoryId, getBudgetItemsSumUpToSelectedMonthByCategoryId } from '../selectors/budgetItems';
+import { getTransactionsSumUpToSelectedMonthByCategoryId, getSelectedMonthActivityByCategoryId } from '../selectors/transactions';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';

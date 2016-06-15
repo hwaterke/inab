@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import Transaction from './Transaction';
 import EditableTransaction from './EditableTransaction';
 import * as actions from '../actions';
-import {getTransactions} from '../reducers/transactions';
-import {getCategoriesById} from '../reducers/categories';
-import {getSelectedTransactions} from '../reducers/ui';
+import {getTransactions} from '../selectors/transactions';
+import {getCategoriesById} from '../selectors/categories';
+import {getSelectedTransactions} from '../selectors/ui';
 
 class TransactionTable extends React.Component {
   static propTypes = {

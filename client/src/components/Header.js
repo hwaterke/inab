@@ -4,7 +4,7 @@ import Amount from './Amount';
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getAccounts, getBalanceByAccountId } from '../reducers/accounts';
+import { getAccounts, getBalanceByAccountId } from '../selectors/accounts';
 import { modal } from 'react-redux-modal';
 import { selectPage } from '../actions/page';
 import FontAwesome from 'react-fontawesome';

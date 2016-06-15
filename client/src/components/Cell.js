@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 // Presentational component of a table cell.
 export default class Cell extends React.Component {
   static propTypes = {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import { getAccounts } from '../reducers/accounts';
-import { getCategoryCount } from '../reducers/categories';
-import { getTransactions } from '../reducers/transactions';
-import { getCategoryGroups } from '../reducers/categoryGroups';
-import { getBudgetItems } from '../reducers/budgetItems';
+import { getAccounts } from '../selectors/accounts';
+import { getCategoryCount } from '../selectors/categories';
+import { getTransactions } from '../selectors/transactions';
+import { getCategoryGroups } from '../selectors/categoryGroups';
+import { getBudgetItems } from '../selectors/budgetItems';
 import { bindActionCreators } from 'redux';
 
 // Until we have a better solution, this component silently loads the Account list on startup.

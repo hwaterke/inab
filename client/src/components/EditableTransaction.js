@@ -5,9 +5,9 @@ import moment from 'moment';
 import {reduxForm} from 'redux-form';
 import Button from './Button';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import { getCategories } from '../reducers/categories';
+import { getCategories } from '../selectors/categories';
 import FontAwesome from 'react-fontawesome';
-import { getSelectedAccount } from '../reducers/ui';
+import { getSelectedAccount } from '../selectors/ui';
 
 class EditableTransaction extends React.Component {
   static propTypes = {
