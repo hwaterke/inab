@@ -6,22 +6,33 @@ import {reduxForm} from 'redux-form';
 import Button from './Button';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import { getCategories } from '../selectors/categories';
+import { getAccounts } from '../selectors/accounts';
 import FontAwesome from 'react-fontawesome';
 import { getSelectedAccount } from '../selectors/ui';
+import ui from 'redux-ui';
 
+@ui({
+  state: {
+    isTransfer: false
+  }
+})
 class EditableTransaction extends React.Component {
   static propTypes = {
     fields: React.PropTypes.object.isRequired,
     create: React.PropTypes.func.isRequired,
     handleSubmit: React.PropTypes.func.isRequired,
     categories: React.PropTypes.array.isRequired,
-    selectedAccount: React.PropTypes.number.isRequired
+    selectedAccount: React.PropTypes.number.isRequired,
+    ui: React.PropTypes.object.isRequired,
+    updateUI: React.PropTypes.func.isRequired,
+    accounts: React.PropTypes.array.isRequired
   };
 
   onSubmit(data) {
     this.props.create({
       date: data.datee.format("YYYY-MM-DD"),
-      payee: data.payee,
+      transfer_account_id: (this.props.ui.isTransfer ? data.transferAccount : null),
+      payee: (this.props.ui.isTransfer ? null : data.payee),
       account_id: this.props.selectedAccount,
       category_id: (data.category != 'tbb' ? data.category : null),
       description: data.description,
@@ -31,7 +42,7 @@ class EditableTransaction extends React.Component {
   }
 
   render() {
-    const {fields: {datee, payee, category, description, amount}, handleSubmit} = this.props;
+    const {fields: {datee, payee, transferAccount, category, description, amount}, handleSubmit} = this.props;
     return (
       <tr>
         <td>
@@ -43,7 +54,11 @@ class EditableTransaction extends React.Component {
           {/* TODO Should this be dropped in favor of input type=date?*/}
           <DatePicker className="form-control" selected={datee.value} onChange={param => datee.onChange(param)} />
         </td>
-        <td><input className="form-control" type="text" placeholder="Payee" {...payee} /></td>
+        <td>
+          <Button onClick={() => {this.props.updateUI('isTransfer', !this.props.ui.isTransfer);}} ><FontAwesome name='exchange' /></Button>
+          { this.props.ui.isTransfer && <select className="form-control" {...transferAccount} value={transferAccount.value || ''}><option></option>{this.props.accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select> }
+          { (!this.props.ui.isTransfer) && <input className="form-control" type="text" placeholder="Payee" {...payee} /> }
+        </td>
         <td>
           <select className="form-control" {...category} value={category.value || ''}>
             <option></option>
@@ -60,11 +75,12 @@ class EditableTransaction extends React.Component {
 
 const mapStateToProps = (state) => ({
   categories: getCategories(state),
-  selectedAccount: getSelectedAccount(state)
+  selectedAccount: getSelectedAccount(state),
+  accounts: getAccounts(state)
 });
 
 export default reduxForm({
   form: 'transaction',
-  fields: ['datee', 'payee', 'category', 'description', 'amount'],
+  fields: ['datee', 'payee', 'transferAccount', 'category', 'description', 'amount'],
   initialValues: {'datee': moment()}
 }, mapStateToProps, asyncActionCreatorsFor('transactions'))(EditableTransaction);

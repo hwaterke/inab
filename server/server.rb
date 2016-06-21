@@ -130,10 +130,11 @@ DB.create_table? :transactions do
   String :description
   Integer :amount # Amount in cents
   String :cid
-  foreign_key :account_id, :accounts
+  foreign_key :account_id, :accounts, null: false
   # Server should enforce that category_id is null if inflow_to_be_budgeted is true.
   TrueClass :inflow_to_be_budgeted, null: false, default: false
   # TODO second account id for the transfers?
+  foreign_key :transfer_account_id, :accounts
 end
 
 # TODO remove when development is finished.

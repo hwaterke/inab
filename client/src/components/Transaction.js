@@ -12,7 +12,8 @@ export default class Transaction extends React.Component {
     selected: React.PropTypes.bool,
     busy: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    inflow_to_be_budgeted: React.PropTypes.bool.isRequired
+    inflow_to_be_budgeted: React.PropTypes.bool.isRequired,
+    transfer_account: React.PropTypes.string
   };
 
   render() {
@@ -24,9 +25,9 @@ export default class Transaction extends React.Component {
           {(!this.props.selected) && <FontAwesome name='circle-o' />}
         </td>
         <td>{this.props.date}</td>
-        <td>{this.props.payee}</td>
+        <td>{this.props.payee || this.props.transfer_account}</td>
         <td>
-          {this.props.inflow_to_be_budgeted && "TBB"}
+          {this.props.inflow_to_be_budgeted && "To be budgeted"}
           {(!this.props.inflow_to_be_budgeted) && this.props.category}
         </td>
         <td>{this.props.description}</td>
