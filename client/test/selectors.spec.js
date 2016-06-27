@@ -1,3 +1,4 @@
+/*eslint-env mocha*/
 import expect from 'expect';
 import reducer from '../src/reducers';
 import reduxCrud from 'redux-crud';
