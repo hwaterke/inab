@@ -1,1 +1,3 @@
 # inab
+
+[![Build Status](https://travis-ci.org/hwaterke/inab.svg?branch=master)](https://travis-ci.org/hwaterke/inab)
