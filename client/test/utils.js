@@ -4,6 +4,8 @@ export const createAccount = (store, id, name) => store.dispatch(reduxCrud.actio
 
 export const createCategory = (store, id, name) => store.dispatch(reduxCrud.actionCreatorsFor('categories').createSuccess({id: id, name: name}));
 
+export const createBudgetItem = (store, id, month, category_id, amount) => store.dispatch(reduxCrud.actionCreatorsFor('budget_items').createSuccess({id: id, month: month, category_id: category_id, amount: amount}));
+
 export const createInflowTBB = (store, id, account_id, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor('transactions').createSuccess({
   id: id,
   account_id: account_id,

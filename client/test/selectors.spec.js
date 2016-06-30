@@ -4,6 +4,7 @@ import reducer from '../src/reducers';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { getAccounts, getAccountsById, getBalanceByAccountId } from '../src/selectors/accounts';
+import { getBudgetItems } from '../src/selectors/budgetItems';
 import * as utils from './utils';
 
 describe('Selectors', function() {
@@ -94,5 +95,20 @@ describe('Selectors', function() {
       });
     });
 
+  });
+
+  describe('Budget Item selectors', function() {
+    describe('#getBudgetItems', function() {
+      it('should be empty by default', function() {
+        const bi = getBudgetItems(store.getState());
+        expect(bi).toEqual([]);
+      });
+
+      it('should return one budget item', function() {
+        utils.createBudgetItem(store, 1, "2016-06-01", 1, 10000);
+        const bi = getBudgetItems(store.getState());
+        expect(bi).toEqual([{id: 1, month: "2016-06-01", category_id: 1, amount: 10000}]);
+      });
+    });
   });
 });
