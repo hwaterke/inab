@@ -1,6 +1,12 @@
 import { createSelector } from 'reselect';
 import { getToBeBudgetedSumUpToSelectedMonth } from "../selectors/transactions";
-import { getBudgetItemsSum } from "../selectors/budgetItems";
+import { getBudgetItemsSum, getBudgetItemsSumUpToPreviousMonth } from "../selectors/budgetItems";
+
+export const getFundsForSelectedMonth = createSelector(
+  getToBeBudgetedSumUpToSelectedMonth,
+  getBudgetItemsSumUpToPreviousMonth,
+  (toBeBudgetedSumUpToSelectedMonth, budgetItemsSum) => toBeBudgetedSumUpToSelectedMonth - budgetItemsSum
+);
 
 export const getAvailableToBudget = createSelector(
   getToBeBudgetedSumUpToSelectedMonth,

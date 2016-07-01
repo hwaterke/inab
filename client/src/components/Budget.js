@@ -4,10 +4,11 @@ import ui from 'redux-ui';
 import MonthSelector from './MonthSelector';
 import Amount from './Amount';
 import { connect } from "react-redux";
-import { getAvailableToBudget } from "../selectors/budget";
+import { getAvailableToBudget, getFundsForSelectedMonth } from "../selectors/budget";
 
 const mapStateToProps = state => ({
-  availableToBudget: getAvailableToBudget(state)
+  availableToBudget: getAvailableToBudget(state),
+  fundsAvailable: getFundsForSelectedMonth(state)
 });
 
 @ui({
@@ -21,7 +22,8 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 export default class BudgetPage extends React.Component {
   static propTypes = {
-    availableToBudget: React.PropTypes.number.isRequired
+    availableToBudget: React.PropTypes.number.isRequired,
+    fundsAvailable: React.PropTypes.number.isRequired
   };
 
   render() {
@@ -29,6 +31,7 @@ export default class BudgetPage extends React.Component {
       <div>
         <h1>Budget Page</h1>
         <h3>Available to budget: <Amount amount={this.props.availableToBudget} color /></h3>
+        <p>Funds: <Amount amount={this.props.fundsAvailable} color /></p>
         <MonthSelector />
         <BudgetTable />
       </div>

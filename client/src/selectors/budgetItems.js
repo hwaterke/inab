@@ -31,6 +31,15 @@ export const getBudgetItemsUpToSelectedMonth = createSelector(
   })
 );
 
+export const getBudgetItemsUpToPreviousMonth = createSelector(
+  getSelectedMonth,
+  getBudgetItems,
+  (selectedMonth, budgetItems) => budgetItems.filter(bi => {
+    const d = new Date(bi.month);
+    return d.getFullYear() < selectedMonth.year || (d.getFullYear() == selectedMonth.year && d.getMonth() + 1 < selectedMonth.month);
+  })
+);
+
 export const getBudgetItemsUpToSelectedMonthByCategoryId = createSelector(
   getBudgetItemsUpToSelectedMonth,
   budgetItems => groupBy(budgetItems, 'category_id')
@@ -45,6 +54,12 @@ export const getBudgetItemsSumUpToSelectedMonth = createSelector(
   getBudgetItemsUpToSelectedMonth,
   budgetItems => sumOf(budgetItems, 'amount')
 );
+
+export const getBudgetItemsSumUpToPreviousMonth = createSelector(
+  getBudgetItemsUpToPreviousMonth,
+  budgetItems => sumOf(budgetItems, 'amount')
+);
+
 
 export const getBudgetItemsSumUpToSelectedMonthByCategoryId = createSelector(
   getBudgetItemsUpToSelectedMonthByCategoryId,
