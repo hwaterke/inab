@@ -20,6 +20,18 @@ export const createInflowTBB = (store, id, account_id, amount, date) => store.di
   transfer_account_id: null
 }));
 
+export const createOutflow = (store, id, account_id, amount, category_id, date) => store.dispatch(reduxCrud.actionCreatorsFor('transactions').createSuccess({
+  id: id,
+  account_id: account_id,
+  amount: amount,
+  category_id: category_id,
+  date: date,
+  description: null,
+  inflow_to_be_budgeted: false,
+  payee: "Payee",
+  transfer_account_id: null
+}));
+
 export const createTransfer = (store, id, account_id, transfer_account_id, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor('transactions').createSuccess({
   id: id,
   account_id: account_id,

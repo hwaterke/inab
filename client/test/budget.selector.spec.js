@@ -16,6 +16,7 @@ describe('Budget Selectors', function() {
   const monthString = (month) => `2016-0${month}-01`;
 
   const addInflow = (month, amount) => utils.createInflowTBB(store, nextId++, 1, amount, monthString(month));
+  const addOutflow = (month, amount) => utils.createOutflow(store, nextId++, 1, amount, 1, monthString(month));
 
   const budget = (month, amount) => utils.createBudgetItem(store, nextId++, monthString(month), 1, amount);
 
@@ -208,6 +209,22 @@ describe('Budget Selectors', function() {
       it("should ignore future budgeting", () => expectFunds(previousMonth(), 5));
       it("should ignore budgeting of the month", () => expectFunds(currentMonth(), 5 + 7));
       it("should include past budgeting", () => expectFunds(nextMonth(), 5 + 7 - 50 + 13));
+    });
+  });
+
+  describe('Overspending', function () {
+    /*
+    |     |  x  |     |
+    |-----|-----|-----|
+    |     |  s5 |     |
+    |=====|=====|=====|
+    |  0  |   0 |  -5 | Available to budget
+    */
+    describe('#getAvailableToBudget', function () {
+      it("should cover overspending of previous month", function () {
+        addOutflow(currentMonth(), -5);
+        expectAvailable(nextMonth(), -5);
+      });
     });
   });
 });
