@@ -5,7 +5,6 @@ import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { getAccounts, getAccountsById, getBalanceByAccountId } from '../src/selectors/accounts';
 import { getBudgetItems, getSelectedMonthBudgetItems } from '../src/selectors/budgetItems';
-import { getFundsForSelectedMonth } from '../src/selectors/budget';
 import * as utils from './utils';
 
 describe('Selectors', function() {
@@ -138,53 +137,6 @@ describe('Selectors', function() {
         utils.createBudgetItem(store, 1, "2016-02-01", 1, 10000);
         const bi = getSelectedMonthBudgetItems(store.getState());
         expect(bi).toEqual([]);
-      });
-    });
-  });
-
-  describe('Budget selectors', function() {
-    describe('#getFundsForSelectedMonth', function() {
-      it('should be 0 by default', function() {
-        utils.selectMonth(store, 2016, 1);
-        const bi = getFundsForSelectedMonth(store.getState());
-        expect(bi).toEqual(0);
-      });
-
-      it('should use inflow of this month and previous month', function() {
-        utils.createAccount(store, 1, "Checking");
-        utils.selectMonth(store, 2016, 6);
-        utils.createInflowTBB(store, 1, 1, 300, "2016-05-01");
-        utils.createInflowTBB(store, 2, 1, 200, "2016-06-01");
-        utils.createInflowTBB(store, 3, 1, 700, "2016-07-01");
-        const bi = getFundsForSelectedMonth(store.getState());
-        expect(bi).toEqual(500);
-      });
-
-      it('should reflect budget items of previous month', function() {
-        utils.createAccount(store, 1, "Checking");
-        utils.selectMonth(store, 2016, 6);
-        utils.createInflowTBB(store, 2, 1, 7, "2016-06-01");
-        utils.createBudgetItem(store, 1, "2016-05-01", 1, 5);
-        const bi = getFundsForSelectedMonth(store.getState());
-        expect(bi).toEqual(2);
-      });
-
-      it('should not reflect budget items of this month', function() {
-        utils.createAccount(store, 1, "Checking");
-        utils.selectMonth(store, 2016, 6);
-        utils.createInflowTBB(store, 2, 1, 7, "2016-06-01");
-        utils.createBudgetItem(store, 1, "2016-06-01", 1, 5);
-        const bi = getFundsForSelectedMonth(store.getState());
-        expect(bi).toEqual(7);
-      });
-
-      it('should reflect over budgeting', function() {
-        utils.createAccount(store, 1, "Checking");
-        utils.selectMonth(store, 2016, 6);
-        utils.createInflowTBB(store, 2, 1, 7, "2016-06-01");
-        utils.createBudgetItem(store, 1, "2016-05-01", 1, 11);
-        const bi = getFundsForSelectedMonth(store.getState());
-        expect(bi).toEqual(-4);
       });
     });
   });
