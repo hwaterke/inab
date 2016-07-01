@@ -1,5 +1,7 @@
 import reduxCrud from 'redux-crud';
 
+export const selectMonth = (store, year, month) => store.dispatch({type: "@@redux-ui/MASS_UPDATE_UI_STATE", payload: {transforms: {year: year, month: month}, uiVars: {year: ["budget"], month: ["budget"]}}});
+
 export const createAccount = (store, id, name) => store.dispatch(reduxCrud.actionCreatorsFor('accounts').createSuccess({id: id, name: name}));
 
 export const createCategory = (store, id, name) => store.dispatch(reduxCrud.actionCreatorsFor('categories').createSuccess({id: id, name: name}));

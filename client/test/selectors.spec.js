@@ -4,7 +4,7 @@ import reducer from '../src/reducers';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { getAccounts, getAccountsById, getBalanceByAccountId } from '../src/selectors/accounts';
-import { getBudgetItems } from '../src/selectors/budgetItems';
+import { getBudgetItems, getSelectedMonthBudgetItems } from '../src/selectors/budgetItems';
 import * as utils from './utils';
 
 describe('Selectors', function() {
@@ -108,6 +108,35 @@ describe('Selectors', function() {
         utils.createBudgetItem(store, 1, "2016-06-01", 1, 10000);
         const bi = getBudgetItems(store.getState());
         expect(bi).toEqual([{id: 1, month: "2016-06-01", category_id: 1, amount: 10000}]);
+      });
+    });
+
+    describe('#getSelectedMonthBudgetItems', function() {
+      it('should be empty by default', function() {
+        utils.selectMonth(store, 2016, 1);
+        const bi = getSelectedMonthBudgetItems(store.getState());
+        expect(bi).toEqual([]);
+      });
+
+      it('should be return one item from the selected month', function() {
+        utils.selectMonth(store, 2016, 1);
+        utils.createBudgetItem(store, 1, "2016-01-01", 1, 10000);
+        const bi = getSelectedMonthBudgetItems(store.getState());
+        expect(bi).toEqual([{id: 1, month: "2016-01-01", category_id: 1, amount: 10000}]);
+      });
+
+      it('should not return item from previous month', function() {
+        utils.selectMonth(store, 2016, 2);
+        utils.createBudgetItem(store, 1, "2016-01-01", 1, 10000);
+        const bi = getSelectedMonthBudgetItems(store.getState());
+        expect(bi).toEqual([]);
+      });
+
+      it('should not return item from next month', function() {
+        utils.selectMonth(store, 2016, 1);
+        utils.createBudgetItem(store, 1, "2016-02-01", 1, 10000);
+        const bi = getSelectedMonthBudgetItems(store.getState());
+        expect(bi).toEqual([]);
       });
     });
   });
