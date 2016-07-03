@@ -22,21 +22,21 @@ export const getSelectedMonthBudgetItemsByCategoryId = createSelector(
   }
 );
 
-export const getBudgetItemsUpToSelectedMonth = createSelector(
-  getSelectedMonth,
-  getBudgetItems,
-  (selectedMonth, budgetItems) => budgetItems.filter(bi => {
-    const d = new Date(bi.month);
-    return d.getFullYear() < selectedMonth.year || (d.getFullYear() == selectedMonth.year && d.getMonth() + 1 <= selectedMonth.month);
-  })
-);
-
 export const getBudgetItemsUpToPreviousMonth = createSelector(
   getSelectedMonth,
   getBudgetItems,
   (selectedMonth, budgetItems) => budgetItems.filter(bi => {
     const d = new Date(bi.month);
     return d.getFullYear() < selectedMonth.year || (d.getFullYear() == selectedMonth.year && d.getMonth() + 1 < selectedMonth.month);
+  })
+);
+
+export const getBudgetItemsUpToSelectedMonth = createSelector(
+  getSelectedMonth,
+  getBudgetItems,
+  (selectedMonth, budgetItems) => budgetItems.filter(bi => {
+    const d = new Date(bi.month);
+    return d.getFullYear() < selectedMonth.year || (d.getFullYear() == selectedMonth.year && d.getMonth() + 1 <= selectedMonth.month);
   })
 );
 
@@ -65,8 +65,8 @@ export const getBudgetItemsSumUpToSelectedMonthByCategoryId = createSelector(
   getBudgetItemsUpToSelectedMonthByCategoryId,
   budgetItems => {
     const result = {};
-    for (let k in budgetItems) {
-      result[k] = budgetItems[k].reduce(function (a, b) {
+    for (var [key, value] of budgetItems) {
+      result[key] = value.reduce(function (a, b) {
         return b.amount == null ? a : a + b.amount;
       }, 0);
     }

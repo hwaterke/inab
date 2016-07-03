@@ -1,9 +1,15 @@
 export const groupBy = (items, propName) => {
-  const result = {};
-  items.forEach(function (i) {
-    result[i[propName]] = result[i[propName]] || [];
-    result[i[propName]].push(i);
+  const result = new Map();
+  items.forEach((i) => {
+    result.set(i[propName], result.get(i[propName]) || []);
+    result.get(i[propName]).push(i);
   });
+  return result;
+};
+
+export const mapWith = (items, propName) => {
+  const result = new Map();
+  items.forEach((i) => result.set(i[propName], i));
   return result;
 };
 

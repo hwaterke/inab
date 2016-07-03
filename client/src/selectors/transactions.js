@@ -52,9 +52,9 @@ export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
 export const getSelectedMonthActivityByCategoryId = createSelector(
   getSelectedMonthTransactionsByCategoryId,
   transactions => {
-    const result = {};
-    for (let k in transactions) {
-      result[k] = sumOf(transactions[k], 'amount');
+    const result = new Map();
+    for (var [key, value] of transactions) {
+      result[key] = sumOf(value, 'amount');
     }
     return result;
   }
