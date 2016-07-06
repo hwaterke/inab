@@ -13,7 +13,7 @@ class Header extends React.Component {
   static propTypes = {
     selectPage: React.PropTypes.func.isRequired,
     accounts: React.PropTypes.array.isRequired,
-    balanceByAccountId: React.PropTypes.object.isRequired
+    balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired
   };
 
   createAccountModal() {

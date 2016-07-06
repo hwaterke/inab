@@ -1,33 +1,23 @@
 import { createSelector } from 'reselect';
 import { getTransactions } from './transactions';
+import { createMappingSelector } from './utils';
 
+// All
 export const getAccounts = state => state.accounts;
 
-export const getAccountsById = createSelector(
-  getAccounts,
-  accounts => {
-    const result = {};
-    accounts.forEach(function (a) {
-      result[a.id] = a;
-    });
-    return result;
-  }
-);
+// Grouping
+export const getAccountsById = createMappingSelector(getAccounts,'id');
 
 export const getBalanceByAccountId = createSelector(
   getAccounts,
   getTransactions,
   (accounts, transactions) => {
-    const result = {};
-    accounts.forEach(function (a) {
-      result[a.id] = 0;
-    });
+    const result = new Map();
+    accounts.forEach((a) => result.set(a.id, 0));
     transactions.forEach(function (t) {
-      result[t.account_id] = result[t.account_id] || 0;
-      result[t.account_id] += t.amount;
+      result.set(t.account_id, result.get(t.account_id) + t.amount);
       if (t.transfer_account_id) {
-        result[t.transfer_account_id] = result[t.transfer_account_id] || 0;
-        result[t.transfer_account_id] -= t.amount;
+        result.set(t.transfer_account_id, result.get(t.transfer_account_id) - t.amount);
       }
     });
     return result;

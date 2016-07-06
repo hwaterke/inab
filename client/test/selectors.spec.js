@@ -4,7 +4,8 @@ import reducer from '../src/reducers';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { getAccounts, getAccountsById, getBalanceByAccountId } from '../src/selectors/accounts';
-import { getBudgetItems, getSelectedMonthBudgetItems } from '../src/selectors/budgetItems';
+import * as budgetItemsSelectors from '../src/selectors/budgetItems';
+import * as transactionsSelectors from '../src/selectors/transactions';
 import * as utils from './utils';
 
 describe('Selectors', function() {
@@ -38,43 +39,50 @@ describe('Selectors', function() {
     describe('#getAccountsById', function() {
       it('should be empty by default', function() {
         const accounts = getAccountsById(store.getState());
-        expect(accounts).toEqual({});
+        expect(accounts).toEqual(new Map());
       });
 
       it('should return one account', function() {
         utils.createAccount(store, 1, "Checking");
         const accounts = getAccountsById(store.getState());
-        expect(accounts).toEqual({1: {id: 1, name: "Checking"}});
+        const expected = new Map();
+        expected.set(1, {id: 1, name: "Checking"});
+        expect(accounts).toEqual(expected);
       });
 
       it('should return two accounts', function() {
         utils.createAccount(store, 1, "Checking");
         utils.createAccount(store, 2, "Savings");
         const accounts = getAccountsById(store.getState());
-        expect(accounts).toEqual({
-          1: {id: 1, name: "Checking"},
-          2: {id: 2, name: "Savings"}
-        });
+        const expected = new Map();
+        expected.set(1, {id: 1, name: "Checking"});
+        expected.set(2, {id: 2, name: "Savings"});
+        expect(accounts).toEqual(expected);
       });
     });
 
     describe('#getBalanceByAccountId', function() {
       it('should be empty by default', function() {
         const accounts = getBalanceByAccountId(store.getState());
-        expect(accounts).toEqual({});
+        expect(accounts).toEqual(new Map());
       });
 
       it('should return 0 for one account', function() {
         utils.createAccount(store, 1, "Checking");
         const accounts = getBalanceByAccountId(store.getState());
-        expect(accounts).toEqual({1: 0});
+        const expected = new Map();
+        expected.set(1, 0);
+        expect(accounts).toEqual(expected);
       });
 
       it('should return 0 for two accounts', function() {
         utils.createAccount(store, 1, "Checking");
         utils.createAccount(store, 2, "Savings");
         const accounts = getBalanceByAccountId(store.getState());
-        expect(accounts).toEqual({1: 0, 2: 0});
+        const expected = new Map();
+        expected.set(1, 0);
+        expected.set(2, 0);
+        expect(accounts).toEqual(expected);
       });
 
       it('should include one inflow', function() {
@@ -82,7 +90,10 @@ describe('Selectors', function() {
         utils.createAccount(store, 2, "Savings");
         utils.createInflowTBB(store, 1, 1, 100000, "2016-06-01");
         const accounts = getBalanceByAccountId(store.getState());
-        expect(accounts).toEqual({1: 100000, 2: 0});
+        const expected = new Map();
+        expected.set(1, 100000);
+        expected.set(2, 0);
+        expect(accounts).toEqual(expected);
       });
 
       it('should handle transfers', function() {
@@ -91,53 +102,94 @@ describe('Selectors', function() {
         utils.createInflowTBB(store, 1, 1, 100000, "2016-06-01");
         utils.createTransfer(store, 2, 1, 2, -50000, "2016-06-02");
         const accounts = getBalanceByAccountId(store.getState());
-        expect(accounts).toEqual({1: 50000, 2: 50000});
+        const expected = new Map();
+        expected.set(1, 50000);
+        expected.set(2, 50000);
+        expect(accounts).toEqual(expected);
       });
     });
 
   });
 
   describe('Budget Item selectors', function() {
+
+    beforeEach(() => {
+      utils.selectMonth(store, 2016, 6);
+    });
+
     describe('#getBudgetItems', function() {
       it('should be empty by default', function() {
-        const bi = getBudgetItems(store.getState());
+        const bi = budgetItemsSelectors.getBudgetItems(store.getState());
         expect(bi).toEqual([]);
       });
 
       it('should return one budget item', function() {
         utils.createBudgetItem(store, 1, "2016-06-01", 1, 10000);
-        const bi = getBudgetItems(store.getState());
+        const bi = budgetItemsSelectors.getBudgetItems(store.getState());
         expect(bi).toEqual([{id: 1, month: "2016-06-01", category_id: 1, amount: 10000}]);
       });
     });
 
     describe('#getSelectedMonthBudgetItems', function() {
       it('should be empty by default', function() {
-        utils.selectMonth(store, 2016, 1);
-        const bi = getSelectedMonthBudgetItems(store.getState());
+        const bi = budgetItemsSelectors.inMonth.current(store.getState());
         expect(bi).toEqual([]);
       });
 
-      it('should be return one item from the selected month', function() {
-        utils.selectMonth(store, 2016, 1);
-        utils.createBudgetItem(store, 1, "2016-01-01", 1, 10000);
-        const bi = getSelectedMonthBudgetItems(store.getState());
-        expect(bi).toEqual([{id: 1, month: "2016-01-01", category_id: 1, amount: 10000}]);
+      it('should return one item from the selected month', function() {
+        utils.createBudgetItem(store, 1, "2016-06-01", 1, 10000);
+        const bi = budgetItemsSelectors.inMonth.current(store.getState());
+        expect(bi).toEqual([{id: 1, month: "2016-06-01", category_id: 1, amount: 10000}]);
       });
 
       it('should not return item from previous month', function() {
-        utils.selectMonth(store, 2016, 2);
-        utils.createBudgetItem(store, 1, "2016-01-01", 1, 10000);
-        const bi = getSelectedMonthBudgetItems(store.getState());
+        utils.createBudgetItem(store, 1, "2016-05-01", 1, 10000);
+        const bi = budgetItemsSelectors.inMonth.current(store.getState());
         expect(bi).toEqual([]);
       });
 
       it('should not return item from next month', function() {
-        utils.selectMonth(store, 2016, 1);
-        utils.createBudgetItem(store, 1, "2016-02-01", 1, 10000);
-        const bi = getSelectedMonthBudgetItems(store.getState());
+        utils.createBudgetItem(store, 1, "2016-07-01", 1, 10000);
+        const bi = budgetItemsSelectors.inMonth.current(store.getState());
         expect(bi).toEqual([]);
       });
+    });
+
+    describe('#getSelectedMonthBudgetItemsByCategoryId', function() {
+      it('should be empty by default', function() {
+        const bi = budgetItemsSelectors.getSelectedMonthBudgetItemsByCategoryId(store.getState());
+        expect(bi).toEqual(new Map());
+      });
+
+      it('should group by categories', function() {
+        utils.createBudgetItem(store, 1, "2016-05-01", 1, 10000);
+        utils.createBudgetItem(store, 2, "2016-06-01", 1, 10000);
+        utils.createBudgetItem(store, 3, "2016-06-01", 2, 10000);
+        utils.createBudgetItem(store, 4, "2016-07-01", 1, 10000);
+        const bi = budgetItemsSelectors.getSelectedMonthBudgetItemsByCategoryId(store.getState());
+        const expected = new Map();
+        expected.set(1, { amount: 10000, category_id: 1, id: 2, month: '2016-06-01' });
+        expected.set(2, { amount: 10000, category_id: 2, id: 3, month: '2016-06-01' });
+        expect(bi).toEqual(expected);
+      });
+    });
+  });
+
+  describe('Transaction selectors', function () {
+
+    beforeEach(() => {
+      utils.selectMonth(store, 2016, 6);
+    });
+
+    it('should select transaction up to selected month', function () {
+      utils.createInflowTBB(store, 1, 1, 3, "2016-05-05");
+      utils.createInflowTBB(store, 2, 1, 5, "2016-06-06");
+      utils.createInflowTBB(store, 3, 1, 7, "2016-07-07");
+      const items = transactionsSelectors.upToMonth.current(store.getState());
+      expect(items).toEqual([
+        { account_id: 1, amount: 3, category_id: null, date: '2016-05-05', description: null, id: 1, inflow_to_be_budgeted: true, payee: 'Payee', transfer_account_id: null },
+        { account_id: 1, amount: 5, category_id: null, date: '2016-06-06', description: null, id: 2, inflow_to_be_budgeted: true, payee: 'Payee', transfer_account_id: null }
+      ]);
     });
   });
 });
