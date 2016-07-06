@@ -155,7 +155,7 @@ export const getOverspentLastMonth = createSelector(
 // Budgeted this month
 export const getBudgetedThisMonth = createSelector(
   budgetItemsIn.current,
-  (items) => sumOf(items, 'amount')
+  (items) => -sumOf(items, 'amount')
 );
 
 // Budgeted in the future
@@ -166,9 +166,9 @@ export const getBudgetedInFuture = createSelector(
   getCurrentMonth,
   getBudgetItems,
   (funds, overspent, budgeted, currentMonth, allBudgetItems) => {
-    const maximum = Math.max(0, funds + overspent - budgeted);
+    const maximum = funds + overspent + budgeted;
     const futureBudgeting = sumOf(allBudgetItems.filter(i => currentMonth.isBefore(i.month)), 'amount');
-    return Math.min(maximum, futureBudgeting);
+    return Math.min(0, -Math.min(maximum, futureBudgeting));
   }
 );
 
@@ -178,5 +178,5 @@ export const getAvailableToBudget = createSelector(
   getOverspentLastMonth,
   getBudgetedThisMonth,
   getBudgetedInFuture,
-  (funds, overspent, budgeted, budgetedFuture) => funds + overspent - budgeted - budgetedFuture
+  (funds, overspent, budgeted, budgetedFuture) => funds + overspent + budgeted + budgetedFuture
 );

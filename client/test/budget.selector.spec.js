@@ -4,7 +4,7 @@ import reducer from '../src/reducers';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import * as utils from './utils';
-import { getAvailableByCategoryIdForSelectedMonth, getFundsForSelectedMonth, getOverspentLastMonth, getAvailableToBudget } from '../src/selectors/budget';
+import { getAvailableByCategoryIdForSelectedMonth, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture, getAvailableToBudget } from '../src/selectors/budget';
 
 describe('Budget Selectors', function() {
   let store;
@@ -36,6 +36,16 @@ describe('Budget Selectors', function() {
   const expectOverspentLastMonth = (month, amount) => {
     utils.selectMonth(store, 2016, month);
     expect(getOverspentLastMonth(store.getState())).toEqual(amount);
+  };
+
+  const expectBudgetedThisMonth = (month, amount) => {
+    utils.selectMonth(store, 2016, month);
+    expect(getBudgetedThisMonth(store.getState())).toEqual(amount);
+  };
+
+  const expectBudgetedInFuture = (month, amount) => {
+    utils.selectMonth(store, 2016, month);
+    expect(getBudgetedInFuture(store.getState())).toEqual(amount);
   };
 
   beforeEach(() => {
@@ -198,26 +208,59 @@ describe('Budget Selectors', function() {
     /*
     |     |  x  |     |
     |-----|-----|-----|
-    |  +5 |  +7 | +13 |
+    |  +3 |  +5 |  +7 |
     |     |  50 |     |
     |=====|=====|=====|
-    |  0  | -38 |     | Available to budget
+    |  3  |   8 | -35 | Funds
+    |  0  |   0 |   0 | Overspending last month
+    |  0  | -50 |   0 | Budgeted this month
+    |  -3 |   0 |   0 | Budgeted in the future
+    |=====|=====|=====|
+    |  0  | -42 | -35 | Available to budget
     */
     beforeEach(function () {
-      addInflow(getMonth(-1), 5);
-      addInflow(getMonth(), 7);
-      addInflow(getMonth(1), 13);
+      addInflow(getMonth(-1), 3);
+      addInflow(getMonth(), 5);
+      addInflow(getMonth(1), 7);
       budget(getMonth(), 50);
     });
-    describe('#getAvailableToBudget', function () {
-      it("Should account for future budgeting", () => expectAvailable(getMonth(-1), 0));
-      it("Should account for budgetting in current month", () => expectAvailable(getMonth(), 5 + 7 - 50));
-      it("Should account for previous budgeting", () => expectAvailable(getMonth(1), 5 + 7 - 50 + 13));
+
+    describe('#getAvailableByCategoryIdForSelectedMonth', function () {
+      it('should not affect previous month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[1, 0]])));
+      it('should affect current month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[1, 50]])));
+      it('should affect next month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[1, 50]])));
     });
+
     describe('#getFundsForSelectedMonth', function () {
-      it("should ignore future budgeting", () => expectFunds(getMonth(-1), 5));
-      it("should ignore budgeting of the month", () => expectFunds(getMonth(), 5 + 7));
-      it("should include past budgeting", () => expectFunds(getMonth(1), 5 + 7 - 50 + 13));
+      it('should not affect previous month', () => expectFunds(getMonth(-1), 3));
+      it('should not affect current month', () => expectFunds(getMonth(), 8));
+      it('should be available next month', () => expectFunds(getMonth(1), -35));
+    });
+
+    describe('#getOverspentLastMonth', function () {
+      it('should not affect previous month', () => expectOverspentLastMonth(getMonth(-1), 0));
+      it('should not affect current month', () => expectOverspentLastMonth(getMonth(), 0));
+      it('should not affect next month', () => expectOverspentLastMonth(getMonth(1), 0));
+    });
+
+    describe('#getBudgetedThisMonth', function () {
+      it('should not affect previous month', () => expectBudgetedThisMonth(getMonth(-1), 0));
+      it('should affect current month', () => expectBudgetedThisMonth(getMonth(), -50));
+      it('should not affect next month', () => expectBudgetedThisMonth(getMonth(1), 0));
+    });
+
+    describe('#getBudgetedInFuture', function () {
+      it('should affect previous month', () => expectBudgetedInFuture(getMonth(-1), -3));
+      it('should not affect current month', () => expectBudgetedInFuture(getMonth(), 0));
+      it('should not affect next month', () => expectBudgetedInFuture(getMonth(1), 0));
+    });
+
+    describe('#getAvailableToBudget', function () {
+      it("should account for the budgeting", () => {
+        expectAvailable(getMonth(-1), 0);
+        expectAvailable(getMonth(), -42);
+        expectAvailable(getMonth(1), -35);
+      });
     });
   });
 
@@ -265,6 +308,60 @@ describe('Budget Selectors', function() {
       it("should cover overspending of previous month", function () {
         expectAvailable(getMonth(1), -5);
       });
+    });
+  });
+
+  describe('Unbudgeting', function () {
+    /*
+    |     |  x  |     |
+    |-----|-----|-----|
+    |     |  -3 |     |
+    |=====|=====|=====|
+    |  0  |   0 |   3 | Funds
+    |  0  |   0 |  -3 | Overspending last month
+    |  0  |   3 |   0 | Budgeted this month
+    |  0  |   0 |   0 | Budgeted in the future
+    |=====|=====|=====|
+    |  0  |   3 |   0 | Available to budget
+    */
+    beforeEach(function () {
+      budget(getMonth(), -3);
+    });
+
+    describe('#getAvailableByCategoryIdForSelectedMonth', function () {
+      it('should not affect previous month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[1, 0]])));
+      it('should affect current month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[1, -3]])));
+      it('should be reset to 0 in case of overbudgeting', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[1, 0]])));
+    });
+
+    describe('#getFundsForSelectedMonth', function () {
+      it('should not affect previous month', () => expectFunds(getMonth(-1), 0));
+      it('should not affect current month', () => expectFunds(getMonth(), 0));
+      it('should be available next month', () => expectFunds(getMonth(1), 3));
+    });
+
+    describe('#getOverspentLastMonth', function () {
+      it('should not affect previous month', () => expectOverspentLastMonth(getMonth(-1), 0));
+      it('should not affect current month', () => expectOverspentLastMonth(getMonth(), 0));
+      it('should be reflected next month', () => expectOverspentLastMonth(getMonth(1), -3));
+    });
+
+    describe('#getBudgetedThisMonth', function () {
+      it('should not affect previous month', () => expectBudgetedThisMonth(getMonth(-1), 0));
+      it('should affect current month', () => expectBudgetedThisMonth(getMonth(), 3));
+      it('should not affect next month', () => expectBudgetedThisMonth(getMonth(1), 0));
+    });
+
+    describe('#getBudgetedInFuture', function () {
+      it('should not affect previous month', () => expectBudgetedInFuture(getMonth(-1), 0));
+      it('should not affect current month', () => expectBudgetedInFuture(getMonth(), 0));
+      it('should not affect next month', () => expectBudgetedInFuture(getMonth(1), 0));
+    });
+
+    describe('#getAvailableToBudget', function () {
+      it('should not affect previous month', () => expectAvailable(getMonth(-1), 0));
+      it('should affect current month', () => expectAvailable(getMonth(), 3));
+      it('should not affect next month', () => expectAvailable(getMonth(1), 0));
     });
   });
 });

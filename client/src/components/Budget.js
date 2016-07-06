@@ -37,10 +37,12 @@ export default class BudgetPage extends React.Component {
       <div>
         <h1>Budget Page</h1>
         <h3>Available to budget: <Amount amount={this.props.availableToBudget} color /></h3>
-        <p>Funds: <Amount amount={this.props.fundsAvailable} color /></p>
-        <p>Overspent last month: <Amount amount={this.props.overspentLastMonth} color /></p>
-        <p>Budgeted this month: <Amount amount={this.props.budgetedThisMonth} color /></p>
-        <p>Budgeted in the future: <Amount amount={this.props.budgetedInFuture} color /></p>
+        <ul>
+          <li><Amount amount={this.props.fundsAvailable} color /> Funds</li>
+          <li><Amount amount={this.props.overspentLastMonth} color /> Overspent last month</li>
+          <li><Amount amount={this.props.budgetedThisMonth} color /> Budgeted this month</li>
+          <li><Amount amount={this.props.budgetedInFuture} color /> Budgeted in the future</li>
+        </ul>
         <MonthSelector />
         <BudgetTable />
       </div>
