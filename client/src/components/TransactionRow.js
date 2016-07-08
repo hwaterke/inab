@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import Amount from './Amount';
 
-export default class Transaction extends React.Component {
+export default class TransactionRow extends React.Component {
   static propTypes = {
     date: React.PropTypes.string,
     payee: React.PropTypes.string,
@@ -32,6 +32,7 @@ export default class Transaction extends React.Component {
         </td>
         <td>{this.props.description}</td>
         <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} color /></td>
+        <td><FontAwesome name='pencil' /></td>
       </tr>
     );
   }

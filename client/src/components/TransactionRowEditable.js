@@ -16,7 +16,7 @@ import ui from 'redux-ui';
     isTransfer: false
   }
 })
-class EditableTransaction extends React.Component {
+class TransactionRowEditable extends React.Component {
   static propTypes = {
     fields: React.PropTypes.object.isRequired,
     create: React.PropTypes.func.isRequired,
@@ -68,6 +68,7 @@ class EditableTransaction extends React.Component {
         </td>
         <td><input className="form-control" type="text" placeholder="Description" {...description}/></td>
         <td><input className="form-control" type="text" placeholder="Amount" {...amount} /></td>
+        <td><FontAwesome name='cancel' /></td>
       </tr>
     );
   }
@@ -83,4 +84,4 @@ export default reduxForm({
   form: 'transaction',
   fields: ['datee', 'payee', 'transferAccount', 'category', 'description', 'amount'],
   initialValues: {'datee': moment()}
-}, mapStateToProps, asyncActionCreatorsFor('transactions'))(EditableTransaction);
+}, mapStateToProps, asyncActionCreatorsFor('transactions'))(TransactionRowEditable);

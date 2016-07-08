@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Transaction from './Transaction';
-import EditableTransaction from './EditableTransaction';
+import TransactionRow from './TransactionRow';
+import TransactionRowEditable from './TransactionRowEditable';
 import * as actions from '../actions';
 import {getTransactions} from '../selectors/transactions';
 import {getCategoriesById} from '../selectors/categories';
@@ -28,12 +28,13 @@ class TransactionTable extends React.Component {
             <th>Category</th>
             <th>Description</th>
             <th>Amount</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <EditableTransaction />
+          <TransactionRowEditable />
           { this.props.transactions.map(t =>
-            <Transaction
+            <TransactionRow
               busy={t.busy}
               id={t.id}
               date={t.date}
