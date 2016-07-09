@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import TransactionRow from './TransactionRow';
 import TransactionRowEditable from './TransactionRowEditable';
 import * as actions from '../actions';
-import {getTransactions} from '../selectors/transactions';
 import {getCategoriesById} from '../selectors/categories';
 import {getAccountsById} from '../selectors/accounts';
 import {getSelectedTransactions} from '../selectors/ui';
@@ -58,7 +57,6 @@ const mapStateToProps = (state) => {
   return {
     categoriesById: getCategoriesById(state),
     accountsById: getAccountsById(state),
-    transactions: getTransactions(state),
     selectedTransactions: getSelectedTransactions(state)
   };
 };

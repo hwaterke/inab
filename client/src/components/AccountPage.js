@@ -1,14 +1,11 @@
-'use strict';
 import React from 'react';
-import FetchTransactionsButton from './FetchTransactionsButton';
-import TransactionTable from './TransactionTable';
+import TransactionContainer from './TransactionContainer';
 import { connect } from 'react-redux';
 
 const AccountPage = (props) => (
   <div>
     <h1>{props.account.name}</h1>
-    <FetchTransactionsButton />
-    <TransactionTable />
+    <TransactionContainer />
   </div>
 );
 
