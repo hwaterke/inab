@@ -1,4 +1,5 @@
-client/public/app.min.js
+client/public/app.js
+client/public/app.css
 .DS_Store
 
 ### Below is whatever came from Github
