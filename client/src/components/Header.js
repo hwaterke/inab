@@ -46,7 +46,7 @@ class Header extends React.Component {
                   {this.props.accounts.map((account) =>
                   <li key={account.id}>
                     {account.busy && <Link><FontAwesome name='refresh' spin fixedWidth />{account.name}</Link>}
-                    {(!account.busy) && <Link onClick={() => this.props.selectPage('ACCOUNT', account.id)}>{account.name}&nbsp;<Amount amount={this.props.balanceByAccountId[account.id]} color /></Link>}
+                    {(!account.busy) && <Link onClick={() => this.props.selectPage('ACCOUNT', account.id)}>{account.name}&nbsp;<Amount amount={this.props.balanceByAccountId.get(account.id)} color /></Link>}
                   </li>
                   )}
                   <li role="separator" className="divider"></li>
