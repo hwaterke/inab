@@ -42,7 +42,9 @@ class Model
   end
 
   def delete(id)
+    r = find_by_id(id)
     @dataset.where(id: id).delete
+    r
   end
 end
 
@@ -74,7 +76,7 @@ def define_restful_api(model)
 
   delete "/#{model.resource}/:id" do
     sleep settings.fake_latency if settings.fake_latency > 0
-    catch_errors { model.delete(params[:id]) }
+    catch_errors { json model.delete(params[:id]) }
   end
 
   private

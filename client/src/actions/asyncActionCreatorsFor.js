@@ -3,8 +3,6 @@ import * as constants from 'redux-crud';
 import axios from 'axios';
 import cuid from 'cuid';
 
-// TODO add delete methods.
-
 function asyncActionCreatorsFor(resourceName, config) {
   if (resourceName == null) throw new Error('asyncActionCreatorsFor: Expected resourceName');
 
@@ -78,6 +76,28 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.updateSuccess(response.data));
         }, function(error) {
           dispatch(standardActionCreators.updateError(error.data, resource));
+        }).catch(function(err) {
+          console.log(err.toString());
+        });
+
+        return promise;
+      };
+    },
+
+    delete: function(resource) {
+      return function(dispatch) {
+        dispatch(standardActionCreators.deleteStart(resource));
+
+        // Send the request
+        const promise = axios({
+          url: `${baseUrl}/${resource[key]}`,
+          method: 'DELETE'
+        });
+
+        promise.then(function(response) {
+          dispatch(standardActionCreators.deleteSuccess(response.data));
+        }, function(error) {
+          dispatch(standardActionCreators.deleteError(error.data, resource));
         }).catch(function(err) {
           console.log(err.toString());
         });
