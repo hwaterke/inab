@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TransactionRow from './TransactionRow';
 import TransactionRowEditable from './TransactionRowEditable';
-import * as actions from '../actions';
 import {getCategoriesById} from '../selectors/categories';
 import {getAccountsById} from '../selectors/accounts';
-import {getSelectedTransactions} from '../selectors/ui';
+import ui from 'redux-ui';
 
+@ui()
 class TransactionTable extends React.Component {
   static propTypes = {
+    ui: React.PropTypes.object.isRequired,
     transactions: React.PropTypes.array.isRequired,
     categoriesById: React.PropTypes.instanceOf(Map).isRequired,
     accountsById: React.PropTypes.instanceOf(Map).isRequired,
-    selectedTransactions: React.PropTypes.object.isRequired,
     selectTransaction: React.PropTypes.func.isRequired
   };
 
@@ -21,13 +21,13 @@ class TransactionTable extends React.Component {
       <table className="table">
         <thead>
           <tr>
-            <th>Status</th>
+            <th />
             <th>Date</th>
             <th>Payee</th>
             <th>Category</th>
             <th>Description</th>
             <th>Amount</th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@ class TransactionTable extends React.Component {
               description={t.description}
               amount={t.amount}
               transfer_account={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
-              selected={this.props.selectedTransactions.has(t.id)}
+              selected={this.props.ui.selectedTransactions.has(t.id)}
               key={t.id}
               inflow_to_be_budgeted={t.inflow_to_be_budgeted}
               onClick={() => this.props.selectTransaction(t.id) }/>)
@@ -56,9 +56,8 @@ class TransactionTable extends React.Component {
 const mapStateToProps = (state) => {
   return {
     categoriesById: getCategoriesById(state),
-    accountsById: getAccountsById(state),
-    selectedTransactions: getSelectedTransactions(state)
+    accountsById: getAccountsById(state)
   };
 };
 
-export default connect(mapStateToProps, actions)(TransactionTable);
+export default connect(mapStateToProps)(TransactionTable);

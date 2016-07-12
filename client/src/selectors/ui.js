@@ -5,8 +5,6 @@ export const getSelectedPage = (state) => state.selectedPage.name;
 
 export const getSelectedAccount = (state) => state.selectedPage.name == 'ACCOUNT' && state.selectedPage.data;
 
-export const getSelectedTransactions = (state) => state.selectedTransactions;
-
 export const getSelectedMonth = (state) => ({
   month: state.ui.get('budget').get('month'),
   year: state.ui.get('budget').get('year')

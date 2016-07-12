@@ -3,7 +3,7 @@ import * as constants from 'redux-crud';
 import axios from 'axios';
 import cuid from 'cuid';
 
-// TODO add update and delete methods.
+// TODO add delete methods.
 
 function asyncActionCreatorsFor(resourceName, config) {
   if (resourceName == null) throw new Error('asyncActionCreatorsFor: Expected resourceName');
