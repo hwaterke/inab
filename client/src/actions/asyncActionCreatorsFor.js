@@ -9,7 +9,8 @@ function asyncActionCreatorsFor(resourceName, config) {
   config = config || {};
   const standardActionCreators = reduxCrud.actionCreatorsFor(resourceName);
   const key = config.key || constants.DEFAULT_KEY;
-  const baseUrl = config.url || `/${resourceName}`;
+  const baseUrl = config.url || `/api/${resourceName}`;
+
 
   return {
     fetch: function() {
@@ -23,7 +24,7 @@ function asyncActionCreatorsFor(resourceName, config) {
         });
 
         promise.then(function(response) {
-          dispatch(standardActionCreators.fetchSuccess(response.data));
+          dispatch(standardActionCreators.fetchSuccess(response.data.data));
         }, function(response) {
           dispatch(standardActionCreators.fetchError(response.data));
         }).catch(function(error) {
