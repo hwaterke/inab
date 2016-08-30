@@ -4,7 +4,7 @@ DB.create_table? :subtransactions do
   # Amount in cents
   Integer :amount
   foreign_key :category_id, :categories
-  foreign_key :transaction_id, :transactions
+  foreign_key :transaction_id, :transactions, on_delete: :cascade
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 end
