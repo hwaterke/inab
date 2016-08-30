@@ -33,13 +33,19 @@ class Transaction < Sequel::Model
 
   many_to_one :category
   many_to_one :account
-  many_to_one :transfer_account, key: :transfer_account_id
+  many_to_one :transfer_account, class: Account
 
   def validate
     super
     errors.add(:amount, ' only inflows can be budgeted') if to_be_budgeted? and amount < 0
+    errors.add(:payee, ' must be null for a transfer') if transfer? and payee != nil
+    errors.add(:category_id, ' must be null for a transfer') if transfer? and category_id
     errors.add(:category_id, ' must be null for an inflow to be budgeted') if to_be_budgeted? and category_id
     errors.add(:category_id, ' must be null for split transaction') if split? and category_id
+  end
+
+  def transfer?
+    not transfer_account.nil?
   end
 
   def before_create
