@@ -1,0 +1,18 @@
+version: '2'
+services:
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile-dev
+    volumes:
+      - ./client:/app
+  web:
+    build:
+      context: server
+      dockerfile: Dockerfile-dev
+    volumes:
+      - ./server:/app/server
+      - ./client/public:/app/client/public:ro
+    ports:
+      - "8080:8080"
+    command: "rerun --background -- bundle exec rackup --host :: -p 8080 -s thin"
