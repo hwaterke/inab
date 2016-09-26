@@ -15,7 +15,7 @@ const getSelectedMonthTransactionsByCategoryId = createGroupingSelector(inMonth.
 
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   upToMonth.current,
-  transactions => sumOf(transactions.filter(t => t.inflow_to_be_budgeted), 'amount')
+  transactions => sumOf(transactions.filter(t => t.type == "to_be_budgeted"), 'amount')
 );
 
 export const getSelectedMonthActivityByCategoryId = createSelector(
