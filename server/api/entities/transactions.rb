@@ -19,7 +19,7 @@ module INAB
         requires :payee, type: String, desc: "The payee of the Transaction"
         optional :description, type: String, desc: "The description of the Transaction"
         requires :amount, type: Integer, desc: "The amount of the Transaction in cents"
-        requires :category_id, type: Integer, desc: "The id of the Category"
+        optional :category_id, type: Integer, desc: "The id of the Category"
         requires :account_id, type: Integer, desc: "The id of the Account"
         requires :transfer_account_id, type: Integer, desc: "The id of the Account to which the transfer occured"
         requires :type, type: Symbol, desc: "The type of Transaction"
