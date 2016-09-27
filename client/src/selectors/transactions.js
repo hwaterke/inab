@@ -9,6 +9,12 @@ export const getTransactions = state => state.transactions;
 export const inMonth = createInMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));
 export const upToMonth = createUpToMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));
 
+// Map
+export const getPayees = createSelector(
+  getTransactions,
+  transactions => transactions.filter(t => t.payee != null).map(t => t.payee)
+);
+
 // Grouping
 export const getTransactionsById = createMappingSelector(getTransactions, 'id');
 const getSelectedMonthTransactionsByCategoryId = createGroupingSelector(inMonth.current, 'category_id');

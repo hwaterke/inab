@@ -35,7 +35,9 @@ const mapStateToProps = (state) => {
 
 @ui({
   state: {
-    selectedTransactions: Immutable.Set()
+    selectedTransactions: Immutable.Set(),
+    editingTransactionId: null,
+    addingTransaction: false
   }
 })
 @connect(mapStateToProps)

@@ -1,6 +1,7 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import Amount from './Amount';
+import Link from './Link';
 
 export default class TransactionRow extends React.Component {
   static propTypes = {
@@ -12,8 +13,9 @@ export default class TransactionRow extends React.Component {
     selected: React.PropTypes.bool,
     busy: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    inflow_to_be_budgeted: React.PropTypes.bool.isRequired,
-    transfer_account: React.PropTypes.string
+    type: React.PropTypes.string.isRequired,
+    transfer_account: React.PropTypes.string,
+    handlePencilClick: React.PropTypes.func
   };
 
   render() {
@@ -25,14 +27,17 @@ export default class TransactionRow extends React.Component {
           {(!this.props.selected) && <FontAwesome name='circle-o' />}
         </td>
         <td>{this.props.date}</td>
-        <td>{this.props.payee || this.props.transfer_account}</td>
         <td>
-          {this.props.inflow_to_be_budgeted && "To be budgeted"}
-          {(!this.props.inflow_to_be_budgeted) && this.props.category}
+          {this.props.payee || (this.props.transfer_account && <div><FontAwesome name='exchange' /> {this.props.transfer_account}</div>)}
+        </td>
+        <td>
+          {this.props.type == 'to_be_budgeted' && "To be budgeted"}
+          {this.props.type == 'regular' && this.props.category}
+          {this.props.type == 'split' && "Split"}
         </td>
         <td>{this.props.description}</td>
         <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} color /></td>
-        <td><FontAwesome name='pencil' /></td>
+        <td><Link onClick={this.props.handlePencilClick}><FontAwesome name='pencil' /></Link></td>
       </tr>
     );
   }

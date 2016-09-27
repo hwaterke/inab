@@ -1,11 +1,10 @@
-'use strict';
 import React from 'react';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import {reduxForm} from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
 class AccountForm extends React.Component {
   static propTypes = {
-    fields: React.PropTypes.object.isRequired,
     handleSubmit: React.PropTypes.func.isRequired,
     create: React.PropTypes.func.isRequired,
     removeModal: React.PropTypes.func.isRequired
@@ -19,16 +18,12 @@ class AccountForm extends React.Component {
   }
 
   render() {
-    const {
-      fields: { name },
-      handleSubmit
-    } = this.props;
     return (
-      <form onSubmit={handleSubmit(::this.onSubmit)}>
+      <form onSubmit={this.props.handleSubmit(::this.onSubmit)}>
         <h2>Account</h2>
         <div className='form-group'>
           <label>Name</label>
-          <input type="text" className='form-control' placeholder="Name" autoFocus {...name}/>
+          <Field name="name" component="input" type="text" className='form-control' placeholder="Name" autoFocus />
         </div>
         <button type="submit" className='btn btn-default'>Submit</button>
       </form>
@@ -36,7 +31,5 @@ class AccountForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'account',
-  fields: ['name']
-}, null, asyncActionCreatorsFor('accounts'))(AccountForm);
+const connected = connect(null, asyncActionCreatorsFor('accounts'))(AccountForm);
+export default reduxForm({form: 'account'})(connected);

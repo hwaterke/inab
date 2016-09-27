@@ -1,87 +1,125 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 require('react-datepicker/dist/react-datepicker.css');
-import moment from 'moment';
-import {reduxForm} from 'redux-form';
-import Button from './Button';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
+require('react-selectize/themes/index.css');
+import { Field, reduxForm } from 'redux-form';
+import Link from './Link';
 import { getCategories } from '../selectors/categories';
 import { getAccounts } from '../selectors/accounts';
+import { getPayees } from '../selectors/transactions';
 import FontAwesome from 'react-fontawesome';
-import { getSelectedAccount } from '../selectors/ui';
 import ui from 'redux-ui';
+import { connect } from 'react-redux';
+import { SimpleSelect } from 'react-selectize';
 
-@ui({
-  state: {
-    isTransfer: false
-  }
-})
-class TransactionRowEditable extends React.Component {
-  static propTypes = {
-    fields: React.PropTypes.object.isRequired,
-    create: React.PropTypes.func.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    categories: React.PropTypes.array.isRequired,
-    selectedAccount: React.PropTypes.number.isRequired,
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
-    accounts: React.PropTypes.array.isRequired
-  };
+const mapStateToProps = (state) => ({
+  accounts: getAccounts(state),
+  categories: getCategories(state),
+  payees: getPayees(state)
+});
 
-  onSubmit(data) {
-    this.props.create({
-      date: data.datee.format("YYYY-MM-DD"),
-      transfer_account_id: (this.props.ui.isTransfer ? data.transferAccount : null),
-      payee: (this.props.ui.isTransfer ? null : data.payee),
-      account_id: this.props.selectedAccount,
-      category_id: (data.category != 'tbb' ? data.category : null),
-      description: data.description,
-      amount: Number(data.amount) * 100,
-      inflow_to_be_budgeted: (data.category == 'tbb')
-    });
+const DatePickerField = (props) => <DatePicker className="form-control" selected={props.input.value} onChange={param => props.input.onChange(param)} />;
+
+const SimpleSelectField = (props) => <SimpleSelect placeholder={props.placeholder} disabled={props.disabled} options={props.options} onValueChange={item => props.input.onChange(item.value)}></SimpleSelect>;
+
+class SimpleSelectCreateField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {options: props.options};
   }
 
   render() {
-    const {fields: {datee, payee, transferAccount, category, description, amount}, handleSubmit} = this.props;
-    return (
-      <tr>
-        <td>
-          <Button onClick={handleSubmit(::this.onSubmit)}>
-            <FontAwesome name='plus' />
-          </Button>
-        </td>
-        <td>
-          {/* TODO Should this be dropped in favor of input type=date?*/}
-          <DatePicker className="form-control" selected={datee.value} onChange={param => datee.onChange(param)} />
-        </td>
-        <td>
-          <Button onClick={() => {this.props.updateUI('isTransfer', !this.props.ui.isTransfer);}} ><FontAwesome name='exchange' /></Button>
-          { this.props.ui.isTransfer && <select className="form-control" {...transferAccount} value={transferAccount.value || ''}><option></option>{this.props.accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select> }
-          { (!this.props.ui.isTransfer) && <input className="form-control" type="text" placeholder="Payee" {...payee} /> }
-        </td>
-        <td>
-          <select className="form-control" {...category} value={category.value || ''}>
-            <option></option>
-            <option value="tbb">To Be Budgeted</option>
-            {this.props.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
-        </td>
-        <td><input className="form-control" type="text" placeholder="Description" {...description}/></td>
-        <td><input className="form-control" type="text" placeholder="Amount" {...amount} /></td>
-        <td><FontAwesome name='cancel' /></td>
-      </tr>
+    return (<SimpleSelect
+      options={this.state.options}
+      placeholder={this.props.placeholder}
+
+      createFromSearch={(options, search) => {
+        if (search.length == 0 || (options.map(function(option){
+          return option.label;
+        })).indexOf(search) > -1)
+          return null;
+        else
+          return {label: search, value: search};
+      }}
+
+      onValueChange={(item) => {
+        if (!!item && !!item.newOption) {
+          this.state.options.unshift({label: item.label, value: item.value});
+          this.setState({options: this.state.options});
+        }
+        this.props.input.onChange(item.value);
+        if (this.props.onValueChange) {
+          this.props.onValueChange(item);
+        }
+      }} />
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  categories: getCategories(state),
-  selectedAccount: getSelectedAccount(state),
-  accounts: getAccounts(state)
-});
 
-export default reduxForm({
-  form: 'transaction',
-  fields: ['datee', 'payee', 'transferAccount', 'category', 'description', 'amount'],
-  initialValues: {'datee': moment()}
-}, mapStateToProps, asyncActionCreatorsFor('transactions'))(TransactionRowEditable);
+@ui()
+@connect(mapStateToProps)
+@reduxForm({form: 'transaction'})
+export default class TransactionRowEditable extends React.Component {
+  static propTypes = {
+    ui: React.PropTypes.object.isRequired,
+    updateUI: React.PropTypes.func.isRequired,
+
+    onCancel: React.PropTypes.func,
+
+    accounts: React.PropTypes.array.isRequired,
+    categories: React.PropTypes.array.isRequired,
+    payees: React.PropTypes.array.isRequired,
+
+    // Todo, use a boolean that tells whether or not to have a field for the account
+    selectedAccount: React.PropTypes.number.isRequired,
+
+    // Provided by redux-form
+    handleSubmit: React.PropTypes.func.isRequired
+  };
+
+  render() {
+    const categoryOptions = [
+      {label: "To be budgeted", value: "tbb"},
+      ...this.props.categories.map(c => ({label: c.name, value: c.id}))
+    ];
+    const payeeOptions = [
+      ...this.props.accounts.map(a => ({label: "Tranfer to " + a.name, value: "transfer:" + a.id})),
+      ...this.props.payees.map(c => ({label: c, value: c}))
+    ];
+
+    return (
+      <tr>
+        <td>
+          { this.props.onCancel && <Link onClick={::this.props.onCancel}><FontAwesome name='ban' /></Link> }
+        </td>
+        <td>
+          <Field name='datee' component={DatePickerField} />
+        </td>
+        <td>
+          <Field
+            name="payee"
+            component={SimpleSelectCreateField}
+            placeholder="Payee"
+            options={payeeOptions}
+            onValueChange={(item) => this.props.updateUI('isTransfer', item.value.startsWith("transfer:"))}
+           />
+        </td>
+        <td>
+          <Field name="category" component={SimpleSelectField} options={categoryOptions} disabled={this.props.ui.isTransfer} placeholder={this.props.ui.isTransfer ? "No category for transfers" : "Category"} />
+        </td>
+        <td>
+          <Field name="description" component="input" className="form-control" type="text" placeholder="Description" />
+        </td>
+        <td>
+          <Field name="amount" component="input" className="form-control" type="text" placeholder="Amount" />
+        </td>
+        <td>
+          <Link onClick={this.props.handleSubmit}>
+            <FontAwesome name='check' />
+          </Link>
+        </td>
+      </tr>
+    );
+  }
+}

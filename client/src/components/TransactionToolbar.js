@@ -33,6 +33,7 @@ export default class TransactionToolbar extends React.Component {
     return (
       <div>
         <h4>Toolbar</h4>
+        <Button onClick={() => this.props.updateUI({addingTransaction: true, editingTransactionId: null})}><FontAwesome name='plus' /></Button>
         { this.props.ui.selectedTransactions.size > 0 && <Button onClick={::this.deleteTransactions}><FontAwesome name='ban' /> ({this.props.ui.selectedTransactions.size})</Button> }
       </div>
     );

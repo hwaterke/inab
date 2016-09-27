@@ -1,22 +1,65 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TransactionRow from './TransactionRow';
-import TransactionRowEditable from './TransactionRowEditable';
+import TransactionRowEditableNew from './TransactionRowEditableNew';
+import SubtransactionRow from './SubtransactionRow';
 import {getCategoriesById} from '../selectors/categories';
 import {getAccountsById} from '../selectors/accounts';
+import {getSubtransactionsByTransactionId} from '../selectors/subtransactions';
 import ui from 'redux-ui';
 
+/*
+props.ui.editingTransactionId: Mot used yet but will be for inline editing of existing transactions
+*/
 @ui()
 class TransactionTable extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
+    updateUI: React.PropTypes.func.isRequired,
     transactions: React.PropTypes.array.isRequired,
     categoriesById: React.PropTypes.instanceOf(Map).isRequired,
     accountsById: React.PropTypes.instanceOf(Map).isRequired,
+    subtransactionsByTransactionId: React.PropTypes.instanceOf(Map).isRequired,
     selectTransaction: React.PropTypes.func.isRequired
   };
 
   render() {
+    const rows = [];
+    if (this.props.ui.addingTransaction) {
+      rows.push(<TransactionRowEditableNew key='add' />);
+    }
+
+    this.props.transactions.forEach(t => {
+      rows.push(<TransactionRow
+        key={t.id}
+        busy={t.busy}
+        id={t.id}
+        date={t.date}
+        payee={t.payee}
+        category={this.props.categoriesById.get(t.category_id) && this.props.categoriesById.get(t.category_id).name}
+        description={t.description}
+        amount={t.amount}
+        transfer_account={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
+        selected={this.props.ui.selectedTransactions.has(t.id)}
+        type={t.type}
+        onClick={() => this.props.selectTransaction(t.id) }
+        handlePencilClick={() => this.props.updateUI({editingTransactionId: t.id, addingTransaction: false}) }
+      />);
+
+      if (this.props.subtransactionsByTransactionId.get(t.id)) {
+        this.props.subtransactionsByTransactionId.get(t.id).forEach(subt => {
+          rows.push(<SubtransactionRow
+              key={'sub' + subt.id}
+              payee={subt.payee}
+              category={this.props.categoriesById.get(subt.category_id) && this.props.categoriesById.get(subt.category_id).name}
+              description={subt.description}
+              amount={subt.amount}
+              onClick={() => this.props.selectTransaction(t.id) }
+            />);
+        });
+      }
+    });
+
     return (
       <table className="table">
         <thead>
@@ -31,22 +74,7 @@ class TransactionTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-          <TransactionRowEditable />
-          { this.props.transactions.map(t =>
-            <TransactionRow
-              busy={t.busy}
-              id={t.id}
-              date={t.date}
-              payee={t.payee}
-              category={this.props.categoriesById.get(t.category_id) && this.props.categoriesById.get(t.category_id).name}
-              description={t.description}
-              amount={t.amount}
-              transfer_account={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
-              selected={this.props.ui.selectedTransactions.has(t.id)}
-              key={t.id}
-              inflow_to_be_budgeted={t.inflow_to_be_budgeted}
-              onClick={() => this.props.selectTransaction(t.id) }/>)
-            }
+          {rows}
         </tbody>
       </table>
     );
@@ -56,7 +84,8 @@ class TransactionTable extends React.Component {
 const mapStateToProps = (state) => {
   return {
     categoriesById: getCategoriesById(state),
-    accountsById: getAccountsById(state)
+    accountsById: getAccountsById(state),
+    subtransactionsByTransactionId: getSubtransactionsByTransactionId(state)
   };
 };
 
