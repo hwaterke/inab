@@ -18,6 +18,10 @@ With the following command `docker-compose up`, you will get the following:
 
 ## TODO
 
+* Use a local version of FontAwesome
+* Only show transactions of selected account
+* Adding transaction (handle split transactions)
+* Taking split transactions into account
 * Edit transaction inline
-* Split transactions
+* Work on a production environment
 * Category goals
