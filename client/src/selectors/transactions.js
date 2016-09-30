@@ -12,7 +12,7 @@ export const upToMonth = createUpToMonthSelectors(getTransactions, (t) => beginn
 // Map
 export const getPayees = createSelector(
   getTransactions,
-  transactions => transactions.filter(t => t.payee != null).map(t => t.payee)
+  transactions => [...new Set(transactions.filter(t => t.payee != null).map(t => t.payee))]
 );
 
 // Grouping
