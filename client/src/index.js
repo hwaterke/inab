@@ -8,6 +8,7 @@ import React from 'react';
 import Main from './components/Main';
 import { Provider } from 'react-redux';
 import './styles/modal.css';
+import 'font-awesome/css/font-awesome.css';
 
 const store = createStore(
   reducer,
