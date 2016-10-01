@@ -1,7 +1,5 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-require('react-datepicker/dist/react-datepicker.css');
-require('react-selectize/themes/index.css');
 import { Field, reduxForm } from 'redux-form';
 import Link from './Link';
 import { getCategories } from '../selectors/categories';
@@ -11,6 +9,8 @@ import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import { connect } from 'react-redux';
 import { SimpleSelect } from 'react-selectize';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-selectize/themes/index.css';
 
 const mapStateToProps = (state) => ({
   accounts: getAccounts(state),

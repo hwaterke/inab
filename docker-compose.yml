@@ -4,9 +4,14 @@ services:
     build:
       context: client
       dockerfile: Dockerfile-dev
+    environment:
+      API_HOST: api
+    ports:
+      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./client:/app
-  web:
+  api:
     build:
       context: server
       dockerfile: Dockerfile-dev

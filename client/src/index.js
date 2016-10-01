@@ -7,6 +7,7 @@ import ReduxModal from 'react-redux-modal';
 import React from 'react';
 import Main from './components/Main';
 import { Provider } from 'react-redux';
+import './styles/modal.css';
 
 const store = createStore(
   reducer,
