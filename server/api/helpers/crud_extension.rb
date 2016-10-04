@@ -50,9 +50,6 @@ module Grape
           update_keys = declared(params).dup
           update_keys.delete(:id)
 
-          puts "Declared params: #{declared(params)}"
-          puts "Update params: #{update_keys}"
-
           entry.update(update_keys)
           present entry, with: representer
         end
