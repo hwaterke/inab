@@ -23,4 +23,6 @@ With the following command `docker-compose up`, you will get the following:
 * Taking split transactions into account
 * Edit transaction inline
 * Work on a production environment
+* Write server tests
+* Add authentication to the API
 * Category goals

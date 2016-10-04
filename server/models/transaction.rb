@@ -34,6 +34,7 @@ class Transaction < Sequel::Model
   many_to_one :category
   many_to_one :account
   many_to_one :transfer_account, class: Account
+  one_to_many :subtransactions
 
   def validate
     super
