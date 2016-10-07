@@ -4,9 +4,8 @@ WORKDIR /app/server
 COPY Gemfile* ./
 RUN bundle install
 
+ENV RACK_ENV development
 ENV APPSERVER thin
 EXPOSE 8080
 
-RUN gem install rerun
 CMD bundle exec rackup --host :: -p 8080 -s $APPSERVER
-# CMD thin start --debug --port 8080 -R config.ru

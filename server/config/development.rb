@@ -1,3 +1,4 @@
+# Creates some dummy data for use in development.
 puts "Development configuration"
 
 a = Account.create(name: 'Checking')

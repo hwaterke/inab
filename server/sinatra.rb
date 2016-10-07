@@ -1,5 +1,3 @@
-require 'sinatra'
-
 class INABApp < Sinatra::Base
   set :public_folder, '../client/public'
   get '/' do
