@@ -21,6 +21,7 @@ export default class TransactionRowEditableNew extends React.Component {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
 
+    showAccount: React.PropTypes.bool.isRequired,
     create: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func,
     selectedAccount: React.PropTypes.number.isRequired
@@ -45,6 +46,7 @@ export default class TransactionRowEditableNew extends React.Component {
       category_id: (data.category != 'tbb' ? data.category : null),
       description: data.description,
       amount: Number(data.amount) * 100,
+      subtransactions: [],
       type: type
     });
     this.props.updateUI({addingTransaction: false});
@@ -54,6 +56,7 @@ export default class TransactionRowEditableNew extends React.Component {
     const initialValues = { datee: moment() };
     return (<TransactionRowEditable
       initialValues={initialValues}
+      showAccount={this.props.showAccount}
       onSubmit={::this.onSubmit}
       onCancel={this.props.onCancel}
       selectedAccount={this.props.selectedAccount}

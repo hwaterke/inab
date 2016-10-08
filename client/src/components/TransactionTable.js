@@ -15,16 +15,21 @@ class TransactionTable extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
+
     transactions: React.PropTypes.array.isRequired,
+
     categoriesById: React.PropTypes.instanceOf(Map).isRequired,
     accountsById: React.PropTypes.instanceOf(Map).isRequired,
+
+    showAccount: React.PropTypes.bool.isRequired,
+
     selectTransaction: React.PropTypes.func.isRequired
   };
 
   render() {
     const rows = [];
     if (this.props.ui.addingTransaction) {
-      rows.push(<TransactionRowEditableNew key='add' />);
+      rows.push(<TransactionRowEditableNew key='add' showAccount={this.props.showAccount} />);
     }
 
     this.props.transactions.forEach(t => {
@@ -32,6 +37,7 @@ class TransactionTable extends React.Component {
         key={t.id}
         transaction={t}
 
+        showAccount={this.props.showAccount}
         categoryLabel={this.props.categoriesById.get(t.category_id) && this.props.categoriesById.get(t.category_id).name}
         accountLabel={this.props.accountsById.get(t.account_id).name}
         transferAccountLabel={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
@@ -46,6 +52,7 @@ class TransactionTable extends React.Component {
             key={'sub' + st.id}
             subtransaction={st}
 
+            showAccount={this.props.showAccount}
             categoryLabel={this.props.categoriesById.get(st.category_id) && this.props.categoriesById.get(st.category_id).name}
 
             onClick={() => this.props.selectTransaction(t.id) }
@@ -58,6 +65,7 @@ class TransactionTable extends React.Component {
         <thead>
           <tr>
             <th />
+            {this.props.showAccount && <th>Account</th>}
             <th>Date</th>
             <th>Payee</th>
             <th>Category</th>

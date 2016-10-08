@@ -1,8 +1,6 @@
 import React from 'react';
 import TransactionToolbar from './TransactionToolbar';
 import TransactionTable from './TransactionTable';
-import { connect } from 'react-redux';
-import {getTransactions} from '../selectors/transactions';
 import Immutable from 'immutable';
 import ui from 'redux-ui';
 
@@ -26,21 +24,14 @@ TransactionContainer (props: transactions, showAccountByDefault; ui: showAccount
     TransactionRow
 */
 
-const mapStateToProps = (state) => {
-  return {
-    transactions: getTransactions(state)
-  };
-};
-
-
 @ui({
   state: {
     selectedTransactions: Immutable.Set(),
     editingTransactionId: null,
-    addingTransaction: false
+    addingTransaction: false,
+    showAccount: false
   }
 })
-@connect(mapStateToProps)
 export default class TransactionContainer extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
@@ -63,6 +54,7 @@ export default class TransactionContainer extends React.Component {
         <TransactionToolbar />
         <TransactionTable
           transactions={this.props.transactions}
+          showAccount={this.props.ui.showAccount}
           selectTransaction={(id) => this.selectTransaction(id) }
         />
       </div>

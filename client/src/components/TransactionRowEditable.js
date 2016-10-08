@@ -71,7 +71,7 @@ export default class TransactionRowEditable extends React.Component {
     categories: React.PropTypes.array.isRequired,
     payees: React.PropTypes.array.isRequired,
 
-    // Todo, use a boolean that tells whether or not to have a field for the account
+    showAccount: React.PropTypes.bool.isRequired,
     selectedAccount: React.PropTypes.number.isRequired,
 
     // Provided by redux-form
@@ -93,6 +93,7 @@ export default class TransactionRowEditable extends React.Component {
         <td>
           { this.props.onCancel && <Link onClick={::this.props.onCancel}><FontAwesome name='ban' /></Link> }
         </td>
+        {this.props.showAccount && <td />}
         <td>
           <Field name='datee' component={DatePickerField} />
         </td>

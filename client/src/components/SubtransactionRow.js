@@ -10,6 +10,7 @@ export default class SubtransactionRow extends React.Component {
       description: React.PropTypes.string,
       amount: React.PropTypes.number
     }),
+    showAccount: React.PropTypes.bool.isRequired,
     categoryLabel: React.PropTypes.string,
     onClick: React.PropTypes.func
   };
@@ -18,6 +19,7 @@ export default class SubtransactionRow extends React.Component {
     return (
       <tr onClick={this.props.onClick}>
         <td />
+        {this.props.showAccount && <td />}
         <td />
         <td>{this.props.subtransaction.payee}</td>
         <td>{this.props.categoryLabel}</td>

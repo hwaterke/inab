@@ -43,6 +43,9 @@ class Header extends React.Component {
               <li className="dropdown">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts <span className="caret" /></a>
                 <ul className="dropdown-menu">
+                  <li>
+                    <Link onClick={() => this.props.selectPage("ACCOUNT")}>All</Link>
+                  </li>
                   {this.props.accounts.map((account) =>
                   <li key={account.id}>
                     {account.busy && <Link><FontAwesome name='refresh' spin fixedWidth />{account.name}</Link>}

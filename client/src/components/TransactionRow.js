@@ -7,7 +7,6 @@ export default class TransactionRow extends React.Component {
   static propTypes = {
 
     transaction: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
       account_id: React.PropTypes.number.isRequired,
       date: React.PropTypes.string.isRequired,
       payee: React.PropTypes.string,
@@ -22,6 +21,7 @@ export default class TransactionRow extends React.Component {
     categoryLabel: React.PropTypes.string,
     accountLabel: React.PropTypes.string,
     transferAccountLabel: React.PropTypes.string,
+    showAccount: React.PropTypes.bool.isRequired,
 
     selected: React.PropTypes.bool,
     onClick: React.PropTypes.func,
@@ -36,6 +36,7 @@ export default class TransactionRow extends React.Component {
           {this.props.selected && <FontAwesome name='check-circle-o' />}
           {(!this.props.selected) && <FontAwesome name='circle-o' />}
         </td>
+        {this.props.showAccount && <td>{this.props.accountLabel}</td>}
         <td>{this.props.transaction.date}</td>
         <td>
           {this.props.transaction.payee || (this.props.transferAccountLabel && <div><FontAwesome name='exchange' /> {this.props.transferAccountLabel}</div>)}
