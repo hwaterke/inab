@@ -5,6 +5,19 @@ import { beginningOfMonth, createMappingSelector, createGroupingSelector, sumOf 
 // All
 export const getTransactions = state => state.transactions;
 
+export const getSortedTransactions = createSelector(
+  getTransactions,
+  transactions => transactions.sort((a,b) => {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  })
+);
+
 // Filters
 export const inMonth = createInMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));
 export const upToMonth = createUpToMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));

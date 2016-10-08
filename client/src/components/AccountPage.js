@@ -1,7 +1,7 @@
 import React from 'react';
 import TransactionContainer from './TransactionContainer';
 import { connect } from 'react-redux';
-import {getTransactions} from '../selectors/transactions';
+import {getSortedTransactions} from '../selectors/transactions';
 import {getSelectedAccount} from '../selectors/ui';
 
 const AccountPage = ({title, transactions}) => (
@@ -18,7 +18,7 @@ AccountPage.propTypes = {
 
 const mapStateToProps = (state) => {
   let title = "All";
-  let transactions = getTransactions(state);
+  let transactions = getSortedTransactions(state);
 
   const aid = getSelectedAccount(state);
 
