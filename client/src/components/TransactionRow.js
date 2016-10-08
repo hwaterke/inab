@@ -5,16 +5,26 @@ import Link from './Link';
 
 export default class TransactionRow extends React.Component {
   static propTypes = {
-    date: React.PropTypes.string,
-    payee: React.PropTypes.string,
-    category: React.PropTypes.string,
-    description: React.PropTypes.string,
-    amount: React.PropTypes.number,
+
+    transaction: React.PropTypes.shape({
+      id: React.PropTypes.number.isRequired,
+      account_id: React.PropTypes.number.isRequired,
+      date: React.PropTypes.string.isRequired,
+      payee: React.PropTypes.string,
+      category_id: React.PropTypes.number,
+      description: React.PropTypes.string,
+      amount: React.PropTypes.number,
+      type: React.PropTypes.string.isRequired,
+
+      busy: React.PropTypes.bool
+    }),
+
+    categoryLabel: React.PropTypes.string,
+    accountLabel: React.PropTypes.string,
+    transferAccountLabel: React.PropTypes.string,
+
     selected: React.PropTypes.bool,
-    busy: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    type: React.PropTypes.string.isRequired,
-    transfer_account: React.PropTypes.string,
     handlePencilClick: React.PropTypes.func
   };
 
@@ -22,21 +32,21 @@ export default class TransactionRow extends React.Component {
     return (
       <tr onClick={this.props.onClick}>
         <td>
-          {this.props.busy && <FontAwesome name='refresh' spin />}
+          {this.props.transaction.busy && <FontAwesome name='refresh' spin />}
           {this.props.selected && <FontAwesome name='check-circle-o' />}
           {(!this.props.selected) && <FontAwesome name='circle-o' />}
         </td>
-        <td>{this.props.date}</td>
+        <td>{this.props.transaction.date}</td>
         <td>
-          {this.props.payee || (this.props.transfer_account && <div><FontAwesome name='exchange' /> {this.props.transfer_account}</div>)}
+          {this.props.transaction.payee || (this.props.transferAccountLabel && <div><FontAwesome name='exchange' /> {this.props.transferAccountLabel}</div>)}
         </td>
         <td>
-          {this.props.type == 'to_be_budgeted' && "To be budgeted"}
-          {this.props.type == 'regular' && this.props.category}
-          {this.props.type == 'split' && "Split"}
+          {this.props.transaction.type == 'to_be_budgeted' && "To be budgeted"}
+          {this.props.transaction.type == 'regular' && this.props.categoryLabel}
+          {this.props.transaction.type == 'split' && "Split"}
         </td>
-        <td>{this.props.description}</td>
-        <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} color /></td>
+        <td>{this.props.transaction.description}</td>
+        <td style={{textAlign: 'right'}}><Amount amount={this.props.transaction.amount} color /></td>
         <td><Link onClick={this.props.handlePencilClick}><FontAwesome name='pencil' /></Link></td>
       </tr>
     );

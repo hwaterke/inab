@@ -32,16 +32,13 @@ class TransactionTable extends React.Component {
     this.props.transactions.forEach(t => {
       rows.push(<TransactionRow
         key={t.id}
-        busy={t.busy}
-        id={t.id}
-        date={t.date}
-        payee={t.payee}
-        category={this.props.categoriesById.get(t.category_id) && this.props.categoriesById.get(t.category_id).name}
-        description={t.description}
-        amount={t.amount}
-        transfer_account={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
+        transaction={t}
+
+        categoryLabel={this.props.categoriesById.get(t.category_id) && this.props.categoriesById.get(t.category_id).name}
+        accountLabel={this.props.accountsById.get(t.account_id).name}
+        transferAccountLabel={t.transfer_account_id && this.props.accountsById.get(t.transfer_account_id).name}
+
         selected={this.props.ui.selectedTransactions.has(t.id)}
-        type={t.type}
         onClick={() => this.props.selectTransaction(t.id) }
         handlePencilClick={() => this.props.updateUI({editingTransactionId: t.id, addingTransaction: false}) }
       />);
