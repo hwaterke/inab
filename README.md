@@ -13,7 +13,8 @@ With the following command `docker-compose up`, you will get the following:
 * No need to install ruby (server)
 * Client code is compiled automatically
 * Server starts on port 8080
-* Any changes to the client code triggers a recompilation
+* Website is served at localhost:3000
+* Any change to the client code triggers a recompilation
 * Any change to the server code restarts it
 
 ## TODO
