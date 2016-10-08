@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import transactionsReducers from './transactions';
-import subtransactionsReducers from './subtransactions';
 import accountsReducers from './accounts';
 import categoriesReducers from './categories';
 import categoryGroupsReducers from './categoryGroups';
@@ -25,7 +24,6 @@ function selectedPageReducer(state = {name: 'BUDGET'}, action) {
 export default combineReducers({
   selectedPage: selectedPageReducer,
   transactions: transactionsReducers,
-  subtransactions: subtransactionsReducers,
   accounts: accountsReducers,
   categories: categoriesReducers,
   categoryGroups: categoryGroupsReducers,

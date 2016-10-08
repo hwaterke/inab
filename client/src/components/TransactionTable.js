@@ -5,7 +5,6 @@ import TransactionRowEditableNew from './TransactionRowEditableNew';
 import SubtransactionRow from './SubtransactionRow';
 import {getCategoriesById} from '../selectors/categories';
 import {getAccountsById} from '../selectors/accounts';
-import {getSubtransactionsByTransactionId} from '../selectors/subtransactions';
 import ui from 'redux-ui';
 
 /*
@@ -19,7 +18,6 @@ class TransactionTable extends React.Component {
     transactions: React.PropTypes.array.isRequired,
     categoriesById: React.PropTypes.instanceOf(Map).isRequired,
     accountsById: React.PropTypes.instanceOf(Map).isRequired,
-    subtransactionsByTransactionId: React.PropTypes.instanceOf(Map).isRequired,
     selectTransaction: React.PropTypes.func.isRequired
   };
 
@@ -43,18 +41,16 @@ class TransactionTable extends React.Component {
         handlePencilClick={() => this.props.updateUI({editingTransactionId: t.id, addingTransaction: false}) }
       />);
 
-      if (this.props.subtransactionsByTransactionId.get(t.id)) {
-        this.props.subtransactionsByTransactionId.get(t.id).forEach(subt => {
-          rows.push(<SubtransactionRow
-              key={'sub' + subt.id}
-              payee={subt.payee}
-              category={this.props.categoriesById.get(subt.category_id) && this.props.categoriesById.get(subt.category_id).name}
-              description={subt.description}
-              amount={subt.amount}
-              onClick={() => this.props.selectTransaction(t.id) }
-            />);
-        });
-      }
+      t.subtransactions.forEach((st) => {
+        rows.push(<SubtransactionRow
+            key={'sub' + st.id}
+            subtransaction={st}
+
+            categoryLabel={this.props.categoriesById.get(st.category_id) && this.props.categoriesById.get(st.category_id).name}
+
+            onClick={() => this.props.selectTransaction(t.id) }
+          />);
+      });
     });
 
     return (
@@ -81,8 +77,7 @@ class TransactionTable extends React.Component {
 const mapStateToProps = (state) => {
   return {
     categoriesById: getCategoriesById(state),
-    accountsById: getAccountsById(state),
-    subtransactionsByTransactionId: getSubtransactionsByTransactionId(state)
+    accountsById: getAccountsById(state)
   };
 };
 

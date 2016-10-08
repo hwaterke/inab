@@ -3,10 +3,14 @@ import Amount from './Amount';
 
 export default class SubtransactionRow extends React.Component {
   static propTypes = {
-    payee: React.PropTypes.string,
-    category: React.PropTypes.string,
-    description: React.PropTypes.string,
-    amount: React.PropTypes.number,
+    subtransaction: React.PropTypes.shape({
+      id: React.PropTypes.number.isRequired,
+      payee: React.PropTypes.string,
+      category_id: React.PropTypes.number,
+      description: React.PropTypes.string,
+      amount: React.PropTypes.number
+    }),
+    categoryLabel: React.PropTypes.string,
     onClick: React.PropTypes.func
   };
 
@@ -15,10 +19,10 @@ export default class SubtransactionRow extends React.Component {
       <tr onClick={this.props.onClick}>
         <td />
         <td />
-        <td>{this.props.payee}</td>
-        <td>{this.props.category}</td>
-        <td>{this.props.description}</td>
-        <td style={{textAlign: 'right'}}><Amount amount={this.props.amount} color /></td>
+        <td>{this.props.subtransaction.payee}</td>
+        <td>{this.props.categoryLabel}</td>
+        <td>{this.props.subtransaction.description}</td>
+        <td style={{textAlign: 'right'}}><Amount amount={this.props.subtransaction.amount} color /></td>
         <td />
       </tr>
     );
