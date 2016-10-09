@@ -27,6 +27,16 @@ export const sumOf = (items, propName) =>
     return b[propName] == null ? a : a + b[propName];
   }, 0);
 
+/**
+ * Replaces values of a Map by applying the provided function to them.
+ */
+export const replaceValues = (aMap, mapper) => {
+  aMap.forEach((value, key) => {
+    aMap.set(key, mapper(value));
+  });
+};
+
+
 export const beginningOfMonth = (dateString) => moment(dateString).startOf('month').format("YYYY-MM-DD");
 
 export const createGroupingSelector = (itemSelector, propName) => createSelector(itemSelector, (items) => groupByKey(items, propName));

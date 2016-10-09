@@ -1,9 +1,19 @@
 import { createSelector } from 'reselect';
 import { getCategories } from "../selectors/categories";
-import { getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo } from "../selectors/transactions";
+import { getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions } from "../selectors/transactions";
 import { getBudgetItems, getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo } from "../selectors/budgetItems";
 import { beginningOfMonth, sumOf, groupBy, groupByKey } from './utils';
 import { getCurrentMonth, getPreviousMonth } from './ui';
+
+/**
+ * Returns the balance of the budget i.e. the total amount of money accross accounts.
+ */
+export const getBudgetBalance = createSelector(
+  getTransactions,
+  (transactions) => {
+    return sumOf(transactions.filter((t) => !t.transfer_account_id), 'amount');
+  }
+);
 
 // Returns the sum of all budget items and transactions by category and by month (chronological)
 const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
@@ -18,7 +28,6 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
 
     // Group budgetItems and transactions by category id and month
     const biCM = groupBy(budgetItems, (i) => i.category_id, (i) => i.month);
-    const trCM = groupBy(transactions.filter((t) => t.category_id), (i) => i.category_id, (i) => beginningOfMonth(i.date));
 
     // Add the amount of all budgetItems
     biCM.forEach((g, category_id) => {
@@ -29,13 +38,11 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
       });
     });
 
-    // Add the amount of all transactions with a valid category_id
-    trCM.forEach((g, category_id) => {
-      g.forEach((items, month) => {
-        const categoryResult = result.get(category_id);
-        categoryResult.set(month, categoryResult.get(month) || 0);
-        categoryResult.set(month, categoryResult.get(month) + sumOf(items, 'amount'));
-      });
+    flattenTransactions(transactions).forEach((ft) => {
+      const month = beginningOfMonth(ft.date);
+      const categoryResult = result.get(ft.category_id);
+      categoryResult.set(month, categoryResult.get(month) );
+      categoryResult.set(month, (categoryResult.get(month) || 0) + ft.amount);
     });
 
     // Sort the result chronologically
@@ -87,8 +94,8 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
       result.set(category_id, result.get(category_id) + sumOf(v, 'amount'));
     });
 
-    groupByKey(transactions.filter((t) => t.category_id), 'category_id').forEach((v, category_id) => {
-      result.set(category_id, result.get(category_id) + sumOf(v, 'amount'));
+    flattenTransactions(transactions).forEach((ft) => {
+      result.set(ft.category_id, result.get(ft.category_id) + ft.amount);
     });
 
     // Overspending handling. The overspending is moved to the funds available for next month.
@@ -121,10 +128,11 @@ export const getFundsForSelectedMonth = createSelector(
     total -= budgetItemsSum;
 
     // Add all the overspendings from previous months (coupel of months old)
+    const twoMonthsBack = currentMonth.clone().subtract(2, 'months');
     overspendings.forEach((v) => {
       v.forEach((overspending, month) => {
         // Only for overspending at least 2 month old.
-        if (currentMonth.subtract(2, 'months').isSameOrAfter(month)) {
+        if (twoMonthsBack.isSameOrAfter(month)) {
           total += overspending;
         }
       });

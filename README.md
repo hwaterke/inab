@@ -18,10 +18,10 @@ With the following command `docker-compose up`, you will get the following:
 * Any change to the server code restarts it
 
 ## TODO
-
-* Only show transactions of selected account
+* Creation of categories
+* Reorder categories
+* Display list of transactions for one category of the month
 * Adding transaction (handle split transactions)
-* Taking split transactions into account
 * Edit transaction inline
 * Work on a production environment
 * Write server tests

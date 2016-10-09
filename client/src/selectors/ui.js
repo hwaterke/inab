@@ -19,12 +19,12 @@ export const getCurrentMonth = createSelector(
 
 export const getPreviousMonth = createSelector(
   getCurrentMonth,
-  selectedMonth => selectedMonth.subtract(1, 'months')
+  selectedMonth => selectedMonth.clone().subtract(1, 'months')
 );
 
 export const getNextMonth = createSelector(
   getCurrentMonth,
-  selectedMonth => selectedMonth.add(1, 'months')
+  selectedMonth => selectedMonth.clone().add(1, 'months')
 );
 
 // Creates a selector that filters a list of items for a selected month

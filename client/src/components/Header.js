@@ -5,6 +5,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getAccounts, getBalanceByAccountId } from '../selectors/accounts';
+import { getBudgetBalance } from '../selectors/budget';
 import { modal } from 'react-redux-modal';
 import { selectPage } from '../actions/page';
 import FontAwesome from 'react-fontawesome';
@@ -13,7 +14,8 @@ class Header extends React.Component {
   static propTypes = {
     selectPage: React.PropTypes.func.isRequired,
     accounts: React.PropTypes.array.isRequired,
-    balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired
+    balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired,
+    budgetBalance: React.PropTypes.number.isRequired
   };
 
   createAccountModal() {
@@ -44,7 +46,11 @@ class Header extends React.Component {
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts <span className="caret" /></a>
                 <ul className="dropdown-menu">
                   <li>
-                    <Link onClick={() => this.props.selectPage("ACCOUNT")}>All</Link>
+                    <Link onClick={() => this.props.selectPage("ACCOUNT")}>
+                      All
+                      &nbsp;
+                      <Amount amount={this.props.budgetBalance} color />
+                    </Link>
                   </li>
                   {this.props.accounts.map((account) =>
                   <li key={account.id}>
@@ -68,7 +74,8 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   accounts: getAccounts(state),
-  balanceByAccountId: getBalanceByAccountId(state)
+  balanceByAccountId: getBalanceByAccountId(state),
+  budgetBalance: getBudgetBalance(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

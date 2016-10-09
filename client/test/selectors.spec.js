@@ -187,8 +187,8 @@ describe('Selectors', function() {
       utils.createInflowTBB(store, 3, 1, 7, "2016-07-07");
       const items = transactionsSelectors.upToMonth.current(store.getState());
       expect(items).toEqual([
-        { account_id: 1, amount: 3, category_id: null, date: '2016-05-05', description: null, id: 1, payee: 'Payee', transfer_account_id: null, type: "to_be_budgeted" },
-        { account_id: 1, amount: 5, category_id: null, date: '2016-06-06', description: null, id: 2, payee: 'Payee', transfer_account_id: null, type: "to_be_budgeted" }
+        { account_id: 1, amount: 3, category_id: null, date: '2016-05-05', description: null, id: 1, payee: 'Payee', transfer_account_id: null, type: "to_be_budgeted", subtransactions: [] },
+        { account_id: 1, amount: 5, category_id: null, date: '2016-06-06', description: null, id: 2, payee: 'Payee', transfer_account_id: null, type: "to_be_budgeted", subtransactions: [] }
       ]);
     });
   });
