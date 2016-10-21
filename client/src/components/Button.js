@@ -1,9 +1,15 @@
 import React from 'react';
 
 export default class Button extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    className: React.PropTypes.string
   };
 
   handleClick(e) {
@@ -15,7 +21,7 @@ export default class Button extends React.Component {
 
   render() {
     return (
-      <button type="button" className="btn btn-default" onClick={::this.handleClick}>
+      <button type="button" className={this.props.className || "btn btn-default"} onClick={this.handleClick}>
         {this.props.children}
       </button>
     );
