@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 
 const style = {
@@ -7,12 +6,17 @@ const style = {
 
 class CategoryGroupRow extends React.Component {
   static propTypes = {
-    name: React.PropTypes.string.isRequired
+    categoryGroup: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired
+    }).isRequired,
+    onClick: React.PropTypes.func
   }
 
   render() {
     return (
-      <tr><th style={style} colSpan="4">{this.props.name}</th></tr>
+      <tr>
+        <th style={style} colSpan="4" onClick={this.props.onClick}>{this.props.categoryGroup.name}</th>
+      </tr>
     );
   }
 }

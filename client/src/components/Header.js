@@ -1,4 +1,4 @@
-import AccountForm from './AccountForm';
+import AccountFormDialog from './forms/AccountFormDialog';
 import Link from './Link';
 import Amount from './Amount';
 import React from 'react';
@@ -6,25 +6,24 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getAccounts, getBalanceByAccountId } from '../selectors/accounts';
 import { getBudgetBalance } from '../selectors/budget';
-import { modal } from 'react-redux-modal';
 import { selectPage } from '../actions/page';
 import FontAwesome from 'react-fontawesome';
+import ui from 'redux-ui';
 
+@ui({
+  state: {
+    formOpen: false,
+    accountSelected: null
+  }
+})
 class Header extends React.Component {
   static propTypes = {
     selectPage: React.PropTypes.func.isRequired,
     accounts: React.PropTypes.array.isRequired,
     balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired,
-    budgetBalance: React.PropTypes.number.isRequired
+    budgetBalance: React.PropTypes.number.isRequired,
+    updateUI: React.PropTypes.func.isRequired
   };
-
-  createAccountModal() {
-    modal.add(AccountForm, {
-      size: 'small',
-      closeOnOutsideClick: true,
-      hideCloseButton: true
-    });
-  }
 
   render() {
     return (
@@ -60,7 +59,8 @@ class Header extends React.Component {
                   )}
                   <li role="separator" className="divider"></li>
                   <li>
-                    <Link onClick={::this.createAccountModal}>Add account</Link>
+                    <Link onClick={() => this.props.updateUI({formOpen: true, accountSelected: null})}>Add account</Link>
+                    <AccountFormDialog />
                   </li>
                 </ul>
               </li>

@@ -26,7 +26,10 @@ class BudgetTable extends React.Component {
   render() {
     const rows = [];
     this.props.categoryGroups.forEach(cg => {
-      rows.push(<CategoryGroupRow key={"cg"+cg.id} name={cg.name} />);
+      rows.push(<CategoryGroupRow
+        key={"cg"+cg.id}
+        categoryGroup={cg}
+        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, formOpen: true})} />);
       if (this.props.categoriesByGroupId.get(cg.id)) {
         this.props.categoriesByGroupId.get(cg.id).forEach(c => {
           rows.push(<CategoryRow

@@ -18,6 +18,7 @@ With the following command `docker-compose up`, you will get the following:
 * Any change to the server code restarts it
 
 ## TODO
+* Modal for errors
 * Creation of categories
 * Reorder categories
 * Display list of transactions for one category of the month

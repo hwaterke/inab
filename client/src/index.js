@@ -1,26 +1,22 @@
-import createLogger from 'redux-logger';
-import thunk from 'redux-thunk';
-import reducer from './reducers';
-import { applyMiddleware, createStore } from 'redux';
 import { render } from 'react-dom';
-import ReduxModal from 'react-redux-modal';
 import React from 'react';
 import Main from './components/Main';
 import { Provider } from 'react-redux';
 import './styles/modal.css';
 import 'font-awesome/css/font-awesome.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import configureStore from './store/configureStore';
 
-const store = createStore(
-  reducer,
-  applyMiddleware(thunk, createLogger())
-);
+injectTapEventPlugin();
+
+const store = configureStore();
 
 render(
   <Provider store={store} >
-    <div>
+    <MuiThemeProvider>
       <Main />
-      <ReduxModal />
-    </div>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')
 );
