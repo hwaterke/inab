@@ -4,7 +4,7 @@ import FontAwesome from 'react-fontawesome';
 
 const ButtonDelete = ({onClick}) => (
   <Button className="btn btn-danger" onClick={onClick}>
-    <FontAwesome name='trash' />
+    <FontAwesome name='trash' fixedWidth />
   </Button>
 );
 
