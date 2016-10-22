@@ -20,6 +20,7 @@ class SimpleSelectCreateField extends React.Component {
     })).isRequired,
     onValueChange: React.PropTypes.func,
     input: React.PropTypes.shape({
+      value: React.PropTypes.any.isRequired,
       onChange: React.PropTypes.func.isRequired
     }).isRequired
   };
@@ -53,6 +54,7 @@ class SimpleSelectCreateField extends React.Component {
         disabled={this.props.disabled}
         options={this.state.options}
         createFromSearch={this.createFromSearch}
+        defaultValue={this.state.options.find((i) => i.value == this.props.input.value)}
         onValueChange={this.onValueChangeInternal} />
     );
   }

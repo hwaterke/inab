@@ -7,6 +7,7 @@ const SimpleSelectField = ({placeholder, disabled, options, input}) =>
     placeholder={placeholder}
     disabled={disabled}
     options={options}
+    defaultValue={options.find((i) => i.value == input.value)}
     onValueChange={item => input.onChange(item && item.value)} />;
 
 SimpleSelectField.propTypes = {
@@ -17,6 +18,7 @@ SimpleSelectField.propTypes = {
     value: React.PropTypes.any.isRequired
   })).isRequired,
   input: React.PropTypes.shape({
+    value: React.PropTypes.any.isRequired,
     onChange: React.PropTypes.func.isRequired
   }).isRequired
 };
