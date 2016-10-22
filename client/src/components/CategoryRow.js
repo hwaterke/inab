@@ -10,6 +10,11 @@ import FontAwesome from 'react-fontawesome';
 
 @ui()
 class CategoryRow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   static propTypes = {
     category: React.PropTypes.object.isRequired,
     activity: React.PropTypes.number,
@@ -27,30 +32,29 @@ class CategoryRow extends React.Component {
     }
   }
 
+  onSubmit(data) {
+    const m = moment([this.props.ui.year, this.props.ui.month - 1]);
+    if (this.props.budgetItem) {
+      this.props.update({
+        id: this.props.budgetItem.id,
+        month: m.format("YYYY-MM-DD"),
+        category_id: this.props.category.id,
+        amount: Number(data.amount) * 100
+      });
+    } else {
+      this.props.create({
+        month: m.format("YYYY-MM-DD"),
+        category_id: this.props.category.id,
+        amount: Number(data.amount) * 100
+      });
+    }
+    this.props.updateUI('editingCategoryId', null);
+  }
+
   render() {
     var budgetCell;
-    // TODO this is way too much logic for a component. This should be moved somwhere else.
     if (this.props.ui.editingCategoryId == this.props.category.id) {
-      const onSubmit = (data) => {
-        const m = moment([this.props.ui.year, this.props.ui.month - 1]);
-        if (this.props.budgetItem) {
-          this.props.update({
-            id: this.props.budgetItem.id,
-            month: m.format("YYYY-MM-DD"),
-            category_id: this.props.category.id,
-            amount: Number(data.amount) * 100
-          });
-        } else {
-          this.props.create({
-            month: m.format("YYYY-MM-DD"),
-            category_id: this.props.category.id,
-            amount: Number(data.amount) * 100
-          });
-        }
-        this.props.updateUI('editingCategoryId', undefined);
-      };
-
-      budgetCell = <Cell><BudgetItemForm onSubmit={onSubmit.bind(this)} /></Cell>;
+      budgetCell = <Cell><BudgetItemForm onSubmit={this.onSubmit} /></Cell>;
     } else {
       budgetCell = <Cell onClick={() => this.editBudgetItem()}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}<Amount amount={this.props.budgetItem && this.props.budgetItem.amount} /></Cell>;
     }
