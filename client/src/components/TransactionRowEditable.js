@@ -1,5 +1,4 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
 import { Field, reduxForm } from 'redux-form';
 import Link from './Link';
 import { getCategories } from '../selectors/categories';
@@ -8,54 +7,15 @@ import { getPayees } from '../selectors/transactions';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import { connect } from 'react-redux';
-import { SimpleSelect } from 'react-selectize';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-selectize/themes/index.css';
+import DatePickerField from './forms/fields/DatePickerField';
+import SimpleSelectField from './forms/fields/SimpleSelectField';
+import SimpleSelectCreateField from './forms/fields/SimpleSelectCreateField';
 
 const mapStateToProps = (state) => ({
   accounts: getAccounts(state),
   categories: getCategories(state),
   payees: getPayees(state)
 });
-
-const DatePickerField = (props) => <DatePicker className="form-control" selected={props.input.value} onChange={param => props.input.onChange(param)} />;
-
-const SimpleSelectField = (props) => <SimpleSelect placeholder={props.placeholder} disabled={props.disabled} options={props.options} onValueChange={item => props.input.onChange(item.value)}></SimpleSelect>;
-
-class SimpleSelectCreateField extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {options: props.options};
-  }
-
-  render() {
-    return (<SimpleSelect
-      options={this.state.options}
-      placeholder={this.props.placeholder}
-
-      createFromSearch={(options, search) => {
-        if (search.length == 0 || (options.map(function(option){
-          return option.label;
-        })).indexOf(search) > -1)
-          return null;
-        else
-          return {label: search, value: search};
-      }}
-
-      onValueChange={(item) => {
-        if (!!item && !!item.newOption) {
-          this.state.options.unshift({label: item.label, value: item.value});
-          this.setState({options: this.state.options});
-        }
-        this.props.input.onChange(item.value);
-        if (this.props.onValueChange) {
-          this.props.onValueChange(item);
-        }
-      }} />
-    );
-  }
-}
-
 
 @ui()
 @connect(mapStateToProps)
@@ -95,7 +55,9 @@ export default class TransactionRowEditable extends React.Component {
         </td>
         {this.props.showAccount && <td />}
         <td>
-          <Field name='datee' component={DatePickerField} />
+          <Field
+            name='datee'
+            component={DatePickerField} />
         </td>
         <td>
           <Field
@@ -103,17 +65,31 @@ export default class TransactionRowEditable extends React.Component {
             component={SimpleSelectCreateField}
             placeholder="Payee"
             options={payeeOptions}
-            onValueChange={(item) => this.props.updateUI('isTransfer', item.value.startsWith("transfer:"))}
-           />
+            onValueChange={(item) => this.props.updateUI('isTransfer', item && item.value.startsWith("transfer:"))} />
         </td>
         <td>
-          <Field name="category" component={SimpleSelectField} options={categoryOptions} disabled={this.props.ui.isTransfer} placeholder={this.props.ui.isTransfer ? "No category for transfers" : "Category"} />
+          <Field
+            name="category"
+            component={SimpleSelectField}
+            placeholder={this.props.ui.isTransfer ? "No category for transfers" : "Category"}
+            disabled={this.props.ui.isTransfer}
+            options={categoryOptions} />
         </td>
         <td>
-          <Field name="description" component="input" className="form-control" type="text" placeholder="Description" />
+          <Field
+            name="description"
+            component="input"
+            className="form-control"
+            type="text"
+            placeholder="Description" />
         </td>
         <td>
-          <Field name="amount" component="input" className="form-control" type="text" placeholder="Amount" />
+          <Field
+            name="amount"
+            component="input"
+            className="form-control"
+            type="text"
+            placeholder="Amount" />
         </td>
         <td>
           <Link onClick={this.props.handleSubmit}>
