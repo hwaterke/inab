@@ -19,11 +19,12 @@ class CategoryRow extends React.Component {
     category: React.PropTypes.object.isRequired,
     activity: React.PropTypes.number,
     available: React.PropTypes.number,
-    ui: React.PropTypes.object,
-    updateUI: React.PropTypes.func,
+    ui: React.PropTypes.object.isRequired,
+    updateUI: React.PropTypes.func.isRequired,
     create: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
-    budgetItem: React.PropTypes.object
+    budgetItem: React.PropTypes.object,
+    onNameClick: React.PropTypes.func
   }
 
   editBudgetItem() {
@@ -61,7 +62,7 @@ class CategoryRow extends React.Component {
 
     return (
       <tr>
-        <Cell>{this.props.category.name}</Cell>
+        <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td><Amount amount={this.props.activity} /></td>
         <td><Amount amount={this.props.available} color /></td>

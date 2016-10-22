@@ -24,7 +24,7 @@ class CategoryGroupForm extends React.Component {
     categoryGroup: React.PropTypes.shape({
       id: React.PropTypes.number.isRequired
     }),
-    postSubmit: React.PropTypes.func.isRequired,
+    postSubmit: React.PropTypes.func,
     handleSubmit: React.PropTypes.func.isRequired
   };
 

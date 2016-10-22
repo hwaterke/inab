@@ -22,13 +22,13 @@ class AccountFormDialog extends React.Component {
 
   handleOpenNew() {
     this.props.updateUI({
-      formOpen: true,
+      accountFormOpen: true,
       accountSelected: null
     });
   }
 
   handleClose() {
-    this.props.updateUI('formOpen', false);
+    this.props.updateUI('accountFormOpen', false);
   }
 
   render() {
@@ -38,7 +38,7 @@ class AccountFormDialog extends React.Component {
         title="Account"
         modal={false}
         actions={[closeButton]}
-        open={this.props.ui.formOpen}
+        open={this.props.ui.accountFormOpen}
         onRequestClose={this.handleClose}>
         <AccountForm
           account={this.props.ui.accountSelected && this.props.accountsById.get(this.props.ui.accountSelected)}

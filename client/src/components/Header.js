@@ -12,7 +12,7 @@ import ui from 'redux-ui';
 
 @ui({
   state: {
-    formOpen: false,
+    accountFormOpen: false,
     accountSelected: null
   }
 })
@@ -59,7 +59,7 @@ class Header extends React.Component {
                   )}
                   <li role="separator" className="divider"></li>
                   <li>
-                    <Link onClick={() => this.props.updateUI({formOpen: true, accountSelected: null})}>Add account</Link>
+                    <Link onClick={() => this.props.updateUI({accountFormOpen: true, accountSelected: null})}>Add account</Link>
                     <AccountFormDialog />
                   </li>
                 </ul>

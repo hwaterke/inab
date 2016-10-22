@@ -1,14 +1,14 @@
 import React from 'react';
 import Button from '../Button';
-import CategoryGroupForm from './CategoryGroupForm';
-import FontAwesome from 'react-fontawesome';
+import CategoryForm from './CategoryForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
-import { getCategoryGroupsById } from '../../selectors/categoryGroups';
+import FontAwesome from 'react-fontawesome';
+import { getCategoriesById } from '../../selectors/categories';
 import { connect } from 'react-redux';
 
 @ui()
-class CategoryGroupFormDialog extends React.Component {
+class CategoryFormDialog extends React.Component {
   constructor(props) {
     super(props);
     this.handleOpenNew = this.handleOpenNew.bind(this);
@@ -18,33 +18,33 @@ class CategoryGroupFormDialog extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    categoryGroupsById: React.PropTypes.instanceOf(Map).isRequired
+    categoriesById: React.PropTypes.instanceOf(Map).isRequired
   };
 
   handleOpenNew() {
     this.props.updateUI({
-      categoryGroupFormOpen: true,
-      categoryGroupSelected: null
+      categoryFormOpen: true,
+      categorySelected: null
     });
   }
 
   handleClose() {
-    this.props.updateUI('categoryGroupFormOpen', false);
+    this.props.updateUI('categoryFormOpen', false);
   }
 
   render() {
     const closeButton = <Button onClick={this.handleClose}>Close</Button>;
     return (
       <span>
-        <Button onClick={this.handleOpenNew}><FontAwesome name='plus' /> Group</Button>
+        <Button onClick={this.handleOpenNew}><FontAwesome name='plus' /> Category</Button>
         <Dialog
           title="Category group"
           modal={false}
           actions={[closeButton]}
-          open={this.props.ui.categoryGroupFormOpen}
+          open={this.props.ui.categoryFormOpen}
           onRequestClose={this.handleClose}>
-          <CategoryGroupForm
-            categoryGroup={this.props.ui.categoryGroupSelected && this.props.categoryGroupsById.get(this.props.ui.categoryGroupSelected)}
+          <CategoryForm
+            category={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
             postSubmit={this.handleClose} />
         </Dialog>
       </span>
@@ -53,7 +53,7 @@ class CategoryGroupFormDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  categoryGroupsById: getCategoryGroupsById(state)
+  categoriesById: getCategoriesById(state)
 });
 
-export default connect(mapStateToProps)(CategoryGroupFormDialog);
+export default connect(mapStateToProps)(CategoryFormDialog);

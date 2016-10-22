@@ -20,7 +20,8 @@ class BudgetTable extends React.Component {
     categoriesByGroupId: React.PropTypes.instanceOf(Map).isRequired,
     getSelectedMonthActivityByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
-    availableByCategory: React.PropTypes.instanceOf(Map).isRequired
+    availableByCategory: React.PropTypes.instanceOf(Map).isRequired,
+    updateUI: React.PropTypes.func.isRequired
   }
 
   render() {
@@ -29,12 +30,13 @@ class BudgetTable extends React.Component {
       rows.push(<CategoryGroupRow
         key={"cg"+cg.id}
         categoryGroup={cg}
-        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, formOpen: true})} />);
+        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, categoryGroupFormOpen: true})} />);
       if (this.props.categoriesByGroupId.get(cg.id)) {
         this.props.categoriesByGroupId.get(cg.id).forEach(c => {
           rows.push(<CategoryRow
             key={"c"+c.id}
             category={c}
+            onNameClick={() => this.props.updateUI({categorySelected: c.id, categoryFormOpen: true})}
             budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.id)}
             activity={this.props.getSelectedMonthActivityByCategoryId.get(c.id)}
             available={this.props.availableByCategory.get(c.id)} />);

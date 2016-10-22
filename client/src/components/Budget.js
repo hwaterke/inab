@@ -3,6 +3,7 @@ import BudgetTable from './BudgetTable';
 import ui from 'redux-ui';
 import Amount from './Amount';
 import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
+import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import { connect } from "react-redux";
 import { getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture } from "../selectors/budget";
@@ -21,8 +22,10 @@ const mapStateToProps = state => ({
   state: {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
-    formOpen: false,
-    categoryGroupSelected: null
+    categoryGroupFormOpen: false,
+    categoryGroupSelected: null,
+    categoryFormOpen: false,
+    categorySelected: null
   }
 })
 @connect(mapStateToProps)
@@ -48,6 +51,7 @@ export default class BudgetPage extends React.Component {
         </ul>
         <div>
           <CategoryGroupFormDialog />
+          <CategoryFormDialog />
           <MonthSelector />
         </div>
         <BudgetTable />
