@@ -6,7 +6,6 @@ import categoryGroupsReducers from './categoryGroups';
 import budgetItemsReducers from './budgetItems';
 import {reducer as formReducer} from 'redux-form';
 import * as types from '../actions/types';
-import {reducer as modalReducer} from 'react-redux-modal';
 import { reducer as uiReducer } from 'redux-ui';
 
 function selectedPageReducer(state = {name: 'BUDGET'}, action) {
@@ -29,6 +28,5 @@ export default combineReducers({
   categoryGroups: categoryGroupsReducers,
   budgetItems: budgetItemsReducers,
   form: formReducer,
-  modals: modalReducer,
   ui: uiReducer
 });
