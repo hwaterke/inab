@@ -54,7 +54,7 @@ class SimpleSelectCreateField extends React.Component {
         disabled={this.props.disabled}
         options={this.state.options}
         createFromSearch={this.createFromSearch}
-        defaultValue={this.state.options.find((i) => i.value == this.props.input.value)}
+        value={this.state.options.find((i) => i.value == this.props.input.value)}
         onValueChange={this.onValueChangeInternal} />
     );
   }
