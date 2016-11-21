@@ -4,6 +4,7 @@ import accountsReducers from './accounts';
 import categoriesReducers from './categories';
 import categoryGroupsReducers from './categoryGroups';
 import budgetItemsReducers from './budgetItems';
+import errorsReducer from './errors';
 import {reducer as formReducer} from 'redux-form';
 import * as types from '../actions/types';
 import { reducer as uiReducer } from 'redux-ui';
@@ -28,5 +29,6 @@ export default combineReducers({
   categoryGroups: categoryGroupsReducers,
   budgetItems: budgetItemsReducers,
   form: formReducer,
-  ui: uiReducer
+  ui: uiReducer,
+  errors: errorsReducer
 });

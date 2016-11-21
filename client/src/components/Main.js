@@ -4,7 +4,7 @@ import EntityLoader from './EntityLoader';
 import BudgetPage from './Budget';
 import AccountPage from './AccountPage';
 import { connect } from 'react-redux';
-
+import ErrorList from './ErrorList';
 
 class Main extends React.Component {
   render() {
@@ -15,6 +15,7 @@ class Main extends React.Component {
           <div className="row">
             <EntityLoader />
             <div className="col-md-12">
+              <ErrorList />
               {(this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />}
             </div>
           </div>

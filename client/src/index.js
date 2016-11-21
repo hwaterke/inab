@@ -6,6 +6,7 @@ import './styles/modal.css';
 import 'font-awesome/css/font-awesome.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+// eslint-disable-next-line import/default
 import configureStore from './store/configureStore';
 
 injectTapEventPlugin();

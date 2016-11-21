@@ -1,7 +1,7 @@
-import reduxCrud from 'redux-crud';
-import * as constants from 'redux-crud';
+import reduxCrud, * as constants from 'redux-crud';
 import axios from 'axios';
 import cuid from 'cuid';
+import {addError} from './error.js';
 
 function asyncActionCreatorsFor(resourceName, config) {
   if (resourceName == null) throw new Error('asyncActionCreatorsFor: Expected resourceName');
@@ -27,8 +27,8 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.fetchSuccess(response.data.data));
         }, function(response) {
           dispatch(standardActionCreators.fetchError(response.data));
-        }).catch(function(error) {
-          console.error(error.toString());
+        }).catch(function(err) {
+          addError(err.toString());
         });
 
         return promise;
@@ -55,7 +55,7 @@ function asyncActionCreatorsFor(resourceName, config) {
         }, function(error) {
           dispatch(standardActionCreators.createError(error.data, resource));
         }).catch(function(err) {
-          console.log(err.toString());
+          addError(err.toString());
         });
 
         return promise;
@@ -78,7 +78,7 @@ function asyncActionCreatorsFor(resourceName, config) {
         }, function(error) {
           dispatch(standardActionCreators.updateError(error.data, resource));
         }).catch(function(err) {
-          console.log(err.toString());
+          addError(err.toString());
         });
 
         return promise;
@@ -100,7 +100,7 @@ function asyncActionCreatorsFor(resourceName, config) {
         }, function(error) {
           dispatch(standardActionCreators.deleteError(error.data, resource));
         }).catch(function(err) {
-          console.log(err.toString());
+          addError(err.toString());
         });
 
         return promise;
