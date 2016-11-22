@@ -1,0 +1,11 @@
+FROM ruby
+
+WORKDIR /app/server
+COPY Gemfile* ./
+RUN bundle install
+
+ENV RACK_ENV production
+ENV APPSERVER thin
+EXPOSE 8080
+
+CMD bundle exec rackup --host :: -p 8080 -s $APPSERVER

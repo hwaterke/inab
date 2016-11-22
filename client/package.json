@@ -11,7 +11,7 @@
     "remove-dist": "rimraf ./dist",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
-    "build": "babel-node tools/build.js && npm run open:dist",
+    "build": "babel-node tools/build.js",
 
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",

@@ -4,6 +4,17 @@
 
 INAB is a budgeting tool.
 
+# Production
+
+## Build the client files.
+Go to the `client/` folder and run `./build.sh`
+
+## Deploy the API
+Copy the `server/` folder on your host and run the `docker-compose` inside.
+
+## Use NGINX to serve the client files and redirect the api to the container.
+See github.com/hwaterke/proxy to achieve this.
+
 # Development
 
 The docker-compose file at the root of the project can be used for development.
@@ -18,13 +29,10 @@ With the following command `docker-compose up`, you will get the following:
 * Any change to the server code restarts it
 
 ## TODO
-* Modal for errors
-* Creation of categories
 * Reorder categories
 * Display list of transactions for one category of the month
 * Adding transaction (handle split transactions)
-* Edit transaction inline
-* Work on a production environment
 * Write server tests
 * Add authentication to the API
 * Category goals
+* Add favicon

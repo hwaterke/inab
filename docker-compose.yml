@@ -1,9 +1,7 @@
 version: '2'
 services:
   client:
-    build:
-      context: client
-      dockerfile: Dockerfile-dev
+    image: node
     environment:
       API_HOST: api
     ports:
@@ -11,6 +9,8 @@ services:
       - "3001:3001"
     volumes:
       - ./client:/app
+    working_dir: /app
+    command: bash -c "npm install && npm start"
   api:
     build:
       context: server
