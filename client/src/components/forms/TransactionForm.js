@@ -137,7 +137,7 @@ class TransactionForm extends React.Component {
 
     // Compute the transfer_account_id
     data.transfer_account_id = null;
-    if (data.payee.startsWith("transfer:")) {
+    if (data.payee && data.payee.startsWith("transfer:")) {
       data.transfer_account_id = parseInt(data.payee.slice("transfer:".length));
       data.payee = null;
     }
