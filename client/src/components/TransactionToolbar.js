@@ -26,6 +26,11 @@ export default class TransactionToolbar extends React.Component {
     delete: React.PropTypes.func.isRequired
   };
 
+  constructor() {
+    super();
+    this.deleteTransactions = this.deleteTransactions.bind(this);
+  }
+
   deleteTransactions() {
     const records = this.props.ui.selectedTransactions.map((id) => this.props.transactionsById.get(id));
     this.props.updateUI('selectedTransactions', Immutable.Set());
@@ -38,7 +43,7 @@ export default class TransactionToolbar extends React.Component {
         <h4>Toolbar</h4>
         <Button onClick={() => this.props.updateUI({showAccount: !this.props.ui.showAccount})}><FontAwesome name='bank' /></Button>
         {this.props.accountSelected && <Button onClick={() => this.props.updateUI({addingTransaction: true, editingTransactionId: null})}><FontAwesome name='plus' /></Button>}
-        { this.props.ui.selectedTransactions.size > 0 && <Button onClick={::this.deleteTransactions}><FontAwesome name='ban' /> ({this.props.ui.selectedTransactions.size})</Button> }
+        { this.props.ui.selectedTransactions.size > 0 && <Button onClick={this.deleteTransactions}><FontAwesome name='ban' /> ({this.props.ui.selectedTransactions.size})</Button> }
       </div>
     );
   }

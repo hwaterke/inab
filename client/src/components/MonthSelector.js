@@ -11,6 +11,13 @@ class MonthSelector extends React.Component {
     updateUI: React.PropTypes.func.isRequired
   };
 
+  constructor() {
+    super();
+    this.previous = this.previous.bind(this);
+    this.current = this.current.bind(this);
+    this.next = this.next.bind(this);
+  }
+
   previous() {
     const current_month = this.props.ui.month;
     if (current_month == 1) {
@@ -37,9 +44,9 @@ class MonthSelector extends React.Component {
   render() {
     return (
       <div className="btn-group" role="group">
-        <Button onClick={::this.previous}><FontAwesome name='arrow-left' /></Button>
-        <Button onClick={::this.current}>{this.props.ui.month}-{this.props.ui.year}</Button>
-        <Button onClick={::this.next}><FontAwesome name='arrow-right' /></Button>
+        <Button onClick={this.previous}><FontAwesome name='arrow-left' /></Button>
+        <Button onClick={this.current}>{this.props.ui.month}-{this.props.ui.year}</Button>
+        <Button onClick={this.next}><FontAwesome name='arrow-right' /></Button>
       </div>
     );
   }
