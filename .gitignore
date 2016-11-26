@@ -2,6 +2,7 @@ client/dist
 client/public/app.js
 client/public/app.css
 .DS_Store
+.idea
 
 ### Below is whatever came from Github
 # Logs
