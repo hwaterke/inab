@@ -1,6 +1,7 @@
 DB.create_table? :category_groups do
   primary_key :id
   String :name, null: false, unique: true
+  Integer :priority, null: false, default: 0
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 end
