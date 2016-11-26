@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCategoryGroups } from '../selectors/categoryGroups';
+import { getSortedCategoryGroups } from '../selectors/categoryGroups';
 import { getCategoriesByGroupId } from '../selectors/categories';
 import { getAvailableByCategoryIdForSelectedMonth } from '../selectors/budget';
 import { getSelectedMonthBudgetItemsByCategoryId } from '../selectors/budgetItems';
@@ -63,7 +63,7 @@ class BudgetTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  categoryGroups: getCategoryGroups(state),
+  categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: getCategoriesByGroupId(state),
   getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state),
   getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state),

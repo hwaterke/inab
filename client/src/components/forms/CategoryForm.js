@@ -18,7 +18,8 @@ const mapStateToProps = (state) => ({
     dispatchProps, (ownProps.category != null) ? {
       initialValues: {
         category_group_id: ownProps.category.category_group_id,
-        name: ownProps.category.name
+        name: ownProps.category.name,
+        priority: ownProps.category.priority
       }
     } : null)
 )
@@ -50,7 +51,8 @@ class CategoryForm extends React.Component {
   create(data) {
     this.props.create({
       category_group_id: data.category_group_id,
-      name: data.name
+      name: data.name,
+      priority: data.priority
     });
   }
 
@@ -58,7 +60,8 @@ class CategoryForm extends React.Component {
     this.props.update({
       id: this.props.category.id,
       category_group_id: data.category_group_id,
-      name: data.name
+      name: data.name,
+      priority: data.priority
     });
   }
 
@@ -103,6 +106,15 @@ class CategoryForm extends React.Component {
               className='form-control'
               placeholder="Name"
               autoFocus />
+          </div>
+          <div className='form-group'>
+            <label>Priority</label>
+            <Field
+                name="priority"
+                component="input"
+                type="number"
+                className='form-control'
+                placeholder="Priority" />
           </div>
           <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)} />
         </form>

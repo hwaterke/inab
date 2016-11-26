@@ -1,11 +1,21 @@
 import React from 'react';
+import ButtonCheck from '../ButtonCheck';
 import ButtonDelete from '../ButtonDelete';
 import { Field, reduxForm } from 'redux-form';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import { connect } from 'react-redux';
 
 @connect(null, asyncActionCreatorsFor('category_groups'), (stateProps, dispatchProps, ownProps) =>
-  Object.assign({}, ownProps, stateProps, dispatchProps, (ownProps.categoryGroup != null) ? {initialValues: {name: ownProps.categoryGroup.name}} : null)
+  Object.assign(
+    {},
+    ownProps,
+    stateProps,
+    dispatchProps,
+    (ownProps.categoryGroup != null) ?
+      {initialValues: {
+        name: ownProps.categoryGroup.name,
+        priority: ownProps.categoryGroup.priority,
+      }} : null)
 )
 @reduxForm({form: 'categoryGroup'})
 class CategoryGroupForm extends React.Component {
@@ -30,14 +40,16 @@ class CategoryGroupForm extends React.Component {
 
   create(data) {
     this.props.create({
-      name: data.name
+      name: data.name,
+      priority: data.priority
     });
   }
 
   update(data) {
     this.props.update({
       id: this.props.categoryGroup.id,
-      name: data.name
+      name: data.name,
+      priority: data.priority
     });
   }
 
@@ -75,6 +87,16 @@ class CategoryGroupForm extends React.Component {
               placeholder="Name"
               autoFocus />
           </div>
+          <div className='form-group'>
+            <label>Priority</label>
+            <Field
+                name="priority"
+                component="input"
+                type="number"
+                className='form-control'
+                placeholder="Priority" />
+          </div>
+          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)} />
         </form>
         {this.props.categoryGroup != null && <ButtonDelete onClick={this.delete} />}
       </div>
