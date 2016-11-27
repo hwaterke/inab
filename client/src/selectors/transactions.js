@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { createInMonthSelectors, createUpToMonthSelectors } from './ui';
-import { beginningOfMonth, createMappingSelector, groupBy, sumOf, replaceValues } from './utils';
+import { beginningOfMonth, createMappingSelector, groupBy, sumOf, mapMap } from './utils';
 
 // All
 export const getTransactions = state => state.transactions;
@@ -75,6 +75,5 @@ export const flattenTransactions = (transactions) => {
 // Returns the sum of the amounts per category id for the transactions provided.
 export const sumByCategoryId = (transactions) => {
   const result = groupBy(flattenTransactions(transactions), (t) => t.category_id);
-  replaceValues(result, (v) => sumOf(v, 'amount'));
-  return result;
+  return mapMap(result, v => sumOf(v, 'amount'));
 };

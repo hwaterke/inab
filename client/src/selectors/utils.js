@@ -28,14 +28,14 @@ export const sumOf = (items, propName) =>
   }, 0);
 
 /**
- * Replaces values of a Map by applying the provided function to them.
+ * Implementation on map for Map objects.
+ * Each value if mapped by the provided mapper function.
  */
-export const replaceValues = (aMap, mapper) => {
-  aMap.forEach((value, key) => {
-    aMap.set(key, mapper(value));
-  });
+export const mapMap = (aMap, mapper) => {
+  const result = new Map();
+  aMap.forEach((value, key) => result.set(key, mapper(value, key)));
+  return result;
 };
-
 
 export const beginningOfMonth = (dateString) => moment(dateString).startOf('month').format("YYYY-MM-DD");
 
