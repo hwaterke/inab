@@ -5,7 +5,7 @@ import {getSortedTransactions} from '../selectors/transactions';
 import {getSelectedAccount} from '../selectors/ui';
 
 const AccountPage = ({title, transactions}) => (
-  <div>
+  <div className="col-md-12">
     <h1>{title}</h1>
     <TransactionContainer transactions={transactions} />
   </div>

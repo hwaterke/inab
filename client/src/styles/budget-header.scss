@@ -1,0 +1,29 @@
+.budget-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  color: rgba(255, 255, 255, 0.56);
+  background-color: #37474f;
+}
+
+.budget-header-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.budget-header-amounts-details {
+  display: flex;
+  margin: .5em;
+}
+
+.budget-header-amounts-details-amount {
+  text-align: right;
+}
+
+.budget-header-amounts-details-names {
+  margin-left: .3em;
+}

@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
+import '../styles/budget-table.scss';
 
 @ui({
   state: {
@@ -45,13 +46,13 @@ class BudgetTable extends React.Component {
     });
 
     return (
-      <table className="table">
+      <table className="table budget-table">
         <thead>
           <tr>
             <th>Category</th>
-            <th>Budgeted</th>
-            <th>Activity</th>
-            <th>Available</th>
+            <th className="right">Budgeted</th>
+            <th className="right">Activity</th>
+            <th className="right">Available</th>
           </tr>
         </thead>
         <tbody>

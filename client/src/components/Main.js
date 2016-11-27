@@ -10,14 +10,12 @@ class Main extends React.Component {
   render() {
     return (
       <div>
+        <EntityLoader />
         <Header />
         <div className="container-fluid">
           <div className="row">
-            <EntityLoader />
-            <div className="col-md-12">
-              <ErrorList />
-              {(this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />}
-            </div>
+            <ErrorList />
+            {(this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />}
           </div>
         </div>
       </div>

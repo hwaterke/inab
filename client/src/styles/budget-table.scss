@@ -1,0 +1,12 @@
+.budget-table>tbody>tr>td,
+.budget-table>tbody>tr>th {
+  padding: 5px;
+}
+
+.budget-table>tbody>tr>td.right,
+.budget-table>tbody>tr>th.right,
+.budget-table>thead>tr>td.right,
+.budget-table>thead>tr>th.right
+ {
+  text-align: right;
+}

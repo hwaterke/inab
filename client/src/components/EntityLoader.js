@@ -42,9 +42,7 @@ class EntityLoader extends React.Component {
   }
 
   render() {
-    return (
-      <span />
-    );
+    return null;
   }
 }
 

@@ -13,6 +13,8 @@ class CategoryRow extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.editBudgetItem = this.editBudgetItem.bind(this);
+    this.clearBudgetItemForm = this.clearBudgetItemForm.bind(this);
   }
 
   static propTypes = {
@@ -31,6 +33,10 @@ class CategoryRow extends React.Component {
     if ( !(this.props.budgetItem && this.props.budgetItem.busy) ) {
       this.props.updateUI('editingCategoryId', this.props.category.id);
     }
+  }
+
+  clearBudgetItemForm() {
+    this.props.updateUI('editingCategoryId', null);
   }
 
   onSubmit(data) {
@@ -55,17 +61,17 @@ class CategoryRow extends React.Component {
   render() {
     var budgetCell;
     if (this.props.ui.editingCategoryId == this.props.category.id) {
-      budgetCell = <Cell><BudgetItemForm onSubmit={this.onSubmit} /></Cell>;
+      budgetCell = <Cell className="right"><BudgetItemForm onBlur={this.clearBudgetItemForm} onSubmit={this.onSubmit} /></Cell>;
     } else {
-      budgetCell = <Cell onClick={() => this.editBudgetItem()}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}<Amount amount={this.props.budgetItem && this.props.budgetItem.amount} /></Cell>;
+      budgetCell = <Cell className="right" onClick={this.editBudgetItem}>{this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth />}<Amount amount={this.props.budgetItem && this.props.budgetItem.amount} /></Cell>;
     }
 
     return (
       <tr>
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
-        <td><Amount amount={this.props.activity} /></td>
-        <td><Amount amount={this.props.available} color /></td>
+        <td className="right"><Amount amount={this.props.activity} /></td>
+        <td className="right"><Amount amount={this.props.available} color /></td>
       </tr>
     );
   }

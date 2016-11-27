@@ -38,7 +38,7 @@ class Amount extends React.Component {
     }
 
     return (
-      <span style={styles}>{(amount / 100).toFixed(2)}</span>
+      <span style={styles}>{(amount / 100).toLocaleString(undefined, { style: 'currency', currency: 'EUR' })}</span>
     );
   }
 }

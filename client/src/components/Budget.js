@@ -7,6 +7,7 @@ import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import { connect } from "react-redux";
 import { getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture } from "../selectors/budget";
+import '../styles/budget-header.scss';
 
 const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),
@@ -41,20 +42,35 @@ export default class BudgetPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Budget Page</h1>
-        <h3>Available to budget: <Amount amount={this.props.availableToBudget} color /></h3>
-        <ul>
-          <li><Amount amount={this.props.fundsAvailable} color /> Funds</li>
-          <li><Amount amount={this.props.overspentLastMonth} color /> Overspent last month</li>
-          <li><Amount amount={this.props.budgetedThisMonth} color /> Budgeted this month</li>
-          <li><Amount amount={this.props.budgetedInFuture} color /> Budgeted in the future</li>
-        </ul>
-        <div>
+        <div className="budget-header col-md-12">
+          <MonthSelector />
+          <div className="budget-header-amounts">
+            <div>
+              <h2><Amount amount={this.props.availableToBudget} color /></h2>
+              <p>Available to budget</p>
+            </div>
+
+            <div className="budget-header-amounts-details">
+              <div>
+                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.fundsAvailable} /></div>
+                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.overspentLastMonth} /></div>
+                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.budgetedThisMonth} /></div>
+                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.budgetedInFuture} /></div>
+              </div>
+              <div className="budget-header-amounts-details-names">
+                <div>Funds</div>
+                <div>Overspent last month</div>
+                <div>Budgeted this month</div>
+                <div>Budgeted in the future</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-12">
           <CategoryGroupFormDialog />
           <CategoryFormDialog />
-          <MonthSelector />
+          <BudgetTable />
         </div>
-        <BudgetTable />
       </div>
     );
   }
