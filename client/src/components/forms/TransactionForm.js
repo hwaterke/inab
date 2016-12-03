@@ -95,7 +95,7 @@ class TransactionForm extends React.Component {
       account_id: data.account_id,
       category_id: (data.category != 'tbb' ? data.category : null),
       description: data.description,
-      amount: Number(data.amount) * 100,
+      amount: Math.round(Number(data.amount) * 100),
       subtransactions: [],
       type: data.type
     });
@@ -110,7 +110,7 @@ class TransactionForm extends React.Component {
       account_id: data.account_id,
       category_id: (data.category != 'tbb' ? data.category : null),
       description: data.description,
-      amount: Number(data.amount) * 100,
+      amount: Math.round(Number(data.amount) * 100),
       subtransactions: [],
       type: data.type
     });
