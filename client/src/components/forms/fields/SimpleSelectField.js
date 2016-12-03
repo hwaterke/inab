@@ -7,8 +7,8 @@ const SimpleSelectField = ({placeholder, disabled, options, input}) =>
     placeholder={placeholder}
     disabled={disabled}
     options={options}
-    value={options.find((i) => i.value == input.value)}
-    onValueChange={item => input.onChange(item && item.value)} />;
+    value={options.find(i => i.value == input.value)}
+    onValueChange={item => input.onChange(item ? item.value : null)} />;
 
 SimpleSelectField.propTypes = {
   placeholder: React.PropTypes.string,

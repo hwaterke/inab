@@ -18,7 +18,6 @@ class SimpleSelectCreateField extends React.Component {
       label: React.PropTypes.string.isRequired,
       value: React.PropTypes.any.isRequired
     })).isRequired,
-    onValueChange: React.PropTypes.func,
     input: React.PropTypes.shape({
       value: React.PropTypes.any.isRequired,
       onChange: React.PropTypes.func.isRequired
@@ -40,11 +39,7 @@ class SimpleSelectCreateField extends React.Component {
       this.state.options.unshift({label: item.label, value: item.value});
       this.setState({options: this.state.options});
     }
-    this.props.input.onChange(item && item.value);
-    // Call the external onValueChange if any
-    if (this.props.onValueChange) {
-      this.props.onValueChange(item);
-    }
+    this.props.input.onChange(item ? item.value : null);
   }
 
   render() {
