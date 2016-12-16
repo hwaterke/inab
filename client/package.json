@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nauktis/inab.git"
+    "url": "git+https://github.com/hwaterke/inab.git"
   },
-  "author": "Nauktis",
+  "author": "Harold Waterkeyn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Nauktis/inab/issues"
+    "url": "https://github.com/hwaterke/inab/issues"
   },
-  "homepage": "https://github.com/Nauktis/inab#readme",
+  "homepage": "https://github.com/hwaterke/inab#readme",
   "dependencies": {
     "axios": "^0.12.0",
     "cuid": "^1.3.8",
