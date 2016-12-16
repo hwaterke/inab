@@ -29,10 +29,19 @@ With the following command `docker-compose up`, you will get the following:
 * Any change to the server code restarts it
 
 ## TODO
-* Reorder categories
+* Use bootstrap via npm
+* Fix the select with add new value
+* Add a router
+* Transfers need to be rendered positive on one account and negative on the other
+* Reorder categories by drag and drop
 * Display list of transactions for one category of the month
 * Adding transaction (handle split transactions)
 * Write server tests
-* Add authentication to the API
+* Replace redux-crud, store entities by ID
 * Category goals
+* Migrate to TypeScript
+* Authentication (login/register)
+* Improve styling
 * Add favicon
+* Internationalization
+* Native Mobile App
