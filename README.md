@@ -29,9 +29,18 @@ With the following command `docker-compose up`, you will get the following:
 * Any change to the server code restarts it
 
 ## TODO
+* Aggregate stats per budget category
+* Show account balance on account page
+* Review production builds and make easier options to deploy
+* Order transactions by date and then amount (desc) on account page
+* Allow to sort on any column in the account page
 * Use bootstrap via npm
 * Fix the select with add new value
+* Add Time in addition to date for transactions?
+* Allow to search in transactions
+* Create a design identity (palette etc.)
 * Add a router
+  * Add a landing page (will be used for login)
 * Transfers need to be rendered positive on one account and negative on the other
 * Reorder categories by drag and drop
 * Display list of transactions for one category of the month
