@@ -21,7 +21,7 @@ export default class Button extends React.Component {
 
   render() {
     return (
-      <button type="button" className={this.props.className || "btn btn-default"} onClick={this.handleClick}>
+      <button type="button" className={this.props.className || "btn btn-secondary"} onClick={this.handleClick}>
         {this.props.children}
       </button>
     );

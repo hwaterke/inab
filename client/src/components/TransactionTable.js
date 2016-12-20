@@ -1,12 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import TransactionRow from './TransactionRow';
-import SubtransactionRow from './SubtransactionRow';
-import {getCategoriesById} from '../selectors/categories';
-import {getAccountsById} from '../selectors/accounts';
-import {getSelectedAccount} from '../selectors/ui';
-import ui from 'redux-ui';
-import TransactionForm from './forms/TransactionForm';
+import React from "react";
+import {connect} from "react-redux";
+import TransactionRow from "./TransactionRow";
+import SubtransactionRow from "./SubtransactionRow";
+import {getCategoriesById} from "../selectors/categories";
+import {getAccountsById} from "../selectors/accounts";
+import {getSelectedAccount} from "../selectors/ui";
+import ui from "redux-ui";
+import TransactionForm from "./forms/TransactionForm";
+import "../styles/tables.scss";
 
 @ui()
 class TransactionTable extends React.Component {
@@ -34,7 +35,7 @@ class TransactionTable extends React.Component {
         selectedAccountId={this.props.selectedAccount}
         postSubmit={() => this.props.updateUI({editingTransactionId: null, addingTransaction: false}) }
         onCancel={() => this.props.updateUI({editingTransactionId: null, addingTransaction: false}) }
-        />);
+      />);
     }
 
     this.props.transactions.forEach(t => {
@@ -45,7 +46,7 @@ class TransactionTable extends React.Component {
           transaction={t}
           postSubmit={() => this.props.updateUI({editingTransactionId: null, addingTransaction: false}) }
           onCancel={() => this.props.updateUI({editingTransactionId: null, addingTransaction: false}) }
-          />);
+        />);
       } else {
         rows.push(<TransactionRow
           key={t.id}
@@ -63,29 +64,30 @@ class TransactionTable extends React.Component {
 
         t.subtransactions.forEach((st) => {
           rows.push(<SubtransactionRow
-              key={'sub' + st.id}
-              subtransaction={st}
+            key={'sub' + st.id}
+            subtransaction={st}
 
-              showAccount={this.props.showAccount}
-              categoryLabel={this.props.categoriesById.get(st.category_id) && this.props.categoriesById.get(st.category_id).name}
+            showAccount={this.props.showAccount}
+            categoryLabel={this.props.categoriesById.get(st.category_id) && this.props.categoriesById.get(st.category_id).name}
 
-              onClick={() => this.props.selectTransaction(t.id) }
-            />);
+            selected={this.props.ui.selectedTransactions.has(t.id)}
+            onClick={() => this.props.selectTransaction(t.id) }
+          />);
         });
       }
     });
 
     return (
-      <table className="table">
+      <table className="table table-sm table-hover">
         <thead>
           <tr>
             <th />
-            {this.props.showAccount && <th>Account</th>}
+              {this.props.showAccount && <th>Account</th>}
             <th>Date</th>
             <th>Payee</th>
             <th>Category</th>
             <th>Description</th>
-            <th>Amount</th>
+            <th className="right">Amount</th>
             <th />
           </tr>
         </thead>

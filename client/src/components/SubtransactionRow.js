@@ -12,12 +12,13 @@ export default class SubtransactionRow extends React.Component {
     }),
     showAccount: React.PropTypes.bool.isRequired,
     categoryLabel: React.PropTypes.string,
+    selected: React.PropTypes.bool,
     onClick: React.PropTypes.func
   };
 
   render() {
     return (
-      <tr onClick={this.props.onClick}>
+      <tr onClick={this.props.onClick} className={this.props.selected && 'table-active'}>
         <td />
         {this.props.showAccount && <td />}
         <td />

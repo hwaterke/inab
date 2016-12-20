@@ -1,15 +1,14 @@
-import AccountFormDialog from './forms/AccountFormDialog';
-import Link from './Link';
-import Amount from './Amount';
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { getAccounts, getBalanceByAccountId } from '../selectors/accounts';
-import { getBudgetBalance } from '../selectors/budget';
-import { selectPage } from '../actions/page';
-import FontAwesome from 'react-fontawesome';
-import ui from 'redux-ui';
-import '../styles/navbar-fix.scss';
+import AccountFormDialog from "./forms/AccountFormDialog";
+import Link from "./Link";
+import Amount from "./Amount";
+import React from "react";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {getAccounts, getBalanceByAccountId} from "../selectors/accounts";
+import {getBudgetBalance} from "../selectors/budget";
+import {selectPage} from "../actions/page";
+import FontAwesome from "react-fontawesome";
+import ui from "redux-ui";
 
 @ui({
   state: {
@@ -28,46 +27,65 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-inverse navbar-static-top">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-inab" aria-expanded="false">
-              <span className="sr-only">Toggle navigation</span>
-              <FontAwesome name='bars' fixedWidth />
-            </button>
-            <Link className="navbar-brand" onClick={() => this.props.selectPage('BUDGET')}>INAB</Link>
-          </div>
-          <div className="navbar-collapse collapse" id="navbar-inab">
-            <ul className="nav navbar-nav">
-              <li>
-                <Link onClick={() => this.props.selectPage('BUDGET')}>Budget</Link>
-              </li>
-              <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts <span className="caret" /></a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link onClick={() => this.props.selectPage("ACCOUNT")}>
-                      All
-                      &nbsp;
-                      <Amount amount={this.props.budgetBalance} color />
-                    </Link>
-                  </li>
-                  {this.props.accounts.map((account) =>
-                  <li key={account.id}>
-                    {account.busy && <Link><FontAwesome name='refresh' spin fixedWidth />{account.name}</Link>}
-                    {(!account.busy) && <Link onClick={() => this.props.selectPage('ACCOUNT', account.id)}>{account.name}&nbsp;<Amount amount={this.props.balanceByAccountId.get(account.id)} color /></Link>}
-                  </li>
-                  )}
-                  <li role="separator" className="divider"></li>
-                  <li>
-                    <Link onClick={() => this.props.updateUI({accountFormOpen: true, accountSelected: null})}>Add account</Link>
-                    <AccountFormDialog />
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <nav className="navbar navbar-full navbar-dark bg-inverse">
+
+        <Link className="navbar-brand" onClick={() => this.props.selectPage('BUDGET')}>
+          INAB
+        </Link>
+
+        <ul className="nav navbar-nav">
+
+          <li className="nav-item">
+            <Link className="nav-link" onClick={() => this.props.selectPage('BUDGET')}>
+              Budget
+            </Link>
+          </li>
+
+          <li className="nav-item dropdown">
+
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="supportedContentDropdown"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+              Accounts
+            </a>
+
+            <div className="dropdown-menu" aria-labelledby="supportedContentDropdown">
+
+              <Link className="dropdown-item" onClick={() => this.props.selectPage("ACCOUNT")}>
+                All
+                &nbsp;
+                <Amount amount={this.props.budgetBalance} color/>
+              </Link>
+
+              {this.props.accounts.map((account) =>
+                account.busy ?
+                  <Link className="dropdown-item" key={account.id}>
+                    <FontAwesome name='refresh' spin fixedWidth/>
+                    {account.name}
+                  </Link>
+                  :
+                  <Link className="dropdown-item" key={account.id}
+                        onClick={() => this.props.selectPage('ACCOUNT', account.id)}>
+                    {account.name}
+                    &nbsp;
+                    <Amount amount={this.props.balanceByAccountId.get(account.id)} color/>
+                  </Link>
+              )}
+
+              <div role="separator" className="dropdown-divider"/>
+
+              <Link className="dropdown-item"
+                    onClick={() => this.props.updateUI({accountFormOpen: true, accountSelected: null})}>
+                Add account
+              </Link>
+              <AccountFormDialog />
+            </div>
+          </li>
+        </ul>
       </nav>
     );
   }

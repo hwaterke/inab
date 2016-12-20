@@ -10,7 +10,7 @@ class BudgetItemForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <Field name="amount" onBlur={this.props.onBlur} component="input" type="text" placeholder="Amount" autoFocus />
+        <Field name="amount" className="form-control" onBlur={this.props.onBlur} component="input" type="text" placeholder="Amount" autoFocus />
       </form>
     );
   }

@@ -1,28 +1,8 @@
-import React from 'react';
-import TransactionToolbar from './TransactionToolbar';
-import TransactionTable from './TransactionTable';
-import Immutable from 'immutable';
-import ui from 'redux-ui';
-
-/*
-Brainstorming
-Props:
-  * Array of transactions
-  * Show account name by default
-
-UI State:
-  * Show account name t/f
-  * Selected transactions
-
-TransactionContainer (props: transactions, showAccountByDefault; ui: showAccount, selectedTransactions)
-  TransactionToolbar (ui: selectedTransactions, showAccount)
-  TransactionTable (props: transactions, showAccount)
-    TransactionRowHeader
-    TransactionRow
-    TransactionRow
-    TransactionRow
-    TransactionRow
-*/
+import React from "react";
+import TransactionToolbar from "./TransactionToolbar";
+import TransactionTable from "./TransactionTable";
+import Immutable from "immutable";
+import ui from "redux-ui";
 
 @ui({
   state: {

@@ -30,7 +30,7 @@ export default class TransactionRow extends React.Component {
 
   render() {
     return (
-      <tr onClick={this.props.onClick}>
+      <tr onClick={this.props.onClick} className={this.props.selected && 'table-active'}>
         <td>
           {this.props.transaction.busy && <FontAwesome name='refresh' spin />}
           {this.props.selected && <FontAwesome name='check-circle-o' />}

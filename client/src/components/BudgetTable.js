@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
-import '../styles/budget-table.scss';
+import '../styles/tables.scss';
 
 @ui({
   state: {
@@ -23,7 +23,7 @@ class BudgetTable extends React.Component {
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     availableByCategory: React.PropTypes.instanceOf(Map).isRequired,
     updateUI: React.PropTypes.func.isRequired
-  }
+  };
 
   render() {
     const rows = [];
@@ -46,7 +46,7 @@ class BudgetTable extends React.Component {
     });
 
     return (
-      <table className="table budget-table">
+      <table className="table table-sm table-hover budget-table">
         <thead>
           <tr>
             <th>Category</th>
