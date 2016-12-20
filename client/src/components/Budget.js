@@ -7,7 +7,7 @@ import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import { connect } from "react-redux";
 import { getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture } from "../selectors/budget";
-import '../styles/budget-header.scss';
+import './Budget.scss';
 
 const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),
@@ -45,9 +45,10 @@ export default class BudgetPage extends React.Component {
         <div className="budget-header col-md-12">
           <MonthSelector />
           <div className="budget-header-amounts">
-            <div>
-              <h2><Amount amount={this.props.availableToBudget} color /></h2>
-              <p>Available to budget</p>
+
+            <div className="budget-header-amounts-available">
+              <Amount amount={this.props.availableToBudget} color />
+              <div>Available to budget</div>
             </div>
 
             <div className="budget-header-amounts-details">
