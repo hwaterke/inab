@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { dismissErrors } from '../actions/error.js';
-import ButtonCheck from './ButtonCheck';
+import React from "react";
+import {connect} from "react-redux";
+import {dismissErrors} from "../actions/error.js";
+import ButtonCheck from "./ButtonCheck";
 
 class ErrorDialog extends React.Component {
   static propTypes = {
@@ -10,8 +10,6 @@ class ErrorDialog extends React.Component {
   };
 
   render() {
-    const errs = this.props.errors.map((err) => <li className="list-group-item list-group-item-danger">{err}</li>);
-
     if (this.props.errors.length == 0) {
       return null;
     }
@@ -20,9 +18,13 @@ class ErrorDialog extends React.Component {
       <div className="col-md-12">
         <div>
           <ul className="list-group">
-            {errs}
+            {this.props.errors.map((err, i) =>
+              <li key={i} className="list-group-item list-group-item-danger">
+                {err}
+              </li>)
+            }
           </ul>
-          <ButtonCheck onClick={this.props.dismissErrors} />
+          <ButtonCheck onClick={this.props.dismissErrors}/>
         </div>
       </div>
     );
