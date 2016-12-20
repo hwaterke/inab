@@ -1,44 +1,28 @@
-import React from 'react';
-
-const amountStyle = {
-  fontWeight: 'bold'
-};
-
-const colorStyle = {
-  color: 'white',
-  padding: '2px 8px',
-  borderRadius: '10px'
-};
-
-const neutral = {
-  color: '#888'
-};
-
-const positiveStyle = {
-  backgroundColor: '#84ECAE'
-};
-
-const negativeStyle = {
-  backgroundColor: '#FFA48F'
-};
+import React from "react";
+import "./Amount.scss";
 
 class Amount extends React.Component {
-  static propTypes= {
+  static propTypes = {
     amount: React.PropTypes.number,
-    color: React.PropTypes.bool
+    color: React.PropTypes.bool,
+    className: React.PropTypes.string,
   };
 
   render() {
     const amount = this.props.amount || 0;
-    var styles;
+    const styles = ['amount'];
     if (this.props.color) {
-      styles = Object.assign({}, amountStyle, colorStyle, (amount >= 0 ? positiveStyle : negativeStyle));
-    } else {
-      styles = Object.assign({}, amountStyle, amount == 0 ? neutral : {} );
+      styles.push(amount < 0 ? 'amount-negative' : 'amount-positive');
+    } else if (amount == 0) {
+      styles.push('amount-faded');
     }
-
+    if (this.props.className) {
+      styles.push(this.props.className);
+    }
     return (
-      <span style={styles}>{(amount / 100).toLocaleString(undefined, { style: 'currency', currency: 'EUR' })}</span>
+      <span className={styles.join(' ')}>
+        {(amount / 100).toLocaleString(undefined, {style: 'currency', currency: 'EUR'})}
+      </span>
     );
   }
 }
