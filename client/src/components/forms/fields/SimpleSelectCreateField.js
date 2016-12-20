@@ -1,6 +1,6 @@
 import React from 'react';
 import { SimpleSelect } from 'react-selectize';
-import 'react-selectize/themes/index.css';
+import './SimpleSelect.scss';
 
 class SimpleSelectCreateField extends React.Component {
   constructor(props) {
