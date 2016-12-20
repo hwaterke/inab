@@ -34,9 +34,9 @@ module INAB
           optional :transfer_account_id, type: Integer, desc: "The id of the Account to which the transfer occured"
           requires :type, type: Symbol, desc: "The type of Transaction"
           optional :subtransactions, type: Array do
-            requires :description, type: String, desc: "The description of the Subtransaction"
+            optional :description, type: String, desc: "The description of the Subtransaction"
             requires :amount, type: Integer, desc: "The amount of the Subtransaction in cents"
-            requires :category_id, type: Integer, desc: "The id of the Category"
+            optional :category_id, type: Integer, desc: "The id of the Category"
           end
         end
       end
