@@ -38,6 +38,7 @@ class Transaction < Sequel::Model
 
   def validate
     super
+    errors.add(:account_id, ' cannot transfer to itself') if account_id == transfer_account_id
     errors.add(:amount, ' only inflows can be budgeted') if to_be_budgeted? and amount < 0
     errors.add(:payee, ' must be null for a transfer') if transfer? and payee != nil
     errors.add(:category_id, ' must be null for a transfer') if transfer? and category_id
