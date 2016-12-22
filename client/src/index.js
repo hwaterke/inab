@@ -10,6 +10,8 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import configureStore from "./store/configureStore";
 import "./styles/main.scss";
 
+// Needed for onTouchTap (material-ui)
+// http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
 const store = configureStore();
