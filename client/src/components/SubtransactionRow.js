@@ -4,7 +4,6 @@ import Amount from './Amount';
 export default class SubtransactionRow extends React.Component {
   static propTypes = {
     subtransaction: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
       payee: React.PropTypes.string,
       category_id: React.PropTypes.number,
       description: React.PropTypes.string,

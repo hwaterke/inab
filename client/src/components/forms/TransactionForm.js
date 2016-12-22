@@ -1,54 +1,140 @@
-import React from 'react';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
-import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
-import { connect } from 'react-redux';
-import { getCategories } from '../../selectors/categories';
-import { getAccounts } from '../../selectors/accounts';
-import { getPayees } from '../../selectors/transactions';
-import DatePickerField from './fields/DatePickerField';
-import SimpleSelectField from './fields/SimpleSelectField';
-import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
-import moment from 'moment';
-import ButtonCheck from '../ButtonCheck';
-import Link from '../Link';
-import FontAwesome from 'react-fontawesome';
+import React, {Component} from "react";
+import "./TransactionForm.scss";
+import {Field, FieldArray, reduxForm, formValueSelector} from "redux-form";
+import SimpleSelectField from "./fields/SimpleSelectField";
+import {connect} from "react-redux";
+import {getAccounts} from "../../selectors/accounts";
+import {getCategories} from "../../selectors/categories";
+import {getPayees} from "../../selectors/transactions";
+import DatePickerField from "./fields/DatePickerField";
+import SimpleSelectCreateField from "./fields/SimpleSelectCreateField";
+import ButtonDelete from "../ButtonDelete";
+import ButtonCheck from "../ButtonCheck";
+import Button from "../Button";
+import asyncActionCreatorsFor from "../../actions/asyncActionCreatorsFor";
+import moment from "moment";
+import {amountFromCents, amountToCents} from "../../utils/amount";
 
-const selector = formValueSelector('transactionNew');
+/**
+ * Component used for rendering the subtransaction forms
+ */
+const renderSubtransactions = ({fields, showAccount, categories}) => (
+  <div>
+    {fields.map((subtransaction, index) =>
+      <div key={index} className="tr-form-container">
+
+        {showAccount && <div />}
+
+        <div />
+
+        <div>
+          <span className="tag tag-pill tag-primary">{index + 1}</span>
+          <ButtonDelete onClick={() => fields.remove(index)}/>
+        </div>
+
+        <div>
+          <Field
+            name={`${subtransaction}.category`}
+            component={SimpleSelectField}
+            placeholder="Category"
+            options={categories}
+          />
+        </div>
+
+        <div>
+          <Field
+            name={`${subtransaction}.description`}
+            component="input"
+            className="form-control"
+            type="text"
+            placeholder="Description"
+          />
+        </div>
+
+        <div>
+          <Field
+            name={`${subtransaction}.amount`}
+            component="input"
+            className="form-control"
+            type="number"
+            placeholder="Amount"
+          />
+        </div>
+
+      </div>
+    )}
+    <div className="tr-form-container str-form-container">
+      {showAccount && <div />}
+      <div></div>
+      <div>
+        <Button onClick={() => fields.push({})}>Add Subtransaction</Button>
+      </div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+);
+
+renderSubtransactions.propTypes = {
+  fields: React.PropTypes.object.isRequired,
+  showAccount: React.PropTypes.bool.isRequired,
+  categories: React.PropTypes.arrayOf(React.PropTypes.shape({
+    label: React.PropTypes.string.isRequired,
+    value: React.PropTypes.any.isRequired
+  })).isRequired,
+};
+
+const selector = formValueSelector('transaction');
 
 const mapStateToProps = (state) => ({
   accounts: getAccounts(state),
   categories: getCategories(state),
   payees: getPayees(state),
-  payeeValue: selector(state, 'payee')
+  payeeValue: selector(state, 'payee'),
+  categoryValue: selector(state, 'category')
 });
+
+const createInitialValues = (stateProps, dispatchProps, ownProps) => {
+  const initialValues = {
+    account_id: ownProps.selectedAccountId,
+    date: moment().format("YYYY-MM-DD")
+  };
+  if (ownProps.transaction != null) {
+    initialValues.account_id = ownProps.transaction.account_id;
+    initialValues.date = ownProps.transaction.date;
+    if (ownProps.transaction.transfer_account_id) {
+      initialValues.payee = "transfer:" + ownProps.transaction.transfer_account_id;
+    } else {
+      initialValues.payee = ownProps.transaction.payee;
+    }
+    if (ownProps.transaction.type === 'to_be_budgeted') {
+      initialValues.category = 'tbb';
+    } else if (ownProps.transaction.type === 'split') {
+      initialValues.category = 'split';
+    } else {
+      initialValues.category = ownProps.transaction.category_id;
+    }
+    initialValues.description = ownProps.transaction.description;
+    initialValues.amount = amountFromCents(ownProps.transaction.amount);
+    initialValues.subtransactions = ownProps.transaction.subtransactions.map(str => ({
+      amount: amountFromCents(str.amount),
+      description: str.description,
+      category: str.category_id
+    }));
+  }
+  return Object.assign({}, ownProps, stateProps, dispatchProps, {initialValues});
+};
 
 @connect(
   mapStateToProps,
   asyncActionCreatorsFor('transactions'),
-  (stateProps, dispatchProps, ownProps) =>
-    Object.assign({}, ownProps, stateProps, dispatchProps, (ownProps.transaction != null) ? {
-      initialValues: {
-        account_id: ownProps.transaction.account_id,
-        date: ownProps.transaction.date,
-        payee: ownProps.transaction.transfer_account_id ? "transfer:" + ownProps.transaction.transfer_account_id : ownProps.transaction.payee,
-        category: ownProps.transaction.type == 'to_be_budgeted' ? 'tbb' : ownProps.transaction.category_id,
-        description: ownProps.transaction.description,
-        amount: ownProps.transaction.amount / 100
-      }
-    } : {
-      initialValues: {
-        account_id: ownProps.selectedAccountId,
-        date: moment().format("YYYY-MM-DD")
-      }
-    })
+  createInitialValues
 )
-@reduxForm({form: 'transactionNew', enableReinitialize: true})
-class TransactionForm extends React.Component {
+@reduxForm({form: 'transaction', enableReinitialize: true})
+export default class TransactionForm extends Component {
   constructor(props) {
     super(props);
-    this.create = this.create.bind(this);
-    this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -76,6 +162,10 @@ class TransactionForm extends React.Component {
     ).isRequired,
 
     payeeValue: React.PropTypes.string,
+    categoryValue: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
 
     transaction: React.PropTypes.shape({
       id: React.PropTypes.number.isRequired
@@ -87,52 +177,20 @@ class TransactionForm extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired
   };
 
-  create(data) {
-    this.props.create({
-      date: data.date,
-      transfer_account_id: data.transfer_account_id,
-      payee: data.payee,
-      account_id: data.account_id,
-      category_id: (data.category != 'tbb' ? data.category : null),
-      description: data.description,
-      amount: Math.round(Number(data.amount) * 100),
-      subtransactions: [],
-      type: data.type
-    });
-  }
-
-  update(data) {
-    this.props.update({
-      id: this.props.transaction.id,
-      date: data.date,
-      transfer_account_id: data.transfer_account_id,
-      payee: data.payee,
-      account_id: data.account_id,
-      category_id: (data.category != 'tbb' ? data.category : null),
-      description: data.description,
-      amount: Math.round(Number(data.amount) * 100),
-      subtransactions: [],
-      type: data.type
-    });
-  }
-
-  delete() {
-    this.props.delete({
-      id: this.props.transaction.id
-    });
-    if (this.props.postSubmit != null) {
-      this.props.postSubmit();
-    }
-  }
-
   onSubmit(data) {
     // Lets work on a copy of the form data
     data = Object.assign({}, data);
 
     // Compute the type of transaction
     data.type = 'regular';
-    if (data.category == 'tbb') {
+    if (data.category === 'tbb') {
       data.type = 'to_be_budgeted';
+      data.category = null;
+    } else if (data.category === 'split') {
+      data.type = 'split';
+      data.category = null;
+    } else {
+      data.category_id = data.category;
     }
 
     // Compute the transfer_account_id
@@ -142,10 +200,26 @@ class TransactionForm extends React.Component {
       data.payee = null;
     }
 
-    if (this.props.transaction != null) {
-      this.update(data);
+    data.amount = amountToCents(data.amount);
+
+    // Update the subtransactions
+    if (data.type === 'split' && data.subtransactions) {
+      data.subtransactions = data.subtransactions.map(str => ({
+        amount: amountToCents(str.amount),
+        category_id: str.category,
+        description: str.description
+      }));
     } else {
-      this.create(data);
+      data.subtransactions = [];
+    }
+
+    if (this.props.transaction != null) {
+      this.props.update({
+        ...data,
+        id: this.props.transaction.id
+      });
+    } else {
+      this.props.create(data);
     }
     if (this.props.postSubmit != null) {
       this.props.postSubmit();
@@ -154,6 +228,12 @@ class TransactionForm extends React.Component {
 
   render() {
     const categoryOptions = [
+      {label: "To be budgeted", value: "tbb"},
+      {label: "Split", value: "split"},
+      ...this.props.categories.map(c => ({label: c.name, value: c.id}))
+    ];
+
+    const subtransactionCategoryOptions = [
       {label: "To be budgeted", value: "tbb"},
       ...this.props.categories.map(c => ({label: c.name, value: c.id}))
     ];
@@ -164,59 +244,81 @@ class TransactionForm extends React.Component {
     ];
 
     return (
-      <tr>
-        <td>
-          { this.props.onCancel && <Link onClick={::this.props.onCancel}><FontAwesome name='ban' /></Link> }
-        </td>
-        {this.props.showAccount && <td>
-          <Field
-            name="account_id"
-            component={SimpleSelectField}
-            placeholder="Account"
-            options={this.props.accounts.map(cg => ({label: cg.name, value: cg.id}))} />
-        </td>}
-        <td>
-          <Field
-            name='date'
-            component={DatePickerField} />
-        </td>
-        <td>
-          <Field
-            name="payee"
-            component={SimpleSelectCreateField}
-            placeholder="Payee"
-            options={payeeOptions} />
-        </td>
-        <td>
-          <Field
-            name="category"
-            component={SimpleSelectField}
-            placeholder={(this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")) ? "No category for transfers" : "Category"}
-            disabled={this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")}
-            options={categoryOptions} />
-        </td>
-        <td>
-          <Field
-            name="description"
-            component="input"
-            className="form-control"
-            type="text"
-            placeholder="Description" />
-        </td>
-        <td>
-          <Field
-            name="amount"
-            component="input"
-            className="form-control"
-            type="text"
-            placeholder="Amount" />
-        </td>
-        <td>
-          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}/>
-        </td>
-      </tr>
+      <form className="tr-form">
+        <div className="tr-form-container">
+          {this.props.showAccount &&
+          <div>
+            <label>Account</label>
+            <Field
+              name="account_id"
+              component={SimpleSelectField}
+              placeholder="Account"
+              options={this.props.accounts.map(cg => ({label: cg.name, value: cg.id}))}
+            />
+          </div>
+          }
+
+          <div>
+            <label>Date</label>
+            <div>
+              <Field
+                name='date'
+                component={DatePickerField}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label>Payee</label>
+            <Field
+              name="payee"
+              component={SimpleSelectCreateField}
+              placeholder="Payee"
+              options={payeeOptions}
+            />
+          </div>
+
+          <div>
+            <label>Category</label>
+            <Field
+              name="category"
+              component={SimpleSelectField}
+              placeholder={(this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")) ? "No category for transfers" : "Category"}
+              disabled={this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")}
+              options={categoryOptions}
+            />
+          </div>
+
+          <div>
+            <label>Description</label>
+            <Field
+              name="description"
+              component="input"
+              className="form-control"
+              type="text"
+              placeholder="Description"
+            />
+          </div>
+
+          <div>
+            <label>Amount</label>
+            <Field
+              name="amount"
+              component="input"
+              className="form-control"
+              type="number"
+              placeholder="Amount"
+            />
+          </div>
+        </div>
+        {this.props.categoryValue === "split" &&
+        <FieldArray name="subtransactions"
+                    categories={subtransactionCategoryOptions}
+                    showAccount={this.props.showAccount}
+                    component={renderSubtransactions}/>}
+        <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}/>
+        <Button onClick={this.props.onCancel}>Cancel</Button>
+      </form>
     );
   }
 }
-
-export default TransactionForm;
