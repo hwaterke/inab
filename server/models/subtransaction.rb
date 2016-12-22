@@ -2,7 +2,7 @@ DB.create_table? :subtransactions do
   primary_key :id
   String :description
   # Amount in cents
-  Integer :amount
+  Integer :amount, null: false, default: 0
   foreign_key :category_id, :categories
   foreign_key :transaction_id, :transactions, on_delete: :cascade
   DateTime :created_at, null: false

@@ -8,7 +8,7 @@ DB.create_table? :transactions do
   String :description
 
   # Amount in cents
-  Integer :amount
+  Integer :amount, null: false, default: 0
 
   foreign_key :category_id, :categories
 
