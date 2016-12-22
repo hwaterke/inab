@@ -39,12 +39,14 @@ With the following command `docker-compose up`, you will get the following:
 * Add Time in addition to date for transactions?
 * Allow to search in transactions
 * Create a design identity (palette etc.)
+* Server side make sure dates of budget items are months
+* Server side make sure there can be only one budget item per month and category
 * Add a router
   * Add a landing page (will be used for login)
 * Transfers need to be rendered positive on one account and negative on the other
+* Disallow transfers between an account and itself
 * Reorder categories by drag and drop
 * Display list of transactions for one category of the month
-* Adding transaction (handle split transactions)
 * Write server tests
 * Replace redux-crud, store entities by ID
 * Category goals
