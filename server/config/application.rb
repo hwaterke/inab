@@ -23,6 +23,11 @@ require_relative File.join('..', 'models', 'subtransaction')
 require_relative '../api/helpers/crud_helpers'
 require_relative '../api/helpers/crud_extension'
 
+# Load all API validators
+Dir['api/validators/*.rb'].each do |f|
+  require_relative File.join('..', f)
+end
+
 # Load all entities API
 Dir['api/entities/*.rb'].each do |f|
   require_relative File.join('..', f)
