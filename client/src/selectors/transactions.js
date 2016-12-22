@@ -1,18 +1,27 @@
-import { createSelector } from 'reselect';
-import { createInMonthSelectors, createUpToMonthSelectors } from './ui';
-import { beginningOfMonth, createMappingSelector, groupBy, sumOf, mapMap } from './utils';
+import {createSelector} from "reselect";
+import {createInMonthSelectors, createUpToMonthSelectors} from "./ui";
+import {beginningOfMonth, createMappingSelector, groupBy, sumOf, mapMap} from "./utils";
 
 // All
 export const getTransactions = state => state.transactions;
 
 export const getSortedTransactions = createSelector(
   getTransactions,
-  transactions => transactions.sort((a,b) => {
+  transactions => transactions.concat().sort((a, b) => {
     if (a.date < b.date) {
       return 1;
     }
     if (a.date > b.date) {
       return -1;
+    }
+    if (a.amount != undefined && b.amount != undefined) {
+      return a.amount - b.amount;
+    }
+    if (a.amount != undefined) {
+      return -1;
+    }
+    if (b.amount != undefined) {
+      return 1;
     }
     return 0;
   })
