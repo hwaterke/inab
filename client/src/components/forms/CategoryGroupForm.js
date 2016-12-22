@@ -1,9 +1,9 @@
-import React from 'react';
-import ButtonCheck from '../ButtonCheck';
-import ButtonDelete from '../ButtonDelete';
-import { Field, reduxForm } from 'redux-form';
-import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
-import { connect } from 'react-redux';
+import React from "react";
+import ButtonCheck from "../ButtonCheck";
+import ButtonDelete from "../ButtonDelete";
+import {Field, reduxForm} from "redux-form";
+import asyncActionCreatorsFor from "../../actions/asyncActionCreatorsFor";
+import {connect} from "react-redux";
 
 @connect(null, asyncActionCreatorsFor('category_groups'), (stateProps, dispatchProps, ownProps) =>
   Object.assign(
@@ -11,11 +11,12 @@ import { connect } from 'react-redux';
     ownProps,
     stateProps,
     dispatchProps,
-    (ownProps.categoryGroup != null) ?
-      {initialValues: {
+    (ownProps.categoryGroup != null) ? {
+      initialValues: {
         name: ownProps.categoryGroup.name,
         priority: ownProps.categoryGroup.priority,
-      }} : null)
+      }
+    } : null)
 )
 @reduxForm({form: 'categoryGroup'})
 class CategoryGroupForm extends React.Component {
@@ -85,20 +86,22 @@ class CategoryGroupForm extends React.Component {
               type="text"
               className='form-control'
               placeholder="Name"
-              autoFocus />
+              autoFocus
+            />
           </div>
           <div className='form-group'>
             <label>Priority</label>
             <Field
-                name="priority"
-                component="input"
-                type="number"
-                className='form-control'
-                placeholder="Priority" />
+              name="priority"
+              component="input"
+              type="number"
+              className='form-control'
+              placeholder="Priority"
+            />
           </div>
-          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)} />
+          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}/>
         </form>
-        {this.props.categoryGroup != null && <ButtonDelete onClick={this.delete} />}
+        {this.props.categoryGroup != null && <ButtonDelete onClick={this.delete}/>}
       </div>
     );
   }
