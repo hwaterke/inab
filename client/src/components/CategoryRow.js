@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
+import {amountToCents} from "../utils/amount";
 
 @ui()
 class CategoryRow extends React.Component {
@@ -46,20 +47,20 @@ class CategoryRow extends React.Component {
         id: this.props.budgetItem.id,
         month: m.format("YYYY-MM-DD"),
         category_id: this.props.category.id,
-        amount: Number(data.amount) * 100
+        amount: amountToCents(data.amount)
       });
     } else {
       this.props.create({
         month: m.format("YYYY-MM-DD"),
         category_id: this.props.category.id,
-        amount: Number(data.amount) * 100
+        amount: amountToCents(data.amount)
       });
     }
     this.props.updateUI('editingCategoryId', null);
   }
 
   render() {
-    var budgetCell;
+    let budgetCell;
     if (this.props.ui.editingCategoryId == this.props.category.id) {
       budgetCell = <Cell className="right"><BudgetItemForm onBlur={this.clearBudgetItemForm} onSubmit={this.onSubmit} /></Cell>;
     } else {

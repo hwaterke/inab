@@ -1,5 +1,6 @@
 import React from "react";
 import "./Amount.scss";
+import {amountFromCents} from "../utils/amount";
 
 class Amount extends React.Component {
   static propTypes = {
@@ -21,7 +22,7 @@ class Amount extends React.Component {
     }
     return (
       <span className={styles.join(' ')}>
-        {(amount / 100).toLocaleString(undefined, {style: 'currency', currency: 'EUR'})}
+        {amountFromCents(amount).toLocaleString(undefined, {style: 'currency', currency: 'EUR'})}
       </span>
     );
   }
