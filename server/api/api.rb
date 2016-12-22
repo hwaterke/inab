@@ -12,6 +12,5 @@ module INAB
     mount ::INAB::Entities::Categories
     mount ::INAB::Entities::BudgetItems
     mount ::INAB::Entities::Transactions
-    mount ::INAB::Entities::Subtransactions
   end
 end
