@@ -1,15 +1,15 @@
 import React from 'react';
-import Button from './Button';
-import FontAwesome from 'react-fontawesome';
+import ButtonIcon from './ButtonIcon';
 
-const ButtonDelete = ({onClick}) => (
-  <Button className="btn btn-danger" onClick={onClick}>
-    <FontAwesome name='trash' fixedWidth />
-  </Button>
+const ButtonDelete = ({onClick, children}) => (
+  <ButtonIcon className="btn btn-danger" onClick={onClick} icon="trash">
+    {children}
+  </ButtonIcon>
 );
 
 ButtonDelete.propTypes = {
-  onClick: React.PropTypes.func
+  onClick: React.PropTypes.func,
+  children: React.PropTypes.node
 };
 
 export default ButtonDelete;

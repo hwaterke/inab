@@ -1,11 +1,11 @@
-import React from 'react';
-import Button from '../Button';
-import CategoryForm from './CategoryForm';
-import ui from 'redux-ui';
-import Dialog from 'material-ui/Dialog';
-import FontAwesome from 'react-fontawesome';
-import { getCategoriesById } from '../../selectors/categories';
-import { connect } from 'react-redux';
+import React from "react";
+import Button from "../Button";
+import CategoryForm from "./CategoryForm";
+import ui from "redux-ui";
+import Dialog from "material-ui/Dialog";
+import {getCategoriesById} from "../../selectors/categories";
+import {connect} from "react-redux";
+import ButtonIcon from "../ButtonIcon";
 
 @ui()
 class CategoryFormDialog extends React.Component {
@@ -36,7 +36,9 @@ class CategoryFormDialog extends React.Component {
     const closeButton = <Button onClick={this.handleClose}>Close</Button>;
     return (
       <span>
-        <Button onClick={this.handleOpenNew}><FontAwesome name='plus' /> Category</Button>
+        <ButtonIcon className="btn btn-info" onClick={this.handleOpenNew} icon="plus">
+            Category
+        </ButtonIcon>
         <Dialog
           title="Category group"
           modal={false}
@@ -45,7 +47,7 @@ class CategoryFormDialog extends React.Component {
           onRequestClose={this.handleClose}>
           <CategoryForm
             category={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
-            postSubmit={this.handleClose} />
+            postSubmit={this.handleClose}/>
         </Dialog>
       </span>
     );

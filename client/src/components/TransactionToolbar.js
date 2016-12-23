@@ -1,12 +1,13 @@
-import React from 'react';
-import Button from './Button';
-import FontAwesome from 'react-fontawesome';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import ui from 'redux-ui';
-import { connect } from 'react-redux';
-import { getTransactionsById } from '../selectors/transactions';
-import {getSelectedAccount} from '../selectors/ui';
-import Immutable from 'immutable';
+import React from "react";
+import asyncActionCreatorsFor from "../actions/asyncActionCreatorsFor";
+import ui from "redux-ui";
+import {connect} from "react-redux";
+import {getTransactionsById} from "../selectors/transactions";
+import {getSelectedAccount} from "../selectors/ui";
+import Immutable from "immutable";
+import ButtonIcon from "./ButtonIcon";
+import ButtonDelete from "./ButtonDelete";
+import "./TransactionToolbar.scss";
 
 const mapStateToProps = (state) => {
   return {
@@ -39,11 +40,42 @@ export default class TransactionToolbar extends React.Component {
 
   render() {
     return (
-      <div>
-        <h4>Toolbar</h4>
-        <Button onClick={() => this.props.updateUI({showAccount: !this.props.ui.showAccount})}><FontAwesome name='bank' /></Button>
-        {this.props.accountSelected && <Button onClick={() => this.props.updateUI({addingTransaction: true, editingTransactionId: null})}><FontAwesome name='plus' /></Button>}
-        { this.props.ui.selectedTransactions.size > 0 && <Button onClick={this.deleteTransactions}><FontAwesome name='ban' /> ({this.props.ui.selectedTransactions.size})</Button> }
+      <div className="btn-group transaction-toolbar">
+
+        <ButtonIcon
+          className="btn btn-success"
+          onClick={() => this.props.updateUI({showAccount: !this.props.ui.showAccount})}
+          icon="bank"
+        />
+
+        {
+          this.props.accountSelected &&
+          <ButtonIcon
+            className="btn btn-info"
+            onClick={() => this.props.updateUI({addingTransaction: true, editingTransactionId: null})}
+            icon="plus"
+          >
+            New
+          </ButtonIcon>
+        }
+
+        {
+          this.props.ui.selectedTransactions.size > 0 &&
+          <ButtonIcon
+            className="btn btn-warning"
+            onClick={() => this.props.updateUI('selectedTransactions', Immutable.Set())}
+            icon="ban"
+          >
+            Deselect ({this.props.ui.selectedTransactions.size})
+          </ButtonIcon>
+        }
+
+        {
+          this.props.ui.selectedTransactions.size > 0 &&
+          <ButtonDelete onClick={this.deleteTransactions}>
+            Delete ({this.props.ui.selectedTransactions.size})
+          </ButtonDelete>
+        }
       </div>
     );
   }

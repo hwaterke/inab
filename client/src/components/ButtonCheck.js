@@ -1,15 +1,15 @@
 import React from 'react';
-import Button from './Button';
-import FontAwesome from 'react-fontawesome';
+import ButtonIcon from './ButtonIcon';
 
-const ButtonCheck = ({onClick}) => (
-  <Button className="btn btn-primary" onClick={onClick}>
-    <FontAwesome name='check' fixedWidth />
-  </Button>
+const ButtonCheck = ({onClick, children}) => (
+  <ButtonIcon className="btn btn-primary" onClick={onClick} icon="check">
+    {children}
+  </ButtonIcon>
 );
 
 ButtonCheck.propTypes = {
-  onClick: React.PropTypes.func
+  onClick: React.PropTypes.func,
+  children: React.PropTypes.node
 };
 
 export default ButtonCheck;

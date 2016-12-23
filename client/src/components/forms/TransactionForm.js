@@ -10,6 +10,7 @@ import DatePickerField from "./fields/DatePickerField";
 import SimpleSelectCreateField from "./fields/SimpleSelectCreateField";
 import ButtonDelete from "../ButtonDelete";
 import ButtonCheck from "../ButtonCheck";
+import ButtonIcon from "../ButtonIcon";
 import Button from "../Button";
 import asyncActionCreatorsFor from "../../actions/asyncActionCreatorsFor";
 import moment from "moment";
@@ -28,8 +29,10 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
         <div />
 
         <div>
-          <span className="tag tag-pill tag-primary">{index + 1}</span>
-          <ButtonDelete onClick={() => fields.remove(index)}/>
+          <div className="btn-group btn-group-sm">
+            <Button>{index + 1}</Button>
+            <ButtonDelete onClick={() => fields.remove(index)}/>
+          </div>
         </div>
 
         <div>
@@ -67,7 +70,9 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
       {showAccount && <div />}
       <div></div>
       <div>
-        <Button onClick={() => fields.push({})}>Add Subtransaction</Button>
+        <ButtonIcon className="btn btn-info" onClick={() => fields.push({})} icon="plus">
+          Subtransaction
+        </ButtonIcon>
       </div>
       <div></div>
       <div></div>
@@ -136,6 +141,7 @@ export default class TransactionForm extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   static propTypes = {
@@ -221,6 +227,15 @@ export default class TransactionForm extends Component {
     } else {
       this.props.create(data);
     }
+    if (this.props.postSubmit != null) {
+      this.props.postSubmit();
+    }
+  }
+
+  delete() {
+    this.props.delete({
+      id: this.props.transaction.id
+    });
     if (this.props.postSubmit != null) {
       this.props.postSubmit();
     }
@@ -316,8 +331,22 @@ export default class TransactionForm extends Component {
                     categories={subtransactionCategoryOptions}
                     showAccount={this.props.showAccount}
                     component={renderSubtransactions}/>}
-        <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}/>
-        <Button onClick={this.props.onCancel}>Cancel</Button>
+
+        <div className="btn-group">
+          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}>
+            {this.props.transaction ? 'Update' : 'Create'}
+          </ButtonCheck>
+
+          <ButtonIcon onClick={this.props.onCancel} icon="ban">
+            Cancel
+          </ButtonIcon>
+
+          {
+            this.props.transaction &&
+            <ButtonDelete onClick={this.delete}>Delete</ButtonDelete>
+          }
+        </div>
+
       </form>
     );
   }
