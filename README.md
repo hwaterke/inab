@@ -30,9 +30,7 @@ With the following command `docker-compose up`, you will get the following:
 
 ## TODO
 * Aggregate stats per budget category
-* Show account balance on account page
 * Review production builds and make easier options to deploy
-* Order transactions by date and then amount (desc) on account page
 * Allow to sort on any column in the account page
 * Use bootstrap via npm
 * Fix the select with add new value
@@ -52,7 +50,6 @@ With the following command `docker-compose up`, you will get the following:
 * Category goals
 * Migrate to TypeScript
 * Authentication (login/register)
-* Improve styling
 * Add favicon
 * Internationalization
 * Native Mobile App
