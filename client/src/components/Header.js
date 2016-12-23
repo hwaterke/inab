@@ -2,13 +2,12 @@ import AccountFormDialog from "./forms/AccountFormDialog";
 import Link from "./Link";
 import Amount from "./Amount";
 import React from "react";
-import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {getAccounts, getBalanceByAccountId} from "../selectors/accounts";
 import {getBudgetBalance} from "../selectors/budget";
-import {selectPage} from "../actions/page";
 import FontAwesome from "react-fontawesome";
 import ui from "redux-ui";
+import {Link as RouterLink} from "react-router";
 
 @ui({
   state: {
@@ -18,7 +17,6 @@ import ui from "redux-ui";
 })
 class Header extends React.Component {
   static propTypes = {
-    selectPage: React.PropTypes.func.isRequired,
     accounts: React.PropTypes.array.isRequired,
     balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired,
     budgetBalance: React.PropTypes.number.isRequired,
@@ -29,16 +27,16 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-full navbar-dark bg-inverse">
 
-        <Link className="navbar-brand" onClick={() => this.props.selectPage('BUDGET')}>
+        <RouterLink className="navbar-brand" to="/">
           INAB
-        </Link>
+        </RouterLink>
 
         <ul className="nav navbar-nav">
 
           <li className="nav-item">
-            <Link className="nav-link" onClick={() => this.props.selectPage('BUDGET')}>
+            <RouterLink className="nav-link" to="/budget">
               Budget
-            </Link>
+            </RouterLink>
           </li>
 
           <li className="nav-item dropdown">
@@ -55,11 +53,11 @@ class Header extends React.Component {
 
             <div className="dropdown-menu" aria-labelledby="supportedContentDropdown">
 
-              <Link className="dropdown-item" onClick={() => this.props.selectPage("ACCOUNT")}>
+              <RouterLink className="dropdown-item" to="/account">
                 All
                 &nbsp;
                 <Amount amount={this.props.budgetBalance} color/>
-              </Link>
+              </RouterLink>
 
               {this.props.accounts.map((account) =>
                 account.busy ?
@@ -68,12 +66,11 @@ class Header extends React.Component {
                     {account.name}
                   </Link>
                   :
-                  <Link className="dropdown-item" key={account.id}
-                        onClick={() => this.props.selectPage('ACCOUNT', account.id)}>
+                  <RouterLink className="dropdown-item" key={account.id} to={`/account/${account.id}`}>
                     {account.name}
                     &nbsp;
                     <Amount amount={this.props.balanceByAccountId.get(account.id)} color/>
-                  </Link>
+                  </RouterLink>
               )}
 
               <div role="separator" className="dropdown-divider"/>
@@ -97,8 +94,4 @@ const mapStateToProps = (state) => ({
   budgetBalance: getBudgetBalance(state)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  selectPage: bindActionCreators(selectPage, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

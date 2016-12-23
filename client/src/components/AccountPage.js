@@ -30,9 +30,13 @@ const mapStateToProps = (state) => {
   const aid = getSelectedAccount(state);
 
   if (aid) {
-    title = state.accounts.find((a) => a.id == aid).name;
-    transactions = transactions.filter((t) => t.account_id == aid || t.transfer_account_id == aid);
-    balance = getBalanceByAccountId(state).get(aid);
+    // Check if the account exist.
+    const account = state.accounts.find((a) => a.id == aid);
+    if (account) {
+      title = account.name;
+      transactions = transactions.filter((t) => t.account_id == aid || t.transfer_account_id == aid);
+      balance = getBalanceByAccountId(state).get(aid);
+    }
   }
 
   return {

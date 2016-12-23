@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
-import { getAccounts } from '../selectors/accounts';
-import { getCategoryCount } from '../selectors/categories';
-import { getTransactions } from '../selectors/transactions';
-import { getCategoryGroups } from '../selectors/categoryGroups';
-import { getBudgetItems } from '../selectors/budgetItems';
-import { bindActionCreators } from 'redux';
+import React from "react";
+import {connect} from "react-redux";
+import asyncActionCreatorsFor from "../actions/asyncActionCreatorsFor";
+import {getAccounts} from "../selectors/accounts";
+import {getCategoryCount} from "../selectors/categories";
+import {getTransactions} from "../selectors/transactions";
+import {getCategoryGroups} from "../selectors/categoryGroups";
+import {getBudgetItems} from "../selectors/budgetItems";
+import {bindActionCreators} from "redux";
 
-// Until we have a better solution, this component silently loads the Account list on startup.
+// Until we have a better solution, this component silently loads the entities on startup.
 class EntityLoader extends React.Component {
   static propTypes = {
     accounts: React.PropTypes.array.isRequired,
@@ -20,29 +20,43 @@ class EntityLoader extends React.Component {
     categoryGroupsApi: React.PropTypes.object.isRequired,
     categoriesApi: React.PropTypes.object.isRequired,
     budgetItemsApi: React.PropTypes.object.isRequired,
-    transactionsApi: React.PropTypes.object.isRequired
+    transactionsApi: React.PropTypes.object.isRequired,
+    children: React.PropTypes.node
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {fetching: 5};
+  }
+
+  decrementFetch() {
+    this.setState({fetching: this.state.fetching - 1});
+  }
 
   componentDidMount() {
     if (this.props.accounts.length == 0) {
-      this.props.accountsApi.fetch();
+      this.props.accountsApi.fetch().then(() => this.decrementFetch());
     }
     if (this.props.categoryGroups.length == 0) {
-      this.props.categoryGroupsApi.fetch();
+      this.props.categoryGroupsApi.fetch().then(() => this.decrementFetch());
     }
     if (this.props.categoryCount == 0) {
-      this.props.categoriesApi.fetch();
+      this.props.categoriesApi.fetch().then(() => this.decrementFetch());
     }
     if (this.props.budgetItems.length == 0) {
-      this.props.budgetItemsApi.fetch();
+      this.props.budgetItemsApi.fetch().then(() => this.decrementFetch());
     }
     if (this.props.transactions.length == 0) {
-      this.props.transactionsApi.fetch();
+      this.props.transactionsApi.fetch().then(() => this.decrementFetch());
     }
   }
 
   render() {
-    return null;
+    return (
+      <div>
+        {this.state.fetching > 0 ? 'Loading...' : this.props.children}
+      </div>
+    );
   }
 }
 

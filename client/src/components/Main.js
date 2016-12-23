@@ -1,31 +1,26 @@
-import React from 'react';
-import Header from './Header';
-import EntityLoader from './EntityLoader';
-import BudgetPage from './Budget';
-import AccountPage from './AccountPage';
-import { connect } from 'react-redux';
-import ErrorList from './ErrorList';
+import React from "react";
+import Header from "./Header";
+import EntityLoader from "./EntityLoader";
+import ErrorList from "./ErrorList";
 
-class Main extends React.Component {
+export default class Main extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
+
   render() {
     return (
       <div>
-        <EntityLoader />
         <Header />
-        <div className="container-fluid">
-          <div className="row">
-            <ErrorList />
-            {(this.props.page == 'BUDGET') ? <BudgetPage /> : <AccountPage />}
+        <ErrorList />
+        <EntityLoader>
+          <div className="container-fluid">
+            <div className="row">
+              {this.props.children}
+            </div>
           </div>
-        </div>
+        </EntityLoader>
       </div>
     );
   }
 }
-
-Main.propTypes = {
-  page: React.PropTypes.string.isRequired
-};
-
-const mapStateToProps = (state) => ({page: state.selectedPage.name});
-export default connect(mapStateToProps)(Main);

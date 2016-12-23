@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 
-export const getSelectedPage = (state) => state.selectedPage.name;
-
-export const getSelectedAccount = (state) => state.selectedPage.name == 'ACCOUNT' && state.selectedPage.data;
+export const getSelectedAccount = (state) => state.selectedAccount;
 
 export const getSelectedMonth = (state) => ({
   month: state.ui.get('budget').get('month'),
