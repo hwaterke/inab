@@ -2,10 +2,8 @@ import React from "react";
 import "./LandingPage.scss";
 
 const LandingPage = () => (
-  <div className="col-md-12">
-    <div className="landing-page">
-      <h1>Landing page</h1>
-    </div>
+  <div className="landing-page col-md-12">
+    <h1>INAB</h1>
   </div>
 );
 

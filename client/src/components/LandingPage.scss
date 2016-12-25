@@ -2,4 +2,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - 47px);
+
+  background-image: url("../images/landing.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  background-color: #cccccc;
+
+  h1 {
+    font-size: 5rem;
+  }
 }

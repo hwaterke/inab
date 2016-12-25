@@ -40,7 +40,6 @@ With the following command `docker-compose up`, you will get the following:
 * Create a design identity (palette etc.)
 * Server side make sure dates of budget items are months
 * Server side make sure there can be only one budget item per month and category
-* Add a landing page (will be used for login)
 * Transfers need to be rendered positive on one account and negative on the other
 * Disallow transfers between an account and itself
 * Reorder categories by drag and drop
