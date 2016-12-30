@@ -1,82 +1,104 @@
 import React from "react";
-import asyncActionCreatorsFor from "../actions/asyncActionCreatorsFor";
-import ui from "redux-ui";
-import {connect} from "react-redux";
-import {getTransactionsById} from "../selectors/transactions";
-import {getSelectedAccount} from "../selectors/ui";
 import Immutable from "immutable";
+import Button from "./Button";
 import ButtonIcon from "./ButtonIcon";
 import ButtonDelete from "./ButtonDelete";
+import ui from "redux-ui";
 import "./TransactionToolbar.scss";
 
-const mapStateToProps = (state) => {
-  return {
-    transactionsById: getTransactionsById(state),
-    accountSelected: !!getSelectedAccount(state)
-  };
-};
+@ui({
+  state: {
+    filtersVisible: false
+  }
+})
+class TransactionToolbar extends React.Component {
 
-@ui()
-@connect(mapStateToProps, asyncActionCreatorsFor('transactions'))
-export default class TransactionToolbar extends React.Component {
   static propTypes = {
+    selectedRows: React.PropTypes.instanceOf(Immutable.Set),
+    clearSelection: React.PropTypes.func,
+    deleteSelection: React.PropTypes.func,
+    onNewClick: React.PropTypes.func,
+    toggleColumn: React.PropTypes.func,
+    hiddenColumns: React.PropTypes.object,
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    transactionsById: React.PropTypes.instanceOf(Map).isRequired,
-    accountSelected: React.PropTypes.bool.isRequired,
-    delete: React.PropTypes.func.isRequired
   };
 
-  constructor() {
-    super();
-    this.deleteTransactions = this.deleteTransactions.bind(this);
-  }
+  renderColumnToggle(columnName, icon) {
+    const classes = ['btn', 'btn-success'];
+    if (this.props.hiddenColumns[columnName]) {
+      classes.push('active');
+    }
 
-  deleteTransactions() {
-    const records = this.props.ui.selectedTransactions.map((id) => this.props.transactionsById.get(id));
-    this.props.updateUI('selectedTransactions', Immutable.Set());
-    records.forEach((r) => this.props.delete(r));
+    if (icon) {
+      return <ButtonIcon
+        className={classes.join(' ')}
+        icon={icon}
+        onClick={() => this.props.toggleColumn(columnName)}
+      >{columnName.toUpperCase()}</ButtonIcon>;
+    }
+    return <Button
+      className={classes.join(' ')}
+      onClick={() => this.props.toggleColumn(columnName)}
+    >{columnName.toUpperCase()}</Button>;
   }
 
   render() {
     return (
-      <div className="btn-group transaction-toolbar">
+      <div>
+        <div className="transaction-toolbar">
+          <div className="btn-group">
+            <ButtonIcon
+              className="btn btn-info"
+              onClick={() => this.props.onNewClick()}
+              icon="plus"
+            >
+              New
+            </ButtonIcon>
 
-        <ButtonIcon
-          className="btn btn-success"
-          onClick={() => this.props.updateUI({showAccount: !this.props.ui.showAccount})}
-          icon="bank"
-        />
+
+            {
+              this.props.selectedRows.size > 0 &&
+              <ButtonIcon
+                className="btn btn-warning"
+                onClick={() => this.props.clearSelection()}
+                icon="ban"
+              >
+                Deselect ({this.props.selectedRows.size})
+              </ButtonIcon>
+            }
+
+            {
+              this.props.selectedRows.size > 0 &&
+              <ButtonDelete onClick={this.props.deleteSelection}>
+                Delete ({this.props.selectedRows.size})
+              </ButtonDelete>
+            }
+
+            <ButtonIcon
+              className="btn btn-info"
+              onClick={() => this.props.updateUI('filtersVisible', !this.props.ui.filtersVisible)}
+              icon="filter"
+            />
+          </div>
+        </div>
 
         {
-          this.props.accountSelected &&
-          <ButtonIcon
-            className="btn btn-info"
-            onClick={() => this.props.updateUI({addingTransaction: true, editingTransactionId: null})}
-            icon="plus"
-          >
-            New
-          </ButtonIcon>
-        }
-
-        {
-          this.props.ui.selectedTransactions.size > 0 &&
-          <ButtonIcon
-            className="btn btn-warning"
-            onClick={() => this.props.updateUI('selectedTransactions', Immutable.Set())}
-            icon="ban"
-          >
-            Deselect ({this.props.ui.selectedTransactions.size})
-          </ButtonIcon>
-        }
-
-        {
-          this.props.ui.selectedTransactions.size > 0 &&
-          <ButtonDelete onClick={this.deleteTransactions}>
-            Delete ({this.props.ui.selectedTransactions.size})
-          </ButtonDelete>
+          this.props.ui.filtersVisible &&
+          <div className="transaction-toolbar">
+            <div className="btn-group">
+              {this.renderColumnToggle('account', 'bank')}
+              {this.renderColumnToggle('date', 'calendar')}
+              {this.renderColumnToggle('payee')}
+              {this.renderColumnToggle('category')}
+              {this.renderColumnToggle('description')}
+              {this.renderColumnToggle('amount')}
+            </div>
+          </div>
         }
       </div>
     );
   }
 }
+
+export default TransactionToolbar;
