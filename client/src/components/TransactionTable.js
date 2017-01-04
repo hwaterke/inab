@@ -2,7 +2,7 @@ import React from "react";
 import * as Table from "reactabular-table";
 import Amount from "./Amount";
 import FontAwesome from "react-fontawesome";
-import Immutable from "immutable";
+import * as Immutable from "immutable";
 import Link from "./Link";
 
 class TransactionTable extends React.Component {

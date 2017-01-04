@@ -2,7 +2,7 @@ import React from 'react';
 import TransactionTable from './TransactionTable';
 import {connect} from 'react-redux';
 import {getTransactionsForRendering} from '../selectors/transactionsRendering';
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import TransactionToolbar from './TransactionToolbar';
 import ui from 'redux-ui';
 import TransactionForm from './forms/TransactionForm';

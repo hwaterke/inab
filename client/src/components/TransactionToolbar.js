@@ -1,5 +1,5 @@
 import React from "react";
-import Immutable from "immutable";
+import * as Immutable from "immutable";
 import Button from "./Button";
 import ButtonIcon from "./ButtonIcon";
 import ButtonDelete from "./ButtonDelete";
