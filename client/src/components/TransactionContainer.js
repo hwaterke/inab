@@ -8,6 +8,8 @@ import ui from 'redux-ui';
 import TransactionForm from './forms/TransactionForm';
 import {getTransactions, getTransactionsById} from '../selectors/transactions';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
+import TransactionTotalAmount from './TransactionTotalAmount';
+import sumBy from 'lodash/sumBy';
 
 const mapStateToProps = (state) => ({
   transactions: getTransactions(state),
@@ -94,6 +96,8 @@ class TransactionContainer extends React.Component {
 
   render() {
     const transactionsToRender = this.getTransactionsToRender();
+    const total = sumBy(transactionsToRender.filter(tr => tr.type != 'split'), 'amount');
+
     return (
       <div>
         {(this.props.ui.addingTransaction || this.props.ui.editingTransactionId) &&
@@ -123,6 +127,7 @@ class TransactionContainer extends React.Component {
             onPencilClick={this.displayUpdate}
             hiddenColumns={this.props.ui.hideColumn}
           />
+          <TransactionTotalAmount amount={total}/>
         </div>
       </div>
     );
