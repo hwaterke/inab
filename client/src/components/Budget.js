@@ -5,8 +5,14 @@ import Amount from './Amount';
 import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
 import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
-import { connect } from "react-redux";
-import { getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture } from "../selectors/budget";
+import {connect} from 'react-redux';
+import {
+  getAvailableToBudget,
+  getFundsForSelectedMonth,
+  getOverspentLastMonth,
+  getBudgetedThisMonth,
+  getBudgetedInFuture
+} from '../selectors/budget';
 import './Budget.scss';
 
 const mapStateToProps = state => ({
@@ -42,21 +48,28 @@ export default class BudgetPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="budget-header col-md-12">
+        <div className="budget-header">
           <MonthSelector />
           <div className="budget-header-amounts">
 
             <div className="budget-header-amounts-available">
-              <Amount amount={this.props.availableToBudget} color />
+              <Amount amount={this.props.availableToBudget} color/>
               <div>Available to budget</div>
             </div>
 
             <div className="budget-header-amounts-details">
               <div>
-                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.fundsAvailable} /></div>
-                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.overspentLastMonth} /></div>
-                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.budgetedThisMonth} /></div>
-                <div className="budget-header-amounts-details-amount"><Amount amount={this.props.budgetedInFuture} /></div>
+                <div className="budget-header-amounts-details-amount">
+                  <Amount amount={this.props.fundsAvailable}/></div>
+                <div className="budget-header-amounts-details-amount">
+                  <Amount amount={this.props.overspentLastMonth}/>
+                </div>
+                <div className="budget-header-amounts-details-amount">
+                  <Amount amount={this.props.budgetedThisMonth}/>
+                </div>
+                <div className="budget-header-amounts-details-amount">
+                  <Amount amount={this.props.budgetedInFuture}/>
+                </div>
               </div>
               <div className="budget-header-amounts-details-names">
                 <div>Funds</div>
@@ -67,10 +80,14 @@ export default class BudgetPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="col-md-12">
-          <CategoryGroupFormDialog />
-          <CategoryFormDialog />
-          <BudgetTable />
+        <div>
+          <div className="box-container">
+            <CategoryGroupFormDialog />
+            <CategoryFormDialog />
+          </div>
+          <div className="box-container">
+            <BudgetTable />
+          </div>
         </div>
       </div>
     );

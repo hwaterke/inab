@@ -1,3 +1,20 @@
+@import "variables";
+@import "mixins";
+
 html {
   font-size: 14px;
+}
+
+body {
+  background-color: $main-background-color;
+}
+
+.box-container {
+  @include container;
+  @include marginTopBottom;
+  @include paddingHorizontal;
+  @include paddingVertical;
+
+  background-color: $front-background-color;
+  border: 1px solid $border-color;
 }

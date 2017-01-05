@@ -1,11 +1,18 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.account-header-container {
+  background-color: $front-background-color;
+  border-bottom: 1px solid $border-color;
+}
+
 .account-header {
+  @include container;
+  @include paddingHorizontal;
+  @include paddingVertical;
   display: flex;
-  padding: .5rem 0;
   align-items: center;
   justify-content: center;
-
-  color: white;
-  background-color: #373a3c;
 
   > h1 {
     margin-right: 2rem;
@@ -15,6 +22,5 @@
 @media (min-width: 768px) {
   .account-header {
     justify-content: flex-start;
-    padding: 1rem 5rem;
   }
 }

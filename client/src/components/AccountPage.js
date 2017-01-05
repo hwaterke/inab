@@ -9,12 +9,10 @@ import TransactionContainer from './TransactionContainer';
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>
     <AccountHeader name={title} balance={balance}/>
-    <div className="col-md-12">
-      <TransactionContainer
-        accountId={selectedAccountId}
-        hideAccount={!!selectedAccountId}
-      />
-    </div>
+    <TransactionContainer
+      accountId={selectedAccountId}
+      hideAccount={!!selectedAccountId}
+    />
   </div>
 );
 

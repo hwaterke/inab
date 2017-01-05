@@ -1,7 +1,7 @@
-import React from "react";
-import Header from "./Header";
-import EntityLoader from "./EntityLoader";
-import ErrorList from "./ErrorList";
+import React from 'react';
+import Header from './Header';
+import EntityLoader from './EntityLoader';
+import ErrorList from './ErrorList';
 
 export default class Main extends React.Component {
   static propTypes = {
@@ -14,11 +14,7 @@ export default class Main extends React.Component {
         <Header />
         <ErrorList />
         <EntityLoader>
-          <div className="container-fluid">
-            <div className="row">
-              {this.props.children}
-            </div>
-          </div>
+          {this.props.children}
         </EntityLoader>
       </div>
     );

@@ -1,10 +1,12 @@
-import React from "react";
-import * as Immutable from "immutable";
-import Button from "./Button";
-import ButtonIcon from "./ButtonIcon";
-import ButtonDelete from "./ButtonDelete";
-import ui from "redux-ui";
-import "./TransactionToolbar.scss";
+import React from 'react';
+import * as Immutable from 'immutable';
+import Button from './Button';
+import ButtonIcon from './ButtonIcon';
+import ButtonDelete from './ButtonDelete';
+import ui from 'redux-ui';
+import './TransactionToolbar.scss';
+import Amount from './Amount';
+import FontAwesome from "react-fontawesome";
 
 @ui({
   state: {
@@ -45,7 +47,7 @@ class TransactionToolbar extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="box-container">
         <div className="transaction-toolbar">
           <div className="btn-group">
             <ButtonIcon

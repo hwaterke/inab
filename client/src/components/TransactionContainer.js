@@ -105,6 +105,7 @@ class TransactionContainer extends React.Component {
           onCancel={this.hideForm}
         />
         }
+
         <TransactionToolbar
           selectedRows={this.props.ui.selected}
           clearSelection={this.clearSelection}
@@ -113,13 +114,16 @@ class TransactionContainer extends React.Component {
           hiddenColumns={this.props.ui.hideColumn}
           toggleColumn={this.toggleColumn}
         />
-        <TransactionTable
-          transactions={transactionsToRender}
-          selectedRows={this.props.ui.selected}
-          onSelectRow={this.selectTransaction}
-          onPencilClick={this.displayUpdate}
-          hiddenColumns={this.props.ui.hideColumn}
-        />
+
+        <div className="box-container">
+          <TransactionTable
+            transactions={transactionsToRender}
+            selectedRows={this.props.ui.selected}
+            onSelectRow={this.selectTransaction}
+            onPencilClick={this.displayUpdate}
+            hiddenColumns={this.props.ui.hideColumn}
+          />
+        </div>
       </div>
     );
   }
