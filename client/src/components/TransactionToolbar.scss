@@ -1,3 +1,22 @@
+@import "../styles/mixins";
+
 .transaction-toolbar {
   margin: .5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+
+  .transaction-toolbar-search {
+    @include marginTopBottom
+  }
+
+  @media (min-width: 768px) {
+    .transaction-toolbar-search {
+      margin: 0;
+    }
+    > div {
+      flex: 1;
+    }
+  }
 }

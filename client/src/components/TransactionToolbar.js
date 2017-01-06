@@ -5,8 +5,7 @@ import ButtonIcon from './ButtonIcon';
 import ButtonDelete from './ButtonDelete';
 import ui from 'redux-ui';
 import './TransactionToolbar.scss';
-import Amount from './Amount';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 
 @ui({
   state: {
@@ -22,6 +21,8 @@ class TransactionToolbar extends React.Component {
     onNewClick: React.PropTypes.func,
     toggleColumn: React.PropTypes.func,
     hiddenColumns: React.PropTypes.object,
+    searchValue: React.PropTypes.string,
+    onSearchChange: React.PropTypes.func,
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
   };
@@ -82,6 +83,20 @@ class TransactionToolbar extends React.Component {
               onClick={() => this.props.updateUI('filtersVisible', !this.props.ui.filtersVisible)}
               icon="filter"
             />
+          </div>
+
+          <div className="transaction-toolbar-search">
+            <div className="input-group">
+              <span className="input-group-addon" id="basic-addon1">
+                <FontAwesome name="search" fixedWidth/>
+              </span>
+              <input type="text"
+                     value={this.props.searchValue}
+                     onChange={this.props.onSearchChange}
+                     className="form-control"
+                     placeholder="Search"
+              />
+            </div>
           </div>
         </div>
 

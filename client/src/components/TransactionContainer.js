@@ -10,6 +10,7 @@ import {getTransactions, getTransactionsById} from '../selectors/transactions';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import TransactionTotalAmount from './TransactionTotalAmount';
 import sumBy from 'lodash/sumBy';
+import TransactionSearchService from '../services/TransactionSearchService';
 
 const mapStateToProps = (state) => ({
   transactions: getTransactions(state),
@@ -22,7 +23,8 @@ const mapStateToProps = (state) => ({
     selected: Immutable.Set(),
     editingTransactionId: null,
     addingTransaction: false,
-    hideColumn: (props) => (props.hideAccount ? {'account': true} : {})
+    hideColumn: (props) => (props.hideAccount ? {'account': true} : {}),
+    searchValue: ''
   }
 })
 @connect(mapStateToProps, asyncActionCreatorsFor('transactions'))
@@ -40,6 +42,7 @@ class TransactionContainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.searchService = new TransactionSearchService();
     this.selectTransaction = this.selectTransaction.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
     this.deleteSelection = this.deleteSelection.bind(this);
@@ -47,6 +50,7 @@ class TransactionContainer extends React.Component {
     this.displayUpdate = this.displayUpdate.bind(this);
     this.hideForm = this.hideForm.bind(this);
     this.toggleColumn = this.toggleColumn.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   selectTransaction(id) {
@@ -87,11 +91,16 @@ class TransactionContainer extends React.Component {
     });
   }
 
+  onSearchChange(event) {
+    this.props.updateUI('searchValue', event.target.value);
+  }
+
   getTransactionsToRender() {
+    let transactions = this.props.transactionsForRendering;
     if (this.props.accountId) {
-      return this.props.transactionsForRendering.filter(tr => tr.account_id === this.props.accountId);
+      transactions = this.props.transactionsForRendering.filter(tr => tr.account_id === this.props.accountId);
     }
-    return this.props.transactionsForRendering;
+    return this.searchService.filter(transactions, this.props.ui.searchValue);
   }
 
   render() {
@@ -117,6 +126,8 @@ class TransactionContainer extends React.Component {
           onNewClick={this.displayNew}
           hiddenColumns={this.props.ui.hideColumn}
           toggleColumn={this.toggleColumn}
+          searchValue={this.props.ui.searchValue}
+          onSearchChange={this.onSearchChange}
         />
 
         <div className="box-container">
