@@ -3,6 +3,17 @@ import {getSortedTransactions} from './transactions';
 import {getAccountsById} from './accounts';
 import {getCategoriesById} from './categories';
 
+const getMirrorTransfer = (transaction) => {
+  const mirror = Object.assign({}, transaction);
+  mirror.id = mirror.id + 'r';
+  mirror.account_id = transaction.transfer_account_id;
+  mirror.transfer_account_id = transaction.account_id;
+  mirror.account = transaction.payee;
+  mirror.payee = transaction.account;
+  mirror.amount = -mirror.amount;
+  return mirror;
+};
+
 // Converts the transactions to TransactionView
 export const getTransactionsForRendering = createSelector(
   getSortedTransactions,
@@ -30,6 +41,10 @@ export const getTransactionsForRendering = createSelector(
       }
 
       result.push(tr_result);
+      if (tr.transfer_account_id) {
+        result.push(getMirrorTransfer(tr_result));
+      }
+
       tr.subtransactions.forEach((str, strIndex) => {
         const str_result = {
           id: 's' + ((str.id) ? str.id : ('i' + strIndex)),
