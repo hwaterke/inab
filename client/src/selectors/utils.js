@@ -22,11 +22,6 @@ const mapByKey = (items, propName) => {
   return result;
 };
 
-export const sumOf = (items, propName) =>
-  items.reduce(function (a, b) {
-    return b[propName] == null ? a : a + b[propName];
-  }, 0);
-
 /**
  * Implementation on map for Map objects.
  * Each value if mapped by the provided mapper function.

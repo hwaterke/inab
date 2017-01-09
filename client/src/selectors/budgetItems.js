@@ -1,6 +1,7 @@
-import { createSelector } from 'reselect';
-import { createInMonthSelectors, createUpToMonthSelectors } from './ui';
-import { createMappingSelector, sumOf } from './utils';
+import {createSelector} from 'reselect';
+import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
+import {createMappingSelector} from './utils';
+import sumBy from 'lodash/sumBy';
 
 // All
 export const getBudgetItems = (state) => state.budgetItems;
@@ -15,5 +16,5 @@ export const getSelectedMonthBudgetItemsByCategoryId = createMappingSelector(inM
 // Sums
 export const getBudgetItemsSumUpToPreviousMonth = createSelector(
   upToMonth.previous,
-  budgetItems => sumOf(budgetItems, 'amount')
+  budgetItems => sumBy(budgetItems, 'amount')
 );

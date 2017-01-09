@@ -2,8 +2,9 @@ import { createSelector } from 'reselect';
 import { getCategories } from "../selectors/categories";
 import { getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions } from "../selectors/transactions";
 import { getBudgetItems, getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo } from "../selectors/budgetItems";
-import { beginningOfMonth, sumOf, groupBy, groupByKey } from './utils';
+import { beginningOfMonth, groupBy, groupByKey } from './utils';
 import { getCurrentMonth, getPreviousMonth } from './ui';
+import sumBy from 'lodash/sumBy';
 
 /**
  * Returns the balance of the budget i.e. the total amount of money accross accounts.
@@ -11,7 +12,7 @@ import { getCurrentMonth, getPreviousMonth } from './ui';
 export const getBudgetBalance = createSelector(
   getTransactions,
   (transactions) => {
-    return sumOf(transactions.filter((t) => !t.transfer_account_id), 'amount');
+    return sumBy(transactions.filter((t) => !t.transfer_account_id), 'amount');
   }
 );
 
@@ -34,7 +35,7 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
       g.forEach((items, month) => {
         const categoryResult = result.get(category_id);
         categoryResult.set(month, categoryResult.get(month) || 0);
-        categoryResult.set(month, categoryResult.get(month) + sumOf(items, 'amount'));
+        categoryResult.set(month, categoryResult.get(month) + sumBy(items, 'amount'));
       });
     });
 
@@ -91,7 +92,7 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
     categories.forEach((c) => result.set(c.id, 0));
 
     groupByKey(budgetItems, 'category_id').forEach((v, category_id) => {
-      result.set(category_id, result.get(category_id) + sumOf(v, 'amount'));
+      result.set(category_id, result.get(category_id) + sumBy(v, 'amount'));
     });
 
     flattenTransactions(transactions).forEach((ft) => {
@@ -163,7 +164,7 @@ export const getOverspentLastMonth = createSelector(
 // Budgeted this month
 export const getBudgetedThisMonth = createSelector(
   budgetItemsIn.current,
-  (items) => -sumOf(items, 'amount')
+  (items) => -sumBy(items, 'amount')
 );
 
 // Budgeted in the future
@@ -175,7 +176,7 @@ export const getBudgetedInFuture = createSelector(
   getBudgetItems,
   (funds, overspent, budgeted, currentMonth, allBudgetItems) => {
     const maximum = funds + overspent + budgeted;
-    const futureBudgeting = sumOf(allBudgetItems.filter(i => currentMonth.isBefore(i.month)), 'amount');
+    const futureBudgeting = sumBy(allBudgetItems.filter(i => currentMonth.isBefore(i.month)), 'amount');
     return Math.min(0, -Math.min(maximum, futureBudgeting));
   }
 );
