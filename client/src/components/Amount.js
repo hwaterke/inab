@@ -1,6 +1,6 @@
-import React from "react";
-import "./Amount.scss";
-import {amountFromCents} from "../utils/amount";
+import React from 'react';
+import './Amount.scss';
+import {amountFromCents} from '../utils/amount';
 
 class Amount extends React.Component {
   static propTypes = {
@@ -11,15 +11,24 @@ class Amount extends React.Component {
 
   render() {
     const amount = this.props.amount || 0;
-    const styles = ['amount'];
+    const styles = [];
+
     if (this.props.color) {
-      styles.push(amount < 0 ? 'amount-negative' : 'amount-positive');
-    } else if (amount == 0) {
-      styles.push('amount-faded');
+      styles.push('amount-color');
     }
+
+    if (amount < 0) {
+      styles.push('amount-negative');
+    } else if (amount > 0) {
+      styles.push('amount-positive');
+    } else {
+      styles.push('amount-zero');
+    }
+
     if (this.props.className) {
       styles.push(this.props.className);
     }
+
     return (
       <span className={styles.join(' ')}>
         {amountFromCents(amount).toLocaleString(undefined, {style: 'currency', currency: 'EUR'})}

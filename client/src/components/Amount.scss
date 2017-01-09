@@ -1,23 +1,22 @@
-.amount {
-  font-weight: bold;
+.amount-zero {
+  color: #cfd5d8;
 }
 
-.amount-faded {
-  color: #888;
-}
-
-@mixin colored-amount {
+.amount-color {
   color: white;
   padding: .14rem .5rem;
   border-radius: 1rem;
-}
+  font-weight: bold;
 
-.amount-positive {
-  @include colored-amount;
-  background-color: #84ECAE;
-}
+  &.amount-zero {
+    background-color: #cfd5d8;
+  }
 
-.amount-negative {
-  @include colored-amount;
-  background-color: #FFA48F;
+  &.amount-positive {
+    background-color: #84ECAE;
+  }
+
+  &.amount-negative {
+    background-color: #FFA48F;
+  }
 }
