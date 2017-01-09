@@ -23,8 +23,8 @@ const mapByKey = (items, propName) => {
 };
 
 /**
- * Implementation on map for Map objects.
- * Each value if mapped by the provided mapper function.
+ * Implementation of map for Map objects.
+ * Each value is mapped by the provided mapper function.
  */
 export const mapMap = (aMap, mapper) => {
   const result = new Map();
