@@ -1,0 +1,22 @@
+FROM ruby
+
+WORKDIR /app/server
+
+# Install Ruby dependencies
+COPY Gemfile* ./
+RUN bundle install
+
+# Copy server files
+COPY api api
+COPY config config
+COPY models models
+COPY config.ru ./
+COPY sinatra.rb ./
+COPY dist public
+
+ENV RACK_ENV production
+ENV APPSERVER thin
+ENV INAB_STATIC public
+EXPOSE 8080
+
+CMD bundle exec rackup --host :: -p 8080 -s $APPSERVER

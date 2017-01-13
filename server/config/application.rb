@@ -7,7 +7,7 @@ Bundler.require :default, ENV['RACK_ENV']
 # Force flushing STDOUT to make sure we see logs in due time.
 $stdout.sync = true if ENV['RACK_ENV'] == 'development'
 
-DB = (ENV['RACK_ENV'] == 'production') ? Sequel.sqlite('budget.db') : Sequel.sqlite
+DB = (ENV['RACK_ENV'] == 'production') ? Sequel.sqlite('/db/budget.db') : Sequel.sqlite
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
 
 require 'roar/json'
@@ -35,7 +35,5 @@ end
 
 require_relative '../api/api'
 
-if ENV['RACK_ENV'] == 'development'
-  require_relative '../sinatra'
-  require_relative 'development'
-end
+require_relative '../sinatra' if ENV['INAB_STATIC']
+require_relative 'development' if ENV['RACK_ENV'] == 'development'

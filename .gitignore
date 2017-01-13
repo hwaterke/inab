@@ -1,6 +1,7 @@
 client/dist
 client/public/app.js
 client/public/app.css
+server/dist
 .DS_Store
 .idea
 
