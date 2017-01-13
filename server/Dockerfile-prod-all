@@ -1,5 +1,6 @@
 FROM ruby
 
+RUN mkdir /db
 WORKDIR /app/server
 
 # Install Ruby dependencies
