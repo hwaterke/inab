@@ -259,7 +259,7 @@ export default class TransactionForm extends Component {
     ];
 
     return (
-      <form className="tr-form">
+      <form className="box-container">
         <div className="tr-form-container">
           {this.props.showAccount &&
           <div>

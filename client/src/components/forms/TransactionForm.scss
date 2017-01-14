@@ -1,18 +1,8 @@
-.tr-form {
-  background-color: #eceff1;
-  border-width: 1px;
-  border-color: #eceff1 - #222;
-  border-style: solid;
-  padding: .5rem;
-  margin: .5rem;
-}
-
 .tr-form-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  border-bottom: 1px solid #eceff1 - #222;
-  margin: .5rem;
+  border-bottom: 1px solid #f0f0f0;
 
   > div {
     flex: 1 1 150px;
