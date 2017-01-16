@@ -119,18 +119,19 @@ class TransactionContainer extends React.Component {
         />
         }
 
-        <TransactionToolbar
-          selectedRows={this.props.ui.selected}
-          clearSelection={this.clearSelection}
-          deleteSelection={this.deleteSelection}
-          onNewClick={this.displayNew}
-          hiddenColumns={this.props.ui.hideColumn}
-          toggleColumn={this.toggleColumn}
-          searchValue={this.props.ui.searchValue}
-          onSearchChange={this.onSearchChange}
-        />
-
         <div className="box-container">
+
+          <TransactionToolbar
+            selectedRows={this.props.ui.selected}
+            clearSelection={this.clearSelection}
+            deleteSelection={this.deleteSelection}
+            onNewClick={this.displayNew}
+            hiddenColumns={this.props.ui.hideColumn}
+            toggleColumn={this.toggleColumn}
+            searchValue={this.props.ui.searchValue}
+            onSearchChange={this.onSearchChange}
+          />
+
           <TransactionTable
             transactions={transactionsToRender}
             selectedRows={this.props.ui.selected}
@@ -138,7 +139,9 @@ class TransactionContainer extends React.Component {
             onPencilClick={this.displayUpdate}
             hiddenColumns={this.props.ui.hideColumn}
           />
+
           <TransactionTotalAmount amount={total}/>
+
         </div>
       </div>
     );

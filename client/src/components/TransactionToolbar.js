@@ -48,7 +48,7 @@ class TransactionToolbar extends React.Component {
 
   render() {
     return (
-      <div className="box-container">
+      <div>
         <div className="transaction-toolbar">
           <div className="btn-group">
             <ButtonIcon
@@ -58,7 +58,6 @@ class TransactionToolbar extends React.Component {
             >
               New
             </ButtonIcon>
-
 
             {
               this.props.selectedRows.size > 0 &&

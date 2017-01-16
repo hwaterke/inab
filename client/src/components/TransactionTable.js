@@ -1,9 +1,10 @@
-import React from "react";
-import * as Table from "reactabular-table";
-import Amount from "./Amount";
-import FontAwesome from "react-fontawesome";
-import * as Immutable from "immutable";
-import Link from "./Link";
+import React from 'react';
+import * as Table from 'reactabular-table';
+import Amount from './Amount';
+import FontAwesome from 'react-fontawesome';
+import * as Immutable from 'immutable';
+import Link from './Link';
+import './TransactionTable.scss';
 
 class TransactionTable extends React.Component {
   constructor(props) {
@@ -128,12 +129,14 @@ class TransactionTable extends React.Component {
   render() {
     const selectedTransactions = this.props.transactions.map(tr => ({
       ...tr,
-      selected: tr.subtransaction ? this.props.selectedRows.has(tr.parent_transaction) : this.props.selectedRows.has(tr.id)
+      selected: tr.subtransaction ?
+        this.props.selectedRows.has(tr.parent_transaction) :
+        this.props.selectedRows.has(tr.id)
     }));
 
     return (
       <Table.Provider
-        className="table table-sm table-hover"
+        className="table table-sm table-hover transaction-table"
         columns={this.getColumns()}
       >
         <Table.Header/>
