@@ -29,6 +29,7 @@ export const getTransactionsForRendering = createSelector(
         payee: tr.payee || tr.transfer_account_id && accountsById.get(tr.transfer_account_id).name,
         is_transfer: !!tr.transfer_account_id,
       };
+      tr_result.display_date = tr.date;
 
       if (tr.type === 'to_be_budgeted') {
         tr_result.category = "To be budgeted";
@@ -48,6 +49,7 @@ export const getTransactionsForRendering = createSelector(
       tr.subtransactions.forEach((str, strIndex) => {
         const str_result = {
           id: 's' + ((str.id) ? str.id : ('i' + strIndex)),
+          date: tr.date,
           account_id: tr.account_id,
           category: str.category_id ? categoriesById.get(str.category_id).name : '',
           description: str.description,

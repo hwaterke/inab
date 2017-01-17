@@ -57,7 +57,7 @@ class TransactionTable extends React.Component {
         },
       },
       {
-        property: 'date',
+        property: 'display_date',
         header: {
           label: 'Date'
         },
