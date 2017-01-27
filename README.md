@@ -51,6 +51,11 @@ With the following command `docker-compose up`, you will get the following:
 Note that in development, the server uses an in-memory database.
 
 # TODO
+* Transaction model
+  * Clearing transactions
+  * Method for transactions (method of payment)
+  * Generic tags for transactions
+* Production build, make scripts. Build inab:api for the api only
 * Aggregate stats per budget category
 * Use bootstrap via npm
 * Fix onBlur on the inputs in the budget table
@@ -70,3 +75,4 @@ Note that in development, the server uses an in-memory database.
 * Add favicon
 * Internationalization
 * Native Mobile App
+* Enforce one type of quotes with ESLint
