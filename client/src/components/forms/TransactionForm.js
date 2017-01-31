@@ -1,20 +1,20 @@
-import React, {Component} from "react";
-import "./TransactionForm.scss";
-import {Field, FieldArray, reduxForm, formValueSelector} from "redux-form";
-import SimpleSelectField from "./fields/SimpleSelectField";
-import {connect} from "react-redux";
-import {getAccounts} from "../../selectors/accounts";
-import {getCategories} from "../../selectors/categories";
-import {getPayees} from "../../selectors/transactions";
-import DatePickerField from "./fields/DatePickerField";
-import SimpleSelectCreateField from "./fields/SimpleSelectCreateField";
-import ButtonDelete from "../ButtonDelete";
-import ButtonCheck from "../ButtonCheck";
-import ButtonIcon from "../ButtonIcon";
-import Button from "../Button";
-import asyncActionCreatorsFor from "../../actions/asyncActionCreatorsFor";
-import moment from "moment";
-import {amountFromCents, amountToCents} from "../../utils/amount";
+import React, {Component} from 'react';
+import './TransactionForm.scss';
+import {Field, FieldArray, reduxForm, formValueSelector} from 'redux-form';
+import SimpleSelectField from './fields/SimpleSelectField';
+import {connect} from 'react-redux';
+import {getAccounts} from '../../selectors/accounts';
+import {getCategories} from '../../selectors/categories';
+import {getPayees} from '../../selectors/transactions';
+import DatePickerField from './fields/DatePickerField';
+import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
+import ButtonDelete from '../ButtonDelete';
+import ButtonCheck from '../ButtonCheck';
+import ButtonIcon from '../ButtonIcon';
+import Button from '../Button';
+import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
+import moment from 'moment';
+import {amountFromCents, amountToCents} from '../../utils/amount';
 
 /**
  * Component used for rendering the subtransaction forms
@@ -254,7 +254,7 @@ export default class TransactionForm extends Component {
     ];
 
     const payeeOptions = [
-      ...this.props.accounts.map(a => ({label: "Tranfer to " + a.name, value: "transfer:" + a.id})),
+      ...this.props.accounts.map(a => ({label: "Transfer to " + a.name, value: "transfer:" + a.id})),
       ...this.props.payees.map(c => ({label: c, value: c}))
     ];
 
