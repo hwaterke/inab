@@ -1,0 +1,9 @@
+[ignore]
+.*/node_modules/redux-crud/example/.*
+
+[include]
+
+[libs]
+
+[options]
+esproposal.decorators=ignore

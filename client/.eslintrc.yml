@@ -9,8 +9,10 @@ extends:
   - 'plugin:import/errors'
   - 'plugin:import/warnings'
   - 'plugin:react/recommended'
+  - 'plugin:flowtype/recommended'
 plugins:
   - react
+  - flowtype
 parser: 'babel-eslint'
 parserOptions:
   ecmaFeatures:
@@ -28,3 +30,6 @@ rules:
   semi:
     - error
     - always
+  no-multiple-empty-lines:
+    - error
+    - max: 1
