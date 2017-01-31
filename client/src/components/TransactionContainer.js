@@ -10,12 +10,15 @@ import {getTransactions, getTransactionsById} from '../selectors/transactions';
 import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import TransactionTotalAmount from './TransactionTotalAmount';
 import sumBy from 'lodash/sumBy';
-import TransactionSearchService from '../services/TransactionSearchService';
+import TransactionFilters from './TransactionFilters';
+import {TransactionSearchService} from '../services/TransactionSearchService';
+import {Filter} from '../entities/Filter';
 
 const mapStateToProps = (state) => ({
   transactions: getTransactions(state),
   transactionsById: getTransactionsById(state),
   transactionsForRendering: getTransactionsForRendering(state),
+  transactionFilters: state.transactionFilters
 });
 
 @ui({
@@ -34,6 +37,7 @@ class TransactionContainer extends React.Component {
     transactions: React.PropTypes.array.isRequired,
     transactionsById: React.PropTypes.instanceOf(Map).isRequired,
     transactionsForRendering: React.PropTypes.array.isRequired,
+    transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),
     delete: React.PropTypes.func.isRequired,
     accountId: React.PropTypes.number,
     ui: React.PropTypes.object.isRequired,
@@ -96,10 +100,16 @@ class TransactionContainer extends React.Component {
   }
 
   getTransactionsToRender() {
+    // Filter the selected account
     let transactions = this.props.transactionsForRendering;
     if (this.props.accountId) {
       transactions = this.props.transactionsForRendering.filter(tr => tr.account_id === this.props.accountId);
     }
+
+    // Filter with Filter[]
+    transactions = this.searchService.applyFiltersToTransactions(transactions, this.props.transactionFilters);
+
+    // Filters further with search text
     return this.searchService.filter(transactions, this.props.ui.searchValue);
   }
 
@@ -131,6 +141,8 @@ class TransactionContainer extends React.Component {
             searchValue={this.props.ui.searchValue}
             onSearchChange={this.onSearchChange}
           />
+
+          <TransactionFilters/>
 
           <TransactionTable
             transactions={transactionsToRender}

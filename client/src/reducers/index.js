@@ -1,14 +1,15 @@
-import {combineReducers} from "redux";
-import errorsReducer from "./errors";
-import {reducer as formReducer} from "redux-form";
-import {reducer as uiReducer} from "redux-ui";
-import {routerReducer} from "react-router-redux";
-import reduxCrud from "redux-crud";
+import {combineReducers} from 'redux';
+import errorsReducer from './errors';
+import {reducer as formReducer} from 'redux-form';
+import {reducer as uiReducer} from 'redux-ui';
+import {routerReducer} from 'react-router-redux';
+import reduxCrud from 'redux-crud';
+import {transactionFiltersReducer} from './filters';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
     case "@@router/LOCATION_CHANGE": {
-      let result = action.payload.pathname.match(/^\/account\/(\d+)/i);
+      let result = action.payload.pathname.match(/^\/account\/(\d+)$/i);
       if (result) {
         return Number.parseInt(result[1]);
       }
@@ -28,5 +29,6 @@ export default combineReducers({
   form: formReducer,
   ui: uiReducer,
   routing: routerReducer,
-  errors: errorsReducer
+  errors: errorsReducer,
+  transactionFilters: transactionFiltersReducer
 });

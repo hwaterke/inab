@@ -30,6 +30,7 @@ render(
           <IndexRoute component={LandingPage}/>
           <Route path="/budget" component={BudgetPage}/>
           <Route path="/account(/:id)" component={AccountPage}/>
+          <Route path="/account/:date/:category_id" component={AccountPage}/>
         </Route>
       </Router>
     </MuiThemeProvider>
