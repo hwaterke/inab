@@ -1,16 +1,17 @@
-import reduxCrud, * as constants from "redux-crud";
-import axios from "axios";
-import cuid from "cuid";
-import {addError} from "./error.js";
+import reduxCrud from 'redux-crud';
+import axios from 'axios';
+import cuid from 'cuid';
+import {addError} from './error.js';
 
 function asyncActionCreatorsFor(resourceName, config) {
-  if (resourceName == null) throw new Error('asyncActionCreatorsFor: Expected resourceName');
+  if (resourceName == null) {
+    throw new Error('asyncActionCreatorsFor: Expected resourceName');
+  }
 
   config = config || {};
   const standardActionCreators = reduxCrud.actionCreatorsFor(resourceName);
-  const key = config.key || constants.DEFAULT_KEY;
+  const key = config.key || reduxCrud.DEFAULT_KEY;
   const baseUrl = config.url || `/api/${resourceName}`;
-
 
   return {
     fetch: function () {
@@ -27,7 +28,7 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.fetchSuccess(response.data.data));
         }, function (response) {
           dispatch(standardActionCreators.fetchError(response.data));
-          if(response.data.error) {
+          if (response.data.error) {
             dispatch(addError(response.data.error));
           }
         }).catch(function (err) {
@@ -57,7 +58,7 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.createSuccess(response.data, cid));
         }, function (error) {
           dispatch(standardActionCreators.createError(error.data, resource));
-          if(error.data.error) {
+          if (error.data.error) {
             dispatch(addError(error.data.error));
           }
         }).catch(function (err) {
@@ -83,7 +84,7 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.updateSuccess(response.data));
         }, function (error) {
           dispatch(standardActionCreators.updateError(error.data, resource));
-          if(error.data.error) {
+          if (error.data.error) {
             dispatch(addError(error.data.error));
           }
         }).catch(function (err) {
@@ -108,7 +109,7 @@ function asyncActionCreatorsFor(resourceName, config) {
           dispatch(standardActionCreators.deleteSuccess(response.data));
         }, function (error) {
           dispatch(standardActionCreators.deleteError(error.data, resource));
-          if(error.data.error) {
+          if (error.data.error) {
             dispatch(addError(error.data.error));
           }
         }).catch(function (err) {
