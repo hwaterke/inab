@@ -27,7 +27,7 @@ class TransactionToolbar extends React.Component {
     updateUI: React.PropTypes.func.isRequired,
   };
 
-  renderColumnToggle(columnName, icon) {
+  renderColumnToggle(label, columnName, icon) {
     const classes = ['btn', 'btn-success'];
     if (this.props.hiddenColumns[columnName]) {
       classes.push('active');
@@ -38,12 +38,12 @@ class TransactionToolbar extends React.Component {
         className={classes.join(' ')}
         icon={icon}
         onClick={() => this.props.toggleColumn(columnName)}
-      >{columnName.toUpperCase()}</ButtonIcon>;
+      >{label}</ButtonIcon>;
     }
     return <Button
       className={classes.join(' ')}
       onClick={() => this.props.toggleColumn(columnName)}
-    >{columnName.toUpperCase()}</Button>;
+    >{label}</Button>;
   }
 
   render() {
@@ -104,12 +104,12 @@ class TransactionToolbar extends React.Component {
           this.props.ui.filtersVisible &&
           <div className="transaction-toolbar">
             <div className="btn-group">
-              {this.renderColumnToggle('account', 'bank')}
-              {this.renderColumnToggle('date', 'calendar')}
-              {this.renderColumnToggle('payee')}
-              {this.renderColumnToggle('category')}
-              {this.renderColumnToggle('description')}
-              {this.renderColumnToggle('amount')}
+              {this.renderColumnToggle('Account', 'account', 'bank')}
+              {this.renderColumnToggle('Date', 'display_date', 'calendar')}
+              {this.renderColumnToggle('Payee', 'payee')}
+              {this.renderColumnToggle('Category', 'category')}
+              {this.renderColumnToggle('Description', 'description')}
+              {this.renderColumnToggle('Amount', 'amount')}
             </div>
           </div>
         }
