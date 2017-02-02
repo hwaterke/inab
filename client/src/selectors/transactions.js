@@ -1,6 +1,6 @@
-import {createSelector} from "reselect";
-import {createInMonthSelectors, createUpToMonthSelectors} from "./ui";
-import {beginningOfMonth, createMappingSelector, groupBy, mapMap} from "./utils";
+import {createSelector} from 'reselect';
+import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
+import {beginningOfMonth, createMappingSelector, groupBy, mapMap} from './utils';
 import sumBy from 'lodash/sumBy';
 
 // All
@@ -43,7 +43,7 @@ export const getTransactionsById = createMappingSelector(getTransactions, 'id');
 
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   upToMonth.current,
-  transactions => sumBy(transactions.filter(t => t.type == "to_be_budgeted"), 'amount')
+  transactions => sumBy(transactions.filter(t => t.type == 'to_be_budgeted'), 'amount')
 );
 
 export const getSelectedMonthActivityByCategoryId = createSelector(

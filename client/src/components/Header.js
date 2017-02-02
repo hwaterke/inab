@@ -1,13 +1,13 @@
-import AccountFormDialog from "./forms/AccountFormDialog";
-import Link from "./Link";
-import Amount from "./Amount";
-import React from "react";
-import {connect} from "react-redux";
-import {getAccounts, getBalanceByAccountId} from "../selectors/accounts";
-import {getBudgetBalance} from "../selectors/budget";
-import FontAwesome from "react-fontawesome";
-import ui from "redux-ui";
-import {Link as RouterLink} from "react-router";
+import AccountFormDialog from './forms/AccountFormDialog';
+import Link from './Link';
+import Amount from './Amount';
+import React from 'react';
+import {connect} from 'react-redux';
+import {getAccounts, getBalanceByAccountId} from '../selectors/accounts';
+import {getBudgetBalance} from '../selectors/budget';
+import FontAwesome from 'react-fontawesome';
+import ui from 'redux-ui';
+import {Link as RouterLink} from 'react-router';
 
 @ui({
   state: {
@@ -47,7 +47,8 @@ class Header extends React.Component {
               id="supportedContentDropdown"
               data-toggle="dropdown"
               aria-haspopup="true"
-              aria-expanded="false">
+              aria-expanded="false"
+            >
               Accounts
             </a>
 
@@ -56,27 +57,29 @@ class Header extends React.Component {
               <RouterLink className="dropdown-item" to="/account">
                 All
                 &nbsp;
-                <Amount amount={this.props.budgetBalance} color/>
+                <Amount amount={this.props.budgetBalance} color />
               </RouterLink>
 
               {this.props.accounts.map((account) =>
                 account.busy ?
                   <Link className="dropdown-item" key={account.id}>
-                    <FontAwesome name='refresh' spin fixedWidth/>
+                    <FontAwesome name="refresh" spin fixedWidth />
                     {account.name}
                   </Link>
                   :
                   <RouterLink className="dropdown-item" key={account.id} to={`/account/${account.id}`}>
                     {account.name}
                     &nbsp;
-                    <Amount amount={this.props.balanceByAccountId.get(account.id)} color/>
+                    <Amount amount={this.props.balanceByAccountId.get(account.id)} color />
                   </RouterLink>
               )}
 
-              <div role="separator" className="dropdown-divider"/>
+              <div role="separator" className="dropdown-divider" />
 
-              <Link className="dropdown-item"
-                    onClick={() => this.props.updateUI({accountFormOpen: true, accountSelected: null})}>
+              <Link
+                className="dropdown-item"
+                onClick={() => this.props.updateUI({accountFormOpen: true, accountSelected: null})}
+              >
                 Add account
               </Link>
               <AccountFormDialog />

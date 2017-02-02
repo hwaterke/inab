@@ -31,7 +31,7 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
         <div>
           <div className="btn-group btn-group-sm">
             <Button>{index + 1}</Button>
-            <ButtonDelete onClick={() => fields.remove(index)}/>
+            <ButtonDelete onClick={() => fields.remove(index)} />
           </div>
         </div>
 
@@ -68,15 +68,15 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
     )}
     <div className="tr-form-container str-form-container">
       {showAccount && <div />}
-      <div></div>
+      <div />
       <div>
         <ButtonIcon className="btn btn-info" onClick={() => fields.push({})} icon="plus">
           Subtransaction
         </ButtonIcon>
       </div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
     </div>
   </div>
 );
@@ -103,13 +103,13 @@ const mapStateToProps = (state) => ({
 const createInitialValues = (stateProps, dispatchProps, ownProps) => {
   const initialValues = {
     account_id: ownProps.selectedAccountId,
-    date: moment().format("YYYY-MM-DD")
+    date: moment().format('YYYY-MM-DD')
   };
   if (ownProps.transaction != null) {
     initialValues.account_id = ownProps.transaction.account_id;
     initialValues.date = ownProps.transaction.date;
     if (ownProps.transaction.transfer_account_id) {
-      initialValues.payee = "transfer:" + ownProps.transaction.transfer_account_id;
+      initialValues.payee = 'transfer:' + ownProps.transaction.transfer_account_id;
     } else {
       initialValues.payee = ownProps.transaction.payee;
     }
@@ -201,8 +201,8 @@ export default class TransactionForm extends Component {
 
     // Compute the transfer_account_id
     data.transfer_account_id = null;
-    if (data.payee && data.payee.startsWith("transfer:")) {
-      data.transfer_account_id = parseInt(data.payee.slice("transfer:".length));
+    if (data.payee && data.payee.startsWith('transfer:')) {
+      data.transfer_account_id = parseInt(data.payee.slice('transfer:'.length));
       data.payee = null;
     }
 
@@ -243,18 +243,18 @@ export default class TransactionForm extends Component {
 
   render() {
     const categoryOptions = [
-      {label: "To be budgeted", value: "tbb"},
-      {label: "Split", value: "split"},
+      {label: 'To be budgeted', value: 'tbb'},
+      {label: 'Split', value: 'split'},
       ...this.props.categories.map(c => ({label: c.name, value: c.id}))
     ];
 
     const subtransactionCategoryOptions = [
-      {label: "To be budgeted", value: "tbb"},
+      {label: 'To be budgeted', value: 'tbb'},
       ...this.props.categories.map(c => ({label: c.name, value: c.id}))
     ];
 
     const payeeOptions = [
-      ...this.props.accounts.map(a => ({label: "Transfer to " + a.name, value: "transfer:" + a.id})),
+      ...this.props.accounts.map(a => ({label: 'Transfer to ' + a.name, value: 'transfer:' + a.id})),
       ...this.props.payees.map(c => ({label: c, value: c}))
     ];
 
@@ -277,7 +277,7 @@ export default class TransactionForm extends Component {
             <label>Date</label>
             <div>
               <Field
-                name='date'
+                name="date"
                 component={DatePickerField}
               />
             </div>
@@ -298,8 +298,8 @@ export default class TransactionForm extends Component {
             <Field
               name="category"
               component={SimpleSelectField}
-              placeholder={(this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")) ? "No category for transfers" : "Category"}
-              disabled={this.props.payeeValue && this.props.payeeValue.startsWith("transfer:")}
+              placeholder={(this.props.payeeValue && this.props.payeeValue.startsWith('transfer:')) ? 'No category for transfers' : 'Category'}
+              disabled={this.props.payeeValue && this.props.payeeValue.startsWith('transfer:')}
               options={categoryOptions}
             />
           </div>
@@ -326,11 +326,13 @@ export default class TransactionForm extends Component {
             />
           </div>
         </div>
-        {this.props.categoryValue === "split" &&
-        <FieldArray name="subtransactions"
-                    categories={subtransactionCategoryOptions}
-                    showAccount={this.props.showAccount}
-                    component={renderSubtransactions}/>}
+        {this.props.categoryValue === 'split' &&
+        <FieldArray
+          name="subtransactions"
+          categories={subtransactionCategoryOptions}
+          showAccount={this.props.showAccount}
+          component={renderSubtransactions}
+        />}
 
         <div className="btn-group">
           <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}>

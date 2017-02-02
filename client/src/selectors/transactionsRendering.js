@@ -33,10 +33,10 @@ export const getTransactionsForRendering = createSelector(
       tr_result.display_date = tr.date;
 
       if (tr.type === 'to_be_budgeted') {
-        tr_result.category = "To be budgeted";
+        tr_result.category = 'To be budgeted';
       }
       if (tr.type === 'split') {
-        tr_result.category = "Split";
+        tr_result.category = 'Split';
       }
       if (tr.type === 'regular' && tr.category_id) {
         tr_result.category = categoriesById.get(tr.category_id).name;

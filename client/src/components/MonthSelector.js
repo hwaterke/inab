@@ -1,7 +1,7 @@
-import React from "react";
-import ui from "redux-ui";
-import Button from "./Button";
-import ButtonIcon from "./ButtonIcon";
+import React from 'react';
+import ui from 'redux-ui';
+import Button from './Button';
+import ButtonIcon from './ButtonIcon';
 
 @ui()
 class MonthSelector extends React.Component {
@@ -44,9 +44,9 @@ class MonthSelector extends React.Component {
   render() {
     return (
       <div className="btn-group" role="group">
-        <ButtonIcon onClick={this.previous} icon="arrow-left"/>
+        <ButtonIcon onClick={this.previous} icon="arrow-left" />
         <Button onClick={this.current}>{this.props.ui.month}-{this.props.ui.year}</Button>
-        <ButtonIcon onClick={this.next} icon="arrow-right"/>
+        <ButtonIcon onClick={this.next} icon="arrow-right" />
       </div>
     );
   }

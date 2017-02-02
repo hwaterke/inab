@@ -87,13 +87,14 @@ class TransactionToolbar extends React.Component {
           <div className="transaction-toolbar-search">
             <div className="input-group">
               <span className="input-group-addon" id="basic-addon1">
-                <FontAwesome name="search" fixedWidth/>
+                <FontAwesome name="search" fixedWidth />
               </span>
-              <input type="text"
-                     value={this.props.searchValue}
-                     onChange={this.props.onSearchChange}
-                     className="form-control"
-                     placeholder="Search"
+              <input
+                type="text"
+                value={this.props.searchValue}
+                onChange={this.props.onSearchChange}
+                className="form-control"
+                placeholder="Search"
               />
             </div>
           </div>

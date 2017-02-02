@@ -50,7 +50,7 @@ export class TransactionSearchService {
 
   tranformForSearch(value) {
     if (value === undefined) {
-      return "";
+      return '';
     }
     return value.toString().toLowerCase();
   }

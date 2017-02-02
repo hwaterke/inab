@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 import moment from 'moment';
 
 export const groupBy = (items, ...mappers) => {
@@ -9,7 +9,7 @@ export const groupBy = (items, ...mappers) => {
     result.get(mapper(i)).push(i);
   });
   if (mappers.length > 0) {
-    result.forEach((v,k) => result.set(k, groupBy(v, ...mappers)));
+    result.forEach((v, k) => result.set(k, groupBy(v, ...mappers)));
   }
   return result;
 };
@@ -32,7 +32,7 @@ export const mapMap = (aMap, mapper) => {
   return result;
 };
 
-export const beginningOfMonth = (dateString) => moment(dateString).startOf('month').format("YYYY-MM-DD");
+export const beginningOfMonth = (dateString) => moment(dateString).startOf('month').format('YYYY-MM-DD');
 
 export const createGroupingSelector = (itemSelector, propName) => createSelector(itemSelector, (items) => groupByKey(items, propName));
 

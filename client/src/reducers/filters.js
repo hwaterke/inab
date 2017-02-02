@@ -15,12 +15,12 @@ export const deleteFilter = (index) => ({
 
 export function transactionFiltersReducer(state = [], action) {
   switch (action.type) {
-    case "ADD_FILTER":
+    case 'ADD_FILTER':
       return state.concat(action.filter);
-    case "DELETE_FILTER": {
+    case 'DELETE_FILTER': {
       return state.filter((_, i) => i !== action.index);
     }
-    case "@@router/LOCATION_CHANGE": {
+    case '@@router/LOCATION_CHANGE': {
       let result = action.payload.pathname.match(/^\/account\/(\d{4}-\d{2})\/(\d+)$/i);
       if (result) {
         return [

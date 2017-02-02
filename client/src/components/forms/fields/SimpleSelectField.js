@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleSelect } from 'react-selectize';
+import {SimpleSelect} from 'react-selectize';
 import './SimpleSelect.scss';
 
 const SimpleSelectField = ({placeholder, disabled, options, input}) =>
@@ -8,7 +8,8 @@ const SimpleSelectField = ({placeholder, disabled, options, input}) =>
     disabled={disabled}
     options={options}
     value={options.find(i => i.value == input.value)}
-    onValueChange={item => input.onChange(item ? item.value : null)} />;
+    onValueChange={item => input.onChange(item ? item.value : null)}
+  />;
 
 SimpleSelectField.propTypes = {
   placeholder: React.PropTypes.string,

@@ -1,11 +1,13 @@
 import React from 'react';
 import ButtonDelete from '../ButtonDelete';
-import { Field, reduxForm } from 'redux-form';
+import {Field, reduxForm} from 'redux-form';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 @connect(null, asyncActionCreatorsFor('accounts'), (stateProps, dispatchProps, ownProps) =>
-  Object.assign({}, ownProps, stateProps, dispatchProps, (ownProps.account != null) ? {initialValues: {name: ownProps.account.name}} : null)
+  Object.assign({}, ownProps, stateProps, dispatchProps, (ownProps.account != null) ?
+    {initialValues: {name: ownProps.account.name}} :
+    null)
 )
 @reduxForm({form: 'account'})
 class CategoryGroupForm extends React.Component {
@@ -65,15 +67,16 @@ class CategoryGroupForm extends React.Component {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Name</label>
             <Field
               name="name"
               component="input"
               type="text"
-              className='form-control'
+              className="form-control"
               placeholder="Name"
-              autoFocus />
+              autoFocus
+            />
           </div>
         </form>
         {this.props.account != null && <ButtonDelete onClick={this.delete} />}

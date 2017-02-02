@@ -1,12 +1,12 @@
-import React from "react";
-import {connect} from "react-redux";
-import asyncActionCreatorsFor from "../actions/asyncActionCreatorsFor";
-import {getAccounts} from "../selectors/accounts";
-import {getCategoryCount} from "../selectors/categories";
-import {getTransactions} from "../selectors/transactions";
-import {getCategoryGroups} from "../selectors/categoryGroups";
-import {getBudgetItems} from "../selectors/budgetItems";
-import {bindActionCreators} from "redux";
+import React from 'react';
+import {connect} from 'react-redux';
+import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
+import {getAccounts} from '../selectors/accounts';
+import {getCategoryCount} from '../selectors/categories';
+import {getTransactions} from '../selectors/transactions';
+import {getCategoryGroups} from '../selectors/categoryGroups';
+import {getBudgetItems} from '../selectors/budgetItems';
+import {bindActionCreators} from 'redux';
 
 // Until we have a better solution, this component silently loads the entities on startup.
 class EntityLoader extends React.Component {

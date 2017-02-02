@@ -30,6 +30,29 @@ rules:
   semi:
     - error
     - always
+  no-multi-spaces:
+    - error
   no-multiple-empty-lines:
     - error
     - max: 1
+  quotes:
+    - error
+    - single
+  jsx-quotes:
+    - error
+    - prefer-double
+  react/jsx-first-prop-new-line:
+    - error
+    - multiline
+  react/jsx-closing-bracket-location:
+    - error
+    - line-aligned
+  react/self-closing-comp:
+    - error
+  react/jsx-space-before-closing:
+    - error
+    - always
+  react/jsx-curly-spacing:
+    - error
+    - never
+    - allowMultiline: true

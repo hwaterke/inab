@@ -7,7 +7,8 @@ const DatePickerField = ({input}) =>
   <DatePicker
     className="form-control"
     selected={moment(input.value)}
-    onChange={param => input.onChange(param.format("YYYY-MM-DD"))} />;
+    onChange={param => input.onChange(param.format('YYYY-MM-DD'))}
+  />;
 
 DatePickerField.propTypes = {
   input: React.PropTypes.shape({

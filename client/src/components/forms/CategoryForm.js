@@ -1,11 +1,11 @@
 import React from 'react';
 import ButtonCheck from '../ButtonCheck';
 import ButtonDelete from '../ButtonDelete';
-import { Field, reduxForm } from 'redux-form';
+import {Field, reduxForm} from 'redux-form';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
-import { getCategoryGroups } from '../../selectors/categoryGroups';
+import {getCategoryGroups} from '../../selectors/categoryGroups';
 
 const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state)
@@ -15,7 +15,8 @@ const mapStateToProps = (state) => ({
   Object.assign({},
     ownProps,
     stateProps,
-    dispatchProps, (ownProps.category != null) ? {
+    dispatchProps,
+    (ownProps.category != null) ? {
       initialValues: {
         category_group_id: ownProps.category.category_group_id,
         name: ownProps.category.name,
@@ -89,32 +90,35 @@ class CategoryForm extends React.Component {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Category group</label>
             <Field
               name="category_group_id"
               component={SimpleSelectField}
               placeholder="Category group"
-              options={this.props.categoryGroups.map(cg => ({label: cg.name, value: cg.id}))} />
+              options={this.props.categoryGroups.map(cg => ({label: cg.name, value: cg.id}))}
+            />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Name</label>
             <Field
               name="name"
               component="input"
               type="text"
-              className='form-control'
+              className="form-control"
               placeholder="Name"
-              autoFocus />
+              autoFocus
+            />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Priority</label>
             <Field
-                name="priority"
-                component="input"
-                type="number"
-                className='form-control'
-                placeholder="Priority" />
+              name="priority"
+              component="input"
+              type="number"
+              className="form-control"
+              placeholder="Priority"
+            />
           </div>
           <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)} />
         </form>

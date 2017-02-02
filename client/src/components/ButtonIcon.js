@@ -1,11 +1,11 @@
-import React from "react";
-import Button from "./Button";
-import FontAwesome from "react-fontawesome";
+import React from 'react';
+import Button from './Button';
+import FontAwesome from 'react-fontawesome';
 
 const ButtonIcon = ({className, onClick, children, icon}) => (
   <Button className={className} onClick={onClick}>
-    <FontAwesome name={icon} fixedWidth={!children}/>
-    {children && `\u00a0`}
+    <FontAwesome name={icon} fixedWidth={!children} />
+    {children && '\u00a0'}
     {children}
   </Button>
 );

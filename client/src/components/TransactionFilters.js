@@ -48,7 +48,8 @@ class TransactionFilters extends React.Component {
               key={index}
               className="btn btn-outline-info btn-sm"
               icon="ban"
-              onClick={() => this.props.onClickDelete(index)}>
+              onClick={() => this.props.onClickDelete(index)}
+            >
               {this.getAttributeLabel(filter.attribute)} {filter.operator} {this.getValueLabel(filter)}
             </ButtonIcon>
           ))}

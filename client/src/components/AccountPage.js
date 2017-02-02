@@ -8,7 +8,7 @@ import TransactionContainer from './TransactionContainer';
 
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>
-    <AccountHeader name={title} balance={balance}/>
+    <AccountHeader name={title} balance={balance} />
     <TransactionContainer
       accountId={selectedAccountId}
       hideAccount={!!selectedAccountId}
@@ -23,7 +23,7 @@ AccountPage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  let title = "All";
+  let title = 'All';
   let balance = getBudgetBalance(state);
 
   const aid = getSelectedAccount(state);

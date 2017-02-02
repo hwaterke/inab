@@ -42,9 +42,9 @@ class TransactionTable extends React.Component {
             (selected, extra) => {
               if (!extra.rowData.subtransaction) {
                 if (selected) {
-                  return <FontAwesome name='check-circle-o'/>;
+                  return <FontAwesome name="check-circle-o" />;
                 }
-                return <FontAwesome name='circle-o'/>;
+                return <FontAwesome name="circle-o" />;
               }
             }
           ]
@@ -71,7 +71,7 @@ class TransactionTable extends React.Component {
           formatters: [
             (payee, extra) => {
               if (extra.rowData.is_transfer) {
-                return <div><FontAwesome name='exchange'/> {payee}</div>;
+                return <div><FontAwesome name="exchange" /> {payee}</div>;
               }
               return payee;
             }
@@ -103,7 +103,7 @@ class TransactionTable extends React.Component {
         cell: {
           formatters: [
             (amount) => (
-              <Amount amount={amount} color/>
+              <Amount amount={amount} color />
             )
           ]
         }
@@ -114,7 +114,7 @@ class TransactionTable extends React.Component {
             (a, e) => {
               if (!e.rowData.subtransaction) {
                 return (
-                  <Link onClick={() => this.props.onPencilClick(e.rowData.id)}><FontAwesome name='pencil'/></Link>);
+                  <Link onClick={() => this.props.onPencilClick(e.rowData.id)}><FontAwesome name="pencil" /></Link>);
               }
               return null;
             }
@@ -139,7 +139,7 @@ class TransactionTable extends React.Component {
         className="table table-sm table-hover transaction-table"
         columns={this.getColumns()}
       >
-        <Table.Header/>
+        <Table.Header />
         <Table.Body
           rows={selectedTransactions}
           onRow={this.onRow}

@@ -1,9 +1,9 @@
-import React from "react";
-import ButtonCheck from "../ButtonCheck";
-import ButtonDelete from "../ButtonDelete";
-import {Field, reduxForm} from "redux-form";
-import asyncActionCreatorsFor from "../../actions/asyncActionCreatorsFor";
-import {connect} from "react-redux";
+import React from 'react';
+import ButtonCheck from '../ButtonCheck';
+import ButtonDelete from '../ButtonDelete';
+import {Field, reduxForm} from 'redux-form';
+import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
+import {connect} from 'react-redux';
 
 @connect(null, asyncActionCreatorsFor('category_groups'), (stateProps, dispatchProps, ownProps) =>
   Object.assign(
@@ -78,30 +78,30 @@ class CategoryGroupForm extends React.Component {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Name</label>
             <Field
               name="name"
               component="input"
               type="text"
-              className='form-control'
+              className="form-control"
               placeholder="Name"
               autoFocus
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Priority</label>
             <Field
               name="priority"
               component="input"
               type="number"
-              className='form-control'
+              className="form-control"
               placeholder="Priority"
             />
           </div>
-          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}/>
+          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)} />
         </form>
-        {this.props.categoryGroup != null && <ButtonDelete onClick={this.delete}/>}
+        {this.props.categoryGroup != null && <ButtonDelete onClick={this.delete} />}
       </div>
     );
   }

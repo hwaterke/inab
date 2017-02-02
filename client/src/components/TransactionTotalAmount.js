@@ -6,7 +6,7 @@ const TransactionTotalAmount = ({amount}) => {
   return (
     <div className="transaction-total">
       <span className="transaction-total-label">Total</span>
-      <Amount amount={amount} color/>
+      <Amount amount={amount} color />
     </div>
   );
 };

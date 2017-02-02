@@ -1,12 +1,12 @@
-import { createSelector } from 'reselect';
-import { getTransactions } from './transactions';
-import { createMappingSelector } from './utils';
+import {createSelector} from 'reselect';
+import {getTransactions} from './transactions';
+import {createMappingSelector} from './utils';
 
 // All
 export const getAccounts = state => state.accounts;
 
 // Grouping
-export const getAccountsById = createMappingSelector(getAccounts,'id');
+export const getAccountsById = createMappingSelector(getAccounts, 'id');
 
 export const getBalanceByAccountId = createSelector(
   getAccounts,

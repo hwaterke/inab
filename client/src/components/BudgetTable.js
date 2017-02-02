@@ -1,9 +1,9 @@
 import React from 'react';
-import { getSortedCategoryGroups } from '../selectors/categoryGroups';
-import { getCategoriesByGroupId } from '../selectors/categories';
-import { getAvailableByCategoryIdForSelectedMonth } from '../selectors/budget';
-import { getSelectedMonthBudgetItemsByCategoryId } from '../selectors/budgetItems';
-import { getSelectedMonthActivityByCategoryId } from '../selectors/transactions';
+import {getSortedCategoryGroups} from '../selectors/categoryGroups';
+import {getCategoriesByGroupId} from '../selectors/categories';
+import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
+import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
+import {getSelectedMonthActivityByCategoryId} from '../selectors/transactions';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
@@ -29,18 +29,20 @@ class BudgetTable extends React.Component {
     const rows = [];
     this.props.categoryGroups.forEach(cg => {
       rows.push(<CategoryGroupRow
-        key={"cg"+cg.id}
+        key={'cg'+cg.id}
         categoryGroup={cg}
-        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, categoryGroupFormOpen: true})} />);
+        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, categoryGroupFormOpen: true})}
+      />);
       if (this.props.categoriesByGroupId.get(cg.id)) {
         this.props.categoriesByGroupId.get(cg.id).forEach(c => {
           rows.push(<CategoryRow
-            key={"c"+c.id}
+            key={'c'+c.id}
             category={c}
             onNameClick={() => this.props.updateUI({categorySelected: c.id, categoryFormOpen: true})}
             budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.id)}
             activity={this.props.getSelectedMonthActivityByCategoryId.get(c.id)}
-            available={this.props.availableByCategory.get(c.id)} />);
+            available={this.props.availableByCategory.get(c.id)}
+          />);
         });
       }
     });

@@ -1,11 +1,11 @@
-import React from "react";
-import Button from "../Button";
-import CategoryForm from "./CategoryForm";
-import ui from "redux-ui";
-import Dialog from "material-ui/Dialog";
-import {getCategoriesById} from "../../selectors/categories";
-import {connect} from "react-redux";
-import ButtonIcon from "../ButtonIcon";
+import React from 'react';
+import Button from '../Button';
+import CategoryForm from './CategoryForm';
+import ui from 'redux-ui';
+import Dialog from 'material-ui/Dialog';
+import {getCategoriesById} from '../../selectors/categories';
+import {connect} from 'react-redux';
+import ButtonIcon from '../ButtonIcon';
 
 @ui()
 class CategoryFormDialog extends React.Component {
@@ -44,10 +44,12 @@ class CategoryFormDialog extends React.Component {
           modal={false}
           actions={[closeButton]}
           open={this.props.ui.categoryFormOpen}
-          onRequestClose={this.handleClose}>
+          onRequestClose={this.handleClose}
+        >
           <CategoryForm
             category={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
-            postSubmit={this.handleClose}/>
+            postSubmit={this.handleClose}
+          />
         </Dialog>
       </span>
     );

@@ -142,7 +142,7 @@ class TransactionContainer extends React.Component {
             onSearchChange={this.onSearchChange}
           />
 
-          <TransactionFilters/>
+          <TransactionFilters />
 
           <TransactionTable
             transactions={transactionsToRender}
@@ -152,7 +152,7 @@ class TransactionContainer extends React.Component {
             hiddenColumns={this.props.ui.hideColumn}
           />
 
-          <TransactionTotalAmount amount={total}/>
+          <TransactionTotalAmount amount={total} />
 
         </div>
       </div>

@@ -3,8 +3,8 @@ import Button from '../Button';
 import AccountForm from './AccountForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
-import { getAccountsById } from '../../selectors/accounts';
-import { connect } from 'react-redux';
+import {getAccountsById} from '../../selectors/accounts';
+import {connect} from 'react-redux';
 
 @ui()
 class AccountFormDialog extends React.Component {
@@ -39,10 +39,12 @@ class AccountFormDialog extends React.Component {
         modal={false}
         actions={[closeButton]}
         open={this.props.ui.accountFormOpen}
-        onRequestClose={this.handleClose}>
+        onRequestClose={this.handleClose}
+      >
         <AccountForm
           account={this.props.ui.accountSelected && this.props.accountsById.get(this.props.ui.accountSelected)}
-          postSubmit={this.handleClose} />
+          postSubmit={this.handleClose}
+        />
       </Dialog>
     );
   }

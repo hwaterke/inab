@@ -7,7 +7,7 @@ const AccountHeader = ({name, balance}) => (
     <div className="account-header">
       <h1>{name}</h1>
       <div>
-        <Amount amount={balance} color/>
+        <Amount amount={balance} color />
       </div>
     </div>
   </div>

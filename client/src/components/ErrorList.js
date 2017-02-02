@@ -23,7 +23,7 @@ class ErrorDialog extends React.Component {
             </li>)
           }
         </ul>
-        <ButtonCheck onClick={this.props.dismissErrors}/>
+        <ButtonCheck onClick={this.props.dismissErrors} />
       </div>
     );
   }

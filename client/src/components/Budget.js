@@ -53,22 +53,23 @@ export default class BudgetPage extends React.Component {
           <div className="budget-header-amounts">
 
             <div className="budget-header-amounts-available">
-              <Amount amount={this.props.availableToBudget} color/>
+              <Amount amount={this.props.availableToBudget} color />
               <div>Available to budget</div>
             </div>
 
             <div className="budget-header-amounts-details">
               <div>
                 <div className="budget-header-amounts-details-amount">
-                  <Amount amount={this.props.fundsAvailable}/></div>
-                <div className="budget-header-amounts-details-amount">
-                  <Amount amount={this.props.overspentLastMonth}/>
+                  <Amount amount={this.props.fundsAvailable} />
                 </div>
                 <div className="budget-header-amounts-details-amount">
-                  <Amount amount={this.props.budgetedThisMonth}/>
+                  <Amount amount={this.props.overspentLastMonth} />
                 </div>
                 <div className="budget-header-amounts-details-amount">
-                  <Amount amount={this.props.budgetedInFuture}/>
+                  <Amount amount={this.props.budgetedThisMonth} />
+                </div>
+                <div className="budget-header-amounts-details-amount">
+                  <Amount amount={this.props.budgetedInFuture} />
                 </div>
               </div>
               <div className="budget-header-amounts-details-names">

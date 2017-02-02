@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleSelect } from 'react-selectize';
+import {SimpleSelect} from 'react-selectize';
 import './SimpleSelect.scss';
 
 class SimpleSelectCreateField extends React.Component {
@@ -25,9 +25,7 @@ class SimpleSelectCreateField extends React.Component {
   };
 
   createFromSearch(options, search) {
-    if (search.length == 0 || (options.map(function(option) {
-      return option.label;
-    })).indexOf(search) > -1) {
+    if (search.length == 0 || (options.map(option => option.label)).indexOf(search) > -1) {
       return null;
     } else {
       return {label: search, value: search};
@@ -50,7 +48,8 @@ class SimpleSelectCreateField extends React.Component {
         options={this.state.options}
         createFromSearch={this.createFromSearch}
         value={this.state.options.find((i) => i.value == this.props.input.value)}
-        onValueChange={this.onValueChangeInternal} />
+        onValueChange={this.onValueChangeInternal}
+      />
     );
   }
 }

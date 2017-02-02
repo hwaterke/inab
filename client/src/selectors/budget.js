@@ -1,9 +1,9 @@
-import { createSelector } from 'reselect';
-import { getCategories } from "../selectors/categories";
-import { getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions } from "../selectors/transactions";
-import { getBudgetItems, getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo } from "../selectors/budgetItems";
-import { beginningOfMonth, groupBy, groupByKey } from './utils';
-import { getCurrentMonth, getPreviousMonth } from './ui';
+import {createSelector} from 'reselect';
+import {getCategories} from '../selectors/categories';
+import {getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions} from '../selectors/transactions';
+import {getBudgetItems, getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo} from '../selectors/budgetItems';
+import {beginningOfMonth, groupBy, groupByKey} from './utils';
+import {getCurrentMonth, getPreviousMonth} from './ui';
 import sumBy from 'lodash/sumBy';
 
 /**
@@ -42,7 +42,7 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
     flattenTransactions(transactions).forEach((ft) => {
       const month = beginningOfMonth(ft.date);
       const categoryResult = result.get(ft.category_id);
-      categoryResult.set(month, categoryResult.get(month) );
+      categoryResult.set(month, categoryResult.get(month));
       categoryResult.set(month, (categoryResult.get(month) || 0) + ft.amount);
     });
 

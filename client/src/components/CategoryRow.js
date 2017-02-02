@@ -46,13 +46,13 @@ class CategoryRow extends React.Component {
     if (this.props.budgetItem) {
       this.props.update({
         id: this.props.budgetItem.id,
-        month: m.format("YYYY-MM-DD"),
+        month: m.format('YYYY-MM-DD'),
         category_id: this.props.category.id,
         amount: amountToCents(data.amount)
       });
     } else {
       this.props.create({
-        month: m.format("YYYY-MM-DD"),
+        month: m.format('YYYY-MM-DD'),
         category_id: this.props.category.id,
         amount: amountToCents(data.amount)
       });
@@ -65,13 +65,13 @@ class CategoryRow extends React.Component {
     if (this.props.ui.editingCategoryId == this.props.category.id) {
       budgetCell =
         <Cell className="right">
-          <BudgetItemForm onBlur={this.clearBudgetItemForm} onSubmit={this.onSubmit}/>
+          <BudgetItemForm onBlur={this.clearBudgetItemForm} onSubmit={this.onSubmit} />
         </Cell>;
     } else {
       budgetCell =
         <Cell className="right" onClick={this.editBudgetItem}>
-          {this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name='refresh' spin fixedWidth/>}
-          <Amount amount={this.props.budgetItem && this.props.budgetItem.amount}/>
+          {this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name="refresh" spin fixedWidth />}
+          <Amount amount={this.props.budgetItem && this.props.budgetItem.amount} />
         </Cell>;
     }
 
@@ -82,11 +82,11 @@ class CategoryRow extends React.Component {
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td className="right">
-          <RouterLink to={`/account/${m.format("YYYY-MM")}/${this.props.category.id}`}>
-            <Amount amount={this.props.activity}/>
+          <RouterLink to={`/account/${m.format('YYYY-MM')}/${this.props.category.id}`}>
+            <Amount amount={this.props.activity} />
           </RouterLink>
         </td>
-        <td className="right"><Amount amount={this.props.available} color/></td>
+        <td className="right"><Amount amount={this.props.available} color /></td>
       </tr>
     );
   }

@@ -8,7 +8,7 @@ import {transactionFiltersReducer} from './filters';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
-    case "@@router/LOCATION_CHANGE": {
+    case '@@router/LOCATION_CHANGE': {
       let result = action.payload.pathname.match(/^\/account\/(\d+)$/i);
       if (result) {
         return Number.parseInt(result[1]);
