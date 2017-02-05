@@ -15,6 +15,9 @@ import Button from '../Button';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import moment from 'moment';
 import {amountFromCents, amountToCents} from '../../utils/amount';
+import {AccountResource} from '../../entities/Account';
+import {CategoryResource} from '../../entities/Category';
+import {TransactionResource} from '../../entities/Transaction';
 
 /**
  * Component used for rendering the subtransaction forms
@@ -133,7 +136,7 @@ const createInitialValues = (stateProps, dispatchProps, ownProps) => {
 
 @connect(
   mapStateToProps,
-  asyncActionCreatorsFor('transactions'),
+  asyncActionCreatorsFor(TransactionResource.path),
   createInitialValues
 )
 @reduxForm({form: 'transaction', enableReinitialize: true})
@@ -151,18 +154,8 @@ export default class TransactionForm extends Component {
     delete: React.PropTypes.func.isRequired,
 
     // Reference data
-    accounts: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        id: React.PropTypes.number.isRequired,
-        name: React.PropTypes.string.isRequired
-      })
-    ).isRequired,
-    categories: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        id: React.PropTypes.number.isRequired,
-        name: React.PropTypes.string.isRequired
-      })
-    ).isRequired,
+    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
+    categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
     payees: React.PropTypes.arrayOf(
       React.PropTypes.string
     ).isRequired,
@@ -173,9 +166,7 @@ export default class TransactionForm extends Component {
       React.PropTypes.number
     ]),
 
-    transaction: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired
-    }),
+    transaction: TransactionResource.propType,
     postSubmit: React.PropTypes.func,
     onCancel: React.PropTypes.func,
     showAccount: React.PropTypes.bool.isRequired,

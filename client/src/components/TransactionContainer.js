@@ -13,6 +13,7 @@ import sumBy from 'lodash/sumBy';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
+import {TransactionResource} from '../entities/Transaction';
 
 const mapStateToProps = (state) => ({
   transactions: getTransactions(state),
@@ -30,11 +31,11 @@ const mapStateToProps = (state) => ({
     searchValue: ''
   }
 })
-@connect(mapStateToProps, asyncActionCreatorsFor('transactions'))
+@connect(mapStateToProps, asyncActionCreatorsFor(TransactionResource.path))
 class TransactionContainer extends React.Component {
 
   static propTypes = {
-    transactions: React.PropTypes.array.isRequired,
+    transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
     transactionsById: React.PropTypes.instanceOf(Map).isRequired,
     transactionsForRendering: React.PropTypes.array.isRequired,
     transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),

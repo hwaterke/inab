@@ -8,6 +8,7 @@ import {getBudgetBalance} from '../selectors/budget';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router';
+import {AccountResource} from '../entities/Account';
 
 @ui({
   state: {
@@ -17,7 +18,7 @@ import {Link as RouterLink} from 'react-router';
 })
 class Header extends React.Component {
   static propTypes = {
-    accounts: React.PropTypes.array.isRequired,
+    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
     balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired,
     budgetBalance: React.PropTypes.number.isRequired,
     updateUI: React.PropTypes.func.isRequired

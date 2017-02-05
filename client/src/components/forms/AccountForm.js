@@ -3,8 +3,9 @@ import ButtonDelete from '../ButtonDelete';
 import {Field, reduxForm} from 'redux-form';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import {connect} from 'react-redux';
+import {AccountResource} from '../../entities/Account';
 
-@connect(null, asyncActionCreatorsFor('accounts'), (stateProps, dispatchProps, ownProps) =>
+@connect(null, asyncActionCreatorsFor(AccountResource.path), (stateProps, dispatchProps, ownProps) =>
   Object.assign({}, ownProps, stateProps, dispatchProps, (ownProps.account != null) ?
     {initialValues: {name: ownProps.account.name}} :
     null)
@@ -23,9 +24,7 @@ class CategoryGroupForm extends React.Component {
     create: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
     delete: React.PropTypes.func.isRequired,
-    account: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired
-    }),
+    account: AccountResource.propType,
     postSubmit: React.PropTypes.func,
     handleSubmit: React.PropTypes.func.isRequired
   };

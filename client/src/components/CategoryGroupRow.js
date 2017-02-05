@@ -1,4 +1,5 @@
 import React from 'react';
+import {CategoryGroupResource} from '../entities/CategoryGroup';
 
 const style = {
   backgroundColor: '#85C9E6'
@@ -6,11 +7,9 @@ const style = {
 
 class CategoryGroupRow extends React.Component {
   static propTypes = {
-    categoryGroup: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired
-    }).isRequired,
+    categoryGroup: CategoryGroupResource.propType.isRequired,
     onClick: React.PropTypes.func
-  }
+  };
 
   render() {
     return (

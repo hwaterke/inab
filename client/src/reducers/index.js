@@ -5,6 +5,11 @@ import {reducer as uiReducer} from 'redux-ui';
 import {routerReducer} from 'react-router-redux';
 import reduxCrud from 'redux-crud';
 import {transactionFiltersReducer} from './filters';
+import {AccountResource} from '../entities/Account';
+import {CategoryResource} from '../entities/Category';
+import {CategoryGroupResource} from '../entities/CategoryGroup';
+import {BudgetItemResource} from '../entities/BudgetItem';
+import {TransactionResource} from '../entities/Transaction';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
@@ -21,11 +26,11 @@ function selectedAccountReducer(state = null, action) {
 
 export default combineReducers({
   selectedAccount: selectedAccountReducer,
-  transactions: reduxCrud.reducersFor('transactions'),
-  accounts: reduxCrud.reducersFor('accounts'),
-  categories: reduxCrud.reducersFor('categories'),
-  categoryGroups: reduxCrud.reducersFor('category_groups'),
-  budgetItems: reduxCrud.reducersFor('budget_items'),
+  transactions: reduxCrud.reducersFor(TransactionResource.path),
+  accounts: reduxCrud.reducersFor(AccountResource.path),
+  categories: reduxCrud.reducersFor(CategoryResource.path),
+  categoryGroups: reduxCrud.reducersFor(CategoryGroupResource.path),
+  budgetItems: reduxCrud.reducersFor(BudgetItemResource.path),
   form: formReducer,
   ui: uiReducer,
   routing: routerReducer,

@@ -9,6 +9,7 @@ import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
 import '../styles/tables.scss';
+import {CategoryGroupResource} from '../entities/CategoryGroup';
 
 @ui({
   state: {
@@ -17,7 +18,7 @@ import '../styles/tables.scss';
 })
 class BudgetTable extends React.Component {
   static propTypes = {
-    categoryGroups: React.PropTypes.array.isRequired,
+    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
     categoriesByGroupId: React.PropTypes.instanceOf(Map).isRequired,
     getSelectedMonthActivityByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,

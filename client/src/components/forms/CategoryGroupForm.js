@@ -4,8 +4,9 @@ import ButtonDelete from '../ButtonDelete';
 import {Field, reduxForm} from 'redux-form';
 import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import {connect} from 'react-redux';
+import {CategoryGroupResource} from '../../entities/CategoryGroup';
 
-@connect(null, asyncActionCreatorsFor('category_groups'), (stateProps, dispatchProps, ownProps) =>
+@connect(null, asyncActionCreatorsFor(CategoryGroupResource.path), (stateProps, dispatchProps, ownProps) =>
   Object.assign(
     {},
     ownProps,
@@ -32,9 +33,7 @@ class CategoryGroupForm extends React.Component {
     create: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
     delete: React.PropTypes.func.isRequired,
-    categoryGroup: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired
-    }),
+    categoryGroup: CategoryGroupResource.propType,
     postSubmit: React.PropTypes.func,
     handleSubmit: React.PropTypes.func.isRequired
   };

@@ -6,12 +6,14 @@ import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
 import {getCategoryGroups} from '../../selectors/categoryGroups';
+import {CategoryResource} from '../../entities/Category';
+import {CategoryGroupResource} from '../../entities/CategoryGroup';
 
 const mapStateToProps = (state) => ({
   categoryGroups: getCategoryGroups(state)
 });
 
-@connect(mapStateToProps, asyncActionCreatorsFor('categories'), (stateProps, dispatchProps, ownProps) =>
+@connect(mapStateToProps, asyncActionCreatorsFor(CategoryResource.path), (stateProps, dispatchProps, ownProps) =>
   Object.assign({},
     ownProps,
     stateProps,
@@ -38,15 +40,10 @@ class CategoryForm extends React.Component {
     create: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
     delete: React.PropTypes.func.isRequired,
-    category: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired
-    }),
+    category: CategoryResource.propType,
     postSubmit: React.PropTypes.func,
     handleSubmit: React.PropTypes.func.isRequired,
-    categoryGroups: React.PropTypes.arrayOf(React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequired
-    })).isRequired
+    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired
   };
 
   create(data) {

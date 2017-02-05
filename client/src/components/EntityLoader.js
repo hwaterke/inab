@@ -7,15 +7,20 @@ import {getTransactions} from '../selectors/transactions';
 import {getCategoryGroups} from '../selectors/categoryGroups';
 import {getBudgetItems} from '../selectors/budgetItems';
 import {bindActionCreators} from 'redux';
+import {AccountResource} from '../entities/Account';
+import {CategoryResource} from '../entities/Category';
+import {CategoryGroupResource} from '../entities/CategoryGroup';
+import {BudgetItemResource} from '../entities/BudgetItem';
+import {TransactionResource} from '../entities/Transaction';
 
 // Until we have a better solution, this component silently loads the entities on startup.
 class EntityLoader extends React.Component {
   static propTypes = {
-    accounts: React.PropTypes.array.isRequired,
-    categoryGroups: React.PropTypes.array.isRequired,
+    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
+    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
     categoryCount: React.PropTypes.number.isRequired,
-    budgetItems: React.PropTypes.array.isRequired,
-    transactions: React.PropTypes.array.isRequired,
+    budgetItems: React.PropTypes.arrayOf(BudgetItemResource.propType).isRequired,
+    transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
     accountsApi: React.PropTypes.object.isRequired,
     categoryGroupsApi: React.PropTypes.object.isRequired,
     categoriesApi: React.PropTypes.object.isRequired,
@@ -69,11 +74,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  accountsApi: bindActionCreators(asyncActionCreatorsFor('accounts'), dispatch),
-  categoriesApi: bindActionCreators(asyncActionCreatorsFor('categories'), dispatch),
-  categoryGroupsApi: bindActionCreators(asyncActionCreatorsFor('category_groups'), dispatch),
-  budgetItemsApi: bindActionCreators(asyncActionCreatorsFor('budget_items'), dispatch),
-  transactionsApi: bindActionCreators(asyncActionCreatorsFor('transactions'), dispatch)
+  accountsApi: bindActionCreators(asyncActionCreatorsFor(AccountResource.path), dispatch),
+  categoriesApi: bindActionCreators(asyncActionCreatorsFor(CategoryResource.path), dispatch),
+  categoryGroupsApi: bindActionCreators(asyncActionCreatorsFor(CategoryGroupResource.path), dispatch),
+  budgetItemsApi: bindActionCreators(asyncActionCreatorsFor(BudgetItemResource.path), dispatch),
+  transactionsApi: bindActionCreators(asyncActionCreatorsFor(TransactionResource.path), dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityLoader);

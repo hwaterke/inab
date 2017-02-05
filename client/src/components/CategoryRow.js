@@ -9,6 +9,7 @@ import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 import {amountToCents} from '../utils/amount';
 import {Link as RouterLink} from 'react-router';
+import {BudgetItemResource} from '../entities/BudgetItem';
 
 @ui()
 class CategoryRow extends React.Component {
@@ -94,4 +95,4 @@ class CategoryRow extends React.Component {
   }
 }
 
-export default connect(null, asyncActionCreatorsFor('budget_items'))(CategoryRow);
+export default connect(null, asyncActionCreatorsFor(BudgetItemResource.path))(CategoryRow);
