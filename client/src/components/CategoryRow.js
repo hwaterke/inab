@@ -41,18 +41,22 @@ class CategoryRow extends React.Component {
     this.props.updateUI('editingCategoryId', null);
   }
 
+  getSelectedMonthMoment() {
+    return moment([this.props.ui.year, this.props.ui.month - 1]);
+  }
+
   onSubmit(data) {
-    const m = moment([this.props.ui.year, this.props.ui.month - 1]);
+    const m = this.getSelectedMonthMoment().format('YYYY-MM-DD');
     if (this.props.budgetItem) {
       this.props.update({
         id: this.props.budgetItem.id,
-        month: m.format('YYYY-MM-DD'),
+        month: m,
         category_id: this.props.category.id,
         amount: amountToCents(data.amount)
       });
     } else {
       this.props.create({
-        month: m.format('YYYY-MM-DD'),
+        month: m,
         category_id: this.props.category.id,
         amount: amountToCents(data.amount)
       });
@@ -75,14 +79,12 @@ class CategoryRow extends React.Component {
         </Cell>;
     }
 
-    const m = moment([this.props.ui.year, this.props.ui.month - 1]);
-
     return (
       <tr>
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td className="right">
-          <RouterLink to={`/account/${m.format('YYYY-MM')}/${this.props.category.id}`}>
+          <RouterLink to={`/account/${this.getSelectedMonthMoment().format('YYYY-MM')}/${this.props.category.id}`}>
             <Amount amount={this.props.activity} />
           </RouterLink>
         </td>
