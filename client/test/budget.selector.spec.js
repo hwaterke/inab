@@ -1,12 +1,12 @@
 /*eslint-env mocha*/
 import expect from 'expect';
 import reducer from '../src/reducers';
-import { applyMiddleware, createStore } from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import * as utils from './utils';
-import { getAvailableByCategoryIdForSelectedMonth, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture, getAvailableToBudget } from '../src/selectors/budget';
+import {getAvailableByCategoryIdForSelectedMonth, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture, getAvailableToBudget} from '../src/selectors/budget';
 
-describe('Budget Selectors', function() {
+describe('Budget Selectors', function () {
   let store;
   let nextId;
 
@@ -51,87 +51,87 @@ describe('Budget Selectors', function() {
   beforeEach(() => {
     nextId = 1;
     store = createStore(reducer, applyMiddleware(thunk));
-    utils.createAccount(store, 1, "Checking");
-    utils.createCategory(store, 1, "Category");
+    utils.createAccount(store, 1, 'Checking');
+    utils.createCategory(store, 1, 'Category');
   });
 
-  describe('Handle default state', function() {
+  describe('Handle default state', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |     |     |     |
-    |=====|=====|=====|
-    |  0  |  0  |  0  | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |     |     |     |
+     |=====|=====|=====|
+     |  0  |  0  |  0  | Available to budget
+     */
     describe('#getAvailableToBudget', function () {
-      it("Should be 0 for previous month", () => expectAvailable(getMonth(-1), 0));
-      it("Should be 0 for current month", () => expectAvailable(getMonth(), 0));
-      it("Should be 0 for next month", () => expectAvailable(getMonth(1), 0));
+      it('Should be 0 for previous month', () => expectAvailable(getMonth(-1), 0));
+      it('Should be 0 for current month', () => expectAvailable(getMonth(), 0));
+      it('Should be 0 for next month', () => expectAvailable(getMonth(1), 0));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("Should be 0 for previous month", () => expectFunds(getMonth(-1), 0));
-      it("Should be 0 for current month", () => expectFunds(getMonth(), 0));
-      it("Should be 0 for next month", () => expectFunds(getMonth(1), 0));
+      it('Should be 0 for previous month', () => expectFunds(getMonth(-1), 0));
+      it('Should be 0 for current month', () => expectFunds(getMonth(), 0));
+      it('Should be 0 for next month', () => expectFunds(getMonth(1), 0));
     });
   });
 
-  describe('Handle one inflow', function() {
+  describe('Handle one inflow', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |     |  +3 |     |
-    |=====|=====|=====|
-    |  0  |  3  |  3  | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |     |  +3 |     |
+     |=====|=====|=====|
+     |  0  |  3  |  3  | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(), 3);
     });
     describe('#getAvailableToBudget', function () {
-      it("Should ignore inflow of next month", () => expectAvailable(getMonth(-1), 0));
-      it("Should include inflow of current month", () => expectAvailable(getMonth(), 3));
-      it("Should include left over from last month", () => expectAvailable(getMonth(1), 3));
+      it('Should ignore inflow of next month', () => expectAvailable(getMonth(-1), 0));
+      it('Should include inflow of current month', () => expectAvailable(getMonth(), 3));
+      it('Should include left over from last month', () => expectAvailable(getMonth(1), 3));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("Should ignore inflow of next month", () => expectFunds(getMonth(-1), 0));
-      it("Should include inflow of current month", () => expectFunds(getMonth(), 3));
-      it("Should include left over from last month", () => expectFunds(getMonth(1), 3));
+      it('Should ignore inflow of next month', () => expectFunds(getMonth(-1), 0));
+      it('Should include inflow of current month', () => expectFunds(getMonth(), 3));
+      it('Should include left over from last month', () => expectFunds(getMonth(1), 3));
     });
   });
 
-  describe('Multiple inflows', function() {
+  describe('Multiple inflows', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |  +3 |  +5 |  +7 |
-    |=====|=====|=====|
-    |  3  |  8  |  15 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |  +3 |  +5 |  +7 |
+     |=====|=====|=====|
+     |  3  |  8  |  15 | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(-1), 3);
       addInflow(getMonth(), 5);
       addInflow(getMonth(1), 7);
     });
     describe('#getAvailableToBudget', function () {
-      it("Should ignore inflow of next months", () => expectAvailable(getMonth(-1), 3));
-      it("Should combine inflow of current and previous month", () => expectAvailable(getMonth(), 8));
-      it("Should combine inflows over one month", () => expectAvailable(getMonth(1), 15));
+      it('Should ignore inflow of next months', () => expectAvailable(getMonth(-1), 3));
+      it('Should combine inflow of current and previous month', () => expectAvailable(getMonth(), 8));
+      it('Should combine inflows over one month', () => expectAvailable(getMonth(1), 15));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("Should ignore inflow of next month", () => expectFunds(getMonth(-1), 3));
-      it("Should combine inflow of current and previous month", () => expectFunds(getMonth(), 8));
-      it("Should combine inflows over one month", () => expectFunds(getMonth(1), 15));
+      it('Should ignore inflow of next month', () => expectFunds(getMonth(-1), 3));
+      it('Should combine inflow of current and previous month', () => expectFunds(getMonth(), 8));
+      it('Should combine inflows over one month', () => expectFunds(getMonth(1), 15));
     });
   });
 
-  describe('Use less than last month remaining funds', function() {
+  describe('Use less than last month remaining funds', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |  +5 |  +7 | +13 |
-    |     |   3 |     |
-    |=====|=====|=====|
-    |  2  |   9 |  22 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |  +5 |  +7 | +13 |
+     |     |   3 |     |
+     |=====|=====|=====|
+     |  2  |   9 |  22 | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(-1), 5);
       addInflow(getMonth(), 7);
@@ -139,26 +139,26 @@ describe('Budget Selectors', function() {
       budget(getMonth(), 3);
     });
     describe('#getAvailableToBudget', function () {
-      it("Should account for future budgeting", () => expectAvailable(getMonth(-1), 2));
-      it("Should account for budgetting in current month", () => expectAvailable(getMonth(), 9));
-      it("Should account for previous budgeting", () => expectAvailable(getMonth(1), 22));
+      it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 2));
+      it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 9));
+      it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 22));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("should ignore future budgeting", () => expectFunds(getMonth(-1), 5));
-      it("should ignore budgeting of the month", () => expectFunds(getMonth(), 5 + 7));
-      it("should include past budgeting", () => expectFunds(getMonth(1), 5 + 7 - 3 + 13));
+      it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
+      it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
+      it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 3 + 13));
     });
   });
 
-  describe('Use all of last month remaining funds', function() {
+  describe('Use all of last month remaining funds', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |  +5 |  +7 | +13 |
-    |     |   5 |     |
-    |=====|=====|=====|
-    |  0  |   2 |  15 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |  +5 |  +7 | +13 |
+     |     |   5 |     |
+     |=====|=====|=====|
+     |  0  |   2 |  15 | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(-1), 5);
       addInflow(getMonth(), 7);
@@ -166,26 +166,26 @@ describe('Budget Selectors', function() {
       budget(getMonth(), 5);
     });
     describe('#getAvailableToBudget', function () {
-      it("Should account for future budgeting", () => expectAvailable(getMonth(-1), 0));
-      it("Should account for budgetting in current month", () => expectAvailable(getMonth(), 7));
-      it("Should account for previous budgeting", () => expectAvailable(getMonth(1), 20));
+      it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 0));
+      it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 7));
+      it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 20));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("should ignore future budgeting", () => expectFunds(getMonth(-1), 5));
-      it("should ignore budgeting of the month", () => expectFunds(getMonth(), 5 + 7));
-      it("should include past budgeting", () => expectFunds(getMonth(1), 5 + 7 - 5 + 13));
+      it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
+      it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
+      it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 5 + 13));
     });
   });
 
-  describe('Use more than last month remaining funds', function() {
+  describe('Use more than last month remaining funds', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |  +5 |  +7 | +13 |
-    |     |   8 |     |
-    |=====|=====|=====|
-    |  0  |   4 |  17 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |  +5 |  +7 | +13 |
+     |     |   8 |     |
+     |=====|=====|=====|
+     |  0  |   4 |  17 | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(-1), 5);
       addInflow(getMonth(), 7);
@@ -193,31 +193,31 @@ describe('Budget Selectors', function() {
       budget(getMonth(), 8);
     });
     describe('#getAvailableToBudget', function () {
-      it("Should account for future budgeting", () => expectAvailable(getMonth(-1), 0));
-      it("Should account for budgetting in current month", () => expectAvailable(getMonth(), 4));
-      it("Should account for previous budgeting", () => expectAvailable(getMonth(1), 17));
+      it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 0));
+      it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 4));
+      it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 17));
     });
     describe('#getFundsForSelectedMonth', function () {
-      it("should ignore future budgeting", () => expectFunds(getMonth(-1), 5));
-      it("should ignore budgeting of the month", () => expectFunds(getMonth(), 5 + 7));
-      it("should include past budgeting", () => expectFunds(getMonth(1), 5 + 7 - 8 + 13));
+      it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
+      it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
+      it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 8 + 13));
     });
   });
 
-  describe('Over budgeting', function() {
+  describe('Over budgeting', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |  +3 |  +5 |  +7 |
-    |     |  50 |     |
-    |=====|=====|=====|
-    |  3  |   8 | -35 | Funds
-    |  0  |   0 |   0 | Overspending last month
-    |  0  | -50 |   0 | Budgeted this month
-    |  -3 |   0 |   0 | Budgeted in the future
-    |=====|=====|=====|
-    |  0  | -42 | -35 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |  +3 |  +5 |  +7 |
+     |     |  50 |     |
+     |=====|=====|=====|
+     |  3  |   8 | -35 | Funds
+     |  0  |   0 |   0 | Overspending last month
+     |  0  | -50 |   0 | Budgeted this month
+     |  -3 |   0 |   0 | Budgeted in the future
+     |=====|=====|=====|
+     |  0  | -42 | -35 | Available to budget
+     */
     beforeEach(function () {
       addInflow(getMonth(-1), 3);
       addInflow(getMonth(), 5);
@@ -256,7 +256,7 @@ describe('Budget Selectors', function() {
     });
 
     describe('#getAvailableToBudget', function () {
-      it("should account for the budgeting", () => {
+      it('should account for the budgeting', () => {
         expectAvailable(getMonth(-1), 0);
         expectAvailable(getMonth(), -42);
         expectAvailable(getMonth(1), -35);
@@ -266,17 +266,17 @@ describe('Budget Selectors', function() {
 
   describe('Overspending', function () {
     /*
-    |     |  x  |     |     |
-    |-----|-----|-----|-----|
-    |     |  s5 |     |     |
-    |=====|=====|=====|=====|
-    |  0  |   0 |   0 |  -5 | Funds
-    |  0  |   0 |  -5 |   0 | Overspending last month
-    |  0  |   0 |   0 |   0 | Budgeted this month
-    |  0  |   0 |   0 |   0 | Budgeted in the future
-    |=====|=====|=====|=====|
-    |  0  |   0 |  -5 |  -5 | Available to budget
-    */
+     |     |  x  |     |     |
+     |-----|-----|-----|-----|
+     |     |  s5 |     |     |
+     |=====|=====|=====|=====|
+     |  0  |   0 |   0 |  -5 | Funds
+     |  0  |   0 |  -5 |   0 | Overspending last month
+     |  0  |   0 |   0 |   0 | Budgeted this month
+     |  0  |   0 |   0 |   0 | Budgeted in the future
+     |=====|=====|=====|=====|
+     |  0  |   0 |  -5 |  -5 | Available to budget
+     */
     beforeEach(function () {
       addOutflow(getMonth(), -5);
     });
@@ -305,7 +305,7 @@ describe('Budget Selectors', function() {
     });
 
     describe('#getAvailableToBudget', function () {
-      it("should cover overspending of previous month", function () {
+      it('should cover overspending of previous month', function () {
         expectAvailable(getMonth(1), -5);
       });
     });
@@ -313,17 +313,17 @@ describe('Budget Selectors', function() {
 
   describe('Unbudgeting', function () {
     /*
-    |     |  x  |     |
-    |-----|-----|-----|
-    |     |  -3 |     |
-    |=====|=====|=====|
-    |  0  |   0 |   3 | Funds
-    |  0  |   0 |  -3 | Overspending last month
-    |  0  |   3 |   0 | Budgeted this month
-    |  0  |   0 |   0 | Budgeted in the future
-    |=====|=====|=====|
-    |  0  |   3 |   0 | Available to budget
-    */
+     |     |  x  |     |
+     |-----|-----|-----|
+     |     |  -3 |     |
+     |=====|=====|=====|
+     |  0  |   0 |   3 | Funds
+     |  0  |   0 |  -3 | Overspending last month
+     |  0  |   3 |   0 | Budgeted this month
+     |  0  |   0 |   0 | Budgeted in the future
+     |=====|=====|=====|
+     |  0  |   3 |   0 | Available to budget
+     */
     beforeEach(function () {
       budget(getMonth(), -3);
     });
