@@ -10,7 +10,6 @@ function asyncActionCreatorsFor(resourceName, config) {
 
   config = config || {};
   const standardActionCreators = reduxCrud.actionCreatorsFor(resourceName);
-  const key = config.key || reduxCrud.DEFAULT_KEY;
   const baseUrl = config.url || `/api/${resourceName}`;
 
   return {
@@ -43,7 +42,7 @@ function asyncActionCreatorsFor(resourceName, config) {
       return function (dispatch) {
         // Create a client id
         const cid = cuid();
-        resource = Object.assign({}, resource, {[key]: cid});
+        resource = Object.assign({}, resource, {id: cid});
 
         dispatch(standardActionCreators.createStart(resource));
 
@@ -75,7 +74,7 @@ function asyncActionCreatorsFor(resourceName, config) {
 
         // Send the request
         const promise = axios({
-          url: `${baseUrl}/${resource[key]}`,
+          url: `${baseUrl}/${resource.id}`,
           method: 'PATCH',
           data: resource
         });
@@ -101,7 +100,7 @@ function asyncActionCreatorsFor(resourceName, config) {
 
         // Send the request
         const promise = axios({
-          url: `${baseUrl}/${resource[key]}`,
+          url: `${baseUrl}/${resource.id}`,
           method: 'DELETE'
         });
 

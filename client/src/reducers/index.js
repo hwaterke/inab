@@ -26,11 +26,11 @@ function selectedAccountReducer(state = null, action) {
 
 export default combineReducers({
   selectedAccount: selectedAccountReducer,
-  transactions: reduxCrud.reducersFor(TransactionResource.path),
-  accounts: reduxCrud.reducersFor(AccountResource.path),
-  categories: reduxCrud.reducersFor(CategoryResource.path),
-  categoryGroups: reduxCrud.reducersFor(CategoryGroupResource.path),
-  budgetItems: reduxCrud.reducersFor(BudgetItemResource.path),
+  transactions: reduxCrud.List.reducersFor(TransactionResource.path),
+  accounts: reduxCrud.List.reducersFor(AccountResource.path),
+  categories: reduxCrud.List.reducersFor(CategoryResource.path),
+  categoryGroups: reduxCrud.List.reducersFor(CategoryGroupResource.path),
+  budgetItems: reduxCrud.List.reducersFor(BudgetItemResource.path),
   form: formReducer,
   ui: uiReducer,
   routing: routerReducer,
