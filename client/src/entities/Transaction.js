@@ -3,7 +3,7 @@ import React from 'react';
 import type {ResourceDefinition} from '../types/ResourceDefinition';
 
 const subtransactionPropType: ReactPropsCheckType = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
+  id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
   description: React.PropTypes.string,
   amount: React.PropTypes.number.isRequired,
   category_id: React.PropTypes.number.isRequired,
@@ -12,7 +12,7 @@ const subtransactionPropType: ReactPropsCheckType = React.PropTypes.shape({
 export const TransactionResource: ResourceDefinition = {
   path: 'transactions',
   propType: React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired,
+    id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     date: React.PropTypes.string.isRequired,
     payee: React.PropTypes.string,
     description: React.PropTypes.string,

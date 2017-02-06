@@ -30,8 +30,6 @@ const mapStateToProps = (state) => ({
 class CategoryForm extends React.Component {
   constructor(props) {
     super(props);
-    this.create = this.create.bind(this);
-    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -46,23 +44,6 @@ class CategoryForm extends React.Component {
     categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired
   };
 
-  create(data) {
-    this.props.create({
-      category_group_id: data.category_group_id,
-      name: data.name,
-      priority: data.priority
-    });
-  }
-
-  update(data) {
-    this.props.update({
-      id: this.props.category.id,
-      category_group_id: data.category_group_id,
-      name: data.name,
-      priority: data.priority
-    });
-  }
-
   delete() {
     this.props.delete({
       id: this.props.category.id
@@ -73,10 +54,17 @@ class CategoryForm extends React.Component {
   }
 
   onSubmit(data) {
+    const category = {
+      category_group_id: data.category_group_id,
+      name: data.name,
+      priority: parseInt(data.priority)
+    };
+
     if (this.props.category != null) {
-      this.update(data);
+      category.id = this.props.category.id;
+      this.props.update(category);
     } else {
-      this.create(data);
+      this.props.create(category);
     }
     if (this.props.postSubmit != null) {
       this.props.postSubmit();

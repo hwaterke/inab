@@ -23,8 +23,6 @@ import {CategoryGroupResource} from '../../entities/CategoryGroup';
 class CategoryGroupForm extends React.Component {
   constructor(props) {
     super(props);
-    this.create = this.create.bind(this);
-    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -38,21 +36,6 @@ class CategoryGroupForm extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired
   };
 
-  create(data) {
-    this.props.create({
-      name: data.name,
-      priority: data.priority
-    });
-  }
-
-  update(data) {
-    this.props.update({
-      id: this.props.categoryGroup.id,
-      name: data.name,
-      priority: data.priority
-    });
-  }
-
   delete() {
     this.props.delete({
       id: this.props.categoryGroup.id
@@ -63,10 +46,16 @@ class CategoryGroupForm extends React.Component {
   }
 
   onSubmit(data) {
+    const categoryGroup = {
+      name: data.name,
+      priority: parseInt(data.priority)
+    };
+
     if (this.props.categoryGroup != null) {
-      this.update(data);
+      categoryGroup.id = this.props.categoryGroup.id;
+      this.props.update(categoryGroup);
     } else {
-      this.create(data);
+      this.props.create(categoryGroup);
     }
     if (this.props.postSubmit != null) {
       this.props.postSubmit();
