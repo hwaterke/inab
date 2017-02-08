@@ -2,6 +2,7 @@ DB.create_table? :transactions do
   primary_key :id
 
   Date :date, null: false
+  Time :time, only_time: true
 
   String :payee
 
@@ -23,6 +24,9 @@ DB.create_table? :transactions do
   # 2 = Split transaction, no category
   Integer :type, null: false
 
+  # When the transaction was cleared (if it ever was)
+  DateTime :cleared_at
+
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 end
@@ -35,6 +39,7 @@ class Transaction < Sequel::Model
   many_to_one :account
   many_to_one :transfer_account, class: Account
   one_to_many :subtransactions
+  one_to_many :tags, class: TransactionTag
 
   def validate
     super

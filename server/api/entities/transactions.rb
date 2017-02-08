@@ -1,5 +1,10 @@
 module INAB
   module Entities
+    class EmbeddedTagRepresenter < Grape::Roar::Decorator
+      include ::Roar::JSON
+      property :name
+    end
+
     class EmbeddedSubtransactionRepresenter < Grape::Roar::Decorator
       include ::Roar::JSON
       property :id
@@ -12,6 +17,7 @@ module INAB
       include ::Roar::JSON
       property :id
       property :date
+      property :time
       property :payee
       property :description
       property :amount
@@ -19,7 +25,9 @@ module INAB
       property :account_id
       property :transfer_account_id
       property :type
+      property :cleared_at
       collection :subtransactions, extend: EmbeddedSubtransactionRepresenter
+      collection :tags, extend: EmbeddedTagRepresenter
     end
 
     class Transactions < Grape::API
@@ -33,10 +41,14 @@ module INAB
           requires :account_id, type: Integer, desc: "The id of the Account"
           optional :transfer_account_id, type: Integer, desc: "The id of the Account to which the transfer occured"
           requires :type, type: Symbol, subtransaction_split: true, desc: "The type of Transaction"
+          optional :cleared_at, type: Date, desc: "The date at which the Transaction was cleared"
           optional :subtransactions, type: Array do
             optional :description, type: String, desc: "The description of the Subtransaction"
             requires :amount, type: Integer, desc: "The amount of the Subtransaction in cents"
             optional :category_id, type: Integer, desc: "The id of the Category"
+          end
+          optional :tags, type: Array do
+            optional :name, type: String, desc: "The name of the tag"
           end
         end
       end
@@ -54,13 +66,20 @@ module INAB
         post do
           creation_keys = declared(params).dup
           subtransactions_provided = creation_keys.delete(:subtransactions)
+          tags_provided = creation_keys.delete(:tags)
 
           Transaction.db.transaction do
             tr = Transaction.create(creation_keys)
 
             if subtransactions_provided
               subtransactions_provided.each do |subtr|
-                Subtransaction.create(subtr.merge({transaction_id: tr.id}))
+                tr.add_subtransaction(subtr)
+              end
+            end
+
+            if tags_provided
+              tags_provided.each do |tag|
+                tr.add_tag(tag)
               end
             end
 
@@ -77,6 +96,7 @@ module INAB
           update_keys = declared(params).dup
           update_keys.delete(:id)
           subtransactions_provided = update_keys.delete(:subtransactions)
+          tags_provided = update_keys.delete(:tags)
 
           entry = find_instance(Transaction, params[:id])
 
@@ -85,11 +105,18 @@ module INAB
 
             # Delete existing subtransactions
             entry.subtransactions.each { |st| st.destroy }
+            entry.tags.each { |tag| tag.destroy }
 
             # Create new subtransactions
             if subtransactions_provided
               subtransactions_provided.each do |subtr|
-                Subtransaction.create(subtr.merge({transaction_id: entry.id}))
+                entry.add_subtransaction(subtr)
+              end
+            end
+
+            if tags_provided
+              tags_provided.each do |tag|
+                entry.add_tag(tag)
               end
             end
           end

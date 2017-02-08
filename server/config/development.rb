@@ -1,5 +1,5 @@
 # Creates some dummy data for use in development.
-puts "Development configuration"
+puts 'Development configuration'
 
 a = Account.create(name: 'Checking')
 as = Account.create(name: 'Saving')
@@ -14,10 +14,10 @@ Category.create(name: 'Water', category_group: cg)
 cg = CategoryGroup.create(name: 'Sporadic Bills')
 Category.create(name: 'Haircut', category_group: cg)
 
-
 # Regular transaction
-Transaction.create(
+mtr = Transaction.create(
   date: Time.now,
+  time: Time.now,
   payee: 'Proximus',
   description: 'Phone invoice',
   amount: -1500,
@@ -25,6 +25,9 @@ Transaction.create(
   account: a,
   type: :regular
 )
+
+mtr.add_tag({:name => 'Tag1'})
+mtr.add_tag({:name => 'Tag2'})
 
 # Inflow transaction
 Transaction.create(

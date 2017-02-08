@@ -17,6 +17,7 @@ require_relative File.join('..', 'models', 'account')
 require_relative File.join('..', 'models', 'category_group')
 require_relative File.join('..', 'models', 'category')
 require_relative File.join('..', 'models', 'budget_item')
+require_relative File.join('..', 'models', 'transaction_tags')
 require_relative File.join('..', 'models', 'transaction')
 require_relative File.join('..', 'models', 'subtransaction')
 
