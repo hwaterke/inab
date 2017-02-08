@@ -143,7 +143,7 @@ class TransactionTable extends React.Component {
         <Table.Body
           rows={selectedTransactions}
           onRow={this.onRow}
-          rowKey="id"
+          rowKey="key"
         />
       </Table.Provider>
     );

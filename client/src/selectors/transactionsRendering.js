@@ -6,7 +6,7 @@ import {mapMap} from './utils';
 
 const getMirrorTransfer = (transaction) => {
   const mirror = Object.assign({}, transaction);
-  mirror.id = mirror.id + 'r';
+  mirror.key = mirror.id + 'r';
   mirror.account_id = transaction.transfer_account_id;
   mirror.transfer_account_id = transaction.account_id;
   mirror.account = transaction.payee;
@@ -26,6 +26,7 @@ export const getTransactionsForRendering = createSelector(
     transactions.forEach(tr => {
       const tr_result = {
         ...tr,
+        key: tr.id,
         account: accountsById.get(tr.account_id).name,
         payee: tr.payee || tr.transfer_account_id && accountsById.get(tr.transfer_account_id).name,
         is_transfer: !!tr.transfer_account_id,
@@ -49,7 +50,8 @@ export const getTransactionsForRendering = createSelector(
 
       tr.subtransactions.forEach((str, strIndex) => {
         const str_result = {
-          id: 's' + ((str.id) ? str.id : ('i' + strIndex)),
+          key: 's' + ((str.id) ? str.id : ('i' + strIndex)),
+          id: str.id,
           date: tr.date,
           account_id: tr.account_id,
           category_id: str.category_id,
