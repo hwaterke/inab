@@ -109,12 +109,24 @@ class TransactionTable extends React.Component {
         }
       },
       {
+        props: {
+          style: {
+            textAlign: 'center'
+          }
+        },
         cell: {
           formatters: [
             (a, e) => {
               if (!e.rowData.subtransaction) {
                 return (
-                  <Link onClick={() => this.props.onPencilClick(e.rowData.id)}><FontAwesome name="pencil" /></Link>);
+                  <Link
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      this.props.onPencilClick(e.rowData.id);
+                    }}
+                  >
+                    <FontAwesome name="pencil" />
+                  </Link>);
               }
               return null;
             }

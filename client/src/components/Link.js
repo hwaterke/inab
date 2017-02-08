@@ -15,7 +15,7 @@ export default class Link extends React.Component {
   handleClick(e) {
     e.preventDefault();
     if (this.props.onClick) {
-      this.props.onClick();
+      this.props.onClick(e);
     }
   }
 
