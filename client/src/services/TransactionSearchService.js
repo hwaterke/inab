@@ -28,7 +28,7 @@ export class TransactionSearchService {
   }
 
   transactionContains(transaction, searchText) {
-    const searchColumns = ['date', 'account', 'amount', 'category', 'description', 'payee'];
+    const searchColumns = ['date', 'time', 'account', 'amount', 'category', 'description', 'tagsForSearch', 'payee'];
 
     return searchText
       .split(/\s+/)

@@ -30,6 +30,7 @@ export const getTransactionsForRendering = createSelector(
         account: accountsById.get(tr.account_id).name,
         payee: tr.payee || tr.transfer_account_id && accountsById.get(tr.transfer_account_id).name,
         is_transfer: !!tr.transfer_account_id,
+        tagsForSearch: tr.tags.map(t => t.name).join(',')
       };
       tr_result.display_date = tr.date;
 
@@ -59,6 +60,7 @@ export const getTransactionsForRendering = createSelector(
           description: str.description,
           amount: str.amount,
           subtransaction: true,
+          tags: [],
           parent_transaction: tr.id
         };
         result.push(str_result);

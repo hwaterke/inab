@@ -1,3 +1,17 @@
 .transaction-table {
   margin-top: 2rem;
 }
+
+.table-tags {
+  display: flex;
+
+  span {
+    font-size: .8rem;
+    background-color: #85c9e6 + #111;
+    color: #85c9e6 - #666;
+    border: 1px solid #85c9e6 - #111;
+    border-radius: 2px;
+    margin-right: 2px;
+    padding: 2px 4px;
+  }
+}

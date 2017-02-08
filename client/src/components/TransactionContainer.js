@@ -27,7 +27,11 @@ const mapStateToProps = (state) => ({
     selected: Immutable.Set(),
     editingTransactionId: null,
     addingTransaction: false,
-    hideColumn: (props) => (props.hideAccount ? {'account': true} : {}),
+    hideColumn: (props) => ({
+      time: true,
+      tags: true,
+      account: !!props.hideAccount
+    }),
     searchValue: ''
   }
 })
@@ -39,6 +43,7 @@ class TransactionContainer extends React.Component {
     transactionsById: React.PropTypes.instanceOf(Map).isRequired,
     transactionsForRendering: React.PropTypes.array.isRequired,
     transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),
+    update: React.PropTypes.func.isRequired,
     delete: React.PropTypes.func.isRequired,
     accountId: React.PropTypes.number,
     ui: React.PropTypes.object.isRequired,
@@ -56,6 +61,7 @@ class TransactionContainer extends React.Component {
     this.hideForm = this.hideForm.bind(this);
     this.toggleColumn = this.toggleColumn.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.toggleClearingTransactionStatus = this.toggleClearingTransactionStatus.bind(this);
   }
 
   selectTransaction(id) {
@@ -64,6 +70,15 @@ class TransactionContainer extends React.Component {
       this.props.updateUI('selected', current.delete(id));
     } else {
       this.props.updateUI('selected', current.add(id));
+    }
+  }
+
+  toggleClearingTransactionStatus(id) {
+    const transaction = this.props.transactionsById.get(id);
+    if (transaction.cleared_at) {
+      this.props.update({...transaction, cleared_at: null});
+    } else {
+      this.props.update({...transaction, cleared_at: new Date()});
     }
   }
 
@@ -150,6 +165,7 @@ class TransactionContainer extends React.Component {
             selectedRows={this.props.ui.selected}
             onSelectRow={this.selectTransaction}
             onPencilClick={this.displayUpdate}
+            onClearClick={this.toggleClearingTransactionStatus}
             hiddenColumns={this.props.ui.hideColumn}
           />
 

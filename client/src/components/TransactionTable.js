@@ -17,6 +17,7 @@ class TransactionTable extends React.Component {
     selectedRows: React.PropTypes.instanceOf(Immutable.Set),
     onSelectRow: React.PropTypes.func,
     onPencilClick: React.PropTypes.func.isRequired,
+    onClearClick: React.PropTypes.func.isRequired,
     hiddenColumns: React.PropTypes.object.isRequired
   };
 
@@ -63,6 +64,12 @@ class TransactionTable extends React.Component {
         },
       },
       {
+        property: 'time',
+        header: {
+          label: 'Time'
+        },
+      },
+      {
         property: 'payee',
         header: {
           label: 'Payee'
@@ -88,6 +95,21 @@ class TransactionTable extends React.Component {
         property: 'description',
         header: {
           label: 'Description'
+        }
+      },
+      {
+        property: 'tags',
+        header: {
+          label: 'Tags'
+        },
+        cell: {
+          formatters: [
+            (tags) => (
+              <div className="table-tags">
+                {tags.map(t => <span key={t.name}>{t.name}</span>)}
+              </div>
+            )
+          ]
         }
       },
       {
@@ -133,6 +155,35 @@ class TransactionTable extends React.Component {
           ]
         }
       },
+      {
+        props: {
+          style: {
+            textAlign: 'center'
+          }
+        },
+        cell: {
+          formatters: [
+            (a, e) => {
+              if (!e.rowData.subtransaction) {
+                return (
+                  <Link
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      this.props.onClearClick(e.rowData.id);
+                    }}
+                  >
+                    <FontAwesome
+                      title={e.rowData.cleared_at ? 'Unclear' : 'Clear'}
+                      name={e.rowData.cleared_at ? 'check-circle-o' : 'circle-o'}
+                    />
+                  </Link>
+                );
+              }
+              return null;
+            }
+          ]
+        }
+      }
     ];
 
     return columns.filter(c => !this.props.hiddenColumns[c.property]);

@@ -106,9 +106,11 @@ class TransactionToolbar extends React.Component {
             <div className="btn-group">
               {this.renderColumnToggle('Account', 'account', 'bank')}
               {this.renderColumnToggle('Date', 'display_date', 'calendar')}
+              {this.renderColumnToggle('Time', 'time', 'clock-o')}
               {this.renderColumnToggle('Payee', 'payee')}
               {this.renderColumnToggle('Category', 'category')}
               {this.renderColumnToggle('Description', 'description')}
+              {this.renderColumnToggle('Tags', 'tags', 'tags')}
               {this.renderColumnToggle('Amount', 'amount')}
             </div>
           </div>
