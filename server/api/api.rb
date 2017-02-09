@@ -3,7 +3,7 @@ module INAB
     prefix :api
     format :json
     formatter :json, Grape::Formatter::Roar
-    rescue_from Sequel::ValidationFailed
+    rescue_from Sequel::Error
 
     helpers CrudHelpers
 
