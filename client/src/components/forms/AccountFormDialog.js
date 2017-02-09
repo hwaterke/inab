@@ -42,7 +42,7 @@ class AccountFormDialog extends React.Component {
         onRequestClose={this.handleClose}
       >
         <AccountForm
-          account={this.props.ui.accountSelected && this.props.accountsById.get(this.props.ui.accountSelected)}
+          updatedResource={this.props.ui.accountSelected && this.props.accountsById.get(this.props.ui.accountSelected)}
           postSubmit={this.handleClose}
         />
       </Dialog>

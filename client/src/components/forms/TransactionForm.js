@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './TransactionForm.scss';
-import {Field, FieldArray, reduxForm, formValueSelector} from 'redux-form';
+import {Field, FieldArray, formValueSelector} from 'redux-form';
 import SimpleSelectField from './fields/SimpleSelectField';
 import {connect} from 'react-redux';
 import {getAccounts} from '../../selectors/accounts';
@@ -9,26 +9,25 @@ import {getPayees} from '../../selectors/transactions';
 import DatePickerField from './fields/DatePickerField';
 import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
 import ButtonDelete from '../ButtonDelete';
-import ButtonCheck from '../ButtonCheck';
 import ButtonIcon from '../ButtonIcon';
 import Button from '../Button';
-import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
 import moment from 'moment';
 import {amountFromCents, amountToCents} from '../../utils/amount';
 import {AccountResource} from '../../entities/Account';
 import {CategoryResource} from '../../entities/Category';
 import {TransactionResource} from '../../entities/Transaction';
+import {resourceForm} from './resourceForm';
+import {FormActionBar} from './FormActionBar';
 
 /**
  * Component used for rendering the subtransaction forms
  */
-const renderSubtransactions = ({fields, showAccount, categories}) => (
+const renderSubtransactions = ({fields, categories}) => (
   <div>
     {fields.map((subtransaction, index) =>
       <div key={index} className="tr-form-container">
 
-        {showAccount && <div />}
-
+        <div />
         <div />
 
         <div>
@@ -70,7 +69,7 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
       </div>
     )}
     <div className="tr-form-container str-form-container">
-      {showAccount && <div />}
+      <div />
       <div />
       <div>
         <ButtonIcon className="btn btn-info" onClick={() => fields.push({})} icon="plus">
@@ -86,14 +85,13 @@ const renderSubtransactions = ({fields, showAccount, categories}) => (
 
 renderSubtransactions.propTypes = {
   fields: React.PropTypes.object.isRequired,
-  showAccount: React.PropTypes.bool.isRequired,
   categories: React.PropTypes.arrayOf(React.PropTypes.shape({
     label: React.PropTypes.string.isRequired,
     value: React.PropTypes.any.isRequired
   })).isRequired,
 };
 
-const selector = formValueSelector('transaction');
+const selector = formValueSelector(TransactionResource.path);
 
 const mapStateToProps = (state) => ({
   accounts: getAccounts(state),
@@ -103,134 +101,28 @@ const mapStateToProps = (state) => ({
   categoryValue: selector(state, 'category')
 });
 
-const createInitialValues = (stateProps, dispatchProps, ownProps) => {
-  const initialValues = {
-    account_id: ownProps.selectedAccountId,
-    date: moment().format('YYYY-MM-DD')
-  };
-  if (ownProps.transaction != null) {
-    initialValues.account_id = ownProps.transaction.account_id;
-    initialValues.date = ownProps.transaction.date;
-    if (ownProps.transaction.transfer_account_id) {
-      initialValues.payee = 'transfer:' + ownProps.transaction.transfer_account_id;
-    } else {
-      initialValues.payee = ownProps.transaction.payee;
-    }
-    if (ownProps.transaction.type === 'to_be_budgeted') {
-      initialValues.category = 'tbb';
-    } else if (ownProps.transaction.type === 'split') {
-      initialValues.category = 'split';
-    } else {
-      initialValues.category = ownProps.transaction.category_id;
-    }
-    initialValues.description = ownProps.transaction.description;
-    initialValues.amount = amountFromCents(ownProps.transaction.amount);
-    initialValues.subtransactions = ownProps.transaction.subtransactions.map(str => ({
-      amount: amountFromCents(str.amount),
-      description: str.description,
-      category: str.category_id
-    }));
-  }
-  return Object.assign({}, ownProps, stateProps, dispatchProps, {initialValues});
-};
-
-@connect(
-  mapStateToProps,
-  asyncActionCreatorsFor(TransactionResource.path),
-  createInitialValues
-)
-@reduxForm({form: 'transaction', enableReinitialize: true})
-export default class TransactionForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
-
+@connect(mapStateToProps)
+class TransactionForm extends Component {
   static propTypes = {
-    // Action creators
-    create: React.PropTypes.func.isRequired,
-    update: React.PropTypes.func.isRequired,
-    delete: React.PropTypes.func.isRequired,
-
+    updatedResource: TransactionResource.propType,
+    isCreate: React.PropTypes.bool.isRequired,
+    isUpdate: React.PropTypes.bool.isRequired,
+    handleSubmit: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired,
+    deleteResource: React.PropTypes.func.isRequired,
     // Reference data
     accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
     categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
     payees: React.PropTypes.arrayOf(
       React.PropTypes.string
     ).isRequired,
-
     payeeValue: React.PropTypes.string,
     categoryValue: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
     ]),
-
-    transaction: TransactionResource.propType,
-    postSubmit: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
-    showAccount: React.PropTypes.bool.isRequired,
-
-    handleSubmit: React.PropTypes.func.isRequired
+    onCancel: React.PropTypes.func
   };
-
-  onSubmit(data) {
-    // Lets work on a copy of the form data
-    data = Object.assign({}, data);
-
-    // Compute the type of transaction
-    data.type = 'regular';
-    if (data.category === 'tbb') {
-      data.type = 'to_be_budgeted';
-      data.category = null;
-    } else if (data.category === 'split') {
-      data.type = 'split';
-      data.category = null;
-    } else {
-      data.category_id = data.category;
-    }
-
-    // Compute the transfer_account_id
-    data.transfer_account_id = null;
-    if (data.payee && data.payee.startsWith('transfer:')) {
-      data.transfer_account_id = parseInt(data.payee.slice('transfer:'.length));
-      data.payee = null;
-    }
-
-    data.amount = amountToCents(data.amount);
-
-    // Update the subtransactions
-    if (data.type === 'split' && data.subtransactions) {
-      data.subtransactions = data.subtransactions.map(str => ({
-        amount: amountToCents(str.amount),
-        category_id: str.category,
-        description: str.description
-      }));
-    } else {
-      data.subtransactions = [];
-    }
-
-    if (this.props.transaction != null) {
-      this.props.update({
-        ...data,
-        id: this.props.transaction.id
-      });
-    } else {
-      this.props.create(data);
-    }
-    if (this.props.postSubmit != null) {
-      this.props.postSubmit();
-    }
-  }
-
-  delete() {
-    this.props.delete({
-      id: this.props.transaction.id
-    });
-    if (this.props.postSubmit != null) {
-      this.props.postSubmit();
-    }
-  }
 
   render() {
     const categoryOptions = [
@@ -252,7 +144,7 @@ export default class TransactionForm extends Component {
     return (
       <form className="box-container">
         <div className="tr-form-container">
-          {this.props.showAccount &&
+
           <div>
             <label>Account</label>
             <Field
@@ -262,7 +154,6 @@ export default class TransactionForm extends Component {
               options={this.props.accounts.map(cg => ({label: cg.name, value: cg.id}))}
             />
           </div>
-          }
 
           <div>
             <label>Date</label>
@@ -321,26 +212,96 @@ export default class TransactionForm extends Component {
         <FieldArray
           name="subtransactions"
           categories={subtransactionCategoryOptions}
-          showAccount={this.props.showAccount}
           component={renderSubtransactions}
         />}
 
-        <div className="btn-group">
-          <ButtonCheck onClick={this.props.handleSubmit(this.onSubmit)}>
-            {this.props.transaction ? 'Update' : 'Create'}
-          </ButtonCheck>
-
-          <ButtonIcon onClick={this.props.onCancel} icon="ban">
-            Cancel
-          </ButtonIcon>
-
-          {
-            this.props.transaction &&
-            <ButtonDelete onClick={this.delete}>Delete</ButtonDelete>
-          }
-        </div>
+        <FormActionBar
+          handleSubmit={this.props.handleSubmit}
+          isCreate={this.props.isCreate}
+          isUpdate={this.props.isUpdate}
+          reset={this.props.reset}
+          remove={this.props.deleteResource}
+          cancel={this.props.onCancel}
+        />
 
       </form>
     );
   }
 }
+
+const formToResource = (data) => {
+  const transaction = {...data};
+
+  // Compute the type of transaction
+  transaction.type = 'regular';
+  if (data.category === 'tbb') {
+    transaction.type = 'to_be_budgeted';
+    transaction.category = null;
+  } else if (data.category === 'split') {
+    transaction.type = 'split';
+    transaction.category = null;
+  } else {
+    transaction.category_id = data.category;
+  }
+
+  // Compute the transfer_account_id
+  transaction.transfer_account_id = null;
+  if (data.payee && data.payee.startsWith('transfer:')) {
+    transaction.transfer_account_id = parseInt(data.payee.slice('transfer:'.length));
+    transaction.payee = null;
+  }
+
+  transaction.amount = amountToCents(data.amount);
+
+  // Update the subtransactions
+  if (data.category === 'split' && data.subtransactions) {
+    transaction.subtransactions = data.subtransactions.map(str => ({
+      amount: amountToCents(str.amount),
+      category_id: str.category,
+      description: str.description
+    }));
+  } else {
+    transaction.subtransactions = [];
+  }
+  transaction.tags = [];
+
+  return transaction;
+};
+
+const resourceToForm = (transaction, props) => {
+  const formData = {
+    account_id: props.selectedAccountId,
+    date: moment().format('YYYY-MM-DD')
+  };
+
+  if (transaction) {
+    formData.account_id = transaction.account_id;
+    formData.date = transaction.date;
+    formData.description = transaction.description;
+    formData.amount = amountFromCents(transaction.amount);
+
+    if (transaction.transfer_account_id) {
+      formData.payee = 'transfer:' + transaction.transfer_account_id;
+    } else {
+      formData.payee = transaction.payee;
+    }
+
+    if (transaction.type === 'to_be_budgeted') {
+      formData.category = 'tbb';
+    } else if (transaction.type === 'split') {
+      formData.category = 'split';
+    } else {
+      formData.category = transaction.category_id;
+    }
+
+    formData.subtransactions = transaction.subtransactions.map(str => ({
+      amount: amountFromCents(str.amount),
+      description: str.description,
+      category: str.category_id
+    }));
+  }
+
+  return formData;
+};
+
+export default resourceForm(TransactionResource.path, formToResource, resourceToForm)(TransactionForm);

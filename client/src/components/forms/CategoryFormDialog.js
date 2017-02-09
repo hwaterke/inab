@@ -47,7 +47,7 @@ class CategoryFormDialog extends React.Component {
           onRequestClose={this.handleClose}
         >
           <CategoryForm
-            category={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
+            updatedResource={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
             postSubmit={this.handleClose}
           />
         </Dialog>

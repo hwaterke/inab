@@ -137,8 +137,7 @@ class TransactionContainer extends React.Component {
       <div>
         {(this.props.ui.addingTransaction || this.props.ui.editingTransactionId) &&
         <TransactionForm
-          showAccount={true}
-          transaction={this.props.transactions.find(tr => tr.id === this.props.ui.editingTransactionId)}
+          updatedResource={this.props.transactions.find(tr => tr.id === this.props.ui.editingTransactionId)}
           selectedAccountId={this.props.accountId}
           postSubmit={this.hideForm}
           onCancel={this.hideForm}

@@ -3,32 +3,27 @@ import Cell from './Cell';
 import Amount from './Amount';
 import ui from 'redux-ui';
 import BudgetItemForm from './BudgetItemForm';
-import {connect} from 'react-redux';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
-import {amountToCents} from '../utils/amount';
 import {Link as RouterLink} from 'react-router';
+import {CategoryResource} from '../entities/Category';
 import {BudgetItemResource} from '../entities/BudgetItem';
 
 @ui()
-class CategoryRow extends React.Component {
+export default class CategoryRow extends React.Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
     this.editBudgetItem = this.editBudgetItem.bind(this);
     this.clearBudgetItemForm = this.clearBudgetItemForm.bind(this);
   }
 
   static propTypes = {
-    category: React.PropTypes.object.isRequired,
+    category: CategoryResource.propType,
     activity: React.PropTypes.number,
     available: React.PropTypes.number,
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired,
-    update: React.PropTypes.func.isRequired,
-    budgetItem: React.PropTypes.object,
+    budgetItem: BudgetItemResource.propType,
     onNameClick: React.PropTypes.func
   };
 
@@ -46,31 +41,19 @@ class CategoryRow extends React.Component {
     return moment([this.props.ui.year, this.props.ui.month - 1]);
   }
 
-  onSubmit(data) {
-    const m = this.getSelectedMonthMoment().format('YYYY-MM-DD');
-    if (this.props.budgetItem) {
-      this.props.update({
-        id: this.props.budgetItem.id,
-        month: m,
-        category_id: this.props.category.id,
-        amount: amountToCents(data.amount)
-      });
-    } else {
-      this.props.create({
-        month: m,
-        category_id: this.props.category.id,
-        amount: amountToCents(data.amount)
-      });
-    }
-    this.props.updateUI('editingCategoryId', null);
-  }
-
   render() {
     let budgetCell;
     if (this.props.ui.editingCategoryId == this.props.category.id) {
       budgetCell =
         <Cell className="right">
-          <BudgetItemForm onBlur={this.clearBudgetItemForm} onSubmit={this.onSubmit} />
+          <BudgetItemForm
+            year={this.props.ui.year}
+            month={this.props.ui.month}
+            category_id={this.props.category.id}
+            postSubmit={() => this.props.updateUI('editingCategoryId', null)}
+            updatedResource={this.props.budgetItem}
+            onBlur={this.clearBudgetItemForm}
+          />
         </Cell>;
     } else {
       budgetCell =
@@ -94,5 +77,3 @@ class CategoryRow extends React.Component {
     );
   }
 }
-
-export default connect(null, asyncActionCreatorsFor(BudgetItemResource.path))(CategoryRow);

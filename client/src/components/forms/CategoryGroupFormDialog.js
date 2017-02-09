@@ -47,7 +47,7 @@ class CategoryGroupFormDialog extends React.Component {
           onRequestClose={this.handleClose}
         >
           <CategoryGroupForm
-            categoryGroup={this.props.ui.categoryGroupSelected && this.props.categoryGroupsById.get(this.props.ui.categoryGroupSelected)}
+            updatedResource={this.props.ui.categoryGroupSelected && this.props.categoryGroupsById.get(this.props.ui.categoryGroupSelected)}
             postSubmit={this.handleClose}
           />
         </Dialog>
