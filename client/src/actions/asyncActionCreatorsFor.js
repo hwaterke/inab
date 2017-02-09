@@ -56,9 +56,9 @@ function asyncActionCreatorsFor(resourceName, config) {
         promise.then(function (response) {
           dispatch(standardActionCreators.createSuccess(response.data, cid));
         }, function (error) {
-          dispatch(standardActionCreators.createError(error.data, resource));
-          if (error.data.error) {
-            dispatch(addError(error.data.error));
+          dispatch(standardActionCreators.createError(error.response.data.error, resource));
+          if (error.response.data.error) {
+            dispatch(addError(error.response.data.error));
           }
         }).catch(function (err) {
           dispatch(addError(err.toString()));
@@ -82,9 +82,9 @@ function asyncActionCreatorsFor(resourceName, config) {
         promise.then(function (response) {
           dispatch(standardActionCreators.updateSuccess(response.data));
         }, function (error) {
-          dispatch(standardActionCreators.updateError(error.data, resource));
-          if (error.data.error) {
-            dispatch(addError(error.data.error));
+          dispatch(standardActionCreators.updateError(error.response.data.error, resource));
+          if (error.response.data.error) {
+            dispatch(addError(error.response.data.error));
           }
         }).catch(function (err) {
           dispatch(addError(err.toString()));
@@ -107,9 +107,9 @@ function asyncActionCreatorsFor(resourceName, config) {
         promise.then(function (response) {
           dispatch(standardActionCreators.deleteSuccess(response.data));
         }, function (error) {
-          dispatch(standardActionCreators.deleteError(error.data, resource));
-          if (error.data.error) {
-            dispatch(addError(error.data.error));
+          dispatch(standardActionCreators.deleteError(error.response.data.error, resource));
+          if (error.response.data.error) {
+            dispatch(addError(error.response.data.error));
           }
         }).catch(function (err) {
           dispatch(addError(err.toString()));
