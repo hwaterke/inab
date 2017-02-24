@@ -78,3 +78,4 @@ Note that in development, the server uses an in-memory database.
 * Enforce one type of quotes with ESLint
 * Form validation with redux-form
   * Create a generic input Field with label and errors handling
+* Remove arrow function creation in render methods (performance)
