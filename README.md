@@ -57,7 +57,7 @@ Note that in development, the server uses an in-memory database.
   * Generic tags for transactions
 * Production build, make scripts. Build inab:api for the api only
 * Aggregate stats per budget category
-* Use bootstrap via npm
+* Use bootstrap via npm (css only, avoid javascript by using reactstrap)
 * Fix onBlur on the inputs in the budget table
 * Fix the select with add new value
 * Add Time in addition to date for transactions?
@@ -76,3 +76,5 @@ Note that in development, the server uses an in-memory database.
 * Internationalization
 * Native Mobile App
 * Enforce one type of quotes with ESLint
+* Form validation with redux-form
+  * Create a generic input Field with label and errors handling
