@@ -9,3 +9,8 @@ export const AccountResource: ResourceDefinition = {
     name: React.PropTypes.string.isRequired
   })
 };
+
+export type Account = {
+  id: number | string;
+  name: string;
+}

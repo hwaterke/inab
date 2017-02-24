@@ -10,3 +10,9 @@ export const CategoryGroupResource: ResourceDefinition = {
     priority: React.PropTypes.number.isRequired
   })
 };
+
+export type CategoryGroup = {
+  id: number | string;
+  name: string;
+  priority: number;
+}

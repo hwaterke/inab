@@ -11,3 +11,10 @@ export const CategoryResource: ResourceDefinition = {
     category_group_id: React.PropTypes.number.isRequired
   })
 };
+
+export type Category = {
+  id: number | string;
+  name: string;
+  priority: number;
+  category_group_id: number | string;
+}

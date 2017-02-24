@@ -11,3 +11,10 @@ export const BudgetItemResource: ResourceDefinition = {
     category_id: React.PropTypes.number.isRequired
   })
 };
+
+export type BudgetItem = {
+  id: number | string;
+  month: string;
+  amount: number;
+  category_id: number | string;
+}
