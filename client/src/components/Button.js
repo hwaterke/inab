@@ -9,7 +9,8 @@ export default class Button extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     onClick: React.PropTypes.func,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
   };
 
   handleClick(e) {
@@ -21,7 +22,7 @@ export default class Button extends React.Component {
 
   render() {
     return (
-      <button type="button" className={this.props.className || 'btn btn-secondary'} onClick={this.handleClick}>
+      <button type="button" disabled={this.props.disabled} className={this.props.className || 'btn btn-secondary'} onClick={this.handleClick}>
         {this.props.children}
       </button>
     );

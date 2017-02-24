@@ -9,6 +9,7 @@ export class FormActionBar extends React.Component {
     isCreate: React.PropTypes.bool.isRequired,
     isUpdate: React.PropTypes.bool.isRequired,
     handleSubmit: React.PropTypes.func.isRequired,
+    disableReset: React.PropTypes.bool,
     reset: React.PropTypes.func.isRequired,
     cancel: React.PropTypes.func,
     remove: React.PropTypes.func.isRequired
@@ -21,7 +22,7 @@ export class FormActionBar extends React.Component {
           {this.props.isUpdate ? 'Update' : 'Create'}
         </ButtonCheck>
 
-        <ButtonIcon onClick={this.props.reset} icon="undo">
+        <ButtonIcon onClick={this.props.reset} icon="undo" disabled={this.props.disableReset}>
           Reset
         </ButtonIcon>
 

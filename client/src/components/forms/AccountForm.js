@@ -11,6 +11,8 @@ class AccountForm extends React.Component {
     isUpdate: React.PropTypes.bool.isRequired,
     handleSubmit: React.PropTypes.func.isRequired,
     reset: React.PropTypes.func.isRequired,
+    pristine: React.PropTypes.bool.isRequired,
+    submitting: React.PropTypes.bool.isRequired,
     deleteResource: React.PropTypes.func.isRequired,
   };
 
@@ -34,6 +36,7 @@ class AccountForm extends React.Component {
           handleSubmit={this.props.handleSubmit}
           isCreate={this.props.isCreate}
           isUpdate={this.props.isUpdate}
+          disableReset={this.props.pristine || this.props.submitting}
           reset={this.props.reset}
           remove={this.props.deleteResource}
         />
