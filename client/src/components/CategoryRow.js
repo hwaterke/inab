@@ -29,7 +29,7 @@ export default class CategoryRow extends React.Component {
 
   editBudgetItem() {
     if (!(this.props.budgetItem && this.props.budgetItem.busy)) {
-      this.props.updateUI('editingCategoryId', this.props.category.id);
+      this.props.updateUI('editingCategoryId', this.props.category.uuid);
     }
   }
 
@@ -43,13 +43,13 @@ export default class CategoryRow extends React.Component {
 
   render() {
     let budgetCell;
-    if (this.props.ui.editingCategoryId == this.props.category.id) {
+    if (this.props.ui.editingCategoryId == this.props.category.uuid) {
       budgetCell =
         <Cell className="right">
           <BudgetItemForm
             year={this.props.ui.year}
             month={this.props.ui.month}
-            category_id={this.props.category.id}
+            category_uuid={this.props.category.uuid}
             postSubmit={() => this.props.updateUI('editingCategoryId', null)}
             updatedResource={this.props.budgetItem}
             onBlur={this.clearBudgetItemForm}
@@ -68,7 +68,7 @@ export default class CategoryRow extends React.Component {
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td className="right">
-          <RouterLink to={`/account/${this.getSelectedMonthMoment().format('YYYY-MM')}/${this.props.category.id}`}>
+          <RouterLink to={`/account/${this.getSelectedMonthMoment().format('YYYY-MM')}/${this.props.category.uuid}`}>
             <Amount amount={this.props.activity} />
           </RouterLink>
         </td>

@@ -22,7 +22,12 @@ export default class Button extends React.Component {
 
   render() {
     return (
-      <button type="button" disabled={this.props.disabled} className={this.props.className || 'btn btn-secondary'} onClick={this.handleClick}>
+      <button
+        type="button"
+        disabled={this.props.disabled}
+        className={this.props.className || 'btn btn-secondary'}
+        onClick={this.handleClick}
+      >
         {this.props.children}
       </button>
     );

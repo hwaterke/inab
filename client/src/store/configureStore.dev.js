@@ -5,6 +5,7 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../reducers';
+import {autoRehydrate, persistStore} from 'redux-persist';
 
 export default function configureStore(initialState) {
   const middlewares = [
@@ -20,8 +21,11 @@ export default function configureStore(initialState) {
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(rootReducer, initialState, composeEnhancers(
-    applyMiddleware(...middlewares)
+    applyMiddleware(...middlewares),
+    autoRehydrate()
   ));
+
+  persistStore(store, {whitelist: ['credentials']});
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

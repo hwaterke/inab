@@ -5,12 +5,12 @@ import type {ResourceDefinition} from '../types/ResourceDefinition';
 export const AccountResource: ResourceDefinition = {
   path: 'accounts',
   propType: React.PropTypes.shape({
-    id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    uuid: React.PropTypes.string,
     name: React.PropTypes.string.isRequired
   })
 };
 
 export type Account = {
-  id: number | string;
+  uuid: string;
   name: string;
 }

@@ -12,7 +12,7 @@ import sumBy from 'lodash/sumBy';
 export const getBudgetBalance = createSelector(
   getTransactions,
   (transactions) => {
-    return sumBy(transactions.filter((t) => !t.transfer_account_id), 'amount');
+    return sumBy(transactions.filter((t) => !t.transfer_account_uuid), 'amount');
   }
 );
 
@@ -25,15 +25,15 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
     const result = new Map();
 
     // Initialize the result for each existing category.
-    categories.forEach((c) => result.set(c.id, new Map()));
+    categories.forEach((c) => result.set(c.uuid, new Map()));
 
     // Group budgetItems and transactions by category id and month
-    const biCM = groupBy(budgetItems, (i) => i.category_id, (i) => i.month);
+    const biCM = groupBy(budgetItems, (i) => i.category_uuid, (i) => i.month);
 
     // Add the amount of all budgetItems
-    biCM.forEach((g, category_id) => {
+    biCM.forEach((g, category_uuid) => {
       g.forEach((items, month) => {
-        const categoryResult = result.get(category_id);
+        const categoryResult = result.get(category_uuid);
         categoryResult.set(month, categoryResult.get(month) || 0);
         categoryResult.set(month, categoryResult.get(month) + sumBy(items, 'amount'));
       });
@@ -41,17 +41,17 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
 
     flattenTransactions(transactions).forEach((ft) => {
       const month = beginningOfMonth(ft.date);
-      const categoryResult = result.get(ft.category_id);
+      const categoryResult = result.get(ft.category_uuid);
       categoryResult.set(month, categoryResult.get(month));
       categoryResult.set(month, (categoryResult.get(month) || 0) + ft.amount);
     });
 
     // Sort the result chronologically
     const sortedResult = new Map();
-    result.forEach((g, category_id) => {
+    result.forEach((g, category_uuid) => {
       const sortedMonth = new Map();
       Array.from(g.keys()).sort().forEach((m) => sortedMonth.set(m, g.get(m)));
-      sortedResult.set(category_id, sortedMonth);
+      sortedResult.set(category_uuid, sortedMonth);
     });
 
     return sortedResult;
@@ -63,13 +63,13 @@ const getOverspendingByCategoryIdByMonth = createSelector(
   sumOfBudgetItemsAndTransactionsByCategoryByMonth,
   (input) => {
     const overspendings = new Map();
-    input.forEach((g, category_id) => {
+    input.forEach((g, category_uuid) => {
       let sumAccrossMonths = 0;
       g.forEach((value, month) => {
         sumAccrossMonths += value;
         if (sumAccrossMonths < 0) {
-          overspendings.set(category_id, new Map());
-          overspendings.get(category_id).set(month, sumAccrossMonths);
+          overspendings.set(category_uuid, new Map());
+          overspendings.get(category_uuid).set(month, sumAccrossMonths);
           sumAccrossMonths = 0;
         }
       });
@@ -89,22 +89,22 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
     const result = new Map();
 
     // Initialize the result for each existing category.
-    categories.forEach((c) => result.set(c.id, 0));
+    categories.forEach((c) => result.set(c.uuid, 0));
 
-    groupByKey(budgetItems, 'category_id').forEach((v, category_id) => {
-      result.set(category_id, result.get(category_id) + sumBy(v, 'amount'));
+    groupByKey(budgetItems, 'category_uuid').forEach((v, category_uuid) => {
+      result.set(category_uuid, result.get(category_uuid) + sumBy(v, 'amount'));
     });
 
     flattenTransactions(transactions).forEach((ft) => {
-      result.set(ft.category_id, result.get(ft.category_id) + ft.amount);
+      result.set(ft.category_uuid, result.get(ft.category_uuid) + ft.amount);
     });
 
     // Overspending handling. The overspending is moved to the funds available for next month.
-    overspendings.forEach((v, category_id) => {
+    overspendings.forEach((v, category_uuid) => {
       v.forEach((overspending, month) => {
         // Only up to last month
         if (currentMonth.isAfter(month)) {
-          result.set(category_id, result.get(category_id) - overspending);
+          result.set(category_uuid, result.get(category_uuid) - overspending);
         }
       });
     });

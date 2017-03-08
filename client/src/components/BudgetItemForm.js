@@ -10,7 +10,7 @@ class BudgetItemForm extends React.Component {
     updatedResource: BudgetItemResource.propType,
     year: React.PropTypes.number.isRequired,
     month: React.PropTypes.number.isRequired,
-    category_id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    category_uuid: React.PropTypes.string,
     handleSubmit: React.PropTypes.func.isRequired,
     onBlur: React.PropTypes.func.isRequired
   };
@@ -36,7 +36,7 @@ const formToResource = (data, props) => {
   const month = moment([props.year, props.month - 1]);
   return {
     month: month.format('YYYY-MM-DD'),
-    category_id: props.category_id,
+    category_uuid: props.category_uuid,
     amount: amountToCents(data.amount)
   };
 };

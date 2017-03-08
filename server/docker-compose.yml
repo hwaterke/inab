@@ -6,4 +6,7 @@ services:
       dockerfile: Dockerfile-prod
     volumes:
       - .:/app/server
+      - ./database:/db
+    environment:
+      - JWT_SECRET=somesecret
     command: "bundle exec rackup --host :: -p 8080 -s thin"

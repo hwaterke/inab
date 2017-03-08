@@ -63,15 +63,15 @@ class Header extends React.Component {
 
               {this.props.accounts.map((account) =>
                 account.busy ?
-                  <Link className="dropdown-item" key={account.id}>
+                  <Link className="dropdown-item" key={account.uuid}>
                     <FontAwesome name="refresh" spin fixedWidth />
                     {account.name}
                   </Link>
                   :
-                  <RouterLink className="dropdown-item" key={account.id} to={`/account/${account.id}`}>
+                  <RouterLink className="dropdown-item" key={account.uuid} to={`/account/${account.uuid}`}>
                     {account.name}
                     &nbsp;
-                    <Amount amount={this.props.balanceByAccountId.get(account.id)} color />
+                    <Amount amount={this.props.balanceByAccountId.get(account.uuid)} color />
                   </RouterLink>
               )}
 

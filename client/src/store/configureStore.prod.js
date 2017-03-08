@@ -1,6 +1,7 @@
 import {createStore, compose, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../reducers';
+import {autoRehydrate, persistStore} from 'redux-persist';
 
 export default function configureStore(initialState) {
   const middlewares = [
@@ -11,8 +12,13 @@ export default function configureStore(initialState) {
     thunkMiddleware,
   ];
 
-  return createStore(rootReducer, initialState, compose(
-    applyMiddleware(...middlewares)
+  const store = createStore(rootReducer, initialState, compose(
+    applyMiddleware(...middlewares),
+    autoRehydrate()
     )
   );
+
+  persistStore(store, {whitelist: ['credentials']});
+
+  return store;
 }

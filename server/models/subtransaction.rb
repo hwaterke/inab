@@ -1,17 +1,18 @@
 DB.create_table? :subtransactions do
-  primary_key :id
+  uuid :uuid, primary_key: true
+
   String :description
   # Amount in cents
   Integer :amount, null: false, default: 0
-  foreign_key :category_id, :categories
-  foreign_key :transaction_id, :transactions, on_delete: :cascade
+  foreign_key :category_uuid, :categories, type: 'uuid'
+  foreign_key :transaction_uuid, :transactions, on_delete: :cascade, type: 'uuid'
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 end
 
 class Subtransaction < Sequel::Model
-  many_to_one :category
-  many_to_one :transaction
+  many_to_one :category, key: :category_uuid
+  many_to_one :transaction, key: :transaction_uuid
 
   def before_create
     self.updated_at = Time.now

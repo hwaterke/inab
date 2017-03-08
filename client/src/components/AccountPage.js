@@ -19,7 +19,7 @@ const AccountPage = ({title, balance, selectedAccountId}) => (
 AccountPage.propTypes = {
   title: React.PropTypes.string.isRequired,
   balance: React.PropTypes.number,
-  selectedAccountId: React.PropTypes.number
+  selectedAccountId: React.PropTypes.string
 };
 
 const mapStateToProps = (state) => {
@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
 
   if (aid) {
     // Check if the account exist.
-    const account = state.accounts.find((a) => a.id == aid);
+    const account = state.accounts.find((a) => a.uuid == aid);
     if (account) {
       title = account.name;
       balance = getBalanceByAccountId(state).get(aid);

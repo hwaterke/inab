@@ -119,10 +119,7 @@ class TransactionForm extends Component {
       React.PropTypes.string
     ).isRequired,
     payeeValue: React.PropTypes.string,
-    categoryValue: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]),
+    categoryValue: React.PropTypes.string,
     onCancel: React.PropTypes.func
   };
 
@@ -130,16 +127,16 @@ class TransactionForm extends Component {
     const categoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
       {label: 'Split', value: 'split'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.id}))
+      ...this.props.categories.map(c => ({label: c.name, value: c.uuid}))
     ];
 
     const subtransactionCategoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.id}))
+      ...this.props.categories.map(c => ({label: c.name, value: c.uuid}))
     ];
 
     const payeeOptions = [
-      ...this.props.accounts.map(a => ({label: 'Transfer to ' + a.name, value: 'transfer:' + a.id})),
+      ...this.props.accounts.map(a => ({label: 'Transfer to ' + a.name, value: 'transfer:' + a.uuid})),
       ...this.props.payees.map(c => ({label: c, value: c}))
     ];
 
@@ -150,10 +147,10 @@ class TransactionForm extends Component {
           <div>
             <label>Account</label>
             <Field
-              name="account_id"
+              name="account_uuid"
               component={SimpleSelectField}
               placeholder="Account"
-              options={this.props.accounts.map(cg => ({label: cg.name, value: cg.id}))}
+              options={this.props.accounts.map(cg => ({label: cg.name, value: cg.uuid}))}
             />
           </div>
 
@@ -244,13 +241,13 @@ const formToResource = (data) => {
     transaction.type = 'split';
     transaction.category = null;
   } else {
-    transaction.category_id = data.category;
+    transaction.category_uuid = data.category;
   }
 
-  // Compute the transfer_account_id
-  transaction.transfer_account_id = null;
+  // Compute the transfer_account_uuid
+  transaction.transfer_account_uuid = null;
   if (data.payee && data.payee.startsWith('transfer:')) {
-    transaction.transfer_account_id = parseInt(data.payee.slice('transfer:'.length));
+    transaction.transfer_account_uuid = parseInt(data.payee.slice('transfer:'.length));
     transaction.payee = null;
   }
 
@@ -260,7 +257,7 @@ const formToResource = (data) => {
   if (data.category === 'split' && data.subtransactions) {
     transaction.subtransactions = data.subtransactions.map(str => ({
       amount: amountToCents(str.amount),
-      category_id: str.category,
+      category_uuid: str.category,
       description: str.description
     }));
   } else {
@@ -273,18 +270,18 @@ const formToResource = (data) => {
 
 const resourceToForm = (transaction, props) => {
   const formData = {
-    account_id: props.selectedAccountId,
+    account_uuid: props.selectedAccountId,
     date: moment().format('YYYY-MM-DD')
   };
 
   if (transaction) {
-    formData.account_id = transaction.account_id;
+    formData.account_uuid = transaction.account_uuid;
     formData.date = transaction.date;
     formData.description = transaction.description;
     formData.amount = amountFromCents(transaction.amount);
 
-    if (transaction.transfer_account_id) {
-      formData.payee = 'transfer:' + transaction.transfer_account_id;
+    if (transaction.transfer_account_uuid) {
+      formData.payee = 'transfer:' + transaction.transfer_account_uuid;
     } else {
       formData.payee = transaction.payee;
     }
@@ -294,13 +291,13 @@ const resourceToForm = (transaction, props) => {
     } else if (transaction.type === 'split') {
       formData.category = 'split';
     } else {
-      formData.category = transaction.category_id;
+      formData.category = transaction.category_uuid;
     }
 
     formData.subtransactions = transaction.subtransactions.map(str => ({
       amount: amountFromCents(str.amount),
       description: str.description,
-      category: str.category_id
+      category: str.category_uuid
     }));
   }
 

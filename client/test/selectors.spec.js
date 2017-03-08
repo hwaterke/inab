@@ -25,14 +25,14 @@ describe('Selectors', function () {
       it('should return one account', function () {
         utils.createAccount(store, 1, 'Checking');
         const accounts = getAccounts(store.getState());
-        expect(accounts).toEqual([{id: 1, name: 'Checking'}]);
+        expect(accounts).toEqual([{uuid: 1, name: 'Checking'}]);
       });
 
       it('should return two accounts', function () {
         utils.createAccount(store, 1, 'Checking');
         utils.createAccount(store, 2, 'Savings');
         const accounts = getAccounts(store.getState());
-        expect(accounts).toEqual([{id: 1, name: 'Checking'}, {id: 2, name: 'Savings'}]);
+        expect(accounts).toEqual([{uuid: 1, name: 'Checking'}, {uuid: 2, name: 'Savings'}]);
       });
     });
 
@@ -46,7 +46,7 @@ describe('Selectors', function () {
         utils.createAccount(store, 1, 'Checking');
         const accounts = getAccountsById(store.getState());
         const expected = new Map();
-        expected.set(1, {id: 1, name: 'Checking'});
+        expected.set(1, {uuid: 1, name: 'Checking'});
         expect(accounts).toEqual(expected);
       });
 
@@ -55,8 +55,8 @@ describe('Selectors', function () {
         utils.createAccount(store, 2, 'Savings');
         const accounts = getAccountsById(store.getState());
         const expected = new Map();
-        expected.set(1, {id: 1, name: 'Checking'});
-        expected.set(2, {id: 2, name: 'Savings'});
+        expected.set(1, {uuid: 1, name: 'Checking'});
+        expected.set(2, {uuid: 2, name: 'Savings'});
         expect(accounts).toEqual(expected);
       });
     });
@@ -126,7 +126,7 @@ describe('Selectors', function () {
       it('should return one budget item', function () {
         utils.createBudgetItem(store, 1, '2016-06-01', 1, 10000);
         const bi = budgetItemsSelectors.getBudgetItems(store.getState());
-        expect(bi).toEqual([{id: 1, month: '2016-06-01', category_id: 1, amount: 10000}]);
+        expect(bi).toEqual([{uuid: 1, month: '2016-06-01', category_uuid: 1, amount: 10000}]);
       });
     });
 
@@ -139,7 +139,7 @@ describe('Selectors', function () {
       it('should return one item from the selected month', function () {
         utils.createBudgetItem(store, 1, '2016-06-01', 1, 10000);
         const bi = budgetItemsSelectors.inMonth.current(store.getState());
-        expect(bi).toEqual([{id: 1, month: '2016-06-01', category_id: 1, amount: 10000}]);
+        expect(bi).toEqual([{uuid: 1, month: '2016-06-01', category_uuid: 1, amount: 10000}]);
       });
 
       it('should not return item from previous month', function () {
@@ -168,8 +168,8 @@ describe('Selectors', function () {
         utils.createBudgetItem(store, 4, '2016-07-01', 1, 10000);
         const bi = budgetItemsSelectors.getSelectedMonthBudgetItemsByCategoryId(store.getState());
         const expected = new Map();
-        expected.set(1, {amount: 10000, category_id: 1, id: 2, month: '2016-06-01'});
-        expected.set(2, {amount: 10000, category_id: 2, id: 3, month: '2016-06-01'});
+        expected.set(1, {amount: 10000, category_uuid: 1, uuid: 2, month: '2016-06-01'});
+        expected.set(2, {amount: 10000, category_uuid: 2, uuid: 3, month: '2016-06-01'});
         expect(bi).toEqual(expected);
       });
     });
@@ -188,26 +188,26 @@ describe('Selectors', function () {
       const items = transactionsSelectors.upToMonth.current(store.getState());
       expect(items).toEqual([
         {
-          account_id: 1,
+          account_uuid: 1,
           amount: 3,
-          category_id: null,
+          category_uuid: null,
           date: '2016-05-05',
           description: null,
-          id: 1,
+          uuid: 1,
           payee: 'Payee',
-          transfer_account_id: null,
+          transfer_account_uuid: null,
           type: 'to_be_budgeted',
           subtransactions: []
         },
         {
-          account_id: 1,
+          account_uuid: 1,
           amount: 5,
-          category_id: null,
+          category_uuid: null,
           date: '2016-06-06',
           description: null,
-          id: 2,
+          uuid: 2,
           payee: 'Payee',
-          transfer_account_id: null,
+          transfer_account_uuid: null,
           type: 'to_be_budgeted',
           subtransactions: []
         }

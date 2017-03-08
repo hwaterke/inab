@@ -11,6 +11,18 @@ The simplest solution that works out of the box is to use the existing docker im
 ```
 docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab
 ```
+
+The first time you run the container, it will create an empty database.
+You therefore need to tell it which User should be created.
+You can do so by providing two environment variables to the container:
+`-e "EMAIL=john@example.com" -e "PASSWORD=123"`
+Once this is done you can stop the container and remove those before restarting it.
+
+When running the docker image, it is recommended to add another environment variable.
+`-e "JWT_SECRET=some_secret"`.
+This is optional, a random secret will be used is none is provided.
+But providing one will allow your users to stay connected after a container restart.
+
 You can then access INAB at http://localhost:8080
 
 ### Production build
@@ -60,11 +72,7 @@ Note that in development, the server uses an in-memory database.
 * Use bootstrap via npm (css only, avoid javascript by using reactstrap)
 * Fix onBlur on the inputs in the budget table
 * Fix the select with add new value
-* Add Time in addition to date for transactions?
-* Display list of transactions for one category of the month (= search)
 * Create a design identity (palette etc.)
-* Server side make sure dates of budget items are months
-* Server side make sure there can be only one budget item per month and category
 * Disallow transfers between an account and itself
 * Reorder categories by drag and drop
 * Write server tests
@@ -75,7 +83,7 @@ Note that in development, the server uses an in-memory database.
 * Add favicon
 * Internationalization
 * Native Mobile App
-* Enforce one type of quotes with ESLint
 * Form validation with redux-form
   * Create a generic input Field with label and errors handling
 * Remove arrow function creation in render methods (performance)
+* Add a button of type submit to the forms to allow ENTER

@@ -30,7 +30,7 @@ class TransactionTable extends React.Component {
     }
     return {
       className: row.selected && 'table-active',
-      onClick: () => this.props.onSelectRow(row.id)
+      onClick: () => this.props.onSelectRow(row.uuid)
     };
   }
 
@@ -144,7 +144,7 @@ class TransactionTable extends React.Component {
                   <Link
                     onClick={(event) => {
                       event.stopPropagation();
-                      this.props.onPencilClick(e.rowData.id);
+                      this.props.onPencilClick(e.rowData.uuid);
                     }}
                   >
                     <FontAwesome name="pencil" />
@@ -169,7 +169,7 @@ class TransactionTable extends React.Component {
                   <Link
                     onClick={(event) => {
                       event.stopPropagation();
-                      this.props.onClearClick(e.rowData.id);
+                      this.props.onClearClick(e.rowData.uuid);
                     }}
                   >
                     <FontAwesome
@@ -194,7 +194,7 @@ class TransactionTable extends React.Component {
       ...tr,
       selected: tr.subtransaction ?
         this.props.selectedRows.has(tr.parent_transaction) :
-        this.props.selectedRows.has(tr.id)
+        this.props.selectedRows.has(tr.uuid)
     }));
 
     return (

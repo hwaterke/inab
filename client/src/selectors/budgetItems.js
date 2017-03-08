@@ -11,7 +11,7 @@ export const inMonth = createInMonthSelectors(getBudgetItems, (bi) => bi.month);
 export const upToMonth = createUpToMonthSelectors(getBudgetItems, (bi) => bi.month);
 
 // Grouping
-export const getSelectedMonthBudgetItemsByCategoryId = createMappingSelector(inMonth.current, 'category_id');
+export const getSelectedMonthBudgetItemsByCategoryId = createMappingSelector(inMonth.current, 'category_uuid');
 
 // Sums
 export const getBudgetItemsSumUpToPreviousMonth = createSelector(

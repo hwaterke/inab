@@ -1,8 +1,7 @@
 // @flow
 import {Component, PropTypes, createElement} from 'react';
-import asyncActionCreatorsFor from '../../actions/asyncActionCreatorsFor';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
+import {crud} from '../../api/crud';
 
 /**
  * HOC to provide CRUD functionality to a form.
@@ -30,21 +29,21 @@ export function resourceForm(resourcePath: string,
 
       static propTypes = {
         updatedResource: PropTypes.shape({
-          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+          uuid: PropTypes.string,
         }),
-        create: PropTypes.func,
-        update: PropTypes.func,
-        delete: PropTypes.func,
+        createResource: PropTypes.func.isRequired,
+        updateResource: PropTypes.func.isRequired,
+        deleteResource: PropTypes.func.isRequired,
         postSubmit: PropTypes.func,
       };
 
       onSubmit = (data) => {
         const entity = formToResource(data, this.props);
         if (this.props.updatedResource) {
-          entity.id = this.props.updatedResource.id;
-          this.props.update(entity);
+          entity.uuid = this.props.updatedResource.uuid;
+          this.props.updateResource(resourcePath, entity);
         } else {
-          this.props.create(entity);
+          this.props.createResource(resourcePath, entity);
         }
         this.props.postSubmit && this.props.postSubmit();
       };
@@ -53,8 +52,8 @@ export function resourceForm(resourcePath: string,
        * Delete the updatedResource
        */
       deleteResource = () => {
-        this.props.delete({
-          id: this.props.updatedResource.id
+        this.props.deleteResource(resourcePath, {
+          uuid: this.props.updatedResource.uuid
         });
         this.props.postSubmit && this.props.postSubmit();
       };
@@ -89,6 +88,6 @@ export function resourceForm(resourcePath: string,
     // Name the WrapperComponent accordingly
     ResourceForm.displayName = `ResourceForm(${wrappedComponentName})`;
 
-    return connect(null, asyncActionCreatorsFor(resourcePath))(ResourceForm);
+    return crud()(ResourceForm);
   };
 }

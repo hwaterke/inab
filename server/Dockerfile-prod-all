@@ -1,4 +1,5 @@
-FROM ruby
+FROM ruby:alpine
+RUN apk add --update build-base sqlite-dev
 
 RUN mkdir /db
 WORKDIR /app/server
@@ -9,10 +10,13 @@ RUN bundle install
 
 # Copy server files
 COPY api api
+COPY auth auth
 COPY config config
 COPY models models
 COPY config.ru ./
 COPY sinatra.rb ./
+
+# Copy client files
 COPY dist public
 
 ENV RACK_ENV production

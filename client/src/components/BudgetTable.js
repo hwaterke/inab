@@ -30,19 +30,19 @@ class BudgetTable extends React.Component {
     const rows = [];
     this.props.categoryGroups.forEach(cg => {
       rows.push(<CategoryGroupRow
-        key={'cg'+cg.id}
+        key={'cg'+cg.uuid}
         categoryGroup={cg}
-        onClick={() => this.props.updateUI({categoryGroupSelected: cg.id, categoryGroupFormOpen: true})}
+        onClick={() => this.props.updateUI({categoryGroupSelected: cg.uuid, categoryGroupFormOpen: true})}
       />);
-      if (this.props.categoriesByGroupId.get(cg.id)) {
-        this.props.categoriesByGroupId.get(cg.id).forEach(c => {
+      if (this.props.categoriesByGroupId.get(cg.uuid)) {
+        this.props.categoriesByGroupId.get(cg.uuid).forEach(c => {
           rows.push(<CategoryRow
-            key={'c'+c.id}
+            key={'c'+c.uuid}
             category={c}
-            onNameClick={() => this.props.updateUI({categorySelected: c.id, categoryFormOpen: true})}
-            budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.id)}
-            activity={this.props.getSelectedMonthActivityByCategoryId.get(c.id)}
-            available={this.props.availableByCategory.get(c.id)}
+            onNameClick={() => this.props.updateUI({categorySelected: c.uuid, categoryFormOpen: true})}
+            budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.uuid)}
+            activity={this.props.getSelectedMonthActivityByCategoryId.get(c.uuid)}
+            available={this.props.availableByCategory.get(c.uuid)}
           />);
         });
       }

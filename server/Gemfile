@@ -1,16 +1,19 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "thin"
-gem "sinatra", :require => 'sinatra/base'
-gem "sinatra-contrib"
-gem "json"
-gem "sequel"
-gem "sequel_enum"
-gem "sqlite3"
-gem "grape"
-gem "roar"
-gem "grape-roar"
-gem "activesupport"
+gem 'thin'
+gem 'sinatra', :require => 'sinatra/base'
+gem 'sinatra-contrib'
+gem 'json'
+gem 'sequel'
+gem 'sequel_enum'
+gem 'sequel_secure_password'
+gem 'sqlite3'
+gem 'grape'
+gem 'roar'
+gem 'grape-roar'
+gem 'activesupport'
+gem 'warden'
+gem 'warden-jwt_auth'
 
 group :test do
   gem 'rspec'

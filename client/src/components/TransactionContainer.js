@@ -7,13 +7,13 @@ import TransactionToolbar from './TransactionToolbar';
 import ui from 'redux-ui';
 import TransactionForm from './forms/TransactionForm';
 import {getTransactions, getTransactionsById} from '../selectors/transactions';
-import asyncActionCreatorsFor from '../actions/asyncActionCreatorsFor';
 import TransactionTotalAmount from './TransactionTotalAmount';
 import sumBy from 'lodash/sumBy';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
 import {TransactionResource} from '../entities/Transaction';
+import {crud} from '../api/crud';
 
 const mapStateToProps = (state) => ({
   transactions: getTransactions(state),
@@ -35,7 +35,8 @@ const mapStateToProps = (state) => ({
     searchValue: ''
   }
 })
-@connect(mapStateToProps, asyncActionCreatorsFor(TransactionResource.path))
+@crud()
+@connect(mapStateToProps)
 class TransactionContainer extends React.Component {
 
   static propTypes = {
@@ -43,9 +44,9 @@ class TransactionContainer extends React.Component {
     transactionsById: React.PropTypes.instanceOf(Map).isRequired,
     transactionsForRendering: React.PropTypes.array.isRequired,
     transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),
-    update: React.PropTypes.func.isRequired,
-    delete: React.PropTypes.func.isRequired,
-    accountId: React.PropTypes.number,
+    updateResource: React.PropTypes.func.isRequired,
+    deleteResource: React.PropTypes.func.isRequired,
+    accountId: React.PropTypes.string,
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
   };
@@ -76,9 +77,9 @@ class TransactionContainer extends React.Component {
   toggleClearingTransactionStatus(id) {
     const transaction = this.props.transactionsById.get(id);
     if (transaction.cleared_at) {
-      this.props.update({...transaction, cleared_at: null});
+      this.props.updateResource(TransactionResource.path, {...transaction, cleared_at: null});
     } else {
-      this.props.update({...transaction, cleared_at: new Date()});
+      this.props.updateResource(TransactionResource.path, {...transaction, cleared_at: new Date()});
     }
   }
 
@@ -89,15 +90,15 @@ class TransactionContainer extends React.Component {
   deleteSelection() {
     const records = this.props.ui.selected.map(id => this.props.transactionsById.get(id));
     this.clearSelection();
-    records.forEach(r => this.props.delete(r));
+    records.forEach(r => this.props.deleteResource(TransactionResource.path, r));
   }
 
   displayNew() {
     this.props.updateUI({addingTransaction: true, editingTransactionId: null});
   }
 
-  displayUpdate(transaction_id) {
-    this.props.updateUI({addingTransaction: false, editingTransactionId: transaction_id});
+  displayUpdate(transaction_uuid) {
+    this.props.updateUI({addingTransaction: false, editingTransactionId: transaction_uuid});
   }
 
   hideForm() {
@@ -119,7 +120,7 @@ class TransactionContainer extends React.Component {
     // Filter the selected account
     let transactions = this.props.transactionsForRendering;
     if (this.props.accountId) {
-      transactions = this.props.transactionsForRendering.filter(tr => tr.account_id === this.props.accountId);
+      transactions = this.props.transactionsForRendering.filter(tr => tr.account_uuid === this.props.accountId);
     }
 
     // Filter with Filter[]
@@ -137,7 +138,7 @@ class TransactionContainer extends React.Component {
       <div>
         {(this.props.ui.addingTransaction || this.props.ui.editingTransactionId) &&
         <TransactionForm
-          updatedResource={this.props.transactions.find(tr => tr.id === this.props.ui.editingTransactionId)}
+          updatedResource={this.props.transactions.find(tr => tr.uuid === this.props.ui.editingTransactionId)}
           selectedAccountId={this.props.accountId}
           postSubmit={this.hideForm}
           onCancel={this.hideForm}

@@ -5,16 +5,16 @@ import type {ResourceDefinition} from '../types/ResourceDefinition';
 export const CategoryResource: ResourceDefinition = {
   path: 'categories',
   propType: React.PropTypes.shape({
-    id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    uuid: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     priority: React.PropTypes.number.isRequired,
-    category_group_id: React.PropTypes.number.isRequired
+    category_group_uuid: React.PropTypes.string.isRequired
   })
 };
 
 export type Category = {
-  id: number | string;
+  uuid: string;
   name: string;
   priority: number;
-  category_group_id: number | string;
+  category_group_uuid: string;
 }

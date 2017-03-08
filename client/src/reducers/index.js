@@ -10,13 +10,14 @@ import {CategoryResource} from '../entities/Category';
 import {CategoryGroupResource} from '../entities/CategoryGroup';
 import {BudgetItemResource} from '../entities/BudgetItem';
 import {TransactionResource} from '../entities/Transaction';
+import {credentialsReducer} from './credentials';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
     case '@@router/LOCATION_CHANGE': {
-      let result = action.payload.pathname.match(/^\/account\/(\d+)$/i);
+      let result = action.payload.pathname.match(/^\/account\/([A-Za-z0-9_-]+)$/i);
       if (result) {
-        return Number.parseInt(result[1]);
+        return result[1];
       }
       return null;
     }
@@ -26,14 +27,15 @@ function selectedAccountReducer(state = null, action) {
 
 export default combineReducers({
   selectedAccount: selectedAccountReducer,
-  transactions: reduxCrud.List.reducersFor(TransactionResource.path),
-  accounts: reduxCrud.List.reducersFor(AccountResource.path),
-  categories: reduxCrud.List.reducersFor(CategoryResource.path),
-  categoryGroups: reduxCrud.List.reducersFor(CategoryGroupResource.path),
-  budgetItems: reduxCrud.List.reducersFor(BudgetItemResource.path),
+  transactions: reduxCrud.List.reducersFor(TransactionResource.path, {key: 'uuid'}),
+  accounts: reduxCrud.List.reducersFor(AccountResource.path, {key: 'uuid'}),
+  categories: reduxCrud.List.reducersFor(CategoryResource.path, {key: 'uuid'}),
+  categoryGroups: reduxCrud.List.reducersFor(CategoryGroupResource.path, {key: 'uuid'}),
+  budgetItems: reduxCrud.List.reducersFor(BudgetItemResource.path, {key: 'uuid'}),
   form: formReducer,
   ui: uiReducer,
   routing: routerReducer,
   errors: errorsReducer,
-  transactionFilters: transactionFiltersReducer
+  transactionFilters: transactionFiltersReducer,
+  credentials: credentialsReducer
 });

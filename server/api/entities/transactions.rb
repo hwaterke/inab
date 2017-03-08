@@ -7,23 +7,23 @@ module INAB
 
     class EmbeddedSubtransactionRepresenter < Grape::Roar::Decorator
       include ::Roar::JSON
-      property :id
+      property :uuid
       property :description
       property :amount
-      property :category_id
+      property :category_uuid
     end
 
     class TransactionRepresenter < Grape::Roar::Decorator
       include ::Roar::JSON
-      property :id
+      property :uuid
       property :date
       property :time
       property :payee
       property :description
       property :amount
-      property :category_id
-      property :account_id
-      property :transfer_account_id
+      property :category_uuid
+      property :account_uuid
+      property :transfer_account_uuid
       property :type
       property :cleared_at
       collection :subtransactions, extend: EmbeddedSubtransactionRepresenter
@@ -31,40 +31,35 @@ module INAB
     end
 
     class Transactions < Grape::API
+      before { authenticate! }
+
+      helpers CrudHelpersBuilder.create_for_user Transaction
+
       helpers do
-        params :transaction_params do
-          requires :date, type: Date, desc: "The date at which the Transaction took place"
-          optional :payee, type: String, desc: "The payee of the Transaction"
-          optional :description, type: String, desc: "The description of the Transaction"
-          optional :amount, type: Integer, desc: "The amount of the Transaction in cents"
-          optional :category_id, type: Integer, desc: "The id of the Category"
-          requires :account_id, type: Integer, desc: "The id of the Account"
-          optional :transfer_account_id, type: Integer, desc: "The id of the Account to which the transfer occured"
-          requires :type, type: Symbol, subtransaction_split: true, desc: "The type of Transaction"
-          optional :cleared_at, type: Date, desc: "The date at which the Transaction was cleared"
+        params :instance_params do
+          requires :date, type: Date, desc: 'The date at which the Transaction took place'
+          optional :payee, type: String, desc: 'The payee of the Transaction'
+          optional :description, type: String, desc: 'The description of the Transaction'
+          optional :amount, type: Integer, desc: 'The amount of the Transaction in cents'
+          optional :category_uuid, type: String, desc: 'The uuid of the Category'
+          requires :account_uuid, type: String, desc: 'The uuid of the Account'
+          optional :transfer_account_uuid, type: String, desc: 'The uuid of the Account to which the transfer occured'
+          requires :type, type: Symbol, subtransaction_split: true, desc: 'The type of Transaction'
+          optional :cleared_at, type: Date, desc: 'The date at which the Transaction was cleared'
           optional :subtransactions, type: Array do
-            optional :description, type: String, desc: "The description of the Subtransaction"
-            requires :amount, type: Integer, desc: "The amount of the Subtransaction in cents"
-            optional :category_id, type: Integer, desc: "The id of the Category"
+            optional :description, type: String, desc: 'The description of the Subtransaction'
+            requires :amount, type: Integer, desc: 'The amount of the Subtransaction in cents'
+            requires :category_uuid, type: String, desc: 'The uuid of the Category'
           end
           optional :tags, type: Array do
-            optional :name, type: String, desc: "The name of the tag"
+            requires :name, type: String, desc: 'The name of the tag'
           end
         end
       end
 
-      resource plural_of(Transaction) do
-        get_one(Transaction, TransactionRepresenter)
-        get_all(Transaction, TransactionRepresenter)
-        # TODO the returned transactions does not contain its subtransactions
-        delete_one(Transaction, TransactionRepresenter)
-
-        desc "Creates a new Transaction"
-        params do
-          use :transaction_params
-        end
-        post do
-          creation_keys = declared(params).dup
+      helpers do
+        def create_instance(declared_params)
+          creation_keys = declared_params.merge(user_uuid: connected_user.uuid)
           subtransactions_provided = creation_keys.delete(:subtransactions)
           tags_provided = creation_keys.delete(:tags)
 
@@ -83,22 +78,14 @@ module INAB
               end
             end
 
-            present find_instance(Transaction, tr.id), with: TransactionRepresenter
+            find_instance tr.uuid
           end
         end
 
-        desc "Updates an existing Transaction"
-        params do
-          requires :id, type: String, desc: "The id of the Transaction"
-          use :transaction_params
-        end
-        patch ':id' do
-          update_keys = declared(params).dup
-          update_keys.delete(:id)
+        def update_instance(declared_params, entry)
+          update_keys = declared_params.dup
           subtransactions_provided = update_keys.delete(:subtransactions)
           tags_provided = update_keys.delete(:tags)
-
-          entry = find_instance(Transaction, params[:id])
 
           Transaction.db.transaction do
             entry.update(update_keys)
@@ -121,9 +108,11 @@ module INAB
             end
           end
 
-          present find_instance(Transaction, entry.id), with: TransactionRepresenter
+          find_instance entry.uuid
         end
       end
+
+      crud_routes Transaction.name, TransactionRepresenter
     end
   end
 end

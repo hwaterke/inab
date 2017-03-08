@@ -39,7 +39,7 @@ export const getPayees = createSelector(
 );
 
 // Grouping
-export const getTransactionsById = createMappingSelector(getTransactions, 'id');
+export const getTransactionsById = createMappingSelector(getTransactions, 'uuid');
 
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   upToMonth.current,
@@ -55,25 +55,25 @@ export const getSelectedMonthActivityByCategoryId = createSelector(
 
 // Utils
 
-// Flattens a series of transactions to an array of [date, category_id, amount]
+// Flattens a series of transactions to an array of [date, category_uuid, amount]
 // including both transactions and subtransactions.
 export const flattenTransactions = (transactions) => {
   const result = [];
   transactions.forEach((transaction) => {
-    const category_id = transaction.category_id;
-    if (category_id) {
+    const category_uuid = transaction.category_uuid;
+    if (category_uuid) {
       result.push({
         date: transaction.date,
-        category_id: category_id,
+        category_uuid: category_uuid,
         amount: transaction.amount || 0
       });
     }
     transaction.subtransactions.forEach((subt) => {
-      const sub_category_id = subt.category_id;
-      if (sub_category_id) {
+      const sub_category_uuid = subt.category_uuid;
+      if (sub_category_uuid) {
         result.push({
           date: transaction.date,
-          category_id: sub_category_id,
+          category_uuid: sub_category_uuid,
           amount: subt.amount || 0
         });
       }
@@ -84,6 +84,6 @@ export const flattenTransactions = (transactions) => {
 
 // Returns the sum of the amounts per category id for the transactions provided.
 export const sumByCategoryId = (transactions) => {
-  const result = groupBy(flattenTransactions(transactions), (t) => t.category_id);
+  const result = groupBy(flattenTransactions(transactions), (t) => t.category_uuid);
   return mapMap(result, v => sumBy(v, 'amount'));
 };

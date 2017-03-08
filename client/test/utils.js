@@ -9,57 +9,58 @@ export const selectMonth = (store, year, month) => store.dispatch({
   payload: {transforms: {year: year, month: month}, uiVars: {year: ['budget'], month: ['budget']}}
 });
 
-export const createAccount = (store, id, name) => store.dispatch(reduxCrud.actionCreatorsFor(AccountResource.path).createSuccess({
-  id: id,
-  name: name
+export const createAccount = (store, uuid, name) => store.dispatch(reduxCrud.actionCreatorsFor(AccountResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
+  name
 }));
 
-export const createCategory = (store, id, name) => store.dispatch(reduxCrud.actionCreatorsFor(CategoryResource.path).createSuccess({
-  id: id,
-  name: name
+export const createCategory = (store, uuid, name) => store.dispatch(reduxCrud.actionCreatorsFor(CategoryResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
+  name
 }));
 
-export const createBudgetItem = (store, id, month, category_id, amount) => store.dispatch(reduxCrud.actionCreatorsFor(BudgetItemResource.path).createSuccess({
-  id: id,
+export const createBudgetItem = (store, uuid, month, category_uuid, amount) => store.dispatch(reduxCrud.actionCreatorsFor(BudgetItemResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
   month: month,
-  category_id: category_id,
+  category_uuid: category_uuid,
   amount: amount
 }));
 
-export const createInflowTBB = (store, id, account_id, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path).createSuccess({
-  id: id,
-  account_id: account_id,
+export const createInflowTBB = (store, uuid, account_uuid, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
+  account_uuid: account_uuid,
   amount: amount,
-  category_id: null,
+  category_uuid: null,
   date: date,
   description: null,
   payee: 'Payee',
-  transfer_account_id: null,
+  transfer_account_uuid: null,
   type: 'to_be_budgeted',
   subtransactions: []
 }));
 
-export const createOutflow = (store, id, account_id, amount, category_id, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path).createSuccess({
-  id: id,
-  account_id: account_id,
+export const createOutflow = (store, uuid, account_uuid, amount, category_uuid, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
+  account_uuid: account_uuid,
   amount: amount,
-  category_id: category_id,
+  category_uuid: category_uuid,
   date: date,
   description: null,
   payee: 'Payee',
-  transfer_account_id: null,
+  transfer_account_uuid: null,
   type: 'regular',
   subtransactions: []
 }));
 
-export const createTransfer = (store, id, account_id, transfer_account_id, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path).createSuccess({
-  id: id,
-  account_id: account_id,
+export const createTransfer = (store, uuid, account_uuid, transfer_account_uuid, amount, date) => store.dispatch(reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess({
+  uuid,
+  account_uuid: account_uuid,
   amount: amount,
-  category_id: null,
+  category_uuid: null,
   date: date,
   description: null,
   payee: null,
-  transfer_account_id: transfer_account_id,
+  transfer_account_uuid: transfer_account_uuid,
   type: 'regular'
 }));
+

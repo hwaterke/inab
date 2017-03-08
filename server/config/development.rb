@@ -1,21 +1,38 @@
 # Creates some dummy data for use in development.
 puts 'Development configuration'
 
-a = Account.create(name: 'Checking')
-as = Account.create(name: 'Saving')
+user = User.first(email: 'harold@example.com')
+unless user
+  user = User.create(
+    email: 'harold@example.com',
+    password: '123',
+    password_confirmation: '123'
+  )
+end
 
-cg = CategoryGroup.create(name: 'Monthly Bills')
-Category.create(name: 'Rent', category_group: cg)
-phone = Category.create(name: 'Phone', category_group: cg)
-internet = Category.create(name: 'Internet', category_group: cg)
-Category.create(name: 'Electricity', category_group: cg)
-Category.create(name: 'Water', category_group: cg)
+a = Account.create(user: user, name: 'Checking')
+as = Account.create(user: user, name: 'Saving')
 
-cg = CategoryGroup.create(name: 'Sporadic Bills')
-Category.create(name: 'Haircut', category_group: cg)
+cg = CategoryGroup.create(user: user, name: 'Monthly Bills')
+Category.create(user: user, name: 'Rent', category_group: cg)
+phone = Category.create(user: user, name: 'Phone', category_group: cg)
+internet = Category.create(user: user, name: 'Internet', category_group: cg)
+Category.create(user: user, name: 'Electricity', category_group: cg)
+Category.create(user: user, name: 'Water', category_group: cg)
+
+cg = CategoryGroup.create(user: user, name: 'Sporadic Bills')
+Category.create(user: user, name: 'Haircut', category_group: cg)
+
+BudgetItem.create(
+  user: user,
+  amount: 100,
+  category: phone,
+  month: Time.new(Time.now.year, Time.now.month)
+)
 
 # Regular transaction
 mtr = Transaction.create(
+  user: user,
   date: Time.now,
   time: Time.now,
   payee: 'Proximus',
@@ -31,6 +48,7 @@ mtr.add_tag({:name => 'Tag2'})
 
 # Inflow transaction
 Transaction.create(
+  user: user,
   date: Time.now,
   payee: 'Work',
   description: 'Paycheck',
@@ -41,6 +59,7 @@ Transaction.create(
 
 # Transfer transaction
 Transaction.create(
+  user: user,
   date: Time.now,
   description: 'Saving',
   amount: -700,
@@ -51,6 +70,7 @@ Transaction.create(
 
 # Split transaction
 split_transaction = Transaction.create(
+  user: user,
   date: Time.now,
   description: 'A split transaction',
   amount: -1300,

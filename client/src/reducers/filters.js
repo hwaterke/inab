@@ -21,11 +21,11 @@ export function transactionFiltersReducer(state = [], action) {
       return state.filter((_, i) => i !== action.index);
     }
     case '@@router/LOCATION_CHANGE': {
-      let result = action.payload.pathname.match(/^\/account\/(\d{4}-\d{2})\/(\d+)$/i);
+      let result = action.payload.pathname.match(/^\/account\/(\d{4}-\d{2})\/([A-Za-z0-9_-]+)$/i);
       if (result) {
         return [
           new Filter('date', ':', result[1]),
-          new Filter('category_id', '=', parseInt(result[2]))
+          new Filter('category_uuid', '=', result[2])
         ];
       }
       // Reset on page change (for now TODO)

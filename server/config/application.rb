@@ -8,11 +8,13 @@ Bundler.require :default, ENV['RACK_ENV']
 $stdout.sync = true if ENV['RACK_ENV'] == 'development'
 
 DB = (ENV['RACK_ENV'] == 'production') ? Sequel.sqlite('/db/budget.db') : Sequel.sqlite
+Sequel::Model.plugin :uuid
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
 
 require 'roar/json'
 
 # Load all models
+require_relative File.join('..', 'auth', 'models', 'users')
 require_relative File.join('..', 'models', 'account')
 require_relative File.join('..', 'models', 'category_group')
 require_relative File.join('..', 'models', 'category')
@@ -21,8 +23,12 @@ require_relative File.join('..', 'models', 'transaction_tags')
 require_relative File.join('..', 'models', 'transaction')
 require_relative File.join('..', 'models', 'subtransaction')
 
-require_relative '../api/helpers/crud_helpers'
-require_relative '../api/helpers/crud_extension'
+require_relative '../auth/bootstrap'
+
+require_relative '../api/helpers/warden_helpers'
+
+require_relative '../api/helpers/crud_api_extention'
+require_relative '../api/helpers/crud_helpers_builder'
 
 # Load all API validators
 Dir['api/validators/*.rb'].each do |f|
@@ -33,6 +39,10 @@ end
 Dir['api/entities/*.rb'].each do |f|
   require_relative File.join('..', f)
 end
+
+require_relative '../auth/warden/strategy/password'
+require_relative '../auth/warden/jwt'
+require_relative '../auth/api/api'
 
 require_relative '../api/api'
 

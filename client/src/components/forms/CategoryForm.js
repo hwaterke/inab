@@ -33,10 +33,10 @@ class CategoryForm extends React.Component {
         <div className="form-group">
           <label>Category group</label>
           <Field
-            name="category_group_id"
+            name="category_group_uuid"
             component={SimpleSelectField}
             placeholder="Category group"
-            options={this.props.categoryGroups.map(cg => ({label: cg.name, value: cg.id}))}
+            options={this.props.categoryGroups.map(cg => ({label: cg.name, value: cg.uuid}))}
           />
         </div>
 
