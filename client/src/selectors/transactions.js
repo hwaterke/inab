@@ -1,6 +1,7 @@
+import R from 'ramda';
 import {createSelector} from 'reselect';
 import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
-import {beginningOfMonth, groupBy, mapMap, sumOfAmounts} from './utils';
+import {beginningOfMonth, sumOfAmounts} from './utils';
 import {selectTransactions} from './resources';
 
 export const getSortedTransactions = createSelector(
@@ -41,10 +42,12 @@ export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   transactions => sumOfAmounts(transactions.filter(t => t.type == 'to_be_budgeted'))
 );
 
-export const getSelectedMonthActivityByCategoryId = createSelector(
+export const selectSelectedMonthActivityByCategoryId = createSelector(
   inMonth.current,
   transactions => {
-    return sumByCategoryId(transactions);
+    const reduceToAmountSumBy = R.reduceBy((acc, record) => acc + record.amount, 0);
+    const sumByCategoryId = reduceToAmountSumBy(R.prop('category_uuid'));
+    return sumByCategoryId(flattenTransactions(transactions));
   }
 );
 
@@ -75,10 +78,4 @@ export const flattenTransactions = (transactions) => {
     });
   });
   return result;
-};
-
-// Returns the sum of the amounts per category id for the transactions provided.
-export const sumByCategoryId = (transactions) => {
-  const result = groupBy(flattenTransactions(transactions), (t) => t.category_uuid);
-  return mapMap(result, v => sumOfAmounts(v));
 };

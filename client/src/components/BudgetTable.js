@@ -2,7 +2,6 @@ import React from 'react';
 import {getSortedCategoryGroups} from '../selectors/categoryGroups';
 import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
 import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
-import {getSelectedMonthActivityByCategoryId} from '../selectors/transactions';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
@@ -11,6 +10,7 @@ import '../styles/tables.scss';
 import {CategoryGroupResource} from '../entities/CategoryGroup';
 import {selectCategoriesByGroupId} from '../selectors/categories';
 import {CategoryResource} from '../entities/Category';
+import {selectSelectedMonthActivityByCategoryId} from '../selectors/transactions';
 
 @ui({
   state: {
@@ -23,7 +23,9 @@ class BudgetTable extends React.Component {
     categoriesByGroupId: React.PropTypes.objectOf(
       React.PropTypes.arrayOf(CategoryResource.propType).isRequired
     ).isRequired,
-    getSelectedMonthActivityByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
+    selectedMonthActivityByCategoryId: React.PropTypes.objectOf(
+      React.PropTypes.number.isRequired
+    ).isRequired,
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     availableByCategory: React.PropTypes.instanceOf(Map).isRequired,
     updateUI: React.PropTypes.func.isRequired
@@ -44,7 +46,7 @@ class BudgetTable extends React.Component {
             category={c}
             onNameClick={() => this.props.updateUI({categorySelected: c.uuid, categoryFormOpen: true})}
             budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.uuid)}
-            activity={this.props.getSelectedMonthActivityByCategoryId.get(c.uuid)}
+            activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
             available={this.props.availableByCategory.get(c.uuid)}
           />);
         });
@@ -72,7 +74,7 @@ class BudgetTable extends React.Component {
 const mapStateToProps = (state) => ({
   categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: selectCategoriesByGroupId(state),
-  getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state),
+  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
   getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
 });
