@@ -7,13 +7,13 @@ import TransactionToolbar from './TransactionToolbar';
 import ui from 'redux-ui';
 import TransactionForm from './forms/TransactionForm';
 import TransactionTotalAmount from './TransactionTotalAmount';
-import sumBy from 'lodash/sumBy';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
 import {TransactionResource} from '../entities/Transaction';
 import {crud} from '../api/crud';
 import {selectTransactions, selectTransactionsById} from '../selectors/resources';
+import {sumOfAmounts} from '../selectors/utils';
 
 const mapStateToProps = (state) => ({
   transactions: selectTransactions(state),
@@ -132,7 +132,7 @@ class TransactionContainer extends React.Component {
 
   render() {
     const transactionsToRender = this.getTransactionsToRender();
-    const total = sumBy(transactionsToRender.filter(tr => tr.type != 'split'), 'amount');
+    const total = sumOfAmounts(transactionsToRender.filter(tr => tr.type != 'split'));
 
     return (
       <div>

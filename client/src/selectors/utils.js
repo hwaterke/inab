@@ -1,5 +1,8 @@
+import R from 'ramda';
 import {createSelector} from 'reselect';
 import moment from 'moment';
+
+export const sumOfAmounts = R.reduce((acc, record) => acc + record.amount, 0);
 
 export const groupBy = (items, ...mappers) => {
   const mapper = mappers.shift();
