@@ -18,3 +18,9 @@ body {
   background-color: $front-background-color;
   border: 1px solid $border-color;
 }
+
+.apart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

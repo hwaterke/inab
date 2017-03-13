@@ -55,9 +55,8 @@ class Header extends React.Component {
 
             <div className="dropdown-menu" aria-labelledby="supportedContentDropdown">
 
-              <RouterLink className="dropdown-item" to="/account">
-                All
-                &nbsp;
+              <RouterLink className="apart dropdown-item" to="/account">
+                <span>All&nbsp;</span>
                 <Amount amount={this.props.budgetBalance} color />
               </RouterLink>
 
@@ -68,9 +67,8 @@ class Header extends React.Component {
                     {account.name}
                   </Link>
                   :
-                  <RouterLink className="dropdown-item" key={account.uuid} to={`/account/${account.uuid}`}>
-                    {account.name}
-                    &nbsp;
+                  <RouterLink className="apart dropdown-item" key={account.uuid} to={`/account/${account.uuid}`}>
+                    <span>{account.name}&nbsp;</span>
                     <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
                   </RouterLink>
               )}
