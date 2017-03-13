@@ -6,7 +6,7 @@ import {getCurrentMonth, getPreviousMonth} from './ui';
 import {selectCategories, selectBudgetItems, selectTransactions, selectAccounts} from './resources';
 
 /**
- * Returns the balance of the budget i.e. the total amount of money accross accounts.
+ * Returns the balance of the budget i.e. the total amount of money across accounts.
  */
 export const getBudgetBalance = createSelector(
   selectTransactions,
