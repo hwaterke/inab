@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getSelectedAccount} from '../selectors/ui';
-import {getBalanceByAccountId} from '../selectors/accounts';
-import {getBudgetBalance} from '../selectors/budget';
+import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import AccountHeader from './AccountHeader';
 import TransactionContainer from './TransactionContainer';
+import {selectAccountsById} from '../selectors/resources';
 
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>
@@ -30,10 +30,10 @@ const mapStateToProps = (state) => {
 
   if (aid) {
     // Check if the account exist.
-    const account = state.accounts.find((a) => a.uuid == aid);
+    const account = selectAccountsById(state)[aid];
     if (account) {
       title = account.name;
-      balance = getBalanceByAccountId(state).get(aid);
+      balance = selectBalanceByAccountId(state)[aid];
     }
   }
 

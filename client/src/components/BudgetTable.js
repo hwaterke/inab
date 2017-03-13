@@ -1,6 +1,5 @@
 import React from 'react';
 import {getSortedCategoryGroups} from '../selectors/categoryGroups';
-import {getCategoriesByGroupId} from '../selectors/categories';
 import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
 import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
 import {getSelectedMonthActivityByCategoryId} from '../selectors/transactions';
@@ -10,6 +9,8 @@ import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
 import '../styles/tables.scss';
 import {CategoryGroupResource} from '../entities/CategoryGroup';
+import {selectCategoriesByGroupId} from '../selectors/categories';
+import {CategoryResource} from '../entities/Category';
 
 @ui({
   state: {
@@ -19,7 +20,9 @@ import {CategoryGroupResource} from '../entities/CategoryGroup';
 class BudgetTable extends React.Component {
   static propTypes = {
     categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
-    categoriesByGroupId: React.PropTypes.instanceOf(Map).isRequired,
+    categoriesByGroupId: React.PropTypes.objectOf(
+      React.PropTypes.arrayOf(CategoryResource.propType).isRequired
+    ).isRequired,
     getSelectedMonthActivityByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
     availableByCategory: React.PropTypes.instanceOf(Map).isRequired,
@@ -34,8 +37,8 @@ class BudgetTable extends React.Component {
         categoryGroup={cg}
         onClick={() => this.props.updateUI({categoryGroupSelected: cg.uuid, categoryGroupFormOpen: true})}
       />);
-      if (this.props.categoriesByGroupId.get(cg.uuid)) {
-        this.props.categoriesByGroupId.get(cg.uuid).forEach(c => {
+      if (this.props.categoriesByGroupId[cg.uuid]) {
+        this.props.categoriesByGroupId[cg.uuid].forEach(c => {
           rows.push(<CategoryRow
             key={'c'+c.uuid}
             category={c}
@@ -68,7 +71,7 @@ class BudgetTable extends React.Component {
 
 const mapStateToProps = (state) => ({
   categoryGroups: getSortedCategoryGroups(state),
-  categoriesByGroupId: getCategoriesByGroupId(state),
+  categoriesByGroupId: selectCategoriesByGroupId(state),
   getSelectedMonthActivityByCategoryId: getSelectedMonthActivityByCategoryId(state),
   getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)

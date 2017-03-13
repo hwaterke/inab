@@ -1,26 +1,45 @@
 import {createSelector} from 'reselect';
-import {getCategories} from '../selectors/categories';
-import {getTransactions, getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions} from '../selectors/transactions';
-import {getBudgetItems, getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo} from '../selectors/budgetItems';
+import {getToBeBudgetedSumUpToSelectedMonth, upToMonth as transactionsUpTo, flattenTransactions} from '../selectors/transactions';
+import {getBudgetItemsSumUpToPreviousMonth, inMonth as budgetItemsIn, upToMonth as budgetItemsUpTo} from '../selectors/budgetItems';
 import {beginningOfMonth, groupBy, groupByKey} from './utils';
 import {getCurrentMonth, getPreviousMonth} from './ui';
 import sumBy from 'lodash/sumBy';
+import {selectCategories, selectBudgetItems, selectTransactions, selectAccounts} from './resources';
 
 /**
  * Returns the balance of the budget i.e. the total amount of money accross accounts.
  */
 export const getBudgetBalance = createSelector(
-  getTransactions,
+  selectTransactions,
   (transactions) => {
     return sumBy(transactions.filter((t) => !t.transfer_account_uuid), 'amount');
   }
 );
 
+/**
+ * Returns the balance per account
+ */
+export const selectBalanceByAccountId = createSelector(
+  selectAccounts,
+  selectTransactions,
+  (accounts, transactions) => {
+    const result = {};
+    accounts.forEach(a => result[a.uuid] = 0);
+    transactions.forEach(t => {
+      result[t.account_uuid] = result[t.account_uuid] + t.amount;
+      if (t.transfer_account_uuid) {
+        result[t.transfer_account_uuid] = result[t.transfer_account_uuid] - t.amount;
+      }
+    });
+    return result;
+  }
+);
+
 // Returns the sum of all budget items and transactions by category and by month (chronological)
 const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
-  getCategories,
-  getBudgetItems,
-  getTransactions,
+  selectCategories,
+  selectBudgetItems,
+  selectTransactions,
   (categories, budgetItems, transactions) => {
     const result = new Map();
 
@@ -80,7 +99,7 @@ const getOverspendingByCategoryIdByMonth = createSelector(
 
 // Returns for each category the amount available in the budget for that category for the month
 export const getAvailableByCategoryIdForSelectedMonth = createSelector(
-  getCategories,
+  selectCategories,
   budgetItemsUpTo.current,
   transactionsUpTo.current,
   getCurrentMonth,
@@ -173,7 +192,7 @@ export const getBudgetedInFuture = createSelector(
   getOverspentLastMonth,
   getBudgetedThisMonth,
   getCurrentMonth,
-  getBudgetItems,
+  selectBudgetItems,
   (funds, overspent, budgeted, currentMonth, allBudgetItems) => {
     const maximum = funds + overspent + budgeted;
     const futureBudgeting = sumBy(allBudgetItems.filter(i => currentMonth.isBefore(i.month)), 'amount');

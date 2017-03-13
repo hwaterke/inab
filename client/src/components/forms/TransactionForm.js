@@ -3,8 +3,6 @@ import './TransactionForm.scss';
 import {Field, FieldArray, formValueSelector} from 'redux-form';
 import SimpleSelectField from './fields/SimpleSelectField';
 import {connect} from 'react-redux';
-import {getAccounts} from '../../selectors/accounts';
-import {getCategories} from '../../selectors/categories';
 import {getPayees} from '../../selectors/transactions';
 import DatePickerField from './fields/DatePickerField';
 import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
@@ -18,6 +16,7 @@ import {CategoryResource} from '../../entities/Category';
 import {TransactionResource} from '../../entities/Transaction';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
+import {selectAccounts, selectCategories} from '../../selectors/resources';
 
 /**
  * Component used for rendering the subtransaction forms
@@ -94,8 +93,8 @@ renderSubtransactions.propTypes = {
 const selector = formValueSelector(TransactionResource.path);
 
 const mapStateToProps = (state) => ({
-  accounts: getAccounts(state),
-  categories: getCategories(state),
+  accounts: selectAccounts(state),
+  categories: selectCategories(state),
   payees: getPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category')

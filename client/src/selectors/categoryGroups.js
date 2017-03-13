@@ -1,15 +1,8 @@
+import R from 'ramda';
 import {createSelector} from 'reselect';
-import {createMappingSelector} from './utils';
-import sortBy from 'lodash/sortBy';
+import {selectCategoryGroups} from './resources';
 
-// All
-export const getCategoryGroups = state => state.categoryGroups;
-
-// Sorting
 export const getSortedCategoryGroups = createSelector(
-  getCategoryGroups,
-  cgs => sortBy(cgs, ['priority'])
+  selectCategoryGroups,
+  cgs => R.sortBy(R.prop('priority'), cgs)
 );
-
-// Grouping
-export const getCategoryGroupsById = createMappingSelector(getCategoryGroups, 'uuid');

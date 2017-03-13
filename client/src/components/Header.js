@@ -3,12 +3,12 @@ import Link from './Link';
 import Amount from './Amount';
 import React from 'react';
 import {connect} from 'react-redux';
-import {getAccounts, getBalanceByAccountId} from '../selectors/accounts';
-import {getBudgetBalance} from '../selectors/budget';
+import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router';
 import {AccountResource} from '../entities/Account';
+import {selectAccounts} from '../selectors/resources';
 
 @ui({
   state: {
@@ -19,7 +19,7 @@ import {AccountResource} from '../entities/Account';
 class Header extends React.Component {
   static propTypes = {
     accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
-    balanceByAccountId: React.PropTypes.instanceOf(Map).isRequired,
+    balanceByAccountId: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
     budgetBalance: React.PropTypes.number.isRequired,
     updateUI: React.PropTypes.func.isRequired
   };
@@ -71,7 +71,7 @@ class Header extends React.Component {
                   <RouterLink className="dropdown-item" key={account.uuid} to={`/account/${account.uuid}`}>
                     {account.name}
                     &nbsp;
-                    <Amount amount={this.props.balanceByAccountId.get(account.uuid)} color />
+                    <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
                   </RouterLink>
               )}
 
@@ -93,8 +93,8 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  accounts: getAccounts(state),
-  balanceByAccountId: getBalanceByAccountId(state),
+  accounts: selectAccounts(state),
+  balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state)
 });
 

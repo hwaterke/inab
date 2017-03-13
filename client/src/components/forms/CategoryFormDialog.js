@@ -3,9 +3,10 @@ import Button from '../Button';
 import CategoryForm from './CategoryForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
-import {getCategoriesById} from '../../selectors/categories';
 import {connect} from 'react-redux';
 import ButtonIcon from '../ButtonIcon';
+import {selectCategoriesById} from '../../selectors/resources';
+import {CategoryResource} from '../../entities/Category';
 
 @ui()
 class CategoryFormDialog extends React.Component {
@@ -18,7 +19,7 @@ class CategoryFormDialog extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    categoriesById: React.PropTypes.instanceOf(Map).isRequired
+    categoriesById: React.PropTypes.objectOf(CategoryResource.propType).isRequired
   };
 
   handleOpenNew() {
@@ -47,7 +48,7 @@ class CategoryFormDialog extends React.Component {
           onRequestClose={this.handleClose}
         >
           <CategoryForm
-            updatedResource={this.props.ui.categorySelected && this.props.categoriesById.get(this.props.ui.categorySelected)}
+            updatedResource={this.props.ui.categorySelected && this.props.categoriesById[this.props.ui.categorySelected]}
             postSubmit={this.handleClose}
           />
         </Dialog>
@@ -57,7 +58,7 @@ class CategoryFormDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  categoriesById: getCategoriesById(state)
+  categoriesById: selectCategoriesById(state)
 });
 
 export default connect(mapStateToProps)(CategoryFormDialog);

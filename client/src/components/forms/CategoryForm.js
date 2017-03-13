@@ -2,14 +2,14 @@ import React from 'react';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
-import {getCategoryGroups} from '../../selectors/categoryGroups';
 import {CategoryResource} from '../../entities/Category';
 import {CategoryGroupResource} from '../../entities/CategoryGroup';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
+import {selectCategoryGroups} from '../../selectors/resources';
 
 const mapStateToProps = (state) => ({
-  categoryGroups: getCategoryGroups(state)
+  categoryGroups: selectCategoryGroups(state)
 });
 
 @connect(mapStateToProps)

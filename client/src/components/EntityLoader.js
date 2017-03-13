@@ -1,23 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getAccounts} from '../selectors/accounts';
-import {getCategoryCount} from '../selectors/categories';
-import {getTransactions} from '../selectors/transactions';
-import {getCategoryGroups} from '../selectors/categoryGroups';
-import {getBudgetItems} from '../selectors/budgetItems';
 import {AccountResource} from '../entities/Account';
+import {CategoryResource} from '../entities/Category';
 import {CategoryGroupResource} from '../entities/CategoryGroup';
 import {BudgetItemResource} from '../entities/BudgetItem';
 import {TransactionResource} from '../entities/Transaction';
 import {crud} from '../api/crud';
-import {CategoryResource} from '../entities/Category';
+import {selectAccounts, selectCategoryGroups, selectBudgetItems, selectTransactions, selectCategories} from '../selectors/resources';
 
 const mapStateToProps = (state) => ({
-  accounts: getAccounts(state),
-  categoryCount: getCategoryCount(state),
-  categoryGroups: getCategoryGroups(state),
-  budgetItems: getBudgetItems(state),
-  transactions: getTransactions(state)
+  accounts: selectAccounts(state),
+  categories: selectCategories(state),
+  categoryGroups: selectCategoryGroups(state),
+  budgetItems: selectBudgetItems(state),
+  transactions: selectTransactions(state)
 });
 
 // Until we have a better solution, this component silently loads the entities on startup.
@@ -26,8 +22,8 @@ const mapStateToProps = (state) => ({
 export class EntityLoader extends React.Component {
   static propTypes = {
     accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
+    categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
     categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
-    categoryCount: React.PropTypes.number.isRequired,
     budgetItems: React.PropTypes.arrayOf(BudgetItemResource.propType).isRequired,
     transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
     fetchAll: React.PropTypes.func.isRequired,
@@ -50,7 +46,7 @@ export class EntityLoader extends React.Component {
     if (this.props.categoryGroups.length == 0) {
       this.props.fetchAll(CategoryGroupResource.path).then(() => this.decrementFetch());
     }
-    if (this.props.categoryCount == 0) {
+    if (this.props.categories.length == 0) {
       this.props.fetchAll(CategoryResource.path).then(() => this.decrementFetch());
     }
     if (this.props.budgetItems.length == 0) {

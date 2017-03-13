@@ -3,8 +3,9 @@ import Button from '../Button';
 import AccountForm from './AccountForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
-import {getAccountsById} from '../../selectors/accounts';
 import {connect} from 'react-redux';
+import {selectAccountsById} from '../../selectors/resources';
+import {AccountResource} from '../../entities/Account';
 
 @ui()
 class AccountFormDialog extends React.Component {
@@ -17,7 +18,7 @@ class AccountFormDialog extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    accountsById: React.PropTypes.instanceOf(Map).isRequired
+    accountsById: React.PropTypes.objectOf(AccountResource.propType).isRequired
   };
 
   handleOpenNew() {
@@ -42,7 +43,7 @@ class AccountFormDialog extends React.Component {
         onRequestClose={this.handleClose}
       >
         <AccountForm
-          updatedResource={this.props.ui.accountSelected && this.props.accountsById.get(this.props.ui.accountSelected)}
+          updatedResource={this.props.ui.accountSelected && this.props.accountsById[this.props.ui.accountSelected]}
           postSubmit={this.handleClose}
         />
       </Dialog>
@@ -51,7 +52,7 @@ class AccountFormDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  accountsById: getAccountsById(state)
+  accountsById: selectAccountsById(state)
 });
 
 export default connect(mapStateToProps)(AccountFormDialog);

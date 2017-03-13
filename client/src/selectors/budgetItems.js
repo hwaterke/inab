@@ -2,13 +2,11 @@ import {createSelector} from 'reselect';
 import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
 import {createMappingSelector} from './utils';
 import sumBy from 'lodash/sumBy';
-
-// All
-export const getBudgetItems = (state) => state.budgetItems;
+import {selectBudgetItems} from './resources';
 
 // Filters
-export const inMonth = createInMonthSelectors(getBudgetItems, (bi) => bi.month);
-export const upToMonth = createUpToMonthSelectors(getBudgetItems, (bi) => bi.month);
+export const inMonth = createInMonthSelectors(selectBudgetItems, (bi) => bi.month);
+export const upToMonth = createUpToMonthSelectors(selectBudgetItems, (bi) => bi.month);
 
 // Grouping
 export const getSelectedMonthBudgetItemsByCategoryId = createMappingSelector(inMonth.current, 'category_uuid');

@@ -3,9 +3,10 @@ import Button from '../Button';
 import CategoryGroupForm from './CategoryGroupForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
-import {getCategoryGroupsById} from '../../selectors/categoryGroups';
 import {connect} from 'react-redux';
 import ButtonIcon from '../ButtonIcon';
+import {selectCategoryGroupsById} from '../../selectors/resources';
+import {CategoryGroupResource} from '../../entities/CategoryGroup';
 
 @ui()
 class CategoryGroupFormDialog extends React.Component {
@@ -18,7 +19,7 @@ class CategoryGroupFormDialog extends React.Component {
   static propTypes = {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
-    categoryGroupsById: React.PropTypes.instanceOf(Map).isRequired
+    categoryGroupsById: React.PropTypes.objectOf(CategoryGroupResource.propType).isRequired
   };
 
   handleOpenNew() {
@@ -47,7 +48,7 @@ class CategoryGroupFormDialog extends React.Component {
           onRequestClose={this.handleClose}
         >
           <CategoryGroupForm
-            updatedResource={this.props.ui.categoryGroupSelected && this.props.categoryGroupsById.get(this.props.ui.categoryGroupSelected)}
+            updatedResource={this.props.ui.categoryGroupSelected && this.props.categoryGroupsById[this.props.ui.categoryGroupSelected]}
             postSubmit={this.handleClose}
           />
         </Dialog>
@@ -57,7 +58,7 @@ class CategoryGroupFormDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  categoryGroupsById: getCategoryGroupsById(state)
+  categoryGroupsById: selectCategoryGroupsById(state)
 });
 
 export default connect(mapStateToProps)(CategoryGroupFormDialog);

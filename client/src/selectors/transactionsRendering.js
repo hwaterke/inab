@@ -1,8 +1,7 @@
 import {createSelector} from 'reselect';
 import {getSortedTransactions, getPayees} from './transactions';
-import {getAccountsById} from './accounts';
-import {getCategoriesById} from './categories';
-import {mapMap} from './utils';
+import {selectAccountsById, selectCategoriesById} from './resources';
+import R from 'ramda';
 
 const getMirrorTransfer = (transaction) => {
   const mirror = Object.assign({}, transaction);
@@ -18,8 +17,8 @@ const getMirrorTransfer = (transaction) => {
 // Converts the transactions to TransactionView
 export const getTransactionsForRendering = createSelector(
   getSortedTransactions,
-  getAccountsById,
-  getCategoriesById,
+  selectAccountsById,
+  selectCategoriesById,
   (transactions, accountsById, categoriesById) => {
     const result = [];
 
@@ -27,8 +26,8 @@ export const getTransactionsForRendering = createSelector(
       const tr_result = {
         ...tr,
         key: tr.uuid,
-        account: accountsById.get(tr.account_uuid).name,
-        payee: tr.payee || tr.transfer_account_uuid && accountsById.get(tr.transfer_account_uuid).name,
+        account: accountsById[tr.account_uuid].name,
+        payee: tr.payee || tr.transfer_account_uuid && accountsById[tr.transfer_account_uuid].name,
         is_transfer: !!tr.transfer_account_uuid,
         tagsForSearch: tr.tags.map(t => t.name).join(',')
       };
@@ -41,7 +40,7 @@ export const getTransactionsForRendering = createSelector(
         tr_result.category = 'Split';
       }
       if (tr.type === 'regular' && tr.category_uuid) {
-        tr_result.category = categoriesById.get(tr.category_uuid).name;
+        tr_result.category = categoriesById[tr.category_uuid].name;
       }
 
       result.push(tr_result);
@@ -57,7 +56,7 @@ export const getTransactionsForRendering = createSelector(
           date: tr.date,
           account_uuid: tr.account_uuid,
           category_uuid: str.category_uuid,
-          category: str.category_uuid ? categoriesById.get(str.category_uuid).name : '',
+          category: str.category_uuid ? categoriesById[str.category_uuid].name : '',
           description: str.description,
           amount: str.amount,
           subtransaction: true,
@@ -73,14 +72,14 @@ export const getTransactionsForRendering = createSelector(
 );
 
 export const getTransactionColumns = createSelector(
-  getAccountsById,
-  getCategoriesById,
+  selectAccountsById,
+  selectCategoriesById,
   getPayees,
   (accountsById, categoriesById, payees) => ({
     account: {
       label: 'Account',
       type: 'text',
-      options: mapMap(accountsById, a => a.name)
+      options: R.map(R.prop('name'), accountsById)
     },
     date: {
       label: 'Date',
@@ -89,7 +88,7 @@ export const getTransactionColumns = createSelector(
     category_uuid: {
       label: 'Category',
       type: 'text',
-      options: mapMap(categoriesById, c => c.name)
+      options: R.map(R.prop('name'), categoriesById)
     },
     amount: {
       label: 'Amount',

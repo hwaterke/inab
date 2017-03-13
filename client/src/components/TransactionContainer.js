@@ -6,7 +6,6 @@ import * as Immutable from 'immutable';
 import TransactionToolbar from './TransactionToolbar';
 import ui from 'redux-ui';
 import TransactionForm from './forms/TransactionForm';
-import {getTransactions, getTransactionsById} from '../selectors/transactions';
 import TransactionTotalAmount from './TransactionTotalAmount';
 import sumBy from 'lodash/sumBy';
 import TransactionFilters from './TransactionFilters';
@@ -14,10 +13,11 @@ import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
 import {TransactionResource} from '../entities/Transaction';
 import {crud} from '../api/crud';
+import {selectTransactions, selectTransactionsById} from '../selectors/resources';
 
 const mapStateToProps = (state) => ({
-  transactions: getTransactions(state),
-  transactionsById: getTransactionsById(state),
+  transactions: selectTransactions(state),
+  transactionsById: selectTransactionsById(state),
   transactionsForRendering: getTransactionsForRendering(state),
   transactionFilters: state.transactionFilters
 });
@@ -41,7 +41,7 @@ class TransactionContainer extends React.Component {
 
   static propTypes = {
     transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    transactionsById: React.PropTypes.instanceOf(Map).isRequired,
+    transactionsById: React.PropTypes.objectOf(TransactionResource.propType).isRequired,
     transactionsForRendering: React.PropTypes.array.isRequired,
     transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),
     updateResource: React.PropTypes.func.isRequired,
@@ -75,7 +75,7 @@ class TransactionContainer extends React.Component {
   }
 
   toggleClearingTransactionStatus(id) {
-    const transaction = this.props.transactionsById.get(id);
+    const transaction = this.props.transactionsById[id];
     if (transaction.cleared_at) {
       this.props.updateResource(TransactionResource.path, {...transaction, cleared_at: null});
     } else {
@@ -88,7 +88,7 @@ class TransactionContainer extends React.Component {
   }
 
   deleteSelection() {
-    const records = this.props.ui.selected.map(id => this.props.transactionsById.get(id));
+    const records = this.props.ui.selected.map(id => this.props.transactionsById[id]);
     this.clearSelection();
     records.forEach(r => this.props.deleteResource(TransactionResource.path, r));
   }

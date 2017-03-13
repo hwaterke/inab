@@ -1,13 +1,11 @@
 import {createSelector} from 'reselect';
 import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
-import {beginningOfMonth, createMappingSelector, groupBy, mapMap} from './utils';
+import {beginningOfMonth, groupBy, mapMap} from './utils';
 import sumBy from 'lodash/sumBy';
-
-// All
-export const getTransactions = state => state.transactions;
+import {selectTransactions} from './resources';
 
 export const getSortedTransactions = createSelector(
-  getTransactions,
+  selectTransactions,
   transactions => transactions.concat().sort((a, b) => {
     if (a.date < b.date) {
       return 1;
@@ -29,18 +27,16 @@ export const getSortedTransactions = createSelector(
 );
 
 // Filters
-export const inMonth = createInMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));
-export const upToMonth = createUpToMonthSelectors(getTransactions, (t) => beginningOfMonth(t.date));
+export const inMonth = createInMonthSelectors(selectTransactions, (t) => beginningOfMonth(t.date));
+export const upToMonth = createUpToMonthSelectors(selectTransactions, (t) => beginningOfMonth(t.date));
 
 // Map
 export const getPayees = createSelector(
-  getTransactions,
+  selectTransactions,
   transactions => [...new Set(transactions.filter(t => t.payee != null).map(t => t.payee))]
 );
 
 // Grouping
-export const getTransactionsById = createMappingSelector(getTransactions, 'uuid');
-
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   upToMonth.current,
   transactions => sumBy(transactions.filter(t => t.type == 'to_be_budgeted'), 'amount')

@@ -34,6 +34,4 @@ export const mapMap = (aMap, mapper) => {
 
 export const beginningOfMonth = (dateString) => moment(dateString).startOf('month').format('YYYY-MM-DD');
 
-export const createGroupingSelector = (itemSelector, propName) => createSelector(itemSelector, (items) => groupByKey(items, propName));
-
 export const createMappingSelector = (itemSelector, propName) => createSelector(itemSelector, (items) => mapByKey(items, propName));
