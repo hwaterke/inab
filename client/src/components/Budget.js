@@ -6,13 +6,7 @@ import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
 import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import {connect} from 'react-redux';
-import {
-  getAvailableToBudget,
-  getFundsForSelectedMonth,
-  getOverspentLastMonth,
-  getBudgetedThisMonth,
-  getBudgetedInFuture
-} from '../selectors/budget';
+import {getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture} from '../selectors/budget';
 import './Budget.scss';
 
 const mapStateToProps = state => ({
@@ -24,11 +18,7 @@ const mapStateToProps = state => ({
 });
 
 @ui({
-  key: 'budget',
-  persist: true,
   state: {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
     categoryGroupFormOpen: false,
     categoryGroupSelected: null,
     categoryFormOpen: false,

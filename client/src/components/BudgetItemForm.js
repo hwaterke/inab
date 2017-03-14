@@ -2,17 +2,21 @@ import React from 'react';
 import {Field} from 'redux-form';
 import {resourceForm} from './forms/resourceForm';
 import {BudgetItemResource} from '../entities/BudgetItem';
-import moment from 'moment';
 import {amountToCents} from '../utils/amount';
+import {connect} from 'react-redux';
+import {getCurrentMonth} from '../selectors/ui';
+
+const mapStateToProps = (state) => ({
+  selectedMonth: getCurrentMonth(state)
+});
 
 class BudgetItemForm extends React.Component {
   static propTypes = {
     updatedResource: BudgetItemResource.propType,
-    year: React.PropTypes.number.isRequired,
-    month: React.PropTypes.number.isRequired,
     category_uuid: React.PropTypes.string,
     handleSubmit: React.PropTypes.func.isRequired,
-    onBlur: React.PropTypes.func.isRequired
+    onBlur: React.PropTypes.func.isRequired,
+    selectedMonth: React.PropTypes.object.isRequired
   };
 
   render() {
@@ -32,15 +36,12 @@ class BudgetItemForm extends React.Component {
   }
 }
 
-const formToResource = (data, props) => {
-  const month = moment([props.year, props.month - 1]);
-  return {
-    month: month.format('YYYY-MM-DD'),
-    category_uuid: props.category_uuid,
-    amount: amountToCents(data.amount)
-  };
-};
+const formToResource = (data, props) => ({
+  month: props.selectedMonth.format('YYYY-MM-DD'),
+  category_uuid: props.category_uuid,
+  amount: amountToCents(data.amount)
+});
 
 const resourceToForm = () => ({});
 
-export default resourceForm(BudgetItemResource.path, formToResource, resourceToForm)(BudgetItemForm);
+export default connect(mapStateToProps)(resourceForm(BudgetItemResource.path, formToResource, resourceToForm)(BudgetItemForm));

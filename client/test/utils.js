@@ -5,8 +5,9 @@ import {BudgetItemResource} from '../src/entities/BudgetItem';
 import {TransactionResource} from '../src/entities/Transaction';
 
 export const selectMonth = (store, year, month) => store.dispatch({
-  type: '@@redux-ui/MASS_UPDATE_UI_STATE',
-  payload: {transforms: {year: year, month: month}, uiVars: {year: ['budget'], month: ['budget']}}
+  type: 'SET_MONTH',
+  year,
+  month
 });
 
 export const createAccount = (store, uuid, name) => store.dispatch(reduxCrud.actionCreatorsFor(AccountResource.path, {key: 'uuid'}).createSuccess({

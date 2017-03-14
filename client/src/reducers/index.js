@@ -6,6 +6,7 @@ import {routerReducer} from 'react-router-redux';
 import {transactionFiltersReducer} from './filters';
 import {credentialsReducer} from './credentials';
 import {resourcesReducer} from './resources';
+import {selectedMonthReducer} from './month';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
@@ -23,6 +24,7 @@ function selectedAccountReducer(state = null, action) {
 export default combineReducers({
   resources: resourcesReducer,
   selectedAccount: selectedAccountReducer,
+  selectedMonth: selectedMonthReducer,
   form: formReducer,
   ui: uiReducer,
   routing: routerReducer,

@@ -3,15 +3,15 @@ import moment from 'moment';
 
 export const getSelectedAccount = (state) => state.selectedAccount;
 
-export const getSelectedMonth = (state) => ({
-  month: state.ui.get('budget').get('month'),
-  year: state.ui.get('budget').get('year')
+const getSelectedMonth = (state) => ({
+  month: state.selectedMonth.month,
+  year: state.selectedMonth.year
 });
 
 export const getCurrentMonth = createSelector(
   getSelectedMonth,
   selectedMonth => {
-    return moment([selectedMonth.year, selectedMonth.month - 1, 1]);
+    return moment([selectedMonth.year, selectedMonth.month, 1]);
   }
 );
 

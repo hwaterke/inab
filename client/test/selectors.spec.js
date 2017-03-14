@@ -105,7 +105,7 @@ describe('Selectors', function () {
   describe('Budget Item selectors', function () {
 
     beforeEach(() => {
-      utils.selectMonth(store, 2016, 6);
+      utils.selectMonth(store, 2016, 5);
     });
 
     describe('#getBudgetItems', function () {
@@ -169,7 +169,7 @@ describe('Selectors', function () {
   describe('Transaction selectors', function () {
 
     beforeEach(() => {
-      utils.selectMonth(store, 2016, 6);
+      utils.selectMonth(store, 2016, 5);
     });
 
     it('should select transaction up to selected month', function () {

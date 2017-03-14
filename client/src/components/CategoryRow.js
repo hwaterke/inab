@@ -3,13 +3,19 @@ import Cell from './Cell';
 import Amount from './Amount';
 import ui from 'redux-ui';
 import BudgetItemForm from './BudgetItemForm';
-import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router';
 import {CategoryResource} from '../entities/Category';
 import {BudgetItemResource} from '../entities/BudgetItem';
+import {connect} from 'react-redux';
+import {getCurrentMonth} from '../selectors/ui';
+
+const mapStateToProps = (state) => ({
+  selectedMonth: getCurrentMonth(state)
+});
 
 @ui()
+@connect(mapStateToProps)
 export default class CategoryRow extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +30,8 @@ export default class CategoryRow extends React.Component {
     ui: React.PropTypes.object.isRequired,
     updateUI: React.PropTypes.func.isRequired,
     budgetItem: BudgetItemResource.propType,
-    onNameClick: React.PropTypes.func
+    onNameClick: React.PropTypes.func,
+    selectedMonth: React.PropTypes.object.isRequired
   };
 
   editBudgetItem() {
@@ -37,18 +44,12 @@ export default class CategoryRow extends React.Component {
     this.props.updateUI('editingCategoryId', null);
   }
 
-  getSelectedMonthMoment() {
-    return moment([this.props.ui.year, this.props.ui.month - 1]);
-  }
-
   render() {
     let budgetCell;
     if (this.props.ui.editingCategoryId == this.props.category.uuid) {
       budgetCell =
         <Cell className="right">
           <BudgetItemForm
-            year={this.props.ui.year}
-            month={this.props.ui.month}
             category_uuid={this.props.category.uuid}
             postSubmit={() => this.props.updateUI('editingCategoryId', null)}
             updatedResource={this.props.budgetItem}
@@ -68,7 +69,7 @@ export default class CategoryRow extends React.Component {
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td className="right">
-          <RouterLink to={`/account/${this.getSelectedMonthMoment().format('YYYY-MM')}/${this.props.category.uuid}`}>
+          <RouterLink to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${this.props.category.uuid}`}>
             <Amount amount={this.props.activity} />
           </RouterLink>
         </td>

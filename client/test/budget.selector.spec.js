@@ -10,8 +10,8 @@ describe('Budget Selectors', function () {
   let store;
   let nextId;
 
-  const getMonth = (delta = 0) => 6 + delta;
-  const monthString = (month) => `2016-0${month}-01`;
+  const getMonth = (delta = 0) => 5 + delta;
+  const monthString = (month) => `2016-0${month + 1}-01`;
 
   const addInflow = (month, amount) => utils.createInflowTBB(store, nextId++, 1, amount, monthString(month));
   const addOutflow = (month, amount) => utils.createOutflow(store, nextId++, 1, amount, 1, monthString(month));
