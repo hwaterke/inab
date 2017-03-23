@@ -1,5 +1,5 @@
 FROM ruby:alpine
-RUN apk add --update build-base sqlite-dev
+RUN apk add --no-cache build-base sqlite-dev
 
 RUN mkdir /db
 WORKDIR /app/server
