@@ -246,7 +246,7 @@ const formToResource = (data) => {
   // Compute the transfer_account_uuid
   transaction.transfer_account_uuid = null;
   if (data.payee && data.payee.startsWith('transfer:')) {
-    transaction.transfer_account_uuid = parseInt(data.payee.slice('transfer:'.length));
+    transaction.transfer_account_uuid = data.payee.slice('transfer:'.length);
     transaction.payee = null;
   }
 
