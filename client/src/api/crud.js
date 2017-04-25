@@ -112,8 +112,8 @@ export function crud() {
           headers: {'Authorization': this.props.credentials.token}
         });
 
-        promise.then(response => {
-          this.props.dispatch(baseActionCreators.deleteSuccess(response.data));
+        promise.then(() => {
+          this.props.dispatch(baseActionCreators.deleteSuccess(resource));
         }, error => {
           this.props.dispatch(baseActionCreators.deleteError(error.response.data.error));
           this.clearTokenOnAuthError(error.response.status);
