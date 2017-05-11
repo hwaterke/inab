@@ -38,6 +38,7 @@ module INAB
       helpers do
         params :instance_params do
           requires :date, type: Date, desc: 'The date at which the Transaction took place'
+          optional :time, type: Time, desc: 'The time at which the Transaction took place'
           optional :payee, type: String, desc: 'The payee of the Transaction'
           optional :description, type: String, desc: 'The description of the Transaction'
           optional :amount, type: Integer, desc: 'The amount of the Transaction in cents'
