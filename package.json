@@ -2,15 +2,15 @@
   "name": "inab-shared",
   "version": "0.0.1",
   "description": "Shared code between web and native clients",
-  "main": "src/index.js",
   "scripts": {
-    "flow": "flow"
+    "format": "prettier --single-quote --bracket-spacing=false --print-width 100 --write 'src/**/*.js'"
   },
   "dependencies": {
-    "react": "^15.4.2"
+    "react": "^15.5.4"
   },
   "devDependencies": {
-    "flow-bin": "^0.41.0"
+    "flow-bin": "^0.45.0",
+    "prettier": "^1.2.2"
   },
   "repository": {
     "type": "git",
