@@ -6,6 +6,7 @@
     "format": "prettier --single-quote --bracket-spacing=false --print-width 100 --write 'src/**/*.js'"
   },
   "dependencies": {
+    "hw-react-shared": "hwaterke/react-shared",
     "react": "^15.5.4"
   },
   "devDependencies": {
