@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "6"
+  - "7"
 before_install:
   - cd client
   - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
