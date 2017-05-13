@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Amount.scss';
 import {amountFromCents} from '../utils/amount';
 
 class Amount extends React.Component {
   static propTypes = {
-    amount: React.PropTypes.number,
-    color: React.PropTypes.bool,
-    className: React.PropTypes.string,
+    amount: PropTypes.number,
+    color: PropTypes.bool,
+    className: PropTypes.string
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Cell from './Cell';
 import Amount from './Amount';
 import ui from 'redux-ui';
@@ -25,13 +26,13 @@ export default class CategoryRow extends React.Component {
 
   static propTypes = {
     category: CategoryResource.propType,
-    activity: React.PropTypes.number,
-    available: React.PropTypes.number,
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
+    activity: PropTypes.number,
+    available: PropTypes.number,
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired,
     budgetItem: BudgetItemResource.propType,
-    onNameClick: React.PropTypes.func,
-    selectedMonth: React.PropTypes.object.isRequired
+    onNameClick: PropTypes.func,
+    selectedMonth: PropTypes.object.isRequired
   };
 
   editBudgetItem() {

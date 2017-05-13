@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './TransactionForm.scss';
 import {Field, FieldArray, formValueSelector} from 'redux-form';
 import SimpleSelectField from './fields/SimpleSelectField';
@@ -83,11 +84,11 @@ const renderSubtransactions = ({fields, categories}) => (
 );
 
 renderSubtransactions.propTypes = {
-  fields: React.PropTypes.object.isRequired,
-  categories: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      label: React.PropTypes.string.isRequired,
-      value: React.PropTypes.any.isRequired
+  fields: PropTypes.object.isRequired,
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.any.isRequired
     })
   ).isRequired
 };
@@ -106,20 +107,20 @@ const mapStateToProps = state => ({
 class TransactionForm extends Component {
   static propTypes = {
     updatedResource: TransactionResource.propType,
-    isCreate: React.PropTypes.bool.isRequired,
-    isUpdate: React.PropTypes.bool.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    submitting: React.PropTypes.bool.isRequired,
-    deleteResource: React.PropTypes.func.isRequired,
+    isCreate: PropTypes.bool.isRequired,
+    isUpdate: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    deleteResource: PropTypes.func.isRequired,
     // Reference data
-    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
-    categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    payees: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    payeeValue: React.PropTypes.string,
-    categoryValue: React.PropTypes.string,
-    onCancel: React.PropTypes.func
+    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+    categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
+    payees: PropTypes.arrayOf(PropTypes.string).isRequired,
+    payeeValue: PropTypes.string,
+    categoryValue: PropTypes.string,
+    onCancel: PropTypes.func
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getSelectedAccount} from '../selectors/ui';
 import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
@@ -9,20 +10,17 @@ import {selectAccountsById} from '../selectors/resources';
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>
     <AccountHeader name={title} balance={balance} />
-    <TransactionContainer
-      accountId={selectedAccountId}
-      hideAccount={!!selectedAccountId}
-    />
+    <TransactionContainer accountId={selectedAccountId} hideAccount={!!selectedAccountId} />
   </div>
 );
 
 AccountPage.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  balance: React.PropTypes.number,
-  selectedAccountId: React.PropTypes.string
+  title: PropTypes.string.isRequired,
+  balance: PropTypes.number,
+  selectedAccountId: PropTypes.string
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   let title = 'All';
   let balance = getBudgetBalance(state);
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {AccountResource} from 'inab-shared/src/entities/Account';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
@@ -27,13 +28,13 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 export class EntityLoader extends React.Component {
   static propTypes = {
-    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
-    categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
-    budgetItems: React.PropTypes.arrayOf(BudgetItemResource.propType).isRequired,
-    transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    fetchAll: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node
+    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+    categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
+    budgetItems: PropTypes.arrayOf(BudgetItemResource.propType).isRequired,
+    transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
+    fetchAll: PropTypes.func.isRequired,
+    children: PropTypes.node
   };
 
   constructor(props) {

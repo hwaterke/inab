@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 
 const style = {
@@ -8,7 +9,7 @@ const style = {
 class CategoryGroupRow extends React.Component {
   static propTypes = {
     categoryGroup: CategoryGroupResource.propType.isRequired,
-    onClick: React.PropTypes.func
+    onClick: PropTypes.func
   };
 
   render() {

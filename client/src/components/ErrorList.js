@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {dismissErrors} from '../actions/error.js';
 import ButtonCheck from './ButtonCheck';
 
 class ErrorDialog extends React.Component {
   static propTypes = {
-    errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    dismissErrors: React.PropTypes.func.isRequired
+    errors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    dismissErrors: PropTypes.func.isRequired
   };
 
   render() {
@@ -17,11 +18,11 @@ class ErrorDialog extends React.Component {
     return (
       <div className="box-container">
         <ul className="list-group">
-          {this.props.errors.map((err, i) =>
+          {this.props.errors.map((err, i) => (
             <li key={i} className="list-group-item list-group-item-danger">
               {err}
-            </li>)
-          }
+            </li>
+          ))}
         </ul>
         <ButtonCheck onClick={this.props.dismissErrors} />
       </div>
@@ -29,6 +30,6 @@ class ErrorDialog extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({errors: state.errors});
-const mapDispatchToProps = (dispatch) => ({dismissErrors: () => dispatch(dismissErrors())});
+const mapStateToProps = state => ({errors: state.errors});
+const mapDispatchToProps = dispatch => ({dismissErrors: () => dispatch(dismissErrors())});
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorDialog);

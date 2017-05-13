@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
@@ -13,9 +14,9 @@ const DatePickerField = ({input}) => (
 );
 
 DatePickerField.propTypes = {
-  input: React.PropTypes.shape({
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+  input: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
   }).isRequired
 };
 

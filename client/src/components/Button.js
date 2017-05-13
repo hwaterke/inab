@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Button extends React.Component {
   constructor(props) {
@@ -7,10 +8,10 @@ export default class Button extends React.Component {
   }
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    onClick: React.PropTypes.func,
-    className: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   handleClick(e) {

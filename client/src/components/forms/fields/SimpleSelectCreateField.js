@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {SimpleSelect} from 'react-selectize';
 import './SimpleSelect.scss';
 
@@ -12,20 +13,22 @@ class SimpleSelectCreateField extends React.Component {
   }
 
   static propTypes = {
-    placeholder: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    options: React.PropTypes.arrayOf(React.PropTypes.shape({
-      label: React.PropTypes.string.isRequired,
-      value: React.PropTypes.any.isRequired
-    })).isRequired,
-    input: React.PropTypes.shape({
-      value: React.PropTypes.any.isRequired,
-      onChange: React.PropTypes.func.isRequired
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.any.isRequired
+      })
+    ).isRequired,
+    input: PropTypes.shape({
+      value: PropTypes.any.isRequired,
+      onChange: PropTypes.func.isRequired
     }).isRequired
   };
 
   createFromSearch(options, search) {
-    if (search.length == 0 || (options.map(option => option.label)).indexOf(search) > -1) {
+    if (search.length == 0 || options.map(option => option.label).indexOf(search) > -1) {
       return null;
     } else {
       return {label: search, value: search};
@@ -47,7 +50,7 @@ class SimpleSelectCreateField extends React.Component {
         disabled={this.props.disabled}
         options={this.state.options}
         createFromSearch={this.createFromSearch}
-        value={this.state.options.find((i) => i.value == this.props.input.value)}
+        value={this.state.options.find(i => i.value == this.props.input.value)}
         onValueChange={this.onValueChangeInternal}
       />
     );

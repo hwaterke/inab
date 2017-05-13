@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '../Button';
 import CategoryForm from './CategoryForm';
 import ui from 'redux-ui';
@@ -17,9 +18,9 @@ class CategoryFormDialog extends React.Component {
   }
 
   static propTypes = {
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
-    categoriesById: React.PropTypes.objectOf(CategoryResource.propType).isRequired
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired,
+    categoriesById: PropTypes.objectOf(CategoryResource.propType).isRequired
   };
 
   handleOpenNew() {

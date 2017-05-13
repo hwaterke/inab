@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import Button from './Button';
 import ButtonIcon from './ButtonIcon';
@@ -8,10 +9,9 @@ import {getCurrentMonth} from '../selectors/ui';
 
 @connect(state => ({selectedMonth: getCurrentMonth(state)}))
 class MonthSelector extends React.Component {
-
   static propTypes = {
-    selectedMonth: React.PropTypes.object.isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    selectedMonth: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   constructor() {
@@ -42,7 +42,6 @@ class MonthSelector extends React.Component {
       </div>
     );
   }
-
 }
 
 export default MonthSelector;

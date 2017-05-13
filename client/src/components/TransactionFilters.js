@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ButtonIcon from './ButtonIcon';
 import {deleteFilter} from '../reducers/filters';
 import {getTransactionColumns} from '../selectors/transactionsRendering';
 import {Filter} from '../entities/Filter';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   filters: state.transactionFilters,
   columns: getTransactionColumns(state)
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onClickDelete(index) {
     dispatch(deleteFilter(index));
   }
@@ -18,11 +19,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 class TransactionFilters extends React.Component {
-
   static propTypes = {
-    filters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)).isRequired,
-    columns: React.PropTypes.object.isRequired,
-    onClickDelete: React.PropTypes.func.isRequired
+    filters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)).isRequired,
+    columns: PropTypes.object.isRequired,
+    onClickDelete: PropTypes.func.isRequired
   };
 
   getAttributeLabel(name) {
@@ -50,7 +50,11 @@ class TransactionFilters extends React.Component {
               icon="ban"
               onClick={() => this.props.onClickDelete(index)}
             >
-              {this.getAttributeLabel(filter.attribute)} {filter.operator} {this.getValueLabel(filter)}
+              {this.getAttributeLabel(filter.attribute)}
+              {' '}
+              {filter.operator}
+              {' '}
+              {this.getValueLabel(filter)}
             </ButtonIcon>
           ))}
         </div>

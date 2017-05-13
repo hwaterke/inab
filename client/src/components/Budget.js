@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BudgetTable from './BudgetTable';
 import ui from 'redux-ui';
 import Amount from './Amount';
@@ -6,7 +7,13 @@ import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
 import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import {connect} from 'react-redux';
-import {getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture} from '../selectors/budget';
+import {
+  getAvailableToBudget,
+  getFundsForSelectedMonth,
+  getOverspentLastMonth,
+  getBudgetedThisMonth,
+  getBudgetedInFuture
+} from '../selectors/budget';
 import './Budget.scss';
 
 const mapStateToProps = state => ({
@@ -28,11 +35,11 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 export default class BudgetPage extends React.Component {
   static propTypes = {
-    availableToBudget: React.PropTypes.number.isRequired,
-    fundsAvailable: React.PropTypes.number.isRequired,
-    overspentLastMonth: React.PropTypes.number.isRequired,
-    budgetedThisMonth: React.PropTypes.number.isRequired,
-    budgetedInFuture: React.PropTypes.number.isRequired
+    availableToBudget: PropTypes.number.isRequired,
+    fundsAvailable: PropTypes.number.isRequired,
+    overspentLastMonth: PropTypes.number.isRequired,
+    budgetedThisMonth: PropTypes.number.isRequired,
+    budgetedInFuture: PropTypes.number.isRequired
   };
 
   render() {

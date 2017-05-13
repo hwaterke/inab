@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Amount from './Amount';
 import './AccountHeader.scss';
 
@@ -14,8 +15,8 @@ const AccountHeader = ({name, balance}) => (
 );
 
 AccountHeader.propTypes = {
-  name: React.PropTypes.string,
-  balance: React.PropTypes.number
+  name: PropTypes.string,
+  balance: PropTypes.number
 };
 
 export default AccountHeader;

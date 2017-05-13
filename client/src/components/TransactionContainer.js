@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TransactionTable from './TransactionTable';
 import {connect} from 'react-redux';
 import {getTransactionsForRendering} from '../selectors/transactionsRendering';
@@ -39,15 +40,15 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 class TransactionContainer extends React.Component {
   static propTypes = {
-    transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    transactionsById: React.PropTypes.objectOf(TransactionResource.propType).isRequired,
-    transactionsForRendering: React.PropTypes.array.isRequired,
-    transactionFilters: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Filter)),
-    updateResource: React.PropTypes.func.isRequired,
-    deleteResource: React.PropTypes.func.isRequired,
-    accountId: React.PropTypes.string,
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired
+    transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
+    transactionsById: PropTypes.objectOf(TransactionResource.propType).isRequired,
+    transactionsForRendering: PropTypes.array.isRequired,
+    transactionFilters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)),
+    updateResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func.isRequired,
+    accountId: PropTypes.string,
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired
   };
 
   constructor(props) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
 import {EntityLoader} from './EntityLoader';
 import ErrorList from './ErrorList';
@@ -6,7 +7,7 @@ import {LoginDispatcher} from './LoginDispatcher';
 
 export default class Main extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

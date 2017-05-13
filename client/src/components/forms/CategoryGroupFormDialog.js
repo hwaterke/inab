@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '../Button';
 import CategoryGroupForm from './CategoryGroupForm';
 import ui from 'redux-ui';
@@ -17,9 +18,9 @@ class CategoryGroupFormDialog extends React.Component {
   }
 
   static propTypes = {
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
-    categoryGroupsById: React.PropTypes.objectOf(CategoryGroupResource.propType).isRequired
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired,
+    categoryGroupsById: PropTypes.objectOf(CategoryGroupResource.propType).isRequired
   };
 
   handleOpenNew() {

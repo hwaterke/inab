@@ -1,26 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {SimpleSelect} from 'react-selectize';
 import './SimpleSelect.scss';
 
-const SimpleSelectField = ({placeholder, disabled, options, input}) =>
+const SimpleSelectField = ({placeholder, disabled, options, input}) => (
   <SimpleSelect
     placeholder={placeholder}
     disabled={disabled}
     options={options}
     value={options.find(i => i.value == input.value)}
     onValueChange={item => input.onChange(item ? item.value : null)}
-  />;
+  />
+);
 
 SimpleSelectField.propTypes = {
-  placeholder: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  options: React.PropTypes.arrayOf(React.PropTypes.shape({
-    label: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any.isRequired
-  })).isRequired,
-  input: React.PropTypes.shape({
-    value: React.PropTypes.any.isRequired,
-    onChange: React.PropTypes.func.isRequired
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.any.isRequired
+    })
+  ).isRequired,
+  input: PropTypes.shape({
+    value: PropTypes.any.isRequired,
+    onChange: PropTypes.func.isRequired
   }).isRequired
 };
 

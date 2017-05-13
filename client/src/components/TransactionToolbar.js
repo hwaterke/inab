@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as Immutable from 'immutable';
 import Button from './Button';
 import ButtonIcon from './ButtonIcon';
@@ -13,18 +14,17 @@ import FontAwesome from 'react-fontawesome';
   }
 })
 class TransactionToolbar extends React.Component {
-
   static propTypes = {
-    selectedRows: React.PropTypes.instanceOf(Immutable.Set),
-    clearSelection: React.PropTypes.func,
-    deleteSelection: React.PropTypes.func,
-    onNewClick: React.PropTypes.func,
-    toggleColumn: React.PropTypes.func,
-    hiddenColumns: React.PropTypes.object,
-    searchValue: React.PropTypes.string,
-    onSearchChange: React.PropTypes.func,
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
+    selectedRows: PropTypes.instanceOf(Immutable.Set),
+    clearSelection: PropTypes.func,
+    deleteSelection: PropTypes.func,
+    onNewClick: PropTypes.func,
+    toggleColumn: PropTypes.func,
+    hiddenColumns: PropTypes.object,
+    searchValue: PropTypes.string,
+    onSearchChange: PropTypes.func,
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired
   };
 
   renderColumnToggle(label, columnName, icon) {
@@ -34,16 +34,21 @@ class TransactionToolbar extends React.Component {
     }
 
     if (icon) {
-      return <ButtonIcon
-        className={classes.join(' ')}
-        icon={icon}
-        onClick={() => this.props.toggleColumn(columnName)}
-      >{label}</ButtonIcon>;
+      return (
+        <ButtonIcon
+          className={classes.join(' ')}
+          icon={icon}
+          onClick={() => this.props.toggleColumn(columnName)}
+        >
+          {label}
+        </ButtonIcon>
+      );
     }
-    return <Button
-      className={classes.join(' ')}
-      onClick={() => this.props.toggleColumn(columnName)}
-    >{label}</Button>;
+    return (
+      <Button className={classes.join(' ')} onClick={() => this.props.toggleColumn(columnName)}>
+        {label}
+      </Button>
+    );
   }
 
   render() {
@@ -59,23 +64,19 @@ class TransactionToolbar extends React.Component {
               New
             </ButtonIcon>
 
-            {
-              this.props.selectedRows.size > 0 &&
+            {this.props.selectedRows.size > 0 &&
               <ButtonIcon
                 className="btn btn-warning"
                 onClick={() => this.props.clearSelection()}
                 icon="ban"
               >
                 Deselect ({this.props.selectedRows.size})
-              </ButtonIcon>
-            }
+              </ButtonIcon>}
 
-            {
-              this.props.selectedRows.size > 0 &&
+            {this.props.selectedRows.size > 0 &&
               <ButtonDelete onClick={this.props.deleteSelection}>
                 Delete ({this.props.selectedRows.size})
-              </ButtonDelete>
-            }
+              </ButtonDelete>}
 
             <ButtonIcon
               className="btn btn-info"
@@ -100,8 +101,7 @@ class TransactionToolbar extends React.Component {
           </div>
         </div>
 
-        {
-          this.props.ui.filtersVisible &&
+        {this.props.ui.filtersVisible &&
           <div className="transaction-toolbar">
             <div className="btn-group">
               {this.renderColumnToggle('Account', 'account', 'bank')}
@@ -113,8 +113,7 @@ class TransactionToolbar extends React.Component {
               {this.renderColumnToggle('Tags', 'tags', 'tags')}
               {this.renderColumnToggle('Amount', 'amount')}
             </div>
-          </div>
-        }
+          </div>}
       </div>
     );
   }

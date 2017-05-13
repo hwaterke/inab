@@ -1,14 +1,14 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {LoginPage} from './LoginPage';
 
 @connect(state => ({token: state.credentials.token}))
 export class LoginDispatcher extends React.Component {
-
   static propTypes = {
-    token: React.PropTypes.string,
-    children: React.PropTypes.node,
+    token: PropTypes.string,
+    children: PropTypes.node
   };
 
   render() {

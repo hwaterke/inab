@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
@@ -16,14 +17,14 @@ const mapStateToProps = state => ({
 class CategoryForm extends React.Component {
   static propTypes = {
     updatedResource: CategoryResource.propType,
-    isCreate: React.PropTypes.bool.isRequired,
-    isUpdate: React.PropTypes.bool.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    submitting: React.PropTypes.bool.isRequired,
-    deleteResource: React.PropTypes.func.isRequired,
-    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired
+    isCreate: PropTypes.bool.isRequired,
+    isUpdate: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    deleteResource: PropTypes.func.isRequired,
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired
   };
 
   render() {

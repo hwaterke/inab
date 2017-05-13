@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as Table from 'reactabular-table';
 import Amount from './Amount';
 import FontAwesome from 'react-fontawesome';
@@ -13,12 +14,12 @@ class TransactionTable extends React.Component {
   }
 
   static propTypes = {
-    transactions: React.PropTypes.array.isRequired,
-    selectedRows: React.PropTypes.instanceOf(Immutable.Set),
-    onSelectRow: React.PropTypes.func,
-    onPencilClick: React.PropTypes.func.isRequired,
-    onClearClick: React.PropTypes.func.isRequired,
-    hiddenColumns: React.PropTypes.object.isRequired
+    transactions: PropTypes.array.isRequired,
+    selectedRows: PropTypes.instanceOf(Immutable.Set),
+    onSelectRow: PropTypes.func,
+    onPencilClick: PropTypes.func.isRequired,
+    onClearClick: PropTypes.func.isRequired,
+    hiddenColumns: PropTypes.object.isRequired
   };
 
   onRow(row) {
@@ -55,19 +56,19 @@ class TransactionTable extends React.Component {
         property: 'account',
         header: {
           label: 'Account'
-        },
+        }
       },
       {
         property: 'display_date',
         header: {
           label: 'Date'
-        },
+        }
       },
       {
         property: 'time',
         header: {
           label: 'Time'
-        },
+        }
       },
       {
         property: 'payee',
@@ -104,7 +105,7 @@ class TransactionTable extends React.Component {
         },
         cell: {
           formatters: [
-            (tags) => (
+            tags => (
               <div className="table-tags">
                 {tags.map(t => <span key={t.name}>{t.name}</span>)}
               </div>
@@ -123,11 +124,7 @@ class TransactionTable extends React.Component {
           }
         },
         cell: {
-          formatters: [
-            (amount) => (
-              <Amount amount={amount} color />
-            )
-          ]
+          formatters: [amount => <Amount amount={amount} color />]
         }
       },
       {
@@ -142,13 +139,14 @@ class TransactionTable extends React.Component {
               if (!e.rowData.subtransaction) {
                 return (
                   <Link
-                    onClick={(event) => {
+                    onClick={event => {
                       event.stopPropagation();
                       this.props.onPencilClick(e.rowData.uuid);
                     }}
                   >
                     <FontAwesome name="pencil" />
-                  </Link>);
+                  </Link>
+                );
               }
               return null;
             }
@@ -167,7 +165,7 @@ class TransactionTable extends React.Component {
               if (!e.rowData.subtransaction) {
                 return (
                   <Link
-                    onClick={(event) => {
+                    onClick={event => {
                       event.stopPropagation();
                       this.props.onClearClick(e.rowData.uuid);
                     }}
@@ -192,9 +190,9 @@ class TransactionTable extends React.Component {
   render() {
     const selectedTransactions = this.props.transactions.map(tr => ({
       ...tr,
-      selected: tr.subtransaction ?
-        this.props.selectedRows.has(tr.parent_transaction) :
-        this.props.selectedRows.has(tr.uuid)
+      selected: tr.subtransaction
+        ? this.props.selectedRows.has(tr.parent_transaction)
+        : this.props.selectedRows.has(tr.uuid)
     }));
 
     return (
@@ -203,11 +201,7 @@ class TransactionTable extends React.Component {
         columns={this.getColumns()}
       >
         <Table.Header />
-        <Table.Body
-          rows={selectedTransactions}
-          onRow={this.onRow}
-          rowKey="key"
-        />
+        <Table.Body rows={selectedTransactions} onRow={this.onRow} rowKey="key" />
       </Table.Provider>
     );
   }

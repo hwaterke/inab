@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from './Button';
 import FontAwesome from 'react-fontawesome';
 
@@ -11,11 +12,11 @@ const ButtonIcon = ({className, onClick, children, icon, disabled}) => (
 );
 
 ButtonIcon.propTypes = {
-  children: React.PropTypes.node,
-  onClick: React.PropTypes.func,
-  className: React.PropTypes.string,
-  icon: React.PropTypes.string.isRequired,
-  disabled: React.PropTypes.bool,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  icon: PropTypes.string.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default ButtonIcon;

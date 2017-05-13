@@ -1,7 +1,8 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import AccountFormDialog from './forms/AccountFormDialog';
 import Link from './Link';
 import Amount from './Amount';
-import React from 'react';
 import {connect} from 'react-redux';
 import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import FontAwesome from 'react-fontawesome';
@@ -18,10 +19,10 @@ import {selectAccounts} from '../selectors/resources';
 })
 class Header extends React.Component {
   static propTypes = {
-    accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
-    balanceByAccountId: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
-    budgetBalance: React.PropTypes.number.isRequired,
-    updateUI: React.PropTypes.func.isRequired
+    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+    balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
+    budgetBalance: PropTypes.number.isRequired,
+    updateUI: PropTypes.func.isRequired
   };
 
   render() {

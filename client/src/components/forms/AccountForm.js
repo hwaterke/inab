@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
@@ -7,13 +8,13 @@ import {AccountResource} from 'inab-shared/src/entities/Account';
 class AccountForm extends React.Component {
   static propTypes = {
     updatedResource: AccountResource.propType,
-    isCreate: React.PropTypes.bool.isRequired,
-    isUpdate: React.PropTypes.bool.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    submitting: React.PropTypes.bool.isRequired,
-    deleteResource: React.PropTypes.func.isRequired
+    isCreate: PropTypes.bool.isRequired,
+    isUpdate: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    deleteResource: PropTypes.func.isRequired
   };
 
   render() {

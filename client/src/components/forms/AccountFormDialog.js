@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '../Button';
 import AccountForm from './AccountForm';
 import ui from 'redux-ui';
@@ -16,9 +17,9 @@ class AccountFormDialog extends React.Component {
   }
 
   static propTypes = {
-    ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
-    accountsById: React.PropTypes.objectOf(AccountResource.propType).isRequired
+    ui: PropTypes.object.isRequired,
+    updateUI: PropTypes.func.isRequired,
+    accountsById: PropTypes.objectOf(AccountResource.propType).isRequired
   };
 
   handleOpenNew() {

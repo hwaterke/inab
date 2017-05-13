@@ -1,18 +1,19 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import ButtonCheck from '../ButtonCheck';
 import ButtonIcon from '../ButtonIcon';
 import ButtonDelete from '../ButtonDelete';
 
 export class FormActionBar extends React.Component {
   static propTypes = {
-    isCreate: React.PropTypes.bool.isRequired,
-    isUpdate: React.PropTypes.bool.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    disableReset: React.PropTypes.bool,
-    reset: React.PropTypes.func.isRequired,
-    cancel: React.PropTypes.func,
-    remove: React.PropTypes.func.isRequired
+    isCreate: PropTypes.bool.isRequired,
+    isUpdate: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    disableReset: PropTypes.bool,
+    reset: PropTypes.func.isRequired,
+    cancel: PropTypes.func,
+    remove: PropTypes.func.isRequired
   };
 
   render() {
@@ -26,19 +27,15 @@ export class FormActionBar extends React.Component {
           Reset
         </ButtonIcon>
 
-        {
-          this.props.cancel &&
+        {this.props.cancel &&
           <ButtonIcon onClick={this.props.cancel} icon="close">
             Cancel
-          </ButtonIcon>
-        }
+          </ButtonIcon>}
 
-        {
-          this.props.isUpdate &&
+        {this.props.isUpdate &&
           <ButtonDelete onClick={this.props.remove}>
             Delete
-          </ButtonDelete>
-        }
+          </ButtonDelete>}
 
       </div>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './TransactionTotalAmount.scss';
 import Amount from './Amount';
 
@@ -12,7 +13,7 @@ const TransactionTotalAmount = ({amount}) => {
 };
 
 TransactionTotalAmount.propTypes = {
-  amount: React.PropTypes.number
+  amount: PropTypes.number
 };
 
 export default TransactionTotalAmount;

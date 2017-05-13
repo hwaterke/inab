@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {resourceForm} from './forms/resourceForm';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
@@ -13,10 +14,10 @@ const mapStateToProps = state => ({
 class BudgetItemForm extends React.Component {
   static propTypes = {
     updatedResource: BudgetItemResource.propType,
-    category_uuid: React.PropTypes.string,
-    handleSubmit: React.PropTypes.func.isRequired,
-    onBlur: React.PropTypes.func.isRequired,
-    selectedMonth: React.PropTypes.object.isRequired
+    category_uuid: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    selectedMonth: PropTypes.object.isRequired
   };
 
   render() {

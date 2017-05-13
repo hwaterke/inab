@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ButtonIcon from './ButtonIcon';
 
 const ButtonCheck = ({onClick, children}) => (
@@ -8,8 +9,8 @@ const ButtonCheck = ({onClick, children}) => (
 );
 
 ButtonCheck.propTypes = {
-  onClick: React.PropTypes.func,
-  children: React.PropTypes.node
+  onClick: PropTypes.func,
+  children: PropTypes.node
 };
 
 export default ButtonCheck;

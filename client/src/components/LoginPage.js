@@ -1,12 +1,13 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {reduxForm, Field} from 'redux-form';
 import axios from 'axios';
 import {setCredentials} from '../reducers/credentials';
 import {addError} from '../actions/error';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   backend: state.credentials.backend,
   initialValues: {
     email: state.credentials.email
@@ -17,28 +18,29 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps)
 @reduxForm({form: 'login', enableReinitialize: true})
 export class LoginPage extends React.Component {
-
   static propTypes = {
-    backend: React.PropTypes.string.isRequired,
-    handleSubmit: React.PropTypes.func.isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    backend: PropTypes.string.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   onSubmit = ({email, password}) => {
-    axios.post(`${this.props.backend}/login`, {
-      email,
-      password
-    }).then(response => {
-      if (response.headers.authorization) {
-        const token = response.headers.authorization;
-        this.props.dispatch(setCredentials({email, token}));
-      } else {
-        this.props.dispatch(addError('Authentication failed.'));
-      }
-
-    }).catch(error => {
-      this.props.dispatch(addError(error));
-    });
+    axios
+      .post(`${this.props.backend}/login`, {
+        email,
+        password
+      })
+      .then(response => {
+        if (response.headers.authorization) {
+          const token = response.headers.authorization;
+          this.props.dispatch(setCredentials({email, token}));
+        } else {
+          this.props.dispatch(addError('Authentication failed.'));
+        }
+      })
+      .catch(error => {
+        this.props.dispatch(addError(error));
+      });
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {getSortedCategoryGroups} from '../selectors/categoryGroups';
 import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
 import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
@@ -19,15 +20,13 @@ import {selectSelectedMonthActivityByCategoryId} from '../selectors/transactions
 })
 class BudgetTable extends React.Component {
   static propTypes = {
-    categoryGroups: React.PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
-    categoriesByGroupId: React.PropTypes.objectOf(
-      React.PropTypes.arrayOf(CategoryResource.propType).isRequired
-    ).isRequired,
-    selectedMonthActivityByCategoryId: React.PropTypes.objectOf(React.PropTypes.number.isRequired)
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
+    categoriesByGroupId: PropTypes.objectOf(PropTypes.arrayOf(CategoryResource.propType).isRequired)
       .isRequired,
-    getSelectedMonthBudgetItemsByCategoryId: React.PropTypes.instanceOf(Map).isRequired,
-    availableByCategory: React.PropTypes.instanceOf(Map).isRequired,
-    updateUI: React.PropTypes.func.isRequired
+    selectedMonthActivityByCategoryId: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+    getSelectedMonthBudgetItemsByCategoryId: PropTypes.instanceOf(Map).isRequired,
+    availableByCategory: PropTypes.instanceOf(Map).isRequired,
+    updateUI: PropTypes.func.isRequired
   };
 
   render() {

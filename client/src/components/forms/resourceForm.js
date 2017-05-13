@@ -1,5 +1,6 @@
 // @flow
-import {Component, PropTypes, createElement} from 'react';
+import {Component, createElement} from 'react';
+import PropTypes from 'prop-types';
 import {reduxForm} from 'redux-form';
 import {crud} from '../../api/crud';
 
@@ -12,12 +13,12 @@ import {crud} from '../../api/crud';
  * @param resourceToForm How to convert a resource to form data
  * @returns {Function}
  */
-export function resourceForm(resourcePath: string,
-                             formToResource: Function = (v) => v,
-                             resourceToForm: Function = (v) => v) {
-
-  return function (WrappedComponent: ReactClass<{}>): ReactClass<{}> {
-
+export function resourceForm(
+  resourcePath: string,
+  formToResource: Function = v => v,
+  resourceToForm: Function = v => v
+) {
+  return function(WrappedComponent: ReactClass<{}>): ReactClass<{}> {
     // Make a redux-form from the WrappedComponent
     const WrappedReduxFormComponent = reduxForm({
       form: resourcePath,
@@ -26,18 +27,17 @@ export function resourceForm(resourcePath: string,
 
     // Create the WrapperComponent
     class ResourceForm extends Component {
-
       static propTypes = {
         updatedResource: PropTypes.shape({
-          uuid: PropTypes.string,
+          uuid: PropTypes.string
         }),
         createResource: PropTypes.func.isRequired,
         updateResource: PropTypes.func.isRequired,
         deleteResource: PropTypes.func.isRequired,
-        postSubmit: PropTypes.func,
+        postSubmit: PropTypes.func
       };
 
-      onSubmit = (data) => {
+      onSubmit = data => {
         const entity = formToResource(data, this.props);
         if (this.props.updatedResource) {
           entity.uuid = this.props.updatedResource.uuid;
@@ -76,15 +76,16 @@ export function resourceForm(resourcePath: string,
           onSubmit: this.onSubmit,
           deleteResource: this.deleteResource,
           initialValues: resourceToForm(this.props.updatedResource, passThroughProps),
-          isCreate: (this.props.updatedResource == null),
-          isUpdate: (this.props.updatedResource != null),
+          isCreate: this.props.updatedResource == null,
+          isUpdate: this.props.updatedResource != null,
           ...passThroughProps
         });
       }
     }
 
     // Extract the name of the WrappedReduxFormComponent
-    const wrappedComponentName = WrappedReduxFormComponent.displayName || WrappedReduxFormComponent.name || 'Component';
+    const wrappedComponentName =
+      WrappedReduxFormComponent.displayName || WrappedReduxFormComponent.name || 'Component';
     // Name the WrapperComponent accordingly
     ResourceForm.displayName = `ResourceForm(${wrappedComponentName})`;
 

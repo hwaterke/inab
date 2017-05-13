@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Link extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    onClick: React.PropTypes.func,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func,
+    className: PropTypes.string
   };
 
   constructor() {
@@ -21,7 +22,9 @@ export default class Link extends React.Component {
 
   render() {
     return (
-      <a href="#" className={this.props.className} onClick={this.handleClick}>{this.props.children}</a>
+      <a href="#" className={this.props.className} onClick={this.handleClick}>
+        {this.props.children}
+      </a>
     );
   }
 }

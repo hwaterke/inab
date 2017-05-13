@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Presentational component of a table cell.
 export default class Cell extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
-    onClick: React.PropTypes.func,
-    className: React.PropTypes.string
+    children: PropTypes.node,
+    onClick: PropTypes.func,
+    className: PropTypes.string
   };
 
   render() {

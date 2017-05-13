@@ -1,5 +1,6 @@
 // @flow
-import {Component, PropTypes, createElement} from 'react';
+import {Component, createElement} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import reduxCrud from 'redux-crud';
 import axios from 'axios';
@@ -12,11 +13,8 @@ import {addError} from '../actions/error';
  * It handles requests to the backend
  */
 export function crud() {
-
-  return function (WrappedComponent: ReactClass<{}>): ReactClass<{}> {
-
+  return function(WrappedComponent: ReactClass<{}>): ReactClass<{}> {
     class Crud extends Component {
-
       static propTypes = {
         credentials: PropTypes.shape({
           backend: PropTypes.string.isRequired,
@@ -34,18 +32,23 @@ export function crud() {
         const promise = axios({
           url: `${this.props.credentials.backend}/${resourceName}`,
           method: 'get',
-          headers: {'Authorization': this.props.credentials.token}
+          headers: {Authorization: this.props.credentials.token}
         });
 
-        promise.then(response => {
-          this.props.dispatch(baseActionCreators.fetchSuccess(response.data.data));
-        }, error => {
-          this.props.dispatch(baseActionCreators.fetchError(error.response.data.error));
-          this.clearTokenOnAuthError(error.response.status);
-          this.props.dispatch(addError(`Fetch error. ${error.response.data.error}`));
-        }).catch(err => {
-          this.props.dispatch(addError(`Fetch catch error. ${err}`));
-        });
+        promise
+          .then(
+            response => {
+              this.props.dispatch(baseActionCreators.fetchSuccess(response.data.data));
+            },
+            error => {
+              this.props.dispatch(baseActionCreators.fetchError(error.response.data.error));
+              this.clearTokenOnAuthError(error.response.status);
+              this.props.dispatch(addError(`Fetch error. ${error.response.data.error}`));
+            }
+          )
+          .catch(err => {
+            this.props.dispatch(addError(`Fetch catch error. ${err}`));
+          });
 
         return promise;
       };
@@ -61,19 +64,26 @@ export function crud() {
         const promise = axios({
           url: `${this.props.credentials.backend}/${resourceName}`,
           method: 'post',
-          headers: {'Authorization': this.props.credentials.token},
+          headers: {Authorization: this.props.credentials.token},
           data: resource
         });
 
-        promise.then(response => {
-          this.props.dispatch(baseActionCreators.createSuccess(response.data, cid));
-        }, error => {
-          this.props.dispatch(baseActionCreators.createError(error.response.data.error, resource));
-          this.clearTokenOnAuthError(error.response.status);
-          this.props.dispatch(addError(`Create error. ${error.response.data.error}`));
-        }).catch(err => {
-          this.props.dispatch(addError(`Create catch error. ${err}`));
-        });
+        promise
+          .then(
+            response => {
+              this.props.dispatch(baseActionCreators.createSuccess(response.data, cid));
+            },
+            error => {
+              this.props.dispatch(
+                baseActionCreators.createError(error.response.data.error, resource)
+              );
+              this.clearTokenOnAuthError(error.response.status);
+              this.props.dispatch(addError(`Create error. ${error.response.data.error}`));
+            }
+          )
+          .catch(err => {
+            this.props.dispatch(addError(`Create catch error. ${err}`));
+          });
 
         return promise;
       };
@@ -85,19 +95,24 @@ export function crud() {
         const promise = axios({
           url: `${this.props.credentials.backend}/${resourceName}/${resource.uuid}`,
           method: 'patch',
-          headers: {'Authorization': this.props.credentials.token},
+          headers: {Authorization: this.props.credentials.token},
           data: resource
         });
 
-        promise.then(response => {
-          this.props.dispatch(baseActionCreators.updateSuccess(response.data));
-        }, error => {
-          this.props.dispatch(baseActionCreators.updateError(error.response.data.error));
-          this.clearTokenOnAuthError(error.response.status);
-          this.props.dispatch(addError(`Update error. ${error.response.data.error}`));
-        }).catch(err => {
-          this.props.dispatch(addError(`Update catch error. ${err}`));
-        });
+        promise
+          .then(
+            response => {
+              this.props.dispatch(baseActionCreators.updateSuccess(response.data));
+            },
+            error => {
+              this.props.dispatch(baseActionCreators.updateError(error.response.data.error));
+              this.clearTokenOnAuthError(error.response.status);
+              this.props.dispatch(addError(`Update error. ${error.response.data.error}`));
+            }
+          )
+          .catch(err => {
+            this.props.dispatch(addError(`Update catch error. ${err}`));
+          });
 
         return promise;
       };
@@ -109,18 +124,23 @@ export function crud() {
         const promise = axios({
           url: `${this.props.credentials.backend}/${resourceName}/${resource.uuid}`,
           method: 'delete',
-          headers: {'Authorization': this.props.credentials.token}
+          headers: {Authorization: this.props.credentials.token}
         });
 
-        promise.then(() => {
-          this.props.dispatch(baseActionCreators.deleteSuccess(resource));
-        }, error => {
-          this.props.dispatch(baseActionCreators.deleteError(error.response.data.error));
-          this.clearTokenOnAuthError(error.response.status);
-          this.props.dispatch(addError(`Delete error. ${error.response.data.error}`));
-        }).catch(err => {
-          this.props.dispatch(addError(`Delete catch error. ${err}`));
-        });
+        promise
+          .then(
+            () => {
+              this.props.dispatch(baseActionCreators.deleteSuccess(resource));
+            },
+            error => {
+              this.props.dispatch(baseActionCreators.deleteError(error.response.data.error));
+              this.clearTokenOnAuthError(error.response.status);
+              this.props.dispatch(addError(`Delete error. ${error.response.data.error}`));
+            }
+          )
+          .catch(err => {
+            this.props.dispatch(addError(`Delete catch error. ${err}`));
+          });
 
         return promise;
       };
@@ -158,16 +178,15 @@ export function crud() {
     }
 
     // Extract the name of the WrappedReduxFormComponent
-    const wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+    const wrappedComponentName =
+      WrappedComponent.displayName || WrappedComponent.name || 'Component';
     // Name the WrapperComponent accordingly
     Crud.displayName = `Crud(${wrappedComponentName})`;
 
-    const mapStateToProps = (state) => ({
-      credentials: state.credentials,
+    const mapStateToProps = state => ({
+      credentials: state.credentials
     });
 
     return connect(mapStateToProps)(Crud);
-
   };
-
 }
