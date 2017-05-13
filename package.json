@@ -9,6 +9,7 @@
   "lint-staged": {
     "*.js": [
       "prettier --write --single-quote --bracket-spacing=false --print-width 100",
+      "eslint",
       "git add"
     ]
   },
@@ -17,6 +18,13 @@
     "react": "^15.5.4"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-react-app": "^0.6.2",
+    "eslint-plugin-flowtype": "^2.32.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^7.0.0",
     "flow-bin": "^0.45.0",
     "husky": "^0.13.3",
     "lint-staged": "^3.4.1",
