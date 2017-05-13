@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "description": "Shared code between web and native clients",
   "scripts": {
-    "format": "prettier --single-quote --bracket-spacing=false --print-width 100 --write 'src/**/*.js'"
+    "format": "prettier --single-quote --bracket-spacing=false --print-width 100 --write 'src/**/*.js'",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote --bracket-spacing=false --print-width 100",
+      "git add"
+    ]
   },
   "dependencies": {
     "hw-react-shared": "hwaterke/react-shared",
@@ -11,6 +18,8 @@
   },
   "devDependencies": {
     "flow-bin": "^0.45.0",
+    "husky": "^0.13.3",
+    "lint-staged": "^3.4.1",
     "prettier": "^1.2.2"
   },
   "repository": {
