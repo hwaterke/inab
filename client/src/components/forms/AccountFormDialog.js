@@ -5,7 +5,7 @@ import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
 import {selectAccountsById} from '../../selectors/resources';
-import {AccountResource} from '../../entities/Account';
+import {AccountResource} from 'inab-shared/src/entities/Account';
 
 @ui()
 class AccountFormDialog extends React.Component {
@@ -43,7 +43,9 @@ class AccountFormDialog extends React.Component {
         onRequestClose={this.handleClose}
       >
         <AccountForm
-          updatedResource={this.props.ui.accountSelected && this.props.accountsById[this.props.ui.accountSelected]}
+          updatedResource={
+            this.props.ui.accountSelected && this.props.accountsById[this.props.ui.accountSelected]
+          }
           postSubmit={this.handleClose}
         />
       </Dialog>
@@ -51,7 +53,7 @@ class AccountFormDialog extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   accountsById: selectAccountsById(state)
 });
 

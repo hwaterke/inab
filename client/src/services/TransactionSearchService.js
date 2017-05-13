@@ -1,7 +1,7 @@
+// @flow
 import {Filter} from '../entities/Filter';
 
 export class TransactionSearchService {
-
   applyFiltersToTransactions(transactions, filters: Filter[]) {
     return transactions.filter(tr => this.applyFiltersToTransaction(tr, filters));
   }
@@ -28,12 +28,20 @@ export class TransactionSearchService {
   }
 
   transactionContains(transaction, searchText) {
-    const searchColumns = ['date', 'time', 'account', 'amount', 'category', 'description', 'tagsForSearch', 'payee'];
+    const searchColumns = [
+      'date',
+      'time',
+      'account',
+      'amount',
+      'category',
+      'description',
+      'tagsForSearch',
+      'payee'
+    ];
 
     return searchText
       .split(/\s+/)
-      .every(st => searchColumns
-        .some(col => this.matchContain(transaction[col], st)));
+      .every(st => searchColumns.some(col => this.matchContain(transaction[col], st)));
   }
 
   matchExact(value, searchText) {

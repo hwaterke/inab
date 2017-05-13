@@ -1,9 +1,9 @@
 import {createSelector} from 'reselect';
-import {AccountResource} from '../entities/Account';
-import {CategoryResource} from '../entities/Category';
-import {CategoryGroupResource} from '../entities/CategoryGroup';
-import {BudgetItemResource} from '../entities/BudgetItem';
-import {TransactionResource} from '../entities/Transaction';
+import {AccountResource} from 'inab-shared/src/entities/Account';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
+import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 
 export const selectAccountsById = state => state.resources[AccountResource.path];
 export const selectBudgetItemsById = state => state.resources[BudgetItemResource.path];

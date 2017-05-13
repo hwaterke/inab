@@ -10,12 +10,12 @@ import TransactionTotalAmount from './TransactionTotalAmount';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
-import {TransactionResource} from '../entities/Transaction';
+import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {crud} from '../api/crud';
 import {selectTransactions, selectTransactionsById} from '../selectors/resources';
 import {sumOfAmounts} from '../selectors/utils';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   transactions: selectTransactions(state),
   transactionsById: selectTransactionsById(state),
   transactionsForRendering: getTransactionsForRendering(state),
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => ({
     selected: Immutable.Set(),
     editingTransactionId: null,
     addingTransaction: false,
-    hideColumn: (props) => ({
+    hideColumn: props => ({
       time: true,
       tags: true,
       account: !!props.hideAccount
@@ -38,7 +38,6 @@ const mapStateToProps = (state) => ({
 @crud()
 @connect(mapStateToProps)
 class TransactionContainer extends React.Component {
-
   static propTypes = {
     transactions: React.PropTypes.arrayOf(TransactionResource.propType).isRequired,
     transactionsById: React.PropTypes.objectOf(TransactionResource.propType).isRequired,
@@ -48,7 +47,7 @@ class TransactionContainer extends React.Component {
     deleteResource: React.PropTypes.func.isRequired,
     accountId: React.PropTypes.string,
     ui: React.PropTypes.object.isRequired,
-    updateUI: React.PropTypes.func.isRequired,
+    updateUI: React.PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -120,11 +119,16 @@ class TransactionContainer extends React.Component {
     // Filter the selected account
     let transactions = this.props.transactionsForRendering;
     if (this.props.accountId) {
-      transactions = this.props.transactionsForRendering.filter(tr => tr.account_uuid === this.props.accountId);
+      transactions = this.props.transactionsForRendering.filter(
+        tr => tr.account_uuid === this.props.accountId
+      );
     }
 
     // Filter with Filter[]
-    transactions = this.searchService.applyFiltersToTransactions(transactions, this.props.transactionFilters);
+    transactions = this.searchService.applyFiltersToTransactions(
+      transactions,
+      this.props.transactionFilters
+    );
 
     // Filters further with search text
     return this.searchService.filter(transactions, this.props.ui.searchValue);
@@ -137,13 +141,14 @@ class TransactionContainer extends React.Component {
     return (
       <div>
         {(this.props.ui.addingTransaction || this.props.ui.editingTransactionId) &&
-        <TransactionForm
-          updatedResource={this.props.transactions.find(tr => tr.uuid === this.props.ui.editingTransactionId)}
-          selectedAccountId={this.props.accountId}
-          postSubmit={this.hideForm}
-          onCancel={this.hideForm}
-        />
-        }
+          <TransactionForm
+            updatedResource={this.props.transactions.find(
+              tr => tr.uuid === this.props.ui.editingTransactionId
+            )}
+            selectedAccountId={this.props.accountId}
+            postSubmit={this.hideForm}
+            onCancel={this.hideForm}
+          />}
 
         <div className="box-container">
 

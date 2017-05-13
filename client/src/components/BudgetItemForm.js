@@ -1,12 +1,12 @@
 import React from 'react';
 import {Field} from 'redux-form';
 import {resourceForm} from './forms/resourceForm';
-import {BudgetItemResource} from '../entities/BudgetItem';
+import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {amountToCents} from '../utils/amount';
 import {connect} from 'react-redux';
 import {getCurrentMonth} from '../selectors/ui';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedMonth: getCurrentMonth(state)
 });
 
@@ -44,4 +44,6 @@ const formToResource = (data, props) => ({
 
 const resourceToForm = () => ({});
 
-export default connect(mapStateToProps)(resourceForm(BudgetItemResource.path, formToResource, resourceToForm)(BudgetItemForm));
+export default connect(mapStateToProps)(
+  resourceForm(BudgetItemResource.path, formToResource, resourceToForm)(BudgetItemForm)
+);

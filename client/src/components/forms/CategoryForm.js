@@ -2,13 +2,13 @@ import React from 'react';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
-import {CategoryResource} from '../../entities/Category';
-import {CategoryGroupResource} from '../../entities/CategoryGroup';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {selectCategoryGroups} from '../../selectors/resources';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   categoryGroups: selectCategoryGroups(state)
 });
 
@@ -77,7 +77,7 @@ class CategoryForm extends React.Component {
   }
 }
 
-const formToResource = (data) => {
+const formToResource = data => {
   return {...data, priority: parseInt(data.priority)};
 };
 

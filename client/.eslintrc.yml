@@ -44,9 +44,6 @@ rules:
   react/jsx-first-prop-new-line:
     - error
     - multiline
-  react/jsx-closing-bracket-location:
-    - error
-    - line-aligned
   react/self-closing-comp:
     - error
   react/jsx-space-before-closing:

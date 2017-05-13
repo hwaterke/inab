@@ -7,7 +7,7 @@ import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router';
-import {AccountResource} from '../entities/Account';
+import {AccountResource} from 'inab-shared/src/entities/Account';
 import {selectAccounts} from '../selectors/resources';
 
 @ui({
@@ -60,17 +60,21 @@ class Header extends React.Component {
                 <Amount amount={this.props.budgetBalance} color />
               </RouterLink>
 
-              {this.props.accounts.map((account) =>
-                account.busy ?
-                  <Link className="dropdown-item" key={account.uuid}>
-                    <FontAwesome name="refresh" spin fixedWidth />
-                    {account.name}
-                  </Link>
-                  :
-                  <RouterLink className="apart dropdown-item" key={account.uuid} to={`/account/${account.uuid}`}>
-                    <span>{account.name}&nbsp;</span>
-                    <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
-                  </RouterLink>
+              {this.props.accounts.map(
+                account =>
+                  account.busy
+                    ? <Link className="dropdown-item" key={account.uuid}>
+                        <FontAwesome name="refresh" spin fixedWidth />
+                        {account.name}
+                      </Link>
+                    : <RouterLink
+                        className="apart dropdown-item"
+                        key={account.uuid}
+                        to={`/account/${account.uuid}`}
+                      >
+                        <span>{account.name}&nbsp;</span>
+                        <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
+                      </RouterLink>
               )}
 
               <div role="separator" className="dropdown-divider" />
@@ -90,7 +94,7 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   accounts: selectAccounts(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state)

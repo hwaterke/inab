@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {CategoryGroupResource} from '../../entities/CategoryGroup';
+import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 
@@ -13,7 +13,7 @@ class CategoryGroupForm extends React.Component {
     reset: React.PropTypes.func.isRequired,
     pristine: React.PropTypes.bool.isRequired,
     submitting: React.PropTypes.bool.isRequired,
-    deleteResource: React.PropTypes.func.isRequired,
+    deleteResource: React.PropTypes.func.isRequired
   };
 
   render() {
@@ -57,7 +57,7 @@ class CategoryGroupForm extends React.Component {
   }
 }
 
-const formToResource = (data) => {
+const formToResource = data => {
   return {...data, priority: parseInt(data.priority)};
 };
 

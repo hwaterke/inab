@@ -11,9 +11,9 @@ import ButtonIcon from '../ButtonIcon';
 import Button from '../Button';
 import moment from 'moment';
 import {amountFromCents, amountToCents} from '../../utils/amount';
-import {AccountResource} from '../../entities/Account';
-import {CategoryResource} from '../../entities/Category';
-import {TransactionResource} from '../../entities/Transaction';
+import {AccountResource} from 'inab-shared/src/entities/Account';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {selectAccounts, selectCategories} from '../../selectors/resources';
@@ -23,7 +23,7 @@ import {selectAccounts, selectCategories} from '../../selectors/resources';
  */
 const renderSubtransactions = ({fields, categories}) => (
   <div>
-    {fields.map((subtransaction, index) =>
+    {fields.map((subtransaction, index) => (
       <div key={index} className="tr-form-container">
 
         <div />
@@ -66,7 +66,7 @@ const renderSubtransactions = ({fields, categories}) => (
         </div>
 
       </div>
-    )}
+    ))}
     <div className="tr-form-container str-form-container">
       <div />
       <div />
@@ -84,15 +84,17 @@ const renderSubtransactions = ({fields, categories}) => (
 
 renderSubtransactions.propTypes = {
   fields: React.PropTypes.object.isRequired,
-  categories: React.PropTypes.arrayOf(React.PropTypes.shape({
-    label: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any.isRequired
-  })).isRequired,
+  categories: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      label: React.PropTypes.string.isRequired,
+      value: React.PropTypes.any.isRequired
+    })
+  ).isRequired
 };
 
 const selector = formValueSelector(TransactionResource.path);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   accounts: selectAccounts(state),
   categories: selectCategories(state),
   payees: getPayees(state),
@@ -114,9 +116,7 @@ class TransactionForm extends Component {
     // Reference data
     accounts: React.PropTypes.arrayOf(AccountResource.propType).isRequired,
     categories: React.PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    payees: React.PropTypes.arrayOf(
-      React.PropTypes.string
-    ).isRequired,
+    payees: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     payeeValue: React.PropTypes.string,
     categoryValue: React.PropTypes.string,
     onCancel: React.PropTypes.func
@@ -135,7 +135,10 @@ class TransactionForm extends Component {
     ];
 
     const payeeOptions = [
-      ...this.props.accounts.map(a => ({label: 'Transfer to ' + a.name, value: 'transfer:' + a.uuid})),
+      ...this.props.accounts.map(a => ({
+        label: 'Transfer to ' + a.name,
+        value: 'transfer:' + a.uuid
+      })),
       ...this.props.payees.map(c => ({label: c, value: c}))
     ];
 
@@ -156,10 +159,7 @@ class TransactionForm extends Component {
           <div>
             <label>Date</label>
             <div>
-              <Field
-                name="date"
-                component={DatePickerField}
-              />
+              <Field name="date" component={DatePickerField} />
             </div>
           </div>
 
@@ -178,7 +178,11 @@ class TransactionForm extends Component {
             <Field
               name="category"
               component={SimpleSelectField}
-              placeholder={(this.props.payeeValue && this.props.payeeValue.startsWith('transfer:')) ? 'No category for transfers' : 'Category'}
+              placeholder={
+                this.props.payeeValue && this.props.payeeValue.startsWith('transfer:')
+                  ? 'No category for transfers'
+                  : 'Category'
+              }
               disabled={this.props.payeeValue && this.props.payeeValue.startsWith('transfer:')}
               options={categoryOptions}
             />
@@ -207,11 +211,11 @@ class TransactionForm extends Component {
           </div>
         </div>
         {this.props.categoryValue === 'split' &&
-        <FieldArray
-          name="subtransactions"
-          categories={subtransactionCategoryOptions}
-          component={renderSubtransactions}
-        />}
+          <FieldArray
+            name="subtransactions"
+            categories={subtransactionCategoryOptions}
+            component={renderSubtransactions}
+          />}
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}
@@ -228,7 +232,7 @@ class TransactionForm extends Component {
   }
 }
 
-const formToResource = (data) => {
+const formToResource = data => {
   const transaction = {...data};
 
   // Compute the type of transaction
@@ -303,4 +307,6 @@ const resourceToForm = (transaction, props) => {
   return formData;
 };
 
-export default resourceForm(TransactionResource.path, formToResource, resourceToForm)(TransactionForm);
+export default resourceForm(TransactionResource.path, formToResource, resourceToForm)(
+  TransactionForm
+);

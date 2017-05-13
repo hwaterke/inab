@@ -6,7 +6,7 @@ import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
 import ButtonIcon from '../ButtonIcon';
 import {selectCategoriesById} from '../../selectors/resources';
-import {CategoryResource} from '../../entities/Category';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
 
 @ui()
 class CategoryFormDialog extends React.Component {
@@ -38,7 +38,7 @@ class CategoryFormDialog extends React.Component {
     return (
       <span>
         <ButtonIcon className="btn btn-info" onClick={this.handleOpenNew} icon="plus">
-            Category
+          Category
         </ButtonIcon>
         <Dialog
           title="Category group"
@@ -48,7 +48,10 @@ class CategoryFormDialog extends React.Component {
           onRequestClose={this.handleClose}
         >
           <CategoryForm
-            updatedResource={this.props.ui.categorySelected && this.props.categoriesById[this.props.ui.categorySelected]}
+            updatedResource={
+              this.props.ui.categorySelected &&
+                this.props.categoriesById[this.props.ui.categorySelected]
+            }
             postSubmit={this.handleClose}
           />
         </Dialog>
@@ -57,7 +60,7 @@ class CategoryFormDialog extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   categoriesById: selectCategoriesById(state)
 });
 

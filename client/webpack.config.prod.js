@@ -1,11 +1,11 @@
+import autoprefixer from 'autoprefixer';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
 // For info about this file refer to webpack and webpack-hot-middleware documentation
 // For info on how we're generating bundles with hashed filenames for cache busting: https://medium.com/@okonetchnikov/long-term-caching-of-static-assets-with-webpack-1ecb139adb95#.w99i89nsz
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import path from 'path';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -65,15 +65,27 @@ export default {
   ],
   module: {
     loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel'},
+      {test: /\.jsx?$/, exclude: /node_modules\/(?!hw-react-shared|inab-shared)/, loader: 'babel'},
       {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'url?name=[name].[ext]'},
-      {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&mimetype=application/font-woff&name=[name].[ext]'},
-      {test: /\.ttf(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream&name=[name].[ext]'},
-      {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'},
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff&name=[name].[ext]'
+      },
+      {
+        test: /\.ttf(\?v=\d+.\d+.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream&name=[name].[ext]'
+      },
+      {
+        test: /\.svg(\?v=\d+.\d+.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'
+      },
       {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
       {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
-      {test: /(\.css|\.scss)$/, loader: ExtractTextPlugin.extract('css?sourceMap!postcss!sass?sourceMap')}
+      {
+        test: /(\.css|\.scss)$/,
+        loader: ExtractTextPlugin.extract('css?sourceMap!postcss!sass?sourceMap')
+      }
     ]
   },
-  postcss: ()=> [autoprefixer]
+  postcss: () => [autoprefixer]
 };

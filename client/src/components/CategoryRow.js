@@ -5,12 +5,12 @@ import ui from 'redux-ui';
 import BudgetItemForm from './BudgetItemForm';
 import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router';
-import {CategoryResource} from '../entities/Category';
-import {BudgetItemResource} from '../entities/BudgetItem';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {connect} from 'react-redux';
 import {getCurrentMonth} from '../selectors/ui';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedMonth: getCurrentMonth(state)
 });
 
@@ -47,7 +47,7 @@ export default class CategoryRow extends React.Component {
   render() {
     let budgetCell;
     if (this.props.ui.editingCategoryId == this.props.category.uuid) {
-      budgetCell =
+      budgetCell = (
         <Cell className="right">
           <BudgetItemForm
             category_uuid={this.props.category.uuid}
@@ -55,13 +55,17 @@ export default class CategoryRow extends React.Component {
             updatedResource={this.props.budgetItem}
             onBlur={this.clearBudgetItemForm}
           />
-        </Cell>;
+        </Cell>
+      );
     } else {
-      budgetCell =
+      budgetCell = (
         <Cell className="right" onClick={this.editBudgetItem}>
-          {this.props.budgetItem && this.props.budgetItem.busy && <FontAwesome name="refresh" spin fixedWidth />}
+          {this.props.budgetItem &&
+            this.props.budgetItem.busy &&
+            <FontAwesome name="refresh" spin fixedWidth />}
           <Amount amount={this.props.budgetItem && this.props.budgetItem.amount} />
-        </Cell>;
+        </Cell>
+      );
     }
 
     return (
@@ -69,7 +73,9 @@ export default class CategoryRow extends React.Component {
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
         <td className="right">
-          <RouterLink to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${this.props.category.uuid}`}>
+          <RouterLink
+            to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${this.props.category.uuid}`}
+          >
             <Amount amount={this.props.activity} />
           </RouterLink>
         </td>

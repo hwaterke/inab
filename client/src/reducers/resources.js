@@ -1,21 +1,14 @@
-import {combineReducers} from 'redux';
-import reduxCrud from 'redux-crud';
-import {AccountResource} from '../entities/Account';
-import {CategoryResource} from '../entities/Category';
-import {CategoryGroupResource} from '../entities/CategoryGroup';
-import {BudgetItemResource} from '../entities/BudgetItem';
-import {TransactionResource} from '../entities/Transaction';
+import {reducersForResources} from 'hw-react-shared/src/crud/reducers/reducersForResources';
+import {AccountResource} from 'inab-shared/src/entities/Account';
+import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
+import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 
-const reducers = {};
-
-[
+export const resourcesReducer = reducersForResources([
   AccountResource,
   CategoryResource,
   CategoryGroupResource,
   BudgetItemResource,
   TransactionResource
-].forEach(resource =>
-  reducers[resource.path] = reduxCrud.Map.reducersFor(resource.path, {key: 'uuid'})
-);
-
-export const resourcesReducer = combineReducers(reducers);
+]);

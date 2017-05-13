@@ -1,8 +1,8 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {AccountResource} from '../../entities/Account';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
+import {AccountResource} from 'inab-shared/src/entities/Account';
 
 class AccountForm extends React.Component {
   static propTypes = {
@@ -13,7 +13,7 @@ class AccountForm extends React.Component {
     reset: React.PropTypes.func.isRequired,
     pristine: React.PropTypes.bool.isRequired,
     submitting: React.PropTypes.bool.isRequired,
-    deleteResource: React.PropTypes.func.isRequired,
+    deleteResource: React.PropTypes.func.isRequired
   };
 
   render() {
