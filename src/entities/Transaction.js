@@ -1,33 +1,33 @@
 // @flow
-import React from 'react';
+import PropTypes from 'prop-types';
 import type {ResourceDefinition} from 'hw-react-shared/src/crud/types/ResourceDefinition';
 
-const tagPropType: ReactPropsCheckType = React.PropTypes.shape({
-  name: React.PropTypes.string.isRequired
+const tagPropType: ReactPropsCheckType = PropTypes.shape({
+  name: PropTypes.string.isRequired
 });
 
-const subtransactionPropType: ReactPropsCheckType = React.PropTypes.shape({
-  uuid: React.PropTypes.string,
-  description: React.PropTypes.string,
-  amount: React.PropTypes.number.isRequired,
-  category_uuid: React.PropTypes.string.isRequired
+const subtransactionPropType: ReactPropsCheckType = PropTypes.shape({
+  uuid: PropTypes.string,
+  description: PropTypes.string,
+  amount: PropTypes.number.isRequired,
+  category_uuid: PropTypes.string.isRequired
 });
 
 export const TransactionResource: ResourceDefinition = {
   path: 'transactions',
-  propType: React.PropTypes.shape({
-    uuid: React.PropTypes.string,
-    date: React.PropTypes.string.isRequired,
-    time: React.PropTypes.string,
-    payee: React.PropTypes.string,
-    description: React.PropTypes.string,
-    amount: React.PropTypes.number.isRequired,
-    category_uuid: React.PropTypes.string,
-    account_uuid: React.PropTypes.string.isRequired,
-    transfer_account_uuid: React.PropTypes.string,
-    type: React.PropTypes.string.isRequired,
-    tags: React.PropTypes.arrayOf(tagPropType).isRequired,
-    subtransactions: React.PropTypes.arrayOf(subtransactionPropType).isRequired
+  propType: PropTypes.shape({
+    uuid: PropTypes.string,
+    date: PropTypes.string.isRequired,
+    time: PropTypes.string,
+    payee: PropTypes.string,
+    description: PropTypes.string,
+    amount: PropTypes.number.isRequired,
+    category_uuid: PropTypes.string,
+    account_uuid: PropTypes.string.isRequired,
+    transfer_account_uuid: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(tagPropType).isRequired,
+    subtransactions: PropTypes.arrayOf(subtransactionPropType).isRequired
   })
 };
 
