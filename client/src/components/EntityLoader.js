@@ -7,20 +7,14 @@ import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {crud} from '../api/crud';
-import {
-  selectAccounts,
-  selectCategoryGroups,
-  selectBudgetItems,
-  selectTransactions,
-  selectCategories
-} from '../selectors/resources';
+import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 const mapStateToProps = state => ({
-  accounts: selectAccounts(state),
-  categories: selectCategories(state),
-  categoryGroups: selectCategoryGroups(state),
-  budgetItems: selectBudgetItems(state),
-  transactions: selectTransactions(state)
+  accounts: arraySelector(AccountResource)(state),
+  categories: arraySelector(CategoryResource)(state),
+  categoryGroups: arraySelector(CategoryGroupResource)(state),
+  budgetItems: arraySelector(BudgetItemResource)(state),
+  transactions: arraySelector(TransactionResource)(state)
 });
 
 // Until we have a better solution, this component silently loads the entities on startup.

@@ -7,10 +7,10 @@ import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
-import {selectCategoryGroups} from '../../selectors/resources';
+import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 const mapStateToProps = state => ({
-  categoryGroups: selectCategoryGroups(state)
+  categoryGroups: arraySelector(CategoryGroupResource)(state)
 });
 
 @connect(mapStateToProps)

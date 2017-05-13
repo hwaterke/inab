@@ -16,8 +16,8 @@ import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
-import {selectAccounts, selectCategories} from '../../selectors/resources';
 import {amountToCents, amountFromCents} from 'inab-shared/src/utils/amount';
+import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 /**
  * Component used for rendering the subtransaction forms
@@ -97,8 +97,8 @@ renderSubtransactions.propTypes = {
 const selector = formValueSelector(TransactionResource.path);
 
 const mapStateToProps = state => ({
-  accounts: selectAccounts(state),
-  categories: selectCategories(state),
+  accounts: arraySelector(AccountResource)(state),
+  categories: arraySelector(CategoryResource)(state),
   payees: getPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category')

@@ -6,8 +6,8 @@ import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
 import ButtonIcon from '../ButtonIcon';
-import {selectCategoriesById} from '../../selectors/resources';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 @ui()
 class CategoryFormDialog extends React.Component {
@@ -62,7 +62,7 @@ class CategoryFormDialog extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  categoriesById: selectCategoriesById(state)
+  categoriesById: byIdSelector(CategoryResource)(state)
 });
 
 export default connect(mapStateToProps)(CategoryFormDialog);

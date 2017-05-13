@@ -9,7 +9,7 @@ import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router';
 import {AccountResource} from 'inab-shared/src/entities/Account';
-import {selectAccounts} from '../selectors/resources';
+import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 @ui({
   state: {
@@ -96,7 +96,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  accounts: selectAccounts(state),
+  accounts: arraySelector(AccountResource)(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state)
 });

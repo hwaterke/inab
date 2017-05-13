@@ -1,9 +1,11 @@
 import {createSelector} from 'reselect';
 import {getSortedTransactions, getPayees} from './transactions';
-import {selectAccountsById, selectCategoriesById} from './resources';
 import R from 'ramda';
+import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {AccountResource} from 'inab-shared/src/entities/Account';
+import {CategoryResource} from 'inab-shared/src/entities/Category';
 
-const getMirrorTransfer = (transaction) => {
+const getMirrorTransfer = transaction => {
   const mirror = Object.assign({}, transaction);
   mirror.key = mirror.uuid + 'r';
   mirror.account_uuid = transaction.transfer_account_uuid;
@@ -17,8 +19,8 @@ const getMirrorTransfer = (transaction) => {
 // Converts the transactions to TransactionView
 export const getTransactionsForRendering = createSelector(
   getSortedTransactions,
-  selectAccountsById,
-  selectCategoriesById,
+  byIdSelector(AccountResource),
+  byIdSelector(CategoryResource),
   (transactions, accountsById, categoriesById) => {
     const result = [];
 
@@ -27,7 +29,8 @@ export const getTransactionsForRendering = createSelector(
         ...tr,
         key: tr.uuid,
         account: accountsById[tr.account_uuid].name,
-        payee: tr.payee || tr.transfer_account_uuid && accountsById[tr.transfer_account_uuid].name,
+        payee: tr.payee ||
+          (tr.transfer_account_uuid && accountsById[tr.transfer_account_uuid].name),
         is_transfer: !!tr.transfer_account_uuid,
         tagsForSearch: tr.tags.map(t => t.name).join(',')
       };
@@ -51,7 +54,7 @@ export const getTransactionsForRendering = createSelector(
       tr.subtransactions.forEach((str, strIndex) => {
         const str_result = {
           // TODO make sure subtransaction always have an id, index is bad as key
-          key: 's' + ((str.uuid) ? str.uuid : ('i' + strIndex)),
+          key: 's' + (str.uuid ? str.uuid : 'i' + strIndex),
           uuid: str.uuid,
           date: tr.date,
           account_uuid: tr.account_uuid,
@@ -72,8 +75,8 @@ export const getTransactionsForRendering = createSelector(
 );
 
 export const getTransactionColumns = createSelector(
-  selectAccountsById,
-  selectCategoriesById,
+  byIdSelector(AccountResource),
+  byIdSelector(CategoryResource),
   getPayees,
   (accountsById, categoriesById, payees) => ({
     account: {
@@ -83,7 +86,7 @@ export const getTransactionColumns = createSelector(
     },
     date: {
       label: 'Date',
-      type: 'date',
+      type: 'date'
     },
     category_uuid: {
       label: 'Category',

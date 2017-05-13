@@ -5,7 +5,8 @@ import {getSelectedAccount} from '../selectors/ui';
 import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import AccountHeader from './AccountHeader';
 import TransactionContainer from './TransactionContainer';
-import {selectAccountsById} from '../selectors/resources';
+import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {AccountResource} from 'inab-shared/src/entities/Account';
 
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>
@@ -28,7 +29,7 @@ const mapStateToProps = state => {
 
   if (aid) {
     // Check if the account exist.
-    const account = selectAccountsById(state)[aid];
+    const account = byIdSelector(AccountResource)(state)[aid];
     if (account) {
       title = account.name;
       balance = selectBalanceByAccountId(state)[aid];

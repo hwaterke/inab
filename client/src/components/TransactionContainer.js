@@ -13,12 +13,12 @@ import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {crud} from '../api/crud';
-import {selectTransactions, selectTransactionsById} from '../selectors/resources';
 import {sumOfAmounts} from '../selectors/utils';
+import {arraySelector, byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 const mapStateToProps = state => ({
-  transactions: selectTransactions(state),
-  transactionsById: selectTransactionsById(state),
+  transactions: arraySelector(TransactionResource)(state),
+  transactionsById: byIdSelector(TransactionResource)(state),
   transactionsForRendering: getTransactionsForRendering(state),
   transactionFilters: state.transactionFilters
 });

@@ -5,8 +5,8 @@ import AccountForm from './AccountForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
-import {selectAccountsById} from '../../selectors/resources';
 import {AccountResource} from 'inab-shared/src/entities/Account';
+import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
 
 @ui()
 class AccountFormDialog extends React.Component {
@@ -55,7 +55,7 @@ class AccountFormDialog extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  accountsById: selectAccountsById(state)
+  accountsById: byIdSelector(AccountResource)(state)
 });
 
 export default connect(mapStateToProps)(AccountFormDialog);
