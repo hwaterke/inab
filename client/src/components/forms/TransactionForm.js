@@ -11,17 +11,18 @@ import ButtonDelete from '../ButtonDelete';
 import ButtonIcon from '../ButtonIcon';
 import Button from '../Button';
 import moment from 'moment';
-import {amountFromCents, amountToCents} from '../../utils/amount';
 import {AccountResource} from 'inab-shared/src/entities/Account';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {selectAccounts, selectCategories} from '../../selectors/resources';
+import {amountToCents, amountFromCents} from 'inab-shared/src/utils/amount';
 
 /**
  * Component used for rendering the subtransaction forms
  */
+
 const renderSubtransactions = ({fields, categories}) => (
   <div>
     {fields.map((subtransaction, index) => (

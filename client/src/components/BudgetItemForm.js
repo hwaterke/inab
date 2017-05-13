@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {resourceForm} from './forms/resourceForm';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
-import {amountToCents} from '../utils/amount';
 import {connect} from 'react-redux';
 import {getCurrentMonth} from '../selectors/ui';
+import {amountToCents} from 'inab-shared/src/utils/amount';
 
 const mapStateToProps = state => ({
   selectedMonth: getCurrentMonth(state)
