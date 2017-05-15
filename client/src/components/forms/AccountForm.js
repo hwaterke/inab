@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
-import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {AccountResource} from 'inab-shared/src/entities/Account';
+import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {crud} from '../../hoc/crud';
 
 class AccountForm extends React.Component {
   static propTypes = {
@@ -47,4 +48,4 @@ class AccountForm extends React.Component {
   }
 }
 
-export default resourceForm(AccountResource)(AccountForm);
+export default resourceForm(crud, AccountResource)(AccountForm);

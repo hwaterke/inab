@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
-import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
+import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {crud} from '../../hoc/crud';
 
 class CategoryGroupForm extends React.Component {
   static propTypes = {
@@ -62,4 +63,4 @@ const formToResource = data => {
   return {...data, priority: parseInt(data.priority)};
 };
 
-export default resourceForm(CategoryGroupResource, formToResource)(CategoryGroupForm);
+export default resourceForm(crud, CategoryGroupResource, formToResource)(CategoryGroupForm);

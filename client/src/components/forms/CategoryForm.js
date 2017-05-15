@@ -5,9 +5,10 @@ import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
-import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {crud} from '../../hoc/crud';
 
 const mapStateToProps = state => ({
   categoryGroups: arraySelector(CategoryGroupResource)(state)
@@ -82,4 +83,4 @@ const formToResource = data => {
   return {...data, priority: parseInt(data.priority)};
 };
 
-export default resourceForm(CategoryResource, formToResource)(CategoryForm);
+export default resourceForm(crud, CategoryResource, formToResource)(CategoryForm);

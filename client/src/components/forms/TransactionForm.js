@@ -14,10 +14,11 @@ import moment from 'moment';
 import {AccountResource} from 'inab-shared/src/entities/Account';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
-import {resourceForm} from './resourceForm';
 import {FormActionBar} from './FormActionBar';
 import {amountToCents, amountFromCents} from 'inab-shared/src/utils/amount';
 import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {crud} from '../../hoc/crud';
 
 /**
  * Component used for rendering the subtransaction forms
@@ -309,4 +310,6 @@ const resourceToForm = (transaction, props) => {
   return formData;
 };
 
-export default resourceForm(TransactionResource, formToResource, resourceToForm)(TransactionForm);
+export default resourceForm(crud, TransactionResource, formToResource, resourceToForm)(
+  TransactionForm
+);
