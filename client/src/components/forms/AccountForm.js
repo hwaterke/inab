@@ -47,4 +47,4 @@ class AccountForm extends React.Component {
   }
 }
 
-export default resourceForm(AccountResource.path)(AccountForm);
+export default resourceForm(AccountResource)(AccountForm);

@@ -46,5 +46,5 @@ const formToResource = (data, props) => ({
 const resourceToForm = () => ({});
 
 export default connect(mapStateToProps)(
-  resourceForm(BudgetItemResource.path, formToResource, resourceToForm)(BudgetItemForm)
+  resourceForm(BudgetItemResource, formToResource, resourceToForm)(BudgetItemForm)
 );

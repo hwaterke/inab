@@ -12,9 +12,9 @@ import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
-import {crud} from '../api/crud';
 import {sumOfAmounts} from '../selectors/utils';
 import {arraySelector, byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {crud} from '../hoc/crud';
 
 const mapStateToProps = state => ({
   transactions: arraySelector(TransactionResource)(state),
@@ -36,7 +36,7 @@ const mapStateToProps = state => ({
     searchValue: ''
   }
 })
-@crud()
+@crud
 @connect(mapStateToProps)
 class TransactionContainer extends React.Component {
   static propTypes = {
@@ -77,9 +77,9 @@ class TransactionContainer extends React.Component {
   toggleClearingTransactionStatus(id) {
     const transaction = this.props.transactionsById[id];
     if (transaction.cleared_at) {
-      this.props.updateResource(TransactionResource.path, {...transaction, cleared_at: null});
+      this.props.updateResource(TransactionResource, {...transaction, cleared_at: null});
     } else {
-      this.props.updateResource(TransactionResource.path, {...transaction, cleared_at: new Date()});
+      this.props.updateResource(TransactionResource, {...transaction, cleared_at: new Date()});
     }
   }
 
@@ -90,7 +90,7 @@ class TransactionContainer extends React.Component {
   deleteSelection() {
     const records = this.props.ui.selected.map(id => this.props.transactionsById[id]);
     this.clearSelection();
-    records.forEach(r => this.props.deleteResource(TransactionResource.path, r));
+    records.forEach(r => this.props.deleteResource(TransactionResource, r));
   }
 
   displayNew() {

@@ -6,8 +6,8 @@ import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
-import {crud} from '../api/crud';
 import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {crud} from '../hoc/crud';
 
 const mapStateToProps = state => ({
   accounts: arraySelector(AccountResource)(state),
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 });
 
 // Until we have a better solution, this component silently loads the entities on startup.
-@crud()
+@crud
 @connect(mapStateToProps)
 export class EntityLoader extends React.Component {
   static propTypes = {
@@ -42,19 +42,19 @@ export class EntityLoader extends React.Component {
 
   componentDidMount() {
     if (this.props.accounts.length == 0) {
-      this.props.fetchAll(AccountResource.path).then(() => this.decrementFetch());
+      this.props.fetchAll(AccountResource).then(() => this.decrementFetch());
     }
     if (this.props.categoryGroups.length == 0) {
-      this.props.fetchAll(CategoryGroupResource.path).then(() => this.decrementFetch());
+      this.props.fetchAll(CategoryGroupResource).then(() => this.decrementFetch());
     }
     if (this.props.categories.length == 0) {
-      this.props.fetchAll(CategoryResource.path).then(() => this.decrementFetch());
+      this.props.fetchAll(CategoryResource).then(() => this.decrementFetch());
     }
     if (this.props.budgetItems.length == 0) {
-      this.props.fetchAll(BudgetItemResource.path).then(() => this.decrementFetch());
+      this.props.fetchAll(BudgetItemResource).then(() => this.decrementFetch());
     }
     if (this.props.transactions.length == 0) {
-      this.props.fetchAll(TransactionResource.path).then(() => this.decrementFetch());
+      this.props.fetchAll(TransactionResource).then(() => this.decrementFetch());
     }
   }
 

@@ -309,6 +309,4 @@ const resourceToForm = (transaction, props) => {
   return formData;
 };
 
-export default resourceForm(TransactionResource.path, formToResource, resourceToForm)(
-  TransactionForm
-);
+export default resourceForm(TransactionResource, formToResource, resourceToForm)(TransactionForm);

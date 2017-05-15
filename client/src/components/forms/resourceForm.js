@@ -2,26 +2,27 @@
 import {Component, createElement} from 'react';
 import PropTypes from 'prop-types';
 import {reduxForm} from 'redux-form';
-import {crud} from '../../api/crud';
+import {crud} from '../../hoc/crud';
+import type {ResourceDefinition} from '../../types/ResourceDefinition';
 
 /**
  * HOC to provide CRUD functionality to a form.
  * It handles requests and the reduxForm config.
  *
- * @param resourcePath
+ * @param resource
  * @param formToResource How to convert form data to a resource
  * @param resourceToForm How to convert a resource to form data
  * @returns {Function}
  */
 export function resourceForm(
-  resourcePath: string,
+  resource: ResourceDefinition,
   formToResource: Function = v => v,
   resourceToForm: Function = v => v
 ) {
   return function(WrappedComponent: ReactClass<{}>): ReactClass<{}> {
     // Make a redux-form from the WrappedComponent
     const WrappedReduxFormComponent = reduxForm({
-      form: resourcePath,
+      form: resource.path,
       enableReinitialize: true
     })(WrappedComponent);
 
@@ -41,9 +42,9 @@ export function resourceForm(
         const entity = formToResource(data, this.props);
         if (this.props.updatedResource) {
           entity.uuid = this.props.updatedResource.uuid;
-          this.props.updateResource(resourcePath, entity);
+          this.props.updateResource(resource, entity);
         } else {
-          this.props.createResource(resourcePath, entity);
+          this.props.createResource(resource, entity);
         }
         this.props.postSubmit && this.props.postSubmit();
       };
@@ -52,7 +53,7 @@ export function resourceForm(
        * Delete the updatedResource
        */
       deleteResource = () => {
-        this.props.deleteResource(resourcePath, {
+        this.props.deleteResource(resource, {
           uuid: this.props.updatedResource.uuid
         });
         this.props.postSubmit && this.props.postSubmit();
@@ -60,10 +61,11 @@ export function resourceForm(
 
       getPassThroughProps = () => {
         const passThroughProps = {...this.props};
-        delete passThroughProps.fetch;
-        delete passThroughProps.create;
-        delete passThroughProps.update;
-        delete passThroughProps.delete;
+        delete passThroughProps.fetchAll;
+        delete passThroughProps.clearAll;
+        delete passThroughProps.createResource;
+        delete passThroughProps.updateResource;
+        delete passThroughProps.deleteResource;
         delete passThroughProps.postSubmit;
         return passThroughProps;
       };
@@ -89,6 +91,6 @@ export function resourceForm(
     // Name the WrapperComponent accordingly
     ResourceForm.displayName = `ResourceForm(${wrappedComponentName})`;
 
-    return crud()(ResourceForm);
+    return crud(ResourceForm);
   };
 }

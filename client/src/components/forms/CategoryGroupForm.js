@@ -62,4 +62,4 @@ const formToResource = data => {
   return {...data, priority: parseInt(data.priority)};
 };
 
-export default resourceForm(CategoryGroupResource.path, formToResource)(CategoryGroupForm);
+export default resourceForm(CategoryGroupResource, formToResource)(CategoryGroupForm);
