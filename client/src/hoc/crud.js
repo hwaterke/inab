@@ -26,7 +26,7 @@ const CrudConfig: Config = {
   },
 
   onError({dispatch}, resource, operation, error) {
-    dispatch(addError(`Error: ${operation} - ${error.response.data.error}`));
+    dispatch(addError(`Error: ${operation} - ${error}`));
   },
 
   cuid() {
