@@ -5,8 +5,8 @@ import {reducer as uiReducer} from 'redux-ui';
 import {routerReducer} from 'react-router-redux';
 import {transactionFiltersReducer} from './filters';
 import {credentialsReducer} from './credentials';
-import {resourcesReducer} from './resources';
 import {selectedMonthReducer} from './month';
+import {resourcesReducer} from 'inab-shared/src/reducers/resources';
 
 function selectedAccountReducer(state = null, action) {
   switch (action.type) {
