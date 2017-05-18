@@ -2,6 +2,8 @@ import {createStore, combineReducers} from 'redux';
 import {resourcesReducer} from '../../src/reducers/resources';
 import {categoryGroupsSelectorTests} from './categoryGroups';
 import {categoriesSelectorTests} from './categories';
+import {monthSelectorTests} from './month';
+import {selectedMonthReducer} from '../../src/reducers/month';
 
 describe('Selectors', () => {
   let store;
@@ -11,7 +13,10 @@ describe('Selectors', () => {
   }
 
   beforeEach(() => {
-    const reducer = combineReducers({resources: resourcesReducer});
+    const reducer = combineReducers({
+      resources: resourcesReducer,
+      selectedMonth: selectedMonthReducer
+    });
     store = createStore(reducer);
   });
 
@@ -21,4 +26,5 @@ describe('Selectors', () => {
 
   categoryGroupsSelectorTests(getStore);
   categoriesSelectorTests(getStore);
+  monthSelectorTests(getStore);
 });
