@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getSortedCategoryGroups} from '../selectors/categoryGroups';
 import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
 import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
 import {connect} from 'react-redux';
@@ -9,9 +8,10 @@ import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
 import '../styles/tables.scss';
 import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
-import {selectCategoriesByGroupId} from '../selectors/categories';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {selectSelectedMonthActivityByCategoryId} from '../selectors/transactions';
+import {getSortedCategoryGroups} from 'inab-shared/src/selectors/categoryGroups';
+import {selectCategoriesByGroupId} from 'inab-shared/src/selectors/categories';
 
 @ui({
   state: {

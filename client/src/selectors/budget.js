@@ -13,12 +13,12 @@ import {
   upToMonth as budgetItemsUpTo
 } from '../selectors/budgetItems';
 import {beginningOfMonth, groupBy, groupByKey, sumOfAmounts} from './utils';
-import {getCurrentMonth, getPreviousMonth} from './ui';
 import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
 import {AccountResource} from 'inab-shared/src/entities/Account';
 import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {getPreviousMonthMoment, getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
 export const getBudgetBalance = createSelector(arraySelector(TransactionResource), transactions =>
   sumOfAmounts(transactions.filter(t => !t.transfer_account_uuid))
@@ -110,7 +110,7 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
   arraySelector(CategoryResource),
   budgetItemsUpTo.current,
   transactionsUpTo.current,
-  getCurrentMonth,
+  getSelectedMonthMoment,
   getOverspendingByCategoryIdByMonth,
   (categories, budgetItems, transactions, currentMonth, overspendings) => {
     const result = new Map();
@@ -144,7 +144,7 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
 export const getFundsForSelectedMonth = createSelector(
   getToBeBudgetedSumUpToSelectedMonth,
   getBudgetItemsSumUpToPreviousMonth,
-  getCurrentMonth,
+  getSelectedMonthMoment,
   getOverspendingByCategoryIdByMonth,
   (toBeBudgetedSumUpToSelectedMonth, budgetItemsSum, currentMonth, overspendings) => {
     let total = 0;
@@ -172,7 +172,7 @@ export const getFundsForSelectedMonth = createSelector(
 
 // Overspent last month
 export const getOverspentLastMonth = createSelector(
-  getPreviousMonth,
+  getPreviousMonthMoment,
   getOverspendingByCategoryIdByMonth,
   (previousMonth, overspendings) => {
     let total = 0;
@@ -199,7 +199,7 @@ export const getBudgetedInFuture = createSelector(
   getFundsForSelectedMonth,
   getOverspentLastMonth,
   getBudgetedThisMonth,
-  getCurrentMonth,
+  getSelectedMonthMoment,
   arraySelector(BudgetItemResource),
   (funds, overspent, budgeted, currentMonth, allBudgetItems) => {
     const maximum = funds + overspent + budgeted;

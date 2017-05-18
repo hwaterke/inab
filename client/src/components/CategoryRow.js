@@ -9,10 +9,10 @@ import {Link as RouterLink} from 'react-router';
 import {CategoryResource} from 'inab-shared/src/entities/Category';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {connect} from 'react-redux';
-import {getCurrentMonth} from '../selectors/ui';
+import {getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
 const mapStateToProps = state => ({
-  selectedMonth: getCurrentMonth(state)
+  selectedMonth: getSelectedMonthMoment(state)
 });
 
 @ui()

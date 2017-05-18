@@ -1,52 +1,33 @@
 import {createSelector} from 'reselect';
 import moment from 'moment';
+import {
+  getPreviousMonthMoment,
+  getSelectedMonthMoment,
+  getNextMonthMoment
+} from 'inab-shared/src/selectors/month';
 
-export const getSelectedAccount = (state) => state.selectedAccount;
-
-const getSelectedMonth = (state) => ({
-  month: state.selectedMonth.month,
-  year: state.selectedMonth.year
-});
-
-export const getCurrentMonth = createSelector(
-  getSelectedMonth,
-  selectedMonth => {
-    return moment([selectedMonth.year, selectedMonth.month, 1]);
-  }
-);
-
-export const getPreviousMonth = createSelector(
-  getCurrentMonth,
-  selectedMonth => selectedMonth.clone().subtract(1, 'months')
-);
-
-export const getNextMonth = createSelector(
-  getCurrentMonth,
-  selectedMonth => selectedMonth.clone().add(1, 'months')
-);
+export const getSelectedAccount = state => state.selectedAccount;
 
 // Creates a selector that filters a list of items for a selected month
-const createInMonthSelector = (itemSelector, itemMonthMapper, monthSelector) => createSelector(
-  itemSelector,
-  monthSelector,
-  (items, month) => items.filter(i => moment(itemMonthMapper(i)).isSame(month))
-);
+const createInMonthSelector = (itemSelector, itemMonthMapper, monthSelector) =>
+  createSelector(itemSelector, monthSelector, (items, month) =>
+    items.filter(i => moment(itemMonthMapper(i)).isSame(month))
+  );
 
 // Creates a selector that filters a list of items up to a selected month
-const createUpToMonthSelector = (itemSelector, itemMonthMapper, monthSelector) => createSelector(
-  itemSelector,
-  monthSelector,
-  (items, month) => items.filter(i => moment(itemMonthMapper(i)).isSameOrBefore(month))
-);
+const createUpToMonthSelector = (itemSelector, itemMonthMapper, monthSelector) =>
+  createSelector(itemSelector, monthSelector, (items, month) =>
+    items.filter(i => moment(itemMonthMapper(i)).isSameOrBefore(month))
+  );
 
 export const createInMonthSelectors = (itemSelector, itemMonthMapper) => ({
-  previous: createInMonthSelector(itemSelector, itemMonthMapper, getPreviousMonth),
-  current: createInMonthSelector(itemSelector, itemMonthMapper, getCurrentMonth),
-  next: createInMonthSelector(itemSelector, itemMonthMapper, getNextMonth)
+  previous: createInMonthSelector(itemSelector, itemMonthMapper, getPreviousMonthMoment),
+  current: createInMonthSelector(itemSelector, itemMonthMapper, getSelectedMonthMoment),
+  next: createInMonthSelector(itemSelector, itemMonthMapper, getNextMonthMoment)
 });
 
 export const createUpToMonthSelectors = (itemSelector, itemMonthMapper) => ({
-  previous: createUpToMonthSelector(itemSelector, itemMonthMapper, getPreviousMonth),
-  current: createUpToMonthSelector(itemSelector, itemMonthMapper, getCurrentMonth),
-  next: createUpToMonthSelector(itemSelector, itemMonthMapper, getNextMonth)
+  previous: createUpToMonthSelector(itemSelector, itemMonthMapper, getPreviousMonthMoment),
+  current: createUpToMonthSelector(itemSelector, itemMonthMapper, getSelectedMonthMoment),
+  next: createUpToMonthSelector(itemSelector, itemMonthMapper, getNextMonthMoment)
 });

@@ -4,10 +4,10 @@ import moment from 'moment';
 import Button from './Button';
 import ButtonIcon from './ButtonIcon';
 import {connect} from 'react-redux';
-import {selectNextMonth, selectMonth, selectPreviousMonth} from '../reducers/month';
-import {getCurrentMonth} from '../selectors/ui';
+import {selectPreviousMonth, selectMonth, selectNextMonth} from 'inab-shared/src/reducers/month';
+import {getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
-@connect(state => ({selectedMonth: getCurrentMonth(state)}))
+@connect(state => ({selectedMonth: getSelectedMonthMoment(state)}))
 class MonthSelector extends React.Component {
   static propTypes = {
     selectedMonth: PropTypes.object.isRequired,

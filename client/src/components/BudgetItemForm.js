@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
 import {connect} from 'react-redux';
-import {getCurrentMonth} from '../selectors/ui';
 import {amountToCents} from 'inab-shared/src/utils/amount';
 import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
 import {crud} from '../hoc/crud';
+import {getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
 const mapStateToProps = state => ({
-  selectedMonth: getCurrentMonth(state)
+  selectedMonth: getSelectedMonthMoment(state)
 });
 
 class BudgetItemForm extends React.Component {
