@@ -4,6 +4,7 @@ import {categoryGroupsSelectorTests} from './categoryGroups';
 import {categoriesSelectorTests} from './categories';
 import {monthSelectorTests} from './month';
 import {selectedMonthReducer} from '../../src/reducers/month';
+import {budgetItemsSelectorTests} from './budgetItems';
 
 describe('Selectors', () => {
   let store;
@@ -21,10 +22,11 @@ describe('Selectors', () => {
   });
 
   afterEach(() => {
-    console.log('State', JSON.stringify(store.getState(), null, 2));
+    //console.log('State', JSON.stringify(store.getState(), null, 2));
   });
 
   categoryGroupsSelectorTests(getStore);
   categoriesSelectorTests(getStore);
   monthSelectorTests(getStore);
+  budgetItemsSelectorTests(getStore);
 });
