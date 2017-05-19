@@ -12,9 +12,9 @@ export const upToMonth = createUpToMonthSelectors(
   bi => bi.month
 );
 
-export const getSelectedMonthBudgetItemsByCategoryId = createSelector(
+export const getSelectedMonthBudgetItemByCategoryId = createSelector(
   inMonth.selected,
-  budgetItems => R.groupBy(R.prop('category_uuid'), budgetItems)
+  budgetItems => R.map(R.head)(R.groupBy(R.prop('category_uuid'), budgetItems))
 );
 
 export const getBudgetItemsSumUpToPreviousMonth = createSelector(upToMonth.previous, budgetItems =>
