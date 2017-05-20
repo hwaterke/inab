@@ -1,4 +1,4 @@
-import {reducersForResources} from 'hw-react-shared/src/crud/reducers/reducersForResources';
+import {reducersForResources} from 'hw-react-shared';
 import {AccountResource} from '../entities/Account';
 import {CategoryResource} from '../entities/Category';
 import {CategoryGroupResource} from '../entities/CategoryGroup';

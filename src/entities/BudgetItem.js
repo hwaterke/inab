@@ -1,6 +1,6 @@
 // @flow
 import PropTypes from 'prop-types';
-import type {ResourceDefinition} from 'hw-react-shared/src/crud/types/ResourceDefinition';
+import type {ResourceDefinition} from 'hw-react-shared';
 
 export const BudgetItemResource: ResourceDefinition = {
   path: 'budget_items',

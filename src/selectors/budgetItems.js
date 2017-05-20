@@ -1,22 +1,26 @@
 // @flow
 import R from 'ramda';
 import {createSelector} from 'reselect';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {arraySelector} from 'hw-react-shared';
 import {createInMonthSelectors, createUpToMonthSelectors, sumOfAmounts} from './utils';
 import {BudgetItemResource} from '../entities/BudgetItem';
 
-export const inMonth = createInMonthSelectors(arraySelector(BudgetItemResource), bi => bi.month);
+export const budgetItemsInMonth = createInMonthSelectors(
+  arraySelector(BudgetItemResource),
+  bi => bi.month
+);
 
-export const upToMonth = createUpToMonthSelectors(
+export const budgetItemsUpToMonth = createUpToMonthSelectors(
   arraySelector(BudgetItemResource),
   bi => bi.month
 );
 
 export const getSelectedMonthBudgetItemByCategoryId = createSelector(
-  inMonth.selected,
+  budgetItemsInMonth.selected,
   budgetItems => R.map(R.head)(R.groupBy(R.prop('category_uuid'), budgetItems))
 );
 
-export const getBudgetItemsSumUpToPreviousMonth = createSelector(upToMonth.previous, budgetItems =>
-  sumOfAmounts(budgetItems)
+export const getBudgetItemsSumUpToPreviousMonth = createSelector(
+  budgetItemsUpToMonth.previous,
+  budgetItems => sumOfAmounts(budgetItems)
 );

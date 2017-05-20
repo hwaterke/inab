@@ -1,10 +1,5 @@
 import {createCategory, createCategoryGroup, createBudgetItem} from './utils';
-import {
-  inMonth,
-  upToMonth,
-  getSelectedMonthBudgetItemByCategoryId,
-  getBudgetItemsSumUpToPreviousMonth
-} from '../../src/selectors/budgetItems';
+import {budgetItemsInMonth, budgetItemsUpToMonth, getSelectedMonthBudgetItemByCategoryId, getBudgetItemsSumUpToPreviousMonth} from '../../src/selectors/budgetItems';
 import {selectMonth} from '../../src/reducers/month';
 
 export function budgetItemsSelectorTests(getStore) {
@@ -21,9 +16,9 @@ export function budgetItemsSelectorTests(getStore) {
       const bi3 = createBudgetItem(getStore(), 'bi3', '2017-07-01', 'c1', 100);
       getStore().dispatch(selectMonth(2017, 5));
 
-      expect(inMonth.previous(getStore().getState())).toEqual([bi1]);
-      expect(inMonth.selected(getStore().getState())).toEqual([bi2]);
-      expect(inMonth.next(getStore().getState())).toEqual([bi3]);
+      expect(budgetItemsInMonth.previous(getStore().getState())).toEqual([bi1]);
+      expect(budgetItemsInMonth.selected(getStore().getState())).toEqual([bi2]);
+      expect(budgetItemsInMonth.next(getStore().getState())).toEqual([bi3]);
     });
 
     test('upToMonth', () => {
@@ -32,9 +27,9 @@ export function budgetItemsSelectorTests(getStore) {
       const bi3 = createBudgetItem(getStore(), 'bi3', '2017-07-01', 'c1', 100);
       getStore().dispatch(selectMonth(2017, 5));
 
-      expect(upToMonth.previous(getStore().getState())).toEqual([bi1]);
-      expect(upToMonth.selected(getStore().getState())).toEqual([bi1, bi2]);
-      expect(upToMonth.next(getStore().getState())).toEqual([bi1, bi2, bi3]);
+      expect(budgetItemsUpToMonth.previous(getStore().getState())).toEqual([bi1]);
+      expect(budgetItemsUpToMonth.selected(getStore().getState())).toEqual([bi1, bi2]);
+      expect(budgetItemsUpToMonth.next(getStore().getState())).toEqual([bi1, bi2, bi3]);
     });
 
     test('getSelectedMonthBudgetItemByCategoryId', () => {

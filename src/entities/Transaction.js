@@ -1,6 +1,6 @@
 // @flow
 import PropTypes from 'prop-types';
-import type {ResourceDefinition} from 'hw-react-shared/src/crud/types/ResourceDefinition';
+import type {ResourceDefinition} from 'hw-react-shared';
 
 const tagPropType: ReactPropsCheckType = PropTypes.shape({
   name: PropTypes.string.isRequired
