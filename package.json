@@ -2,6 +2,7 @@
   "name": "inab-shared",
   "version": "0.0.1",
   "description": "Shared code between web and native clients",
+  "main": "lib/index.js",
   "scripts": {
     "flow": "flow check",
     "compile": "babel -d lib/ src/",
