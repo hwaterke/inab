@@ -68,6 +68,7 @@ git checkout build
 
 blue_line "Cleaning old build... "
 rm package.json > /dev/null 2>&1 || true
+rm -r lib > /dev/null 2>&1 || true
 check
 
 blue_line "Loading new build... "
