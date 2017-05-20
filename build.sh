@@ -81,6 +81,7 @@ check
 # Commit ?
 blue_line "Commit new build... "
 git add .
-git commit -m "Build of $TAG"
+git commit -v -m "Build of $TAG"
+git push
 git checkout $BRANCH
 blue Done
