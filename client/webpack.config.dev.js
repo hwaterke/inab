@@ -43,7 +43,7 @@ export default {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules\/(?!hw-react-shared|inab-shared)/,
+        exclude: /node_modules/,
         loaders: ['babel']
       },
       {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file'},

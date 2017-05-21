@@ -6,10 +6,8 @@ import ui from 'redux-ui';
 import BudgetItemForm from './BudgetItemForm';
 import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {CategoryResource, BudgetItemResource, getSelectedMonthMoment} from 'inab-shared';
 import {connect} from 'react-redux';
-import {getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
 const mapStateToProps = state => ({
   selectedMonth: getSelectedMonthMoment(state)

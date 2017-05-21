@@ -3,13 +3,11 @@ import expect from 'expect';
 import reducer from '../src/reducers';
 import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
-import * as budgetItemsSelectors from '../src/selectors/budgetItems';
 import * as transactionsSelectors from '../src/selectors/transactions';
 import * as utils from './utils';
 import {selectBalanceByAccountId} from '../src/selectors/budget';
-import {arraySelector, byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {arraySelector, byIdSelector} from 'hw-react-shared';
+import {AccountResource, BudgetItemResource} from 'inab-shared';
 
 describe('Selectors', function() {
   let store;
@@ -118,50 +116,6 @@ describe('Selectors', function() {
         utils.createBudgetItem(store, 1, '2016-06-01', 1, 10000);
         const bi = arraySelector(BudgetItemResource)(store.getState());
         expect(bi).toEqual([{uuid: 1, month: '2016-06-01', category_uuid: 1, amount: 10000}]);
-      });
-    });
-
-    describe('#getSelectedMonthBudgetItems', function() {
-      it('should be empty by default', function() {
-        const bi = budgetItemsSelectors.inMonth.current(store.getState());
-        expect(bi).toEqual([]);
-      });
-
-      it('should return one item from the selected month', function() {
-        utils.createBudgetItem(store, 1, '2016-06-01', 1, 10000);
-        const bi = budgetItemsSelectors.inMonth.current(store.getState());
-        expect(bi).toEqual([{uuid: 1, month: '2016-06-01', category_uuid: 1, amount: 10000}]);
-      });
-
-      it('should not return item from previous month', function() {
-        utils.createBudgetItem(store, 1, '2016-05-01', 1, 10000);
-        const bi = budgetItemsSelectors.inMonth.current(store.getState());
-        expect(bi).toEqual([]);
-      });
-
-      it('should not return item from next month', function() {
-        utils.createBudgetItem(store, 1, '2016-07-01', 1, 10000);
-        const bi = budgetItemsSelectors.inMonth.current(store.getState());
-        expect(bi).toEqual([]);
-      });
-    });
-
-    describe('#getSelectedMonthBudgetItemsByCategoryId', function() {
-      it('should be empty by default', function() {
-        const bi = budgetItemsSelectors.getSelectedMonthBudgetItemsByCategoryId(store.getState());
-        expect(bi).toEqual(new Map());
-      });
-
-      it('should group by categories', function() {
-        utils.createBudgetItem(store, 1, '2016-05-01', 1, 10000);
-        utils.createBudgetItem(store, 2, '2016-06-01', 1, 10000);
-        utils.createBudgetItem(store, 3, '2016-06-01', 2, 10000);
-        utils.createBudgetItem(store, 4, '2016-07-01', 1, 10000);
-        const bi = budgetItemsSelectors.getSelectedMonthBudgetItemsByCategoryId(store.getState());
-        const expected = new Map();
-        expected.set(1, {amount: 10000, category_uuid: 1, uuid: 2, month: '2016-06-01'});
-        expected.set(2, {amount: 10000, category_uuid: 2, uuid: 3, month: '2016-06-01'});
-        expect(bi).toEqual(expected);
       });
     });
   });

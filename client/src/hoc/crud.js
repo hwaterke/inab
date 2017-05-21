@@ -1,9 +1,9 @@
 // @flow
-import {crud as crudCreator} from 'hw-react-shared/src/crud/hoc/crud';
-import type {Config} from 'hw-react-shared/src/crud/hoc/types';
+import {crud as crudCreator} from 'hw-react-shared';
 import cuid from 'cuid';
 import {clearToken} from '../reducers/credentials';
 import {addError} from '../actions/error';
+import type {Config} from 'hw-react-shared';
 
 const CrudConfig: Config = {
   backendSelector(state) {

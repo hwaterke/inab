@@ -6,8 +6,8 @@ import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
 import ButtonIcon from '../ButtonIcon';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {CategoryResource} from 'inab-shared';
+import {byIdSelector} from 'hw-react-shared';
 
 @ui()
 class CategoryFormDialog extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
+import {CategoryGroupResource} from 'inab-shared';
 
 const style = {
   backgroundColor: '#85C9E6'

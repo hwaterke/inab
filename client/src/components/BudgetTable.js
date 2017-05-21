@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
-import {getSelectedMonthBudgetItemsByCategoryId} from '../selectors/budgetItems';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
 import '../styles/tables.scss';
-import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
+import {
+  CategoryGroupResource,
+  CategoryResource,
+  getSortedCategoryGroups,
+  selectCategoriesByGroupId,
+  getSelectedMonthBudgetItemByCategoryId,
+  BudgetItemResource
+} from 'inab-shared';
 import {selectSelectedMonthActivityByCategoryId} from '../selectors/transactions';
-import {getSortedCategoryGroups} from 'inab-shared/src/selectors/categoryGroups';
-import {selectCategoriesByGroupId} from 'inab-shared/src/selectors/categories';
 
 @ui({
   state: {
@@ -24,7 +27,7 @@ class BudgetTable extends React.Component {
     categoriesByGroupId: PropTypes.objectOf(PropTypes.arrayOf(CategoryResource.propType).isRequired)
       .isRequired,
     selectedMonthActivityByCategoryId: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
-    getSelectedMonthBudgetItemsByCategoryId: PropTypes.instanceOf(Map).isRequired,
+    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(BudgetItemResource.propType).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
     updateUI: PropTypes.func.isRequired
   };
@@ -48,7 +51,7 @@ class BudgetTable extends React.Component {
               category={c}
               onNameClick={() =>
                 this.props.updateUI({categorySelected: c.uuid, categoryFormOpen: true})}
-              budgetItem={this.props.getSelectedMonthBudgetItemsByCategoryId.get(c.uuid)}
+              budgetItem={this.props.selectedMonthBudgetItemByCategoryId[c.uuid]}
               activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
               available={this.props.availableByCategory.get(c.uuid)}
             />
@@ -79,7 +82,7 @@ const mapStateToProps = state => ({
   categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: selectCategoriesByGroupId(state),
   selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
-  getSelectedMonthBudgetItemsByCategoryId: getSelectedMonthBudgetItemsByCategoryId(state),
+  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
 });
 

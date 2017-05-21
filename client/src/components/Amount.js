@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {amountFromCents} from 'inab-shared/src/utils/amount';
+import {amountFromCents} from 'inab-shared';
 import './Amount.scss';
 
 class Amount extends React.Component {

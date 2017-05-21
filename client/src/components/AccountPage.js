@@ -5,8 +5,8 @@ import {getSelectedAccount} from '../selectors/ui';
 import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import AccountHeader from './AccountHeader';
 import TransactionContainer from './TransactionContainer';
-import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {AccountResource} from 'inab-shared/src/entities/Account';
+import {byIdSelector} from 'hw-react-shared';
+import {AccountResource} from 'inab-shared';
 
 const AccountPage = ({title, balance, selectedAccountId}) => (
   <div>

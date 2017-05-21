@@ -1,10 +1,6 @@
 import {createSelector} from 'reselect';
 import moment from 'moment';
-import {
-  getPreviousMonthMoment,
-  getSelectedMonthMoment,
-  getNextMonthMoment
-} from 'inab-shared/src/selectors/month';
+import {getPreviousMonthMoment, getSelectedMonthMoment, getNextMonthMoment} from 'inab-shared';
 
 export const getSelectedAccount = state => state.selectedAccount;
 

@@ -1,8 +1,10 @@
 import reduxCrud from 'redux-crud';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
+import {
+  AccountResource,
+  CategoryResource,
+  BudgetItemResource,
+  TransactionResource
+} from 'inab-shared';
 
 export const selectMonth = (store, year, month) =>
   store.dispatch({

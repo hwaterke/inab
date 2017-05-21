@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {FormActionBar} from './FormActionBar';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {AccountResource} from 'inab-shared';
+import {resourceForm} from 'hw-react-shared';
 import {crud} from '../../hoc/crud';
 
 class AccountForm extends React.Component {

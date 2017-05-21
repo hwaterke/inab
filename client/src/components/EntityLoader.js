@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {
+  AccountResource,
+  CategoryResource,
+  CategoryGroupResource,
+  BudgetItemResource,
+  TransactionResource
+} from 'inab-shared';
+import {arraySelector} from 'hw-react-shared';
 import {crud} from '../hoc/crud';
 
 const mapStateToProps = state => ({

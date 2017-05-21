@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
+import {BudgetItemResource, amountToCents, getSelectedMonthMoment} from 'inab-shared';
 import {connect} from 'react-redux';
-import {amountToCents} from 'inab-shared/src/utils/amount';
-import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {resourceForm} from 'hw-react-shared';
 import {crud} from '../hoc/crud';
-import {getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
 
 const mapStateToProps = state => ({
   selectedMonth: getSelectedMonthMoment(state)

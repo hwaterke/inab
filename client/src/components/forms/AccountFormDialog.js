@@ -5,8 +5,8 @@ import AccountForm from './AccountForm';
 import ui from 'redux-ui';
 import Dialog from 'material-ui/Dialog';
 import {connect} from 'react-redux';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {AccountResource} from 'inab-shared';
+import {byIdSelector} from 'hw-react-shared';
 
 @ui()
 class AccountFormDialog extends React.Component {

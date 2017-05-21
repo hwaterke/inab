@@ -2,8 +2,8 @@ import R from 'ramda';
 import {createSelector} from 'reselect';
 import {createInMonthSelectors, createUpToMonthSelectors} from './ui';
 import {beginningOfMonth, sumOfAmounts} from './utils';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
+import {arraySelector} from 'hw-react-shared';
+import {TransactionResource} from 'inab-shared';
 
 export const getSortedTransactions = createSelector(
   arraySelector(TransactionResource),

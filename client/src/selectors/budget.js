@@ -1,25 +1,26 @@
-/**
- * Returns the balance of the budget i.e. the total amount of money across accounts.
- */
 import {createSelector} from 'reselect';
 import {
   getToBeBudgetedSumUpToSelectedMonth,
   upToMonth as transactionsUpTo,
   flattenTransactions
 } from '../selectors/transactions';
-import {
-  getBudgetItemsSumUpToPreviousMonth,
-  inMonth as budgetItemsIn,
-  upToMonth as budgetItemsUpTo
-} from '../selectors/budgetItems';
 import {beginningOfMonth, groupBy, groupByKey, sumOfAmounts} from './utils';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {BudgetItemResource} from 'inab-shared/src/entities/BudgetItem';
-import {getPreviousMonthMoment, getSelectedMonthMoment} from 'inab-shared/src/selectors/month';
+import {arraySelector} from 'hw-react-shared';
+import {
+  AccountResource,
+  TransactionResource,
+  CategoryResource,
+  BudgetItemResource,
+  getPreviousMonthMoment,
+  getSelectedMonthMoment,
+  getBudgetItemsSumUpToPreviousMonth,
+  budgetItemsInMonth,
+  budgetItemsUpToMonth
+} from 'inab-shared';
 
+/**
+ * Returns the balance of the budget i.e. the total amount of money across accounts.
+ */
 export const getBudgetBalance = createSelector(arraySelector(TransactionResource), transactions =>
   sumOfAmounts(transactions.filter(t => !t.transfer_account_uuid))
 );
@@ -108,7 +109,7 @@ const getOverspendingByCategoryIdByMonth = createSelector(
 // Returns for each category the amount available in the budget for that category for the month
 export const getAvailableByCategoryIdForSelectedMonth = createSelector(
   arraySelector(CategoryResource),
-  budgetItemsUpTo.current,
+  budgetItemsUpToMonth.selected,
   transactionsUpTo.current,
   getSelectedMonthMoment,
   getOverspendingByCategoryIdByMonth,
@@ -190,7 +191,7 @@ export const getOverspentLastMonth = createSelector(
 
 // Budgeted this month
 export const getBudgetedThisMonth = createSelector(
-  budgetItemsIn.current,
+  budgetItemsInMonth.selected,
   items => -sumOfAmounts(items)
 );
 

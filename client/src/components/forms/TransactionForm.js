@@ -11,19 +11,20 @@ import ButtonDelete from '../ButtonDelete';
 import ButtonIcon from '../ButtonIcon';
 import Button from '../Button';
 import moment from 'moment';
-import {AccountResource} from 'inab-shared/src/entities/Account';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
 import {FormActionBar} from './FormActionBar';
-import {amountToCents, amountFromCents} from 'inab-shared/src/utils/amount';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
 import {crud} from '../../hoc/crud';
+import {
+  TransactionResource,
+  AccountResource,
+  CategoryResource,
+  amountToCents,
+  amountFromCents
+} from 'inab-shared';
+import {arraySelector, resourceForm} from 'hw-react-shared';
 
 /**
  * Component used for rendering the subtransaction forms
  */
-
 const renderSubtransactions = ({fields, categories}) => (
   <div>
     {fields.map((subtransaction, index) => (

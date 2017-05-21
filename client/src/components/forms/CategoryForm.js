@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
 import SimpleSelectField from './fields/SimpleSelectField';
-import {CategoryResource} from 'inab-shared/src/entities/Category';
-import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
+import {CategoryResource, CategoryGroupResource} from 'inab-shared';
 import {FormActionBar} from './FormActionBar';
-import {arraySelector} from 'hw-react-shared/src/crud/selectors/selectors';
-import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {arraySelector, resourceForm} from 'hw-react-shared';
 import {crud} from '../../hoc/crud';
 
 const mapStateToProps = state => ({

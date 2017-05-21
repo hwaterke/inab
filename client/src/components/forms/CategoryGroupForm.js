@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
-import {CategoryGroupResource} from 'inab-shared/src/entities/CategoryGroup';
+import {CategoryGroupResource} from 'inab-shared';
 import {FormActionBar} from './FormActionBar';
-import {resourceForm} from 'hw-react-shared/src/crud/hoc/resourceForm';
+import {resourceForm} from 'hw-react-shared';
 import {crud} from '../../hoc/crud';
 
 class CategoryGroupForm extends React.Component {

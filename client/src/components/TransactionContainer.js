@@ -11,9 +11,9 @@ import TransactionTotalAmount from './TransactionTotalAmount';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
 import {Filter} from '../entities/Filter';
-import {TransactionResource} from 'inab-shared/src/entities/Transaction';
+import {TransactionResource} from 'inab-shared';
 import {sumOfAmounts} from '../selectors/utils';
-import {arraySelector, byIdSelector} from 'hw-react-shared/src/crud/selectors/selectors';
+import {arraySelector, byIdSelector} from 'hw-react-shared';
 import {crud} from '../hoc/crud';
 
 const mapStateToProps = state => ({
