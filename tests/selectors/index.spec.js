@@ -5,6 +5,7 @@ import {categoriesSelectorTests} from './categories';
 import {monthSelectorTests} from './month';
 import {selectedMonthReducer} from '../../src/reducers/month';
 import {budgetItemsSelectorTests} from './budgetItems';
+import {transactionsSelectorTests} from './transactions';
 
 describe('Selectors', () => {
   let store;
@@ -29,4 +30,5 @@ describe('Selectors', () => {
   categoriesSelectorTests(getStore);
   monthSelectorTests(getStore);
   budgetItemsSelectorTests(getStore);
+  transactionsSelectorTests(getStore);
 });
