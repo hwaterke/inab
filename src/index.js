@@ -29,6 +29,15 @@ import {
   getPreviousMonthMoment,
   getNextMonthMoment
 } from './selectors/month';
+import {
+  getSortedTransactions,
+  transactionsInMonth,
+  transactionsUpToMonth,
+  getToBeBudgetedSumUpToSelectedMonth,
+  getPayees,
+  flattenTransactions,
+  selectSelectedMonthActivityByCategoryId
+} from './selectors/transactions';
 
 export {
   AccountResource,
@@ -47,6 +56,13 @@ export {
   getBudgetItemsSumUpToPreviousMonth,
   selectCategoriesByGroupId,
   getSortedCategoryGroups,
+  getSortedTransactions,
+  transactionsInMonth,
+  transactionsUpToMonth,
+  getToBeBudgetedSumUpToSelectedMonth,
+  getPayees,
+  flattenTransactions,
+  selectSelectedMonthActivityByCategoryId,
   getPreviousMonthMoment,
   getSelectedMonthMoment,
   getNextMonthMoment,
