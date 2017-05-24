@@ -37,7 +37,7 @@ export type TransactionTag = {
 
 export type Subtransaction = {
   uuid: string,
-  description: string,
+  description?: string,
   amount: number,
   category_uuid: string
 };
@@ -45,13 +45,13 @@ export type Subtransaction = {
 export type Transaction = {
   uuid: string,
   date: string,
-  time: string,
-  payee: string,
-  description: string,
+  time?: string,
+  payee?: string,
+  description?: string,
   amount: number,
-  category_uuid: string,
+  category_uuid?: string,
   account_uuid: string,
-  transfer_account_uuid: string,
+  transfer_account_uuid?: string,
   type: string,
   tags: TransactionTag[],
   subtransactions: Subtransaction[]
