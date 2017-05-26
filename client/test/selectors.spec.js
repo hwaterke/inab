@@ -3,11 +3,10 @@ import expect from 'expect';
 import reducer from '../src/reducers';
 import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
-import * as transactionsSelectors from '../src/selectors/transactions';
 import * as utils from './utils';
 import {selectBalanceByAccountId} from '../src/selectors/budget';
 import {arraySelector, byIdSelector} from 'hw-react-shared';
-import {AccountResource, BudgetItemResource} from 'inab-shared';
+import {AccountResource, BudgetItemResource, transactionsUpToMonth} from 'inab-shared';
 
 describe('Selectors', function() {
   let store;
@@ -129,7 +128,7 @@ describe('Selectors', function() {
       utils.createInflowTBB(store, 1, 1, 3, '2016-05-05');
       utils.createInflowTBB(store, 2, 1, 5, '2016-06-06');
       utils.createInflowTBB(store, 3, 1, 7, '2016-07-07');
-      const items = transactionsSelectors.upToMonth.current(store.getState());
+      const items = transactionsUpToMonth.selected(store.getState());
       expect(items).toEqual([
         {
           account_uuid: 1,

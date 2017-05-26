@@ -12,9 +12,9 @@ import {
   getSortedCategoryGroups,
   selectCategoriesByGroupId,
   getSelectedMonthBudgetItemByCategoryId,
-  BudgetItemResource
+  BudgetItemResource,
+  selectSelectedMonthActivityByCategoryId
 } from 'inab-shared';
-import {selectSelectedMonthActivityByCategoryId} from '../selectors/transactions';
 
 @ui({
   state: {

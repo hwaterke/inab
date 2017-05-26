@@ -1,8 +1,7 @@
 import {createSelector} from 'reselect';
-import {getSortedTransactions, getPayees} from './transactions';
 import R from 'ramda';
 import {byIdSelector} from 'hw-react-shared';
-import {AccountResource, CategoryResource} from 'inab-shared';
+import {AccountResource, CategoryResource, getSortedTransactions, getPayees} from 'inab-shared';
 
 const getMirrorTransfer = transaction => {
   const mirror = Object.assign({}, transaction);

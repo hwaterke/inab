@@ -4,7 +4,6 @@ import './TransactionForm.scss';
 import {Field, FieldArray, formValueSelector} from 'redux-form';
 import SimpleSelectField from './fields/SimpleSelectField';
 import {connect} from 'react-redux';
-import {getPayees} from '../../selectors/transactions';
 import DatePickerField from './fields/DatePickerField';
 import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
 import ButtonDelete from '../ButtonDelete';
@@ -18,7 +17,8 @@ import {
   AccountResource,
   CategoryResource,
   amountToCents,
-  amountFromCents
+  amountFromCents,
+  getPayees
 } from 'inab-shared';
 import {arraySelector, resourceForm} from 'hw-react-shared';
 

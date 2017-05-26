@@ -1,9 +1,4 @@
 import {createSelector} from 'reselect';
-import {
-  getToBeBudgetedSumUpToSelectedMonth,
-  upToMonth as transactionsUpTo,
-  flattenTransactions
-} from '../selectors/transactions';
 import {beginningOfMonth, groupBy, groupByKey, sumOfAmounts} from './utils';
 import {arraySelector} from 'hw-react-shared';
 import {
@@ -15,7 +10,10 @@ import {
   getSelectedMonthMoment,
   getBudgetItemsSumUpToPreviousMonth,
   budgetItemsInMonth,
-  budgetItemsUpToMonth
+  budgetItemsUpToMonth,
+  flattenTransactions,
+  transactionsUpToMonth,
+  getToBeBudgetedSumUpToSelectedMonth
 } from 'inab-shared';
 
 /**
@@ -110,7 +108,7 @@ const getOverspendingByCategoryIdByMonth = createSelector(
 export const getAvailableByCategoryIdForSelectedMonth = createSelector(
   arraySelector(CategoryResource),
   budgetItemsUpToMonth.selected,
-  transactionsUpTo.current,
+  transactionsUpToMonth.selected,
   getSelectedMonthMoment,
   getOverspendingByCategoryIdByMonth,
   (categories, budgetItems, transactions, currentMonth, overspendings) => {
