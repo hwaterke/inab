@@ -8,6 +8,8 @@ import type {BudgetItem} from '../../src/entities/BudgetItem';
 import {BudgetItemResource} from '../../src/entities/BudgetItem';
 import type {Transaction} from '../../src/entities/Transaction';
 import {TransactionResource} from '../../src/entities/Transaction';
+import type {Account} from '../../src/entities/Account';
+import {AccountResource} from '../../src/entities/Account';
 
 export const createCategoryGroup = (store: any, uuid: string, name: string, priority: number) => {
   const item: CategoryGroup = {uuid, name, priority};
@@ -21,6 +23,14 @@ export const createCategory = (store: any, uuid: string, name: string, priority:
   const item: Category = {uuid, name, priority, category_group_uuid: categoryGroupUuid};
   store.dispatch(
     reduxCrud.actionCreatorsFor(CategoryResource.path, {key: 'uuid'}).createSuccess(item)
+  );
+  return item;
+};
+
+export const createAccount = (store: any, uuid: string, name: string) => {
+  const item: Account = {uuid, name};
+  store.dispatch(
+    reduxCrud.actionCreatorsFor(AccountResource.path, {key: 'uuid'}).createSuccess(item)
   );
   return item;
 };
@@ -68,13 +78,12 @@ export const createOutflow = (store: any, uuid: string, account_uuid: string, da
   return item;
 };
 
-export const createTransfer = (store: any, uuid: string, account_uuid: string,transfer_account_uuid:string, date: string, amount: number, category_uuid: string) => {
+export const createTransfer = (store: any, uuid: string, account_uuid: string, transfer_account_uuid: string, date: string, amount: number) => {
   const item: Transaction = {
     uuid,
     date,
     account_uuid,
     transfer_account_uuid: transfer_account_uuid,
-    category_uuid,
     amount,
     type: 'regular',
     tags: [],
