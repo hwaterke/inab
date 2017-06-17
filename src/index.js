@@ -45,7 +45,8 @@ import {
   getAvailableToBudget,
   getBudgetedThisMonth,
   getBudgetedInFuture,
-  selectBalanceByAccountId
+  selectBalanceByAccountId,
+  getBudgetBalance
 } from './selectors/budget';
 
 export {
@@ -71,6 +72,7 @@ export {
   getToBeBudgetedSumUpToSelectedMonth,
   getPayees,
   flattenTransactions,
+  getBudgetBalance,
   selectBalanceByAccountId,
   selectSelectedMonthActivityByCategoryId,
   getAvailableByCategoryIdForSelectedMonth,
