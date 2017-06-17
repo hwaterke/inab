@@ -7,6 +7,7 @@ import {selectedMonthReducer} from '../../src/reducers/month';
 import {budgetItemsSelectorTests} from './budgetItems';
 import {transactionsSelectorTests} from './transactions';
 import {budgetSelectorTests} from './budget';
+import {budgetUseCaseTests} from './budgetUseCase';
 
 describe('Selectors', () => {
   let store;
@@ -33,4 +34,5 @@ describe('Selectors', () => {
   budgetItemsSelectorTests(getStore);
   transactionsSelectorTests(getStore);
   budgetSelectorTests(getStore);
+  budgetUseCaseTests(getStore);
 });

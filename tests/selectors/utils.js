@@ -10,6 +10,10 @@ import type {Transaction} from '../../src/entities/Transaction';
 import {TransactionResource} from '../../src/entities/Transaction';
 import type {Account} from '../../src/entities/Account';
 import {AccountResource} from '../../src/entities/Account';
+import {selectMonth} from '../../src/reducers/month';
+
+export const dispatchSelectMonth = (store: any, year: number, month: number) =>
+  store.dispatch(selectMonth(year, month));
 
 export const createCategoryGroup = (store: any, uuid: string, name: string, priority: number) => {
   const item: CategoryGroup = {uuid, name, priority};
