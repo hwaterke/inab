@@ -38,6 +38,14 @@ import {
   flattenTransactions,
   selectSelectedMonthActivityByCategoryId
 } from './selectors/transactions';
+import {
+  getAvailableByCategoryIdForSelectedMonth,
+  getFundsForSelectedMonth,
+  getOverspentLastMonth,
+  getAvailableToBudget,
+  getBudgetedThisMonth,
+  getBudgetedInFuture
+} from './selectors/budget';
 
 export {
   AccountResource,
@@ -63,6 +71,12 @@ export {
   getPayees,
   flattenTransactions,
   selectSelectedMonthActivityByCategoryId,
+  getAvailableByCategoryIdForSelectedMonth,
+  getFundsForSelectedMonth,
+  getOverspentLastMonth,
+  getAvailableToBudget,
+  getBudgetedThisMonth,
+  getBudgetedInFuture,
   getPreviousMonthMoment,
   getSelectedMonthMoment,
   getNextMonthMoment,
