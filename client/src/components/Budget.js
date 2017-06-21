@@ -7,14 +7,14 @@ import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
 import CategoryFormDialog from './forms/CategoryFormDialog';
 import MonthSelector from './MonthSelector';
 import {connect} from 'react-redux';
+import './Budget.scss';
 import {
   getAvailableToBudget,
   getFundsForSelectedMonth,
   getOverspentLastMonth,
   getBudgetedThisMonth,
   getBudgetedInFuture
-} from '../selectors/budget';
-import './Budget.scss';
+} from 'inab-shared';
 
 const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),

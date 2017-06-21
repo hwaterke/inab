@@ -4,11 +4,10 @@ import AccountFormDialog from './forms/AccountFormDialog';
 import Link from './Link';
 import Amount from './Amount';
 import {connect} from 'react-redux';
-import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router';
-import {AccountResource} from 'inab-shared';
+import {AccountResource, selectBalanceByAccountId, getBudgetBalance} from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
 
 @ui({

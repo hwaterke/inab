@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getAvailableByCategoryIdForSelectedMonth} from '../selectors/budget';
 import {connect} from 'react-redux';
 import CategoryRow from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
@@ -13,7 +12,8 @@ import {
   selectCategoriesByGroupId,
   getSelectedMonthBudgetItemByCategoryId,
   BudgetItemResource,
-  selectSelectedMonthActivityByCategoryId
+  selectSelectedMonthActivityByCategoryId,
+  getAvailableByCategoryIdForSelectedMonth
 } from 'inab-shared';
 
 @ui({

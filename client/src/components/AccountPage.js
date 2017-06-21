@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getSelectedAccount} from '../selectors/ui';
-import {getBudgetBalance, selectBalanceByAccountId} from '../selectors/budget';
 import AccountHeader from './AccountHeader';
 import TransactionContainer from './TransactionContainer';
 import {byIdSelector} from 'hw-react-shared';
-import {AccountResource} from 'inab-shared';
+import {AccountResource, getBudgetBalance, selectBalanceByAccountId} from 'inab-shared';
 
-const AccountPage = ({title, balance, selectedAccountId}) => (
+const AccountPage = ({title, balance, selectedAccountId}) =>
   <div>
     <AccountHeader name={title} balance={balance} />
     <TransactionContainer accountId={selectedAccountId} hideAccount={!!selectedAccountId} />
-  </div>
-);
+  </div>;
 
 AccountPage.propTypes = {
   title: PropTypes.string.isRequired,
