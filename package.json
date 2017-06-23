@@ -5,6 +5,17 @@
   "author": "Harold Waterkeyn",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "format": "prettier --single-quote --bracket-spacing=false --write 'src/**/*.js'",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote --bracket-spacing=false",
+      "eslint",
+      "git add"
+    ]
+  },
   "dependencies": {
     "expo": "^18.0.2",
     "react": "16.0.0-alpha.12",
@@ -13,6 +24,9 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^4.0.0",
-    "eslint-plugin-react": "^7.1.0"
+    "eslint-plugin-react": "^7.1.0",
+    "husky": "^0.14.0",
+    "lint-staged": "^4.0.0",
+    "prettier": "^1.4.4"
   }
 }
