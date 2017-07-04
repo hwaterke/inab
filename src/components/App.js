@@ -1,21 +1,20 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Provider} from 'react-redux';
+import {store} from '../store/index';
+import {LoginDispatcher} from './LoginDispatcher';
+import {persistStore} from 'redux-persist';
+import {AsyncStorage} from 'react-native';
 
 export class App extends React.Component {
+  componentDidMount() {
+    persistStore(store, {storage: AsyncStorage, whitelist: ['credentials']});
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>INAB</Text>
-      </View>
+      <Provider store={store}>
+        <LoginDispatcher />
+      </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'tomato',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
