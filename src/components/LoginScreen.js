@@ -75,7 +75,7 @@ export class LoginScreen extends React.Component {
         <StatusBar backgroundColor="blue" barStyle="light-content" />
 
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/icons/app.png')} />
+          <Image source={require('../assets/icons/login.png')} />
         </View>
 
         <View style={styles.fieldWrapper}>
