@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Cell from './Cell';
 import Amount from './Amount';
 import ui from 'redux-ui';
-import BudgetItemForm from './BudgetItemForm';
+import {BudgetItemForm} from './BudgetItemForm';
 import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router';
 import {CategoryResource, BudgetItemResource, getSelectedMonthMoment} from 'inab-shared';
@@ -50,7 +50,7 @@ export default class CategoryRow extends React.Component {
         <Cell className="right">
           <BudgetItemForm
             category_uuid={this.props.category.uuid}
-            postSubmit={() => this.props.updateUI('editingCategoryId', null)}
+            postSubmit={this.clearBudgetItemForm}
             updatedResource={this.props.budgetItem}
             onBlur={this.clearBudgetItemForm}
           />
@@ -69,16 +69,21 @@ export default class CategoryRow extends React.Component {
 
     return (
       <tr>
-        <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
+        <Cell onClick={this.props.onNameClick}>
+          {this.props.category.name}
+        </Cell>
         {budgetCell}
         <td className="right">
           <RouterLink
-            to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${this.props.category.uuid}`}
+            to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${this.props.category
+              .uuid}`}
           >
             <Amount amount={this.props.activity} />
           </RouterLink>
         </td>
-        <td className="right"><Amount amount={this.props.available} color /></td>
+        <td className="right">
+          <Amount amount={this.props.available} color />
+        </td>
       </tr>
     );
   }

@@ -21,6 +21,7 @@ class BudgetItem < Sequel::Model
   def validate
     super
     errors.add(:month, 'must be first day of the month') unless month.day == 1
+    errors.add(:amount, 'cannot be 0') if amount == 0
   end
 
   def before_create
