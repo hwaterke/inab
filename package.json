@@ -18,11 +18,13 @@
       "git add"
     ]
   },
+  "peerDependencies": {
+    "react": "^15.0.0"
+  },
   "dependencies": {
     "hw-react-shared": "hwaterke/react-shared#build",
     "moment": "^2.18.1",
     "ramda": "^0.23.0",
-    "react": "^15.5.4",
     "redux": "^3.6.0",
     "redux-crud": "^3.0.5",
     "reselect": "^3.0.1"
@@ -43,7 +45,8 @@
     "husky": "^0.13.3",
     "jest": "^20.0.1",
     "lint-staged": "^3.4.1",
-    "prettier": "^1.2.2"
+    "prettier": "^1.2.2",
+    "react": "^15.5.4"
   },
   "repository": {
     "type": "git",
