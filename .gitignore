@@ -1,7 +1,5 @@
-client/dist
-client/public/app.js
-client/public/app.css
-server/dist
+client/build
+server/build
 .DS_Store
 .idea
 

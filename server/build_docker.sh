@@ -9,10 +9,11 @@ docker build -t hwaterke/inab:api -f Dockerfile-prod .
 
 echo "Building client"
 cd ../client
+rm -r build || true
 ./build.sh
 
-echo "Moving client dist to server folder"
-mv dist ../server/
+echo "Moving client build to server folder"
+mv build ../server/
 
 cd ../server
 
@@ -20,7 +21,7 @@ echo "Building docker image"
 docker build -t hwaterke/inab -f Dockerfile-prod-all .
 
 echo "Cleaning"
-rm -r dist
+rm -r build
 
 echo "To push to docker do:"
 echo "  docker login"

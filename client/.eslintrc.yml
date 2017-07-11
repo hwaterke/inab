@@ -2,14 +2,13 @@ env:
   es6: true
   browser: true
   node: true
-  jquery: true
-  mocha: true
 extends:
   - 'eslint:recommended'
   - 'plugin:import/errors'
   - 'plugin:import/warnings'
   - 'plugin:react/recommended'
   - 'plugin:flowtype/recommended'
+  - 'react-app'
 plugins:
   - react
   - flowtype
@@ -20,36 +19,8 @@ parserOptions:
     jsx: true
   sourceType: module
 rules:
-  indent:
-    - error
-    - 2
-    - SwitchCase: 1
   linebreak-style:
     - error
     - unix
-  semi:
-    - error
-    - always
-  no-multi-spaces:
-    - error
-  no-multiple-empty-lines:
-    - error
-    - max: 1
-  quotes:
-    - error
-    - single
-  jsx-quotes:
-    - error
-    - prefer-double
-  react/jsx-first-prop-new-line:
-    - error
-    - multiline
   react/self-closing-comp:
     - error
-  react/jsx-space-before-closing:
-    - error
-    - always
-  react/jsx-curly-spacing:
-    - error
-    - never
-    - allowMultiline: true

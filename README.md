@@ -28,46 +28,41 @@ You can then access INAB at http://localhost:8080
 ### Production build
 If you want to create the docker image yourself, execute the following steps.
 
-- Build the frontend by using `./build.sh` in  the `client` folder.
-- Copy the `dist` folder in `client` to the `server` folder.
-- Run `docker build -t inab -f Dockerfile-prod-all .`
+- Navigate to the `server` folder.
+- Execute `./build-docker.sh`
 
 You can then run inab by using:
 ```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db inab
+docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab
 ```
 
 ### Production build - API
 The docker image above contains both the API and the frontend.
-In some cases tough, you might want to serve the frontend in a different way, by using a reverse proxy for example e.g. NGINX. It is therefore possible to build a docker image that only contains the API and not the frontend.
+In some cases tough, you might want to serve the frontend in a different way, by using a reverse proxy like NGINX. It is therefore possible to build a docker image that only contains the API and not the frontend.
 
 Simply go to the server folder and run `docker-compose up`
 
-Serving the frontend i.e. the content of the dist folder to your client is then left to you.
+Serving the frontend i.e. the content of the `build` folder to your client is then left to you.
 
 ### Development
-
 If you want to contribute and help developing INAB, you can use the development configuration.
 
-The docker-compose file at the root of the project takes care of everything.
+The docker-compose file at the root of the project starts the server in development mode.
 
 With the following command `docker-compose up`, you will get the following:
-* No need to install npm (client)
 * No need to install ruby (server)
-* Client code is compiled automatically (HMR)
 * Server (API) listens on port 8080
-* Website is served at http://localhost:3000
-* Any change to the client code triggers a recompilation
 * Any change to the server code restarts it
+
+Once the server is up and running, you can start the client in dev mode by issuing the following commands in the `client` folder:
+```
+yarn
+yarn start
+```
 
 Note that in development, the server uses an in-memory database.
 
-# TODO
-* Transaction model
-  * Clearing transactions
-  * Method for transactions (method of payment)
-  * Generic tags for transactions
-* Production build, make scripts. Build inab:api for the api only
+# Some todos
 * Aggregate stats per budget category
 * Use bootstrap via npm (css only, avoid javascript by using reactstrap)
 * Fix onBlur on the inputs in the budget table
@@ -75,13 +70,7 @@ Note that in development, the server uses an in-memory database.
 * Create a design identity (palette etc.)
 * Disallow transfers between an account and itself
 * Reorder categories by drag and drop
-* Write server tests
-* Replace redux-crud, store entities by ID
 * Category goals
-* Migrate to TypeScript/flow
-* Authentication (login/register)
-* Add favicon
-* Internationalization
 * Native Mobile App
 * Form validation with redux-form
   * Create a generic input Field with label and errors handling
