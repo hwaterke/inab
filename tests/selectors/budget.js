@@ -41,9 +41,10 @@ export function budgetSelectorTests(getStore: Function) {
         createInflowTBB(getStore(), 't2', account1.uuid, '2017-06-01', 17);
         createOutflow(getStore(), 't3', account1.uuid, '2017-06-05', -3, category1.uuid);
         createTransfer(getStore(), 't4', account1.uuid, account2.uuid, '2017-06-07', -11);
+        createTransfer(getStore(), 't5', account2.uuid, account1.uuid, '2017-06-07', -7);
         expect(selectBalanceByAccountId(getStore().getState())).toEqual({
-          [account1.uuid]: 23+17-3-11,
-          [account2.uuid]: 11,
+          [account1.uuid]: 23+17-3-11+7,
+          [account2.uuid]: 11-7,
         });
       });
     });

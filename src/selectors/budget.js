@@ -45,7 +45,7 @@ export const selectBalanceByAccountId = createSelector(
     return R.mergeWith(
       (a, b) => a - b,
       sumByAccountId(transactions),
-      R.map(v => -v, sumByTransferAccountId(withTransferAccount(transactions)))
+      sumByTransferAccountId(withTransferAccount(transactions))
     );
   }
 );
