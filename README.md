@@ -20,7 +20,7 @@ Once this is done you can stop the container and remove those before restarting 
 
 When running the docker image, it is recommended to add another environment variable.
 `-e "JWT_SECRET=some_secret"`.
-This is optional, a random secret will be used is none is provided.
+This is optional, a random secret will be used if none is provided.
 But providing one will allow your users to stay connected after a container restart.
 
 You can then access INAB at http://localhost:8080
