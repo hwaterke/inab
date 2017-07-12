@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {arraySelector} from 'hw-react-shared';
-import {AccountResource} from 'inab-shared';
-import {Ionicons} from '@expo/vector-icons';
+import {
+  AccountResource,
+  selectBalanceByAccountId,
+  getBudgetBalance
+} from 'inab-shared';
 import {crud} from '../../hoc/crud';
 import {globalStyles} from '../../../constants/styles';
 import {uuidExtractor} from '../../../utils';
+import {AccountRow} from './AccountRow';
 
 const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state)
+  accounts: arraySelector(AccountResource)(state),
+  balanceByAccountId: selectBalanceByAccountId(state),
+  budgetBalance: getBudgetBalance(state)
 });
 
 @crud
@@ -19,6 +25,8 @@ export class TransactionAccountListScreen extends React.Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     fetchAll: PropTypes.func.isRequired,
+    budgetBalance: PropTypes.number.isRequired,
+    balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired
     }).isRequired
@@ -52,31 +60,17 @@ export class TransactionAccountListScreen extends React.Component {
           onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
           renderItem={({item}) =>
-            <TouchableOpacity
+            <AccountRow
+              name={item.name}
+              amount={this.props.balanceByAccountId[item.uuid]}
               onPress={() => this.navigateToAccount(item.uuid, item.name)}
-            >
-              <View style={globalStyles.row}>
-                <Text>
-                  {item.name}
-                </Text>
-                <Ionicons
-                  name={'ios-arrow-forward'}
-                  size={26}
-                  style={{opacity: 0.5}}
-                />
-              </View>
-            </TouchableOpacity>}
+            />}
           ListHeaderComponent={() =>
-            <TouchableOpacity onPress={() => this.navigateToAccount()}>
-              <View style={globalStyles.row}>
-                <Text>All</Text>
-                <Ionicons
-                  name={'ios-arrow-forward'}
-                  size={26}
-                  style={{opacity: 0.5}}
-                />
-              </View>
-            </TouchableOpacity>}
+            <AccountRow
+              name="All"
+              amount={this.props.budgetBalance}
+              onPress={() => this.navigateToAccount()}
+            />}
         />
       </View>
     );
