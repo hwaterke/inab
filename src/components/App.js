@@ -3,7 +3,8 @@ import {Provider} from 'react-redux';
 import {store} from '../store/index';
 import {LoginDispatcher} from './LoginDispatcher';
 import {persistStore} from 'redux-persist';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, View, StatusBar} from 'react-native';
+import {globalStyles} from '../constants/styles';
 
 export class App extends React.Component {
   componentDidMount() {
@@ -16,7 +17,10 @@ export class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <LoginDispatcher />
+        <View style={globalStyles.flex}>
+          <StatusBar barStyle="light-content" />
+          <LoginDispatcher />
+        </View>
       </Provider>
     );
   }

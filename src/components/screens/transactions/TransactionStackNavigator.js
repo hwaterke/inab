@@ -5,12 +5,14 @@ import {globalStyles} from '../../../constants/styles';
 
 TransactionAccountListScreen.navigationOptions = {
   title: 'Accounts',
-  headerStyle: globalStyles.header
+  headerStyle: globalStyles.header,
+  headerTitleStyle: globalStyles.headerTitle
 };
 
 TransactionListScreen.navigationOptions = ({navigation}) => ({
   title: navigation.state.params.headerTitle || 'Transactions',
-  headerStyle: globalStyles.header
+  headerStyle: globalStyles.header,
+  headerTitleStyle: globalStyles.headerTitle
 });
 
 export const TransactionStackNavigator = StackNavigator({

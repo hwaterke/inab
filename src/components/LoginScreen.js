@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-  Image,
-  StatusBar
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, Text, View, Image} from 'react-native';
 import {reduxForm, Field} from 'redux-form';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -71,8 +64,6 @@ export class LoginScreen extends React.Component {
         start={[0.25, 0.0]}
         end={[1.0, 1.0]}
       >
-        <StatusBar backgroundColor="blue" barStyle="light-content" />
-
         <View style={styles.logoContainer}>
           <Image source={require('../assets/icons/login.png')} />
         </View>

@@ -32,5 +32,9 @@ export const globalStyles = StyleSheet.create({
 
   header: {
     backgroundColor: colors.banner
+  },
+
+  headerTitle: {
+    color: '#ffffff'
   }
 });
