@@ -36,8 +36,11 @@ export class TransactionAccountListScreen extends React.Component {
     });
   };
 
-  navigateToAccount = accountUuid => {
-    this.props.navigation.navigate('TransactionList', {accountUuid});
+  navigateToAccount = (accountUuid, accountName) => {
+    this.props.navigation.navigate('TransactionList', {
+      accountUuid,
+      headerTitle: accountName
+    });
   };
 
   render() {
@@ -49,7 +52,9 @@ export class TransactionAccountListScreen extends React.Component {
           onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
           renderItem={({item}) =>
-            <TouchableOpacity onPress={() => this.navigateToAccount(item.uuid)}>
+            <TouchableOpacity
+              onPress={() => this.navigateToAccount(item.uuid, item.name)}
+            >
               <View style={globalStyles.row}>
                 <Text>
                   {item.name}

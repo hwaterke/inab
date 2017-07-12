@@ -8,10 +8,10 @@ TransactionAccountListScreen.navigationOptions = {
   headerStyle: globalStyles.header
 };
 
-TransactionListScreen.navigationOptions = {
-  title: 'Transactions',
+TransactionListScreen.navigationOptions = ({navigation}) => ({
+  title: navigation.state.params.headerTitle || 'Transactions',
   headerStyle: globalStyles.header
-};
+});
 
 export const TransactionStackNavigator = StackNavigator({
   AccountList: {
