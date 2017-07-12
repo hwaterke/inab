@@ -1,6 +1,8 @@
 export const colors = {
   text: '#2D2D37',
-  lightText: 'rgba(255,255,255,0.8)',
+  lightText: '#ADADB7',
   banner: '#ABDCFF',
-  background: '#FAFAFA'
+  background: '#FAFAFA',
+  green: '#71DB9C',
+  red: '#DC5841'
 };

@@ -7,7 +7,10 @@ import {AsyncStorage} from 'react-native';
 
 export class App extends React.Component {
   componentDidMount() {
-    persistStore(store, {storage: AsyncStorage, whitelist: ['credentials']});
+    persistStore(store, {
+      storage: AsyncStorage,
+      whitelist: ['credentials', 'resources']
+    });
   }
 
   render() {

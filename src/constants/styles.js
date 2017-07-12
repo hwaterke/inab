@@ -13,5 +13,24 @@ export const globalStyles = StyleSheet.create({
 
   text: {
     color: colors.text
+  },
+
+  lightText: {
+    color: colors.lightText
+  },
+
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#ffffff',
+    borderBottomColor: '#e5e5e5',
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
+
+  header: {
+    backgroundColor: colors.banner
   }
 });

@@ -1,0 +1,25 @@
+[ignore]
+.*/node_modules/expo/.*
+.*/node_modules/react-native/Libraries/.*
+.*/node_modules/react-native/IntegrationTests/.*
+.*/node_modules/react-native/jest/.*
+.*/node_modules/react-native/lib/.*
+.*/node_modules/react-native/local-cli/.*
+.*/node_modules/react-native/packager/.*
+.*/node_modules/react-native/ReactAndroid/.*
+.*/node_modules/react-native/RNTester/.*
+.*/node_modules/react-native-fbads/.*
+.*/node_modules/react-native-tab-view/.*
+.*/node_modules/react-navigation/.*
+
+[include]
+
+[libs]
+
+[options]
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/flow/extension-resolver.js.flow'
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/flow/extension-resolver.js.flow'
+esproposal.decorators=ignore
+unsafe.enable_getters_and_setters=true
+
+[lints]

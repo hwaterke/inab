@@ -1,15 +1,19 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {SettingsLogin} from './SettingsLogin';
 import {colors} from '../../../constants/colors';
 import {Banner} from '../../Banner';
+import {SettingsResources} from './SettingsResources';
 
 export class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Banner />
-        <SettingsLogin />
+        <ScrollView>
+          <SettingsLogin />
+          <SettingsResources />
+        </ScrollView>
       </View>
     );
   }

@@ -71,7 +71,6 @@ export class LoginScreen extends React.Component {
         start={[0.25, 0.0]}
         end={[1.0, 1.0]}
       >
-
         <StatusBar backgroundColor="blue" barStyle="light-content" />
 
         <View style={styles.logoContainer}>
@@ -118,7 +117,6 @@ export class LoginScreen extends React.Component {
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-
       </LinearGradient>
     );
   }

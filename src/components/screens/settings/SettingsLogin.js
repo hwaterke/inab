@@ -27,23 +27,25 @@ export class SettingsLogin extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <View style={styles.icon}>
           <FontAwesome name="user-o" size={58} style={globalStyles.text} />
         </View>
 
         <View style={styles.row}>
           <Text style={globalStyles.text}>Server</Text>
-          <Text style={styles.lightText}>{this.props.backend}</Text>
+          <Text style={styles.lightText}>
+            {this.props.backend}
+          </Text>
         </View>
 
         <View style={styles.row}>
           <Text style={globalStyles.text}>Email</Text>
-          <Text style={styles.lightText}>{this.props.email}</Text>
+          <Text style={styles.lightText}>
+            {this.props.email}
+          </Text>
         </View>
 
         <Button title="Sign out" onPress={() => this.props.clearToken()} />
-
       </View>
     );
   }
