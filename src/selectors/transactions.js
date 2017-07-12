@@ -10,7 +10,7 @@ import {
 
 const getMirrorTransfer = transaction => {
   const mirror = {...transaction};
-  mirror.uuid = mirror.uuid + 'r';
+  mirror.key = mirror.uuid + 'r';
   mirror.account_uuid = transaction.transfer_account_uuid;
   mirror.transfer_account_uuid = transaction.account_uuid;
   mirror.amount = -mirror.amount;
@@ -29,7 +29,7 @@ export const getTransactionForRendering = createSelector(
     const result = [];
 
     transactions.forEach(tr => {
-      const trResult = {...tr};
+      const trResult = {...tr, key: tr.uuid};
 
       if (tr.type === 'to_be_budgeted') {
         trResult.categoryName = 'To be budgeted';

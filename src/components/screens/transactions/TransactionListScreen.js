@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {TransactionResource, amountFromCents} from 'inab-shared';
 import {crud} from '../../hoc/crud';
 import {colors} from '../../../constants/colors';
-import {uuidExtractor} from '../../../utils';
 import {globalStyles} from '../../../constants/styles';
 import {getTransactionForRendering} from '../../../selectors/transactions';
 
@@ -69,7 +68,6 @@ export class TransactionListScreen extends React.Component {
       <View style={styles.container}>
         <FlatList
           data={this.state.filteredTransactions}
-          keyExtractor={uuidExtractor}
           onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
           renderItem={({item}) =>
