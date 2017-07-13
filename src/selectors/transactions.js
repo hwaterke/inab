@@ -13,6 +13,8 @@ const getMirrorTransfer = transaction => {
   mirror.key = mirror.uuid + 'r';
   mirror.account_uuid = transaction.transfer_account_uuid;
   mirror.transfer_account_uuid = transaction.account_uuid;
+  mirror.accountName = transaction.transferAccountName;
+  mirror.transferAccountName = transaction.accountName;
   mirror.amount = -mirror.amount;
   return mirror;
 };
@@ -42,6 +44,12 @@ export const getTransactionForRendering = createSelector(
       }
 
       trResult.accountName = accountsById[tr.account_uuid].name;
+
+      if (tr.transfer_account_uuid) {
+        trResult.isTransfer = true;
+        trResult.transferAccountName =
+          accountsById[tr.transfer_account_uuid].name;
+      }
 
       result.push(trResult);
       if (tr.transfer_account_uuid) {

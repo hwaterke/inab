@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
-import {TransactionResource, amountFromCents} from 'inab-shared';
+import {TransactionResource} from 'inab-shared';
 import {crud} from '../../hoc/crud';
-import {colors} from '../../../constants/colors';
 import {globalStyles} from '../../../constants/styles';
 import {getTransactionForRendering} from '../../../selectors/transactions';
+import {TransactionRow} from './TransactionRow';
 
 const mapStateToProps = state => ({
   transactions: getTransactionForRendering(state)
@@ -65,56 +65,14 @@ export class TransactionListScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.screen}>
         <FlatList
           data={this.state.filteredTransactions}
           onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
-          renderItem={({item}) =>
-            <View style={globalStyles.row}>
-              <View>
-                <Text>
-                  {item.payee}
-                </Text>
-                <Text style={styles.smallText}>
-                  {item.categoryName}
-                </Text>
-              </View>
-              <View style={styles.alignRight}>
-                <Text style={item.amount < 0 ? styles.red : styles.green}>
-                  {amountFromCents(item.amount)}
-                </Text>
-                <Text style={styles.smallText}>
-                  {item.accountName}
-                </Text>
-              </View>
-            </View>}
+          renderItem={({item}) => <TransactionRow transaction={item} />}
         />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background
-  },
-
-  alignRight: {
-    alignItems: 'flex-end'
-  },
-
-  smallText: {
-    color: colors.lightText,
-    fontSize: 10
-  },
-
-  green: {
-    color: colors.green
-  },
-
-  red: {
-    color: colors.red
-  }
-});
