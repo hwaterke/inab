@@ -30,7 +30,8 @@ export class SettingsResources extends React.Component {
       .then(() => this.props.fetchAll(CategoryGroupResource, true))
       .then(() => this.props.fetchAll(CategoryResource, true))
       .then(() => this.props.fetchAll(BudgetItemResource, true))
-      .then(() => this.props.fetchAll(TransactionResource, true));
+      .then(() => this.props.fetchAll(TransactionResource, true))
+      .catch(() => {});
   };
 
   render() {

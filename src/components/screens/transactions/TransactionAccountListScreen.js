@@ -40,7 +40,8 @@ export class TransactionAccountListScreen extends React.Component {
     this.setState({isFetching: true}, () => {
       this.props
         .fetchAll(AccountResource, true)
-        .then(() => this.setState({isFetching: false}));
+        .then(() => this.setState({isFetching: false}))
+        .catch(() => this.setState({isFetching: false}));
     });
   };
 
