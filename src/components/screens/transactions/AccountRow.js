@@ -20,7 +20,7 @@ export class AccountRow extends React.Component {
             {this.props.name}
           </Text>
           <View style={styles.end}>
-            <Amount value={this.props.amount} />
+            <Amount color value={this.props.amount} />
             <Ionicons name="ios-arrow-forward" size={26} style={styles.icon} />
           </View>
         </View>
