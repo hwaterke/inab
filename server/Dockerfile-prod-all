@@ -17,7 +17,7 @@ COPY config.ru ./
 COPY sinatra.rb ./
 
 # Copy client files
-COPY dist public
+COPY build public
 
 ENV RACK_ENV production
 ENV APPSERVER thin
