@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, SectionList, Text, StyleSheet} from 'react-native';
+import {View, SectionList, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {TransactionResource} from 'inab-shared';
 import moment from 'moment';
@@ -9,7 +9,6 @@ import {crud} from '../../hoc/crud';
 import {globalStyles} from '../../../constants/styles';
 import {getTransactionForRendering} from '../../../selectors/transactions';
 import {TransactionRow} from './TransactionRow';
-import {colors} from '../../../constants/colors';
 
 const mapStateToProps = state => ({
   transactions: getTransactionForRendering(state)
@@ -78,8 +77,8 @@ export class TransactionListScreen extends React.Component {
   renderItem = ({item}) => <TransactionRow transaction={item} />;
 
   renderSectionHeader = ({section}) =>
-    <View style={styles.sectionView}>
-      <Text style={styles.sectionText}>
+    <View style={globalStyles.sectionView}>
+      <Text style={globalStyles.sectionText}>
         {section.title}
       </Text>
     </View>;
@@ -98,14 +97,3 @@ export class TransactionListScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  sectionView: {backgroundColor: colors.banner, paddingVertical: 2},
-
-  sectionText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-    paddingLeft: 16
-  }
-});

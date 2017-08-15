@@ -36,5 +36,17 @@ export const globalStyles = StyleSheet.create({
 
   headerTitle: {
     color: colors.bannerText
+  },
+
+  sectionView: {
+    backgroundColor: colors.banner,
+    paddingVertical: 2
+  },
+
+  sectionText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+    paddingLeft: 16
   }
 });
