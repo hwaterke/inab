@@ -25,17 +25,18 @@ import {arraySelector, resourceForm} from 'hw-react-shared';
 /**
  * Component used for rendering the subtransaction forms
  */
-const renderSubtransactions = ({fields, categories}) => (
+const renderSubtransactions = ({fields, categories}) =>
   <div>
-    {fields.map((subtransaction, index) => (
+    {fields.map((subtransaction, index) =>
       <div key={index} className="tr-form-container">
-
         <div />
         <div />
 
         <div>
           <div className="btn-group btn-group-sm">
-            <Button>{index + 1}</Button>
+            <Button>
+              {index + 1}
+            </Button>
             <ButtonDelete onClick={() => fields.remove(index)} />
           </div>
         </div>
@@ -68,9 +69,8 @@ const renderSubtransactions = ({fields, categories}) => (
             placeholder="Amount"
           />
         </div>
-
       </div>
-    ))}
+    )}
     <div className="tr-form-container str-form-container">
       <div />
       <div />
@@ -83,8 +83,7 @@ const renderSubtransactions = ({fields, categories}) => (
       <div />
       <div />
     </div>
-  </div>
-);
+  </div>;
 
 renderSubtransactions.propTypes = {
   fields: PropTypes.object.isRequired,
@@ -149,7 +148,6 @@ class TransactionForm extends Component {
     return (
       <form className="box-container">
         <div className="tr-form-container">
-
           <div>
             <label>Account</label>
             <Field
@@ -210,6 +208,7 @@ class TransactionForm extends Component {
               component="input"
               className="form-control"
               type="number"
+              step="0.01"
               placeholder="Amount"
             />
           </div>
@@ -230,7 +229,6 @@ class TransactionForm extends Component {
           remove={this.props.deleteResource}
           cancel={this.props.onCancel}
         />
-
       </form>
     );
   }

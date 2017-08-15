@@ -51,7 +51,8 @@ export class BudgetItemForm extends React.Component {
           className="form-control"
           onBlur={this.props.onBlur}
           component="input"
-          type="text"
+          type="number"
+          step="0.01"
           placeholder="Amount"
           autoFocus
         />
