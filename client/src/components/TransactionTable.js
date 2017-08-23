@@ -79,7 +79,11 @@ class TransactionTable extends React.Component {
           formatters: [
             (payee, extra) => {
               if (extra.rowData.is_transfer) {
-                return <div><FontAwesome name="exchange" /> {payee}</div>;
+                return (
+                  <div>
+                    <FontAwesome name="exchange" /> {payee}
+                  </div>
+                );
               }
               return payee;
             }
@@ -90,6 +94,20 @@ class TransactionTable extends React.Component {
         property: 'category',
         header: {
           label: 'Category'
+        },
+        cell: {
+          formatters: [
+            (category, extra) => {
+              if (!category && !extra.rowData.is_transfer) {
+                return (
+                  <div className="no-category">
+                    <FontAwesome name="exclamation-triangle" /> No category
+                  </div>
+                );
+              }
+              return category;
+            }
+          ]
         }
       },
       {
@@ -105,11 +123,14 @@ class TransactionTable extends React.Component {
         },
         cell: {
           formatters: [
-            tags => (
+            tags =>
               <div className="table-tags">
-                {tags.map(t => <span key={t.name}>{t.name}</span>)}
+                {tags.map(t =>
+                  <span key={t.name}>
+                    {t.name}
+                  </span>
+                )}
               </div>
-            )
           ]
         }
       },
