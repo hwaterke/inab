@@ -57,15 +57,4 @@ class Transaction < Sequel::Model
   def transfer?
     not transfer_account.nil?
   end
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at ||= self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at ||= Time.now
-    super
-  end
 end

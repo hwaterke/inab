@@ -11,15 +11,4 @@ end
 class Category < Sequel::Model
   many_to_one :user, key: :user_uuid
   many_to_one :category_group, key: :category_group_uuid
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at ||= self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at ||= Time.now
-    super
-  end
 end

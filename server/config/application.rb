@@ -9,6 +9,7 @@ $stdout.sync = true if ENV['RACK_ENV'] == 'development'
 
 DB = (ENV['RACK_ENV'] == 'production') ? Sequel.sqlite('/db/budget.db') : Sequel.sqlite
 Sequel::Model.plugin :uuid
+Sequel::Model.plugin :timestamps, update_on_create: true
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
 
 require 'roar/json'

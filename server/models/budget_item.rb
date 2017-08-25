@@ -23,17 +23,6 @@ class BudgetItem < Sequel::Model
     errors.add(:month, 'must be first day of the month') unless month.day == 1
     errors.add(:amount, 'cannot be 0') if amount == 0
   end
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at ||= self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at ||= Time.now
-    super
-  end
 end
 
 BudgetItem.unrestrict_primary_key

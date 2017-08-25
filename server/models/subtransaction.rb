@@ -13,15 +13,4 @@ end
 class Subtransaction < Sequel::Model
   many_to_one :category, key: :category_uuid
   many_to_one :transaction, key: :transaction_uuid
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at ||= self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at ||= Time.now
-    super
-  end
 end

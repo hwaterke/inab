@@ -18,7 +18,7 @@ module INAB
       property :uuid
       property :date
       property :time
-      property :payee
+      property :payee_uuid
       property :description
       property :amount
       property :category_uuid
@@ -39,7 +39,7 @@ module INAB
         params :instance_params do
           requires :date, type: Date, desc: 'The date at which the Transaction took place'
           optional :time, type: Time, desc: 'The time at which the Transaction took place'
-          optional :payee, type: String, desc: 'The payee of the Transaction'
+          optional :payee_uuid, type: String, desc: 'The uuid of the Payee'
           optional :description, type: String, desc: 'The description of the Transaction'
           optional :amount, type: Integer, desc: 'The amount of the Transaction in cents'
           optional :category_uuid, type: String, desc: 'The uuid of the Category'
