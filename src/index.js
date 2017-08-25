@@ -6,6 +6,8 @@ import type {Category} from './entities/Category';
 import {CategoryResource} from './entities/Category';
 import type {CategoryGroup} from './entities/CategoryGroup';
 import {CategoryGroupResource} from './entities/CategoryGroup';
+import type {Payee} from './entities/Payee';
+import {PayeeResource} from './entities/Payee';
 import type {Transaction} from './entities/Transaction';
 import {TransactionResource} from './entities/Transaction';
 import {
@@ -48,12 +50,14 @@ import {
   selectBalanceByAccountId,
   getBudgetBalance
 } from './selectors/budget';
+import {getSortedPayees} from './selectors/payees';
 
 export {
   AccountResource,
   BudgetItemResource,
   CategoryResource,
   CategoryGroupResource,
+  PayeeResource,
   TransactionResource,
   resourcesReducer,
   selectedMonthReducer,
@@ -66,11 +70,11 @@ export {
   getBudgetItemsSumUpToPreviousMonth,
   selectCategoriesByGroupId,
   getSortedCategoryGroups,
+  getSortedPayees,
   getSortedTransactions,
   transactionsInMonth,
   transactionsUpToMonth,
   getToBeBudgetedSumUpToSelectedMonth,
-  getPayees,
   flattenTransactions,
   getBudgetBalance,
   selectBalanceByAccountId,
@@ -88,4 +92,4 @@ export {
   amountFromCents
 };
 
-export type {Account, BudgetItem, Category, CategoryGroup, Transaction};
+export type {Account, BudgetItem, Category, CategoryGroup, Transaction, Payee};

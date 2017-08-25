@@ -3,6 +3,7 @@ import {AccountResource} from '../entities/Account';
 import {CategoryResource} from '../entities/Category';
 import {CategoryGroupResource} from '../entities/CategoryGroup';
 import {BudgetItemResource} from '../entities/BudgetItem';
+import {PayeeResource} from '../entities/Payee';
 import {TransactionResource} from '../entities/Transaction';
 
 export const resourcesReducer = reducersForResources([
@@ -10,5 +11,6 @@ export const resourcesReducer = reducersForResources([
   CategoryResource,
   CategoryGroupResource,
   BudgetItemResource,
+  PayeeResource,
   TransactionResource
 ]);

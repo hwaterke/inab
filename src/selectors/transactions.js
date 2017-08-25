@@ -34,13 +34,6 @@ export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
     sumOfAmounts(transactions.filter(t => t.type === 'to_be_budgeted'))
 );
 
-export const getPayees = createSelector(
-  arraySelector(TransactionResource),
-  (transactions: Transaction[]) => [
-    ...new Set(transactions.filter(t => t.payee != null).map(t => t.payee))
-  ]
-);
-
 /**
  * Flattens a series of transactions to an array of [date, category_uuid, amount] including both transactions and subtransactions.
  */
