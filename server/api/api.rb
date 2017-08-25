@@ -27,6 +27,7 @@ module INAB
     mount ::INAB::Entities::Accounts
     mount ::INAB::Entities::CategoryGroups
     mount ::INAB::Entities::Categories
+    mount ::INAB::Entities::Payees
     mount ::INAB::Entities::BudgetItems
     mount ::INAB::Entities::Transactions
   end

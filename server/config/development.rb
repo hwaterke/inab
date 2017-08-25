@@ -30,12 +30,17 @@ BudgetItem.create(
   month: Time.new(Time.now.year, Time.now.month)
 )
 
+proximus = Payee.create(name: 'Proximus', user: user)
+work = Payee.create(name: 'Work', user: user)
+
+Location.create(payee: proximus, latitude: 50.860139, longitude: 4.358062)
+
 # Regular transaction
 mtr = Transaction.create(
   user: user,
   date: Time.now,
   time: Time.now,
-  payee: 'Proximus',
+  payee: proximus,
   description: 'Phone invoice',
   amount: -1500,
   category: phone,
@@ -50,7 +55,7 @@ mtr.add_tag({:name => 'Tag2'})
 Transaction.create(
   user: user,
   date: Time.now,
-  payee: 'Work',
+  payee: work,
   description: 'Paycheck',
   amount: 50000,
   account: a,
