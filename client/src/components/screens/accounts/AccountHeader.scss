@@ -1,14 +1,7 @@
-@import "../styles/variables";
-@import "../styles/mixins";
-
-.account-header-container {
-  background-color: $front-background-color;
-  border-bottom: 1px solid $border-color;
-}
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
 
 .account-header {
-  @include container;
-  @include paddingHorizontal;
   @include paddingVertical;
   display: flex;
   align-items: center;

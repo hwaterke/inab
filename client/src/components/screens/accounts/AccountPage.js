@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import AccountHeader from './AccountHeader';
-import TransactionContainer from './TransactionContainer';
+import {AccountHeader} from './AccountHeader';
+import TransactionContainer from '../../TransactionContainer';
 import {byIdSelector} from 'hw-react-shared';
 import {AccountResource, getBudgetBalance, selectBalanceByAccountId} from 'inab-shared';
-import {setFilter} from '../reducers/filters';
-import {Filter} from '../entities/Filter';
+import {setFilter} from '../../../reducers/filters';
+import {Filter} from '../../../entities/Filter';
 
 const mapStateToProps = (state, ownProps) => {
   let title = 'All';

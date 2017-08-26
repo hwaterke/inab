@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {arraySelector} from 'hw-react-shared';
 import {PayeeResource} from 'inab-shared';
 import {Link} from 'react-router-dom';
-import './PayeeList.scss';
 
 const mapStateToProps = (state, ownProps) => ({
   payees: arraySelector(PayeeResource)(state)
@@ -20,15 +19,21 @@ export class PayeeList extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-8">
-            <div className="payee-box">
+          <div className="col-sm-8">
+            <div className="box">
               <h4>Payees</h4>
+
+              <div className="my-3">
+                <Link to="/payees/new" className="btn btn-primary">
+                  New payee
+                </Link>
+              </div>
 
               <div className="list-group">
                 {this.props.payees.map(payee =>
                   <Link
                     key={payee.uuid}
-                    to={`/payees/${payee.uuid}`}
+                    to={`/payees/edit/${payee.uuid}`}
                     className="list-group-item list-group-item-action"
                   >
                     {payee.name}
@@ -38,9 +43,15 @@ export class PayeeList extends React.Component {
             </div>
           </div>
 
-          <div className="col">
-            <div className="payee-box">
-              <h4>Payees</h4>
+          <div className="col-sm-4">
+            <div className="box">
+              <h4>Statistics</h4>
+              <h5>
+                {this.props.payees.length} payees
+              </h5>
+              <h5>
+                {this.props.payees.reduce((acc, v) => acc + v.locations.length, 0)} locations
+              </h5>
             </div>
           </div>
         </div>
