@@ -6,9 +6,15 @@ import Amount from './Amount';
 import {connect} from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
-import {Link as RouterLink} from 'react-router';
+import {Link as RouterLink} from 'react-router-dom';
 import {AccountResource, selectBalanceByAccountId, getBudgetBalance} from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
+
+const mapStateToProps = state => ({
+  accounts: arraySelector(AccountResource)(state),
+  balanceByAccountId: selectBalanceByAccountId(state),
+  budgetBalance: getBudgetBalance(state)
+});
 
 @ui({
   state: {
@@ -16,7 +22,8 @@ import {arraySelector} from 'hw-react-shared';
     accountSelected: null
   }
 })
-class Header extends React.Component {
+@connect(mapStateToProps)
+export class Header extends React.Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
@@ -27,13 +34,11 @@ class Header extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-full navbar-dark bg-inverse">
-
         <RouterLink className="navbar-brand" to="/">
           INAB
         </RouterLink>
 
         <ul className="nav navbar-nav">
-
           <li className="nav-item">
             <RouterLink className="nav-link" to="/budget">
               Budget
@@ -41,7 +46,6 @@ class Header extends React.Component {
           </li>
 
           <li className="nav-item dropdown">
-
             <a
               className="nav-link dropdown-toggle"
               href="#"
@@ -54,7 +58,6 @@ class Header extends React.Component {
             </a>
 
             <div className="dropdown-menu" aria-labelledby="supportedContentDropdown">
-
               <RouterLink className="apart dropdown-item" to="/account">
                 <span>All&nbsp;</span>
                 <Amount amount={this.props.budgetBalance} color />
@@ -72,7 +75,9 @@ class Header extends React.Component {
                         key={account.uuid}
                         to={`/account/${account.uuid}`}
                       >
-                        <span>{account.name}&nbsp;</span>
+                        <span>
+                          {account.name}&nbsp;
+                        </span>
                         <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
                       </RouterLink>
               )}
@@ -93,11 +98,3 @@ class Header extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state),
-  balanceByAccountId: selectBalanceByAccountId(state),
-  budgetBalance: getBudgetBalance(state)
-});
-
-export default connect(mapStateToProps)(Header);

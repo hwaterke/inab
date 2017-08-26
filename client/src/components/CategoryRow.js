@@ -5,7 +5,7 @@ import Amount from './Amount';
 import ui from 'redux-ui';
 import {BudgetItemForm} from './BudgetItemForm';
 import FontAwesome from 'react-fontawesome';
-import {Link as RouterLink} from 'react-router';
+import {Link as RouterLink} from 'react-router-dom';
 import {CategoryResource, BudgetItemResource, getSelectedMonthMoment} from 'inab-shared';
 import {connect} from 'react-redux';
 
@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 @ui()
 @connect(mapStateToProps)
-export default class CategoryRow extends React.Component {
+export class CategoryRow extends React.Component {
   constructor(props) {
     super(props);
     this.editBudgetItem = this.editBudgetItem.bind(this);

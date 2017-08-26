@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BudgetTable from './BudgetTable';
+import {BudgetTable} from './BudgetTable';
 import ui from 'redux-ui';
 import Amount from './Amount';
 import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
@@ -48,7 +48,6 @@ export default class BudgetPage extends React.Component {
         <div className="budget-header">
           <MonthSelector />
           <div className="budget-header-amounts">
-
             <div className="budget-header-amounts-available">
               <Amount amount={this.props.availableToBudget} color />
               <div>Available to budget</div>

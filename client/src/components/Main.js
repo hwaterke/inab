@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Header from './Header';
+import {Header} from './Header';
 import {EntityLoader} from './EntityLoader';
 import ErrorList from './ErrorList';
 import {LoginDispatcher} from './LoginDispatcher';
+import {Switch, Route} from 'react-router-dom';
+import LandingPage from './LandingPage';
+import BudgetPage from './Budget';
+import {AccountPage} from './AccountPage';
 
-export default class Main extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired
-  };
-
+export class Main extends React.Component {
   render() {
     return (
       <div>
@@ -17,7 +16,12 @@ export default class Main extends React.Component {
           <Header />
           <ErrorList />
           <EntityLoader>
-            {this.props.children}
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route path="/budget" component={BudgetPage} />
+              <Route exact path="/account/:uuid?" component={AccountPage} />
+              <Route path="/account/:date/:category_uuid" component={AccountPage} />
+            </Switch>
           </EntityLoader>
         </LoginDispatcher>
       </div>
