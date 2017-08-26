@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {BudgetTable} from './BudgetTable';
+import {BudgetTable} from '../../BudgetTable';
 import ui from 'redux-ui';
-import Amount from './Amount';
-import CategoryGroupFormDialog from './forms/CategoryGroupFormDialog';
-import CategoryFormDialog from './forms/CategoryFormDialog';
-import MonthSelector from './MonthSelector';
+import Amount from '../../Amount';
+import CategoryGroupFormDialog from '../../forms/CategoryGroupFormDialog';
+import CategoryFormDialog from '../../forms/CategoryFormDialog';
+import MonthSelector from '../../MonthSelector';
 import {connect} from 'react-redux';
-import './Budget.scss';
+import '../../Budget.scss';
 import {
   getAvailableToBudget,
   getFundsForSelectedMonth,
@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
   }
 })
 @connect(mapStateToProps)
-export default class BudgetPage extends React.Component {
+export class BudgetPage extends React.Component {
   static propTypes = {
     availableToBudget: PropTypes.number.isRequired,
     fundsAvailable: PropTypes.number.isRequired,

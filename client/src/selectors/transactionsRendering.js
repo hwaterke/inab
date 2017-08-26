@@ -1,7 +1,13 @@
 import {createSelector} from 'reselect';
 import R from 'ramda';
 import {byIdSelector} from 'hw-react-shared';
-import {AccountResource, CategoryResource, getSortedTransactions, getPayees} from 'inab-shared';
+import {
+  AccountResource,
+  CategoryResource,
+  getSortedTransactions,
+  getPayees,
+  PayeeResource
+} from 'inab-shared';
 
 const getMirrorTransfer = transaction => {
   const mirror = Object.assign({}, transaction);
@@ -19,7 +25,8 @@ export const getTransactionsForRendering = createSelector(
   getSortedTransactions,
   byIdSelector(AccountResource),
   byIdSelector(CategoryResource),
-  (transactions, accountsById, categoriesById) => {
+  byIdSelector(PayeeResource),
+  (transactions, accountsById, categoriesById, payeeById) => {
     const result = [];
 
     transactions.forEach(tr => {
@@ -27,12 +34,16 @@ export const getTransactionsForRendering = createSelector(
         ...tr,
         key: tr.uuid,
         account: accountsById[tr.account_uuid].name,
-        payee: tr.payee ||
-          (tr.transfer_account_uuid && accountsById[tr.transfer_account_uuid].name),
         is_transfer: !!tr.transfer_account_uuid,
         tagsForSearch: tr.tags.map(t => t.name).join(',')
       };
       tr_result.display_date = tr.date;
+
+      if (tr.payee_uuid) {
+        tr_result.payee = payeeById[tr.payee_uuid].name;
+      } else if (tr.transfer_account_uuid) {
+        tr_result.payee = accountsById[tr.transfer_account_uuid].name;
+      }
 
       if (tr.type === 'to_be_budgeted') {
         tr_result.category = 'To be budgeted';
