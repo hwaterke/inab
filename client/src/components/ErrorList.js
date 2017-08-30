@@ -11,18 +11,18 @@ class ErrorDialog extends React.Component {
   };
 
   render() {
-    if (this.props.errors.length == 0) {
+    if (this.props.errors.length === 0) {
       return null;
     }
 
     return (
       <div className="box-container">
         <ul className="list-group">
-          {this.props.errors.map((err, i) => (
+          {this.props.errors.map((err, i) =>
             <li key={i} className="list-group-item list-group-item-danger">
               {err}
             </li>
-          ))}
+          )}
         </ul>
         <ButtonCheck onClick={this.props.dismissErrors} />
       </div>

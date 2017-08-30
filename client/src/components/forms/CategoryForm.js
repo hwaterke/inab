@@ -76,7 +76,7 @@ class CategoryForm extends React.Component {
 }
 
 const formToResource = data => {
-  return {...data, priority: parseInt(data.priority)};
+  return {...data, priority: parseInt(data.priority, 10)};
 };
 
 export default resourceForm(crud, CategoryResource, formToResource)(CategoryForm);

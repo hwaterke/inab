@@ -137,7 +137,7 @@ class TransactionContainer extends React.Component {
 
   render() {
     const transactionsToRender = this.getTransactionsToRender();
-    const total = sumOfAmounts(transactionsToRender.filter(tr => tr.type != 'split'));
+    const total = sumOfAmounts(transactionsToRender.filter(tr => tr.type !== 'split'));
 
     return (
       <div>
@@ -152,7 +152,6 @@ class TransactionContainer extends React.Component {
           />}
 
         <div className="box-container">
-
           <TransactionToolbar
             selectedRows={this.props.ui.selected}
             clearSelection={this.clearSelection}
@@ -176,7 +175,6 @@ class TransactionContainer extends React.Component {
           />
 
           <TransactionTotalAmount amount={total} />
-
         </div>
       </div>
     );

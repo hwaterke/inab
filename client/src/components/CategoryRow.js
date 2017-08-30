@@ -45,7 +45,7 @@ export class CategoryRow extends React.Component {
 
   render() {
     let budgetCell;
-    if (this.props.ui.editingCategoryId == this.props.category.uuid) {
+    if (this.props.ui.editingCategoryId === this.props.category.uuid) {
       budgetCell = (
         <Cell className="right">
           <BudgetItemForm
