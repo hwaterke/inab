@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
-import SimpleSelectField from './fields/SimpleSelectField';
+import {SimpleSelectField} from './fields/SimpleSelectField';
 import {CategoryResource, CategoryGroupResource} from 'inab-shared';
 import {FormActionBar} from './FormActionBar';
 import {arraySelector, resourceForm} from 'hw-react-shared';
@@ -29,7 +29,6 @@ class CategoryForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-
         <div className="form-group">
           <label>Category group</label>
           <Field
@@ -71,7 +70,6 @@ class CategoryForm extends React.Component {
           reset={this.props.reset}
           remove={this.props.deleteResource}
         />
-
       </form>
     );
   }

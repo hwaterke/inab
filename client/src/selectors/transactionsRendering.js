@@ -1,13 +1,7 @@
 import {createSelector} from 'reselect';
 import R from 'ramda';
 import {byIdSelector} from 'hw-react-shared';
-import {
-  AccountResource,
-  CategoryResource,
-  getSortedTransactions,
-  getPayees,
-  PayeeResource
-} from 'inab-shared';
+import {AccountResource, CategoryResource, getSortedTransactions, PayeeResource} from 'inab-shared';
 
 const getMirrorTransfer = transaction => {
   const mirror = Object.assign({}, transaction);
@@ -86,8 +80,8 @@ export const getTransactionsForRendering = createSelector(
 export const getTransactionColumns = createSelector(
   byIdSelector(AccountResource),
   byIdSelector(CategoryResource),
-  getPayees,
-  (accountsById, categoriesById, payees) => ({
+  byIdSelector(PayeeResource),
+  (accountsById, categoriesById, payeesById) => ({
     account: {
       label: 'Account',
       type: 'text',
@@ -113,7 +107,7 @@ export const getTransactionColumns = createSelector(
     payee: {
       label: 'Payee',
       type: 'text',
-      options: payees
+      options: R.map(R.prop('name'), payeesById)
     }
   })
 );

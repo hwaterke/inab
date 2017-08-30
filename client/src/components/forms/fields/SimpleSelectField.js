@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import {SimpleSelect} from 'react-selectize';
 import './SimpleSelect.scss';
 
-const SimpleSelectField = ({placeholder, disabled, options, input}) => (
+export const SimpleSelectField = ({placeholder, disabled, options, input}) =>
   <SimpleSelect
     placeholder={placeholder}
     disabled={disabled}
     options={options}
-    value={options.find(i => i.value == input.value)}
+    value={options.find(i => i.value === input.value)}
     onValueChange={item => input.onChange(item ? item.value : null)}
-  />
-);
+  />;
 
 SimpleSelectField.propTypes = {
   placeholder: PropTypes.string,
@@ -27,5 +26,3 @@ SimpleSelectField.propTypes = {
     onChange: PropTypes.func.isRequired
   }).isRequired
 };
-
-export default SimpleSelectField;
