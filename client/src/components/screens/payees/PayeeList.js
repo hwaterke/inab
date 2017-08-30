@@ -34,9 +34,14 @@ export class PayeeList extends React.Component {
                   <Link
                     key={payee.uuid}
                     to={`/payees/edit/${payee.uuid}`}
-                    className="list-group-item list-group-item-action"
+                    className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                   >
-                    {payee.name}
+                    <span>
+                      {payee.name}
+                    </span>
+                    <span className="badge badge-secondary badge-pill">
+                      {payee.locations.length}
+                    </span>
                   </Link>
                 )}
               </div>
