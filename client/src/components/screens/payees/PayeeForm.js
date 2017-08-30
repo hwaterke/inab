@@ -1,17 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Field} from 'redux-form';
+import {Field, FieldArray} from 'redux-form';
 import {FormActionBar} from '../../forms/FormActionBar';
 import {resourceForm} from 'hw-react-shared';
 import {PayeeResource} from 'inab-shared';
 import {crud} from '../../../hoc/crud';
+import ButtonCheck from '../../ButtonCheck';
+import ButtonDelete from '../../ButtonDelete';
 
-function formToResource(formData, formProps) {
-  return {
-    ...formData,
-    locations: (formProps.updatedResource && formProps.updatedResource.locations) || []
-  };
+function formToResource(formData) {
+  if (formData.locations) {
+    return {
+      ...formData,
+      locations: formData.locations.map(location => ({
+        longitude: Number(location.longitude),
+        latitude: Number(location.latitude)
+      }))
+    };
+  }
+  return {...formData, locations: []};
 }
+
+const renderLocations = ({fields}) =>
+  <div>
+    <ButtonCheck onClick={() => fields.push()}>Add location</ButtonCheck>
+
+    <div className="d-flex flex-wrap">
+      {fields.map((location, index) =>
+        <div className="card m-3" key={index} style={{maxWidth: '20rem'}}>
+          <div className="card-body">
+            <div className="form-group">
+              <label>Latitude</label>
+              <Field
+                name={`${location}.latitude`}
+                type="number"
+                component="input"
+                className="form-control"
+                placeholder="Latitude"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Longitude</label>
+              <Field
+                name={`${location}.longitude`}
+                type="number"
+                component="input"
+                className="form-control"
+                placeholder="Longitude"
+              />
+            </div>
+
+            <ButtonDelete onClick={() => fields.remove(index)} />
+          </div>
+        </div>
+      )}
+    </div>
+  </div>;
+
+renderLocations.propTypes = {
+  fields: PropTypes.object.isRequired
+};
 
 @resourceForm(crud, PayeeResource, formToResource)
 export class PayeeForm extends React.Component {
@@ -37,6 +86,11 @@ export class PayeeForm extends React.Component {
             className="form-control"
             placeholder="Name"
           />
+        </div>
+
+        <div className="form-group">
+          <label>Locations</label>
+          <FieldArray name="locations" component={renderLocations} />
         </div>
 
         <FormActionBar
