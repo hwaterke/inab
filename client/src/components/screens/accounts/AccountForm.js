@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
-import {FormActionBar} from './FormActionBar';
-import {AccountResource} from 'inab-shared';
+import {FormActionBar} from '../../forms/FormActionBar';
 import {resourceForm} from 'hw-react-shared';
-import {crud} from '../../hoc/crud';
+import {AccountResource} from 'inab-shared';
+import {crud} from '../../../hoc/crud';
 
-class AccountForm extends React.Component {
+@resourceForm(crud, AccountResource)
+export class AccountForm extends React.Component {
   static propTypes = {
-    updatedResource: AccountResource.propType,
+    handleSubmit: PropTypes.func.isRequired,
     isCreate: PropTypes.bool.isRequired,
     isUpdate: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -21,7 +21,6 @@ class AccountForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-
         <div className="form-group">
           <label>Name</label>
           <Field
@@ -30,7 +29,6 @@ class AccountForm extends React.Component {
             type="text"
             className="form-control"
             placeholder="Name"
-            autoFocus
           />
         </div>
 
@@ -42,10 +40,7 @@ class AccountForm extends React.Component {
           reset={this.props.reset}
           remove={this.props.deleteResource}
         />
-
       </form>
     );
   }
 }
-
-export default resourceForm(crud, AccountResource)(AccountForm);

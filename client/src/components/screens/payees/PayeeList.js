@@ -5,7 +5,7 @@ import {arraySelector} from 'hw-react-shared';
 import {PayeeResource} from 'inab-shared';
 import {Link} from 'react-router-dom';
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   payees: arraySelector(PayeeResource)(state)
 });
 

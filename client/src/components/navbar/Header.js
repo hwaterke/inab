@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AccountFormDialog from '../forms/AccountFormDialog';
 import Link from '../Link';
 import Amount from '../Amount';
 import {connect} from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-import ui from 'redux-ui';
 import {Link as RouterLink} from 'react-router-dom';
 import {AccountResource, selectBalanceByAccountId, getBudgetBalance} from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
@@ -16,12 +14,6 @@ const mapStateToProps = state => ({
   budgetBalance: getBudgetBalance(state)
 });
 
-@ui({
-  state: {
-    accountFormOpen: false,
-    accountSelected: null
-  }
-})
 @connect(mapStateToProps)
 export class Header extends React.Component {
   static propTypes = {
@@ -103,14 +95,9 @@ export class Header extends React.Component {
 
                   <div role="separator" className="dropdown-divider" />
 
-                  <Link
-                    className="dropdown-item"
-                    onClick={() =>
-                      this.props.updateUI({accountFormOpen: true, accountSelected: null})}
-                  >
-                    Add account
-                  </Link>
-                  <AccountFormDialog />
+                  <RouterLink className="dropdown-item" to="/accounts">
+                    Manage accounts
+                  </RouterLink>
                 </div>
               </li>
             </ul>
