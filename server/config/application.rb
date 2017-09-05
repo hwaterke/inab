@@ -16,6 +16,7 @@ require 'roar/json'
 
 # Load all models
 require_relative File.join('..', 'auth', 'models', 'users')
+require_relative File.join('..', 'models', 'system_setting')
 require_relative File.join('..', 'models', 'account')
 require_relative File.join('..', 'models', 'category_group')
 require_relative File.join('..', 'models', 'category')
@@ -25,6 +26,10 @@ require_relative File.join('..', 'models', 'location')
 require_relative File.join('..', 'models', 'transaction_tags')
 require_relative File.join('..', 'models', 'transaction')
 require_relative File.join('..', 'models', 'subtransaction')
+
+# Set schema version if not done
+schema_version = SystemSetting.with_pk 'schema_version'
+SystemSetting.create(key: 'schema_version', value: '1') unless schema_version
 
 require_relative '../auth/bootstrap'
 
