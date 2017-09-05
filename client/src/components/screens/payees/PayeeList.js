@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {arraySelector} from 'hw-react-shared';
-import {PayeeResource} from 'inab-shared';
+import {PayeeResource, getSortedPayees} from 'inab-shared';
 import {Link} from 'react-router-dom';
 
 const mapStateToProps = state => ({
-  payees: arraySelector(PayeeResource)(state)
+  payees: getSortedPayees(state)
 });
 
 @connect(mapStateToProps)
