@@ -28,7 +28,9 @@ describe INAB::Entities::Transactions do
           date: '2017-01-01',
           amount: 100,
           account_uuid: account_uuid,
-          type: 'regular'
+          type: 'regular',
+          tags: [],
+          subtransactions: []
         }
         expect(last_response.status).to eq(201)
         expect(JSON.parse(last_response.body)).to include(
@@ -54,7 +56,8 @@ describe INAB::Entities::Transactions do
             {name: 'Tag 1'},
             {name: 'Tag 2'}
           ],
-          type: 'regular'
+          type: 'regular',
+          subtransactions: []
         }
         expect(last_response.status).to eq(201)
         expect(JSON.parse(last_response.body)).to include(

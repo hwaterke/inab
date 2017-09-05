@@ -43,12 +43,12 @@ describe INAB::Entities::BudgetItems do
 
         category_uuid = Category.first(name: 'Harold Category 1').uuid
 
-        post_json '/api/budget_items', {
+        patch_json "/api/budget_items/2017-01-01-#{category_uuid}", {
           month: '2017-01-01',
           amount: 800,
           category_uuid: category_uuid
         }
-        expect(last_response.status).to eq(201)
+        expect(last_response.status).to eq(200)
         expect(JSON.parse(last_response.body)).to include(
           'uuid' => "2017-01-01-#{category_uuid}",
           'amount' => 800,

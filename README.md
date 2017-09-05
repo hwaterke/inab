@@ -44,6 +44,20 @@ Simply go to the server folder and run `docker-compose up`
 
 Serving the frontend i.e. the content of the `build` folder to your client is then left to you.
 
+### Migrate database
+
+If you've been using a previous version of INAB, you will need t migrate your database.
+Make a copy of your existing database e.g. old_database.db.
+Start the new version of INAB and let it create a new (empty) database.
+
+Run the following:
+
+```
+docker run --rm -v $(pwd):/app/migration/dbs hwaterke/inab-migration dbs/old_database.db dbs/new_database.db
+```
+
+This will migrate all the data in the old database to the new database that you can then use with the latest version of INAB.
+
 ### Development
 If you want to contribute and help developing INAB, you can use the development configuration.
 

@@ -1,14 +1,11 @@
-@import "../styles/variables";
-@import "../styles/mixins";
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
 
 .budget-header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-
-  background-color: $front-background-color;
-  border-bottom: 1px solid $border-color;
 }
 
 .budget-header-amounts {

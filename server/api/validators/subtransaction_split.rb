@@ -18,11 +18,11 @@ class SubtransactionSplit < Grape::Validations::Base
   end
 
   def split?(params)
-    params.type == :split
+    params.respond_to?(:type) and params.type == :split
   end
 
   def number_of_subtransactions(params)
-    if params.subtransactions
+    if params.respond_to?(:subtransactions)
       params.subtransactions.size
     else
       0

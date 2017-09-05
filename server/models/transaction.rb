@@ -5,7 +5,7 @@ DB.create_table? :transactions do
   Date :date, null: false
   Time :time, only_time: true
 
-  String :payee
+  foreign_key :payee_uuid, :payees, type: 'uuid'
 
   String :description
 
@@ -39,6 +39,7 @@ class Transaction < Sequel::Model
   many_to_one :user, key: :user_uuid
   many_to_one :category, key: :category_uuid
   many_to_one :account, key: :account_uuid
+  many_to_one :payee, key: :payee_uuid
   many_to_one :transfer_account, class: Account, key: :transfer_account_uuid
   one_to_many :subtransactions, key: :transaction_uuid
   one_to_many :tags, class: TransactionTag, key: :transaction_uuid
@@ -55,16 +56,5 @@ class Transaction < Sequel::Model
 
   def transfer?
     not transfer_account.nil?
-  end
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at ||= self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at ||= Time.now
-    super
   end
 end

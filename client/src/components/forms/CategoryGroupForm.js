@@ -21,7 +21,6 @@ class CategoryGroupForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-
         <div className="form-group">
           <label>Name</label>
           <Field
@@ -53,14 +52,13 @@ class CategoryGroupForm extends React.Component {
           reset={this.props.reset}
           remove={this.props.deleteResource}
         />
-
       </form>
     );
   }
 }
 
 const formToResource = data => {
-  return {...data, priority: parseInt(data.priority)};
+  return {...data, priority: parseInt(data.priority, 10)};
 };
 
 export default resourceForm(crud, CategoryGroupResource, formToResource)(CategoryGroupForm);

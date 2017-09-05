@@ -9,19 +9,27 @@ $stdout.sync = true if ENV['RACK_ENV'] == 'development'
 
 DB = (ENV['RACK_ENV'] == 'production') ? Sequel.sqlite('/db/budget.db') : Sequel.sqlite
 Sequel::Model.plugin :uuid
+Sequel::Model.plugin :timestamps, update_on_create: true
 DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
 
 require 'roar/json'
 
 # Load all models
 require_relative File.join('..', 'auth', 'models', 'users')
+require_relative File.join('..', 'models', 'system_setting')
 require_relative File.join('..', 'models', 'account')
 require_relative File.join('..', 'models', 'category_group')
 require_relative File.join('..', 'models', 'category')
 require_relative File.join('..', 'models', 'budget_item')
+require_relative File.join('..', 'models', 'payee')
+require_relative File.join('..', 'models', 'location')
 require_relative File.join('..', 'models', 'transaction_tags')
 require_relative File.join('..', 'models', 'transaction')
 require_relative File.join('..', 'models', 'subtransaction')
+
+# Set schema version if not done
+schema_version = SystemSetting.with_pk 'schema_version'
+SystemSetting.create(key: 'schema_version', value: '1') unless schema_version
 
 require_relative '../auth/bootstrap'
 

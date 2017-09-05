@@ -6,7 +6,8 @@ import {
   CategoryResource,
   CategoryGroupResource,
   BudgetItemResource,
-  TransactionResource
+  TransactionResource,
+  PayeeResource
 } from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
 import {crud} from '../hoc/crud';
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   categories: arraySelector(CategoryResource)(state),
   categoryGroups: arraySelector(CategoryGroupResource)(state),
   budgetItems: arraySelector(BudgetItemResource)(state),
+  payees: arraySelector(PayeeResource)(state),
   transactions: arraySelector(TransactionResource)(state)
 });
 
@@ -28,6 +30,7 @@ export class EntityLoader extends React.Component {
     categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
     budgetItems: PropTypes.arrayOf(BudgetItemResource.propType).isRequired,
+    payees: PropTypes.arrayOf(PayeeResource.propType).isRequired,
     transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
     fetchAll: PropTypes.func.isRequired,
     children: PropTypes.node
@@ -35,7 +38,7 @@ export class EntityLoader extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {fetching: 5};
+    this.state = {fetching: 6};
   }
 
   decrementFetch() {
@@ -43,19 +46,22 @@ export class EntityLoader extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.accounts.length == 0) {
+    if (this.props.accounts.length === 0) {
       this.props.fetchAll(AccountResource).then(() => this.decrementFetch());
     }
-    if (this.props.categoryGroups.length == 0) {
+    if (this.props.categoryGroups.length === 0) {
       this.props.fetchAll(CategoryGroupResource).then(() => this.decrementFetch());
     }
-    if (this.props.categories.length == 0) {
+    if (this.props.categories.length === 0) {
       this.props.fetchAll(CategoryResource).then(() => this.decrementFetch());
     }
-    if (this.props.budgetItems.length == 0) {
+    if (this.props.budgetItems.length === 0) {
       this.props.fetchAll(BudgetItemResource).then(() => this.decrementFetch());
     }
-    if (this.props.transactions.length == 0) {
+    if (this.props.payees.length === 0) {
+      this.props.fetchAll(PayeeResource).then(() => this.decrementFetch());
+    }
+    if (this.props.transactions.length === 0) {
       this.props.fetchAll(TransactionResource).then(() => this.decrementFetch());
     }
   }

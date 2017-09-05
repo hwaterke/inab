@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './TransactionForm.scss';
 import {Field, FieldArray, formValueSelector} from 'redux-form';
-import SimpleSelectField from './fields/SimpleSelectField';
+import {SimpleSelectField} from './fields/SimpleSelectField';
 import {connect} from 'react-redux';
 import DatePickerField from './fields/DatePickerField';
-import SimpleSelectCreateField from './fields/SimpleSelectCreateField';
 import ButtonDelete from '../ButtonDelete';
 import ButtonIcon from '../ButtonIcon';
 import Button from '../Button';
@@ -18,7 +17,8 @@ import {
   CategoryResource,
   amountToCents,
   amountFromCents,
-  getPayees
+  PayeeResource,
+  getSortedPayees
 } from 'inab-shared';
 import {arraySelector, resourceForm} from 'hw-react-shared';
 
@@ -100,7 +100,7 @@ const selector = formValueSelector(TransactionResource.path);
 const mapStateToProps = state => ({
   accounts: arraySelector(AccountResource)(state),
   categories: arraySelector(CategoryResource)(state),
-  payees: getPayees(state),
+  payees: getSortedPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category')
 });
@@ -119,7 +119,7 @@ class TransactionForm extends Component {
     // Reference data
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    payees: PropTypes.arrayOf(PropTypes.string).isRequired,
+    payees: PropTypes.arrayOf(PayeeResource.propType).isRequired,
     payeeValue: PropTypes.string,
     categoryValue: PropTypes.string,
     onCancel: PropTypes.func
@@ -142,7 +142,7 @@ class TransactionForm extends Component {
         label: 'Transfer to ' + a.name,
         value: 'transfer:' + a.uuid
       })),
-      ...this.props.payees.map(c => ({label: c, value: c}))
+      ...this.props.payees.map(c => ({label: c.name, value: c.uuid}))
     ];
 
     return (
@@ -169,7 +169,7 @@ class TransactionForm extends Component {
             <label>Payee</label>
             <Field
               name="payee"
-              component={SimpleSelectCreateField}
+              component={SimpleSelectField}
               placeholder="Payee"
               options={payeeOptions}
             />
@@ -250,10 +250,11 @@ const formToResource = data => {
   }
 
   // Compute the transfer_account_uuid
+  transaction.payee_uuid = data.payee;
   transaction.transfer_account_uuid = null;
   if (data.payee && data.payee.startsWith('transfer:')) {
     transaction.transfer_account_uuid = data.payee.slice('transfer:'.length);
-    transaction.payee = null;
+    transaction.payee_uuid = null;
   }
 
   transaction.amount = amountToCents(data.amount);
@@ -288,7 +289,7 @@ const resourceToForm = (transaction, props) => {
     if (transaction.transfer_account_uuid) {
       formData.payee = 'transfer:' + transaction.transfer_account_uuid;
     } else {
-      formData.payee = transaction.payee;
+      formData.payee = transaction.payee_uuid;
     }
 
     if (transaction.type === 'to_be_budgeted') {

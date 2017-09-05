@@ -10,6 +10,9 @@ unless user
   )
 end
 
+this_month = Time.new(Time.now.year, Time.now.month)
+this_month_next_year = Time.new(Time.now.year + 1, Time.now.month)
+
 a = Account.create(user: user, name: 'Checking')
 as = Account.create(user: user, name: 'Saving')
 
@@ -23,19 +26,29 @@ Category.create(user: user, name: 'Water', category_group: cg)
 cg = CategoryGroup.create(user: user, name: 'Sporadic Bills')
 Category.create(user: user, name: 'Haircut', category_group: cg)
 
+cg = CategoryGroup.create(user: user, name: 'Goals')
+Category.create(user: user, name: 'Target Category Balance', category_group: cg, goal_type: :tb, goal_creation_month: this_month, target_balance: 50000)
+Category.create(user: user, name: 'Target Category Balance by Date', category_group: cg, goal_type: :tbd, goal_creation_month: this_month, target_balance: 40000, target_balance_month: this_month_next_year)
+Category.create(user: user, name: 'Monthly Funding Goal', category_group: cg, goal_type: :mf, goal_creation_month: this_month, monthly_funding: 3000)
+
 BudgetItem.create(
   user: user,
   amount: 100,
   category: phone,
-  month: Time.new(Time.now.year, Time.now.month)
+  month: this_month
 )
+
+proximus = Payee.create(name: 'Proximus', user: user)
+work = Payee.create(name: 'Work', user: user)
+
+Location.create(payee: proximus, latitude: 50.860139, longitude: 4.358062)
 
 # Regular transaction
 mtr = Transaction.create(
   user: user,
   date: Time.now,
   time: Time.now,
-  payee: 'Proximus',
+  payee: proximus,
   description: 'Phone invoice',
   amount: -1500,
   category: phone,
@@ -50,7 +63,7 @@ mtr.add_tag({:name => 'Tag2'})
 Transaction.create(
   user: user,
   date: Time.now,
-  payee: 'Work',
+  payee: work,
   description: 'Paycheck',
   amount: 50000,
   account: a,

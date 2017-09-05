@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import CategoryRow from './CategoryRow';
+import {CategoryRow} from './CategoryRow';
 import CategoryGroupRow from './CategoryGroupRow';
 import ui from 'redux-ui';
 import '../styles/tables.scss';
@@ -16,12 +16,21 @@ import {
   getAvailableByCategoryIdForSelectedMonth
 } from 'inab-shared';
 
+const mapStateToProps = state => ({
+  categoryGroups: getSortedCategoryGroups(state),
+  categoriesByGroupId: selectCategoriesByGroupId(state),
+  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
+  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
+  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
+});
+
 @ui({
   state: {
     editingCategoryId: undefined
   }
 })
-class BudgetTable extends React.Component {
+@connect(mapStateToProps)
+export class BudgetTable extends React.Component {
   static propTypes = {
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
     categoriesByGroupId: PropTypes.objectOf(PropTypes.arrayOf(CategoryResource.propType).isRequired)
@@ -77,13 +86,3 @@ class BudgetTable extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  categoryGroups: getSortedCategoryGroups(state),
-  categoriesByGroupId: selectCategoriesByGroupId(state),
-  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
-  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
-});
-
-export default connect(mapStateToProps)(BudgetTable);
