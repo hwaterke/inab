@@ -19,8 +19,7 @@ export class Header extends React.Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
-    budgetBalance: PropTypes.number.isRequired,
-    updateUI: PropTypes.func.isRequired
+    budgetBalance: PropTypes.number.isRequired
   };
 
   render() {
