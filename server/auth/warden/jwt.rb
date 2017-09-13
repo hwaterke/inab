@@ -16,6 +16,6 @@ Warden::JWTAuth.configure do |config|
   config.secret = ENV['JWT_SECRET'] || SecureRandom.hex(20)
   config.expiration_time = 31 * 24 * 60 * 60
   config.mappings = {default: UserRepo}
-  config.dispatch_requests = [['POST', %r{^/api/login$}]]
+  config.dispatch_requests = [['POST', %r{^/api/(?:login|register)$}]]
   config.revocation_strategies = {default: RevocationStrategy}
 end

@@ -31,8 +31,6 @@ require_relative File.join('..', 'models', 'subtransaction')
 schema_version = SystemSetting.with_pk 'schema_version'
 SystemSetting.create(key: 'schema_version', value: '1') unless schema_version
 
-require_relative '../auth/bootstrap'
-
 require_relative '../api/helpers/warden_helpers'
 
 require_relative '../api/helpers/crud_api_extention'

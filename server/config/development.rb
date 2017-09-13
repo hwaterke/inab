@@ -1,6 +1,8 @@
 # Creates some dummy data for use in development.
 puts 'Development configuration'
 
+SystemSetting.create(key: 'registration', value: '1')
+
 user = User.first(email: 'harold@example.com')
 unless user
   user = User.create(
