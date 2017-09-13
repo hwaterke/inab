@@ -18,15 +18,4 @@ class User < Sequel::Model
   def jwt_subject
     uuid
   end
-
-  def before_create
-    self.updated_at = Time.now
-    self.created_at = self.updated_at
-    super
-  end
-
-  def before_update
-    self.updated_at = Time.now
-    super
-  end
 end
