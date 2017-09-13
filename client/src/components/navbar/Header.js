@@ -7,6 +7,7 @@ import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router-dom';
 import {AccountResource, selectBalanceByAccountId, getBudgetBalance} from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
+import {clearToken} from '../../reducers/credentials';
 
 const mapStateToProps = state => ({
   accounts: arraySelector(AccountResource)(state),
@@ -14,12 +15,17 @@ const mapStateToProps = state => ({
   budgetBalance: getBudgetBalance(state)
 });
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, {clearToken})
 export class Header extends React.Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
-    budgetBalance: PropTypes.number.isRequired
+    budgetBalance: PropTypes.number.isRequired,
+    clearToken: PropTypes.func.isRequired
+  };
+
+  logout = () => {
+    this.props.clearToken();
   };
 
   render() {
@@ -98,6 +104,12 @@ export class Header extends React.Component {
                     Manage accounts
                   </RouterLink>
                 </div>
+              </li>
+
+              <li className="nav-item">
+                <a href="#" className="nav-link" onClick={this.logout}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
