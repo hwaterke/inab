@@ -16,29 +16,27 @@ import {AccountDetail} from './screens/accounts/AccountDetail';
 export class Main extends React.Component {
   render() {
     return (
-      <div>
-        <LoginDispatcher>
-          <Header />
-          <ErrorList />
-          <EntityLoader>
-            <Switch>
-              <Route exact path="/" component={LandingPage} />
-              <Route path="/budget" component={BudgetPage} />
+      <LoginDispatcher>
+        <Header />
+        <ErrorList />
+        <EntityLoader>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/budget" component={BudgetPage} />
 
-              <Route exact path="/payees" component={PayeeList} />
-              <Route exact path="/payees/new" component={PayeeDetail} />
-              <Route exact path="/payees/edit/:uuid" component={PayeeDetail} />
+            <Route exact path="/payees" component={PayeeList} />
+            <Route exact path="/payees/new" component={PayeeDetail} />
+            <Route exact path="/payees/edit/:uuid" component={PayeeDetail} />
 
-              <Route exact path="/accounts" component={AccountList} />
-              <Route exact path="/accounts/new" component={AccountDetail} />
-              <Route exact path="/accounts/edit/:uuid" component={AccountDetail} />
+            <Route exact path="/accounts" component={AccountList} />
+            <Route exact path="/accounts/new" component={AccountDetail} />
+            <Route exact path="/accounts/edit/:uuid" component={AccountDetail} />
 
-              <Route exact path="/account/:uuid?" component={AccountPage} />
-              <Route path="/account/:date/:category_uuid" component={AccountPage} />
-            </Switch>
-          </EntityLoader>
-        </LoginDispatcher>
-      </div>
+            <Route exact path="/account/:uuid?" component={AccountPage} />
+            <Route path="/account/:date/:category_uuid" component={AccountPage} />
+          </Switch>
+        </EntityLoader>
+      </LoginDispatcher>
     );
   }
 }

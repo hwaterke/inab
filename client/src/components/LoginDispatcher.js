@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {LoginPage} from './LoginPage';
+import {LoginPage} from './screens/login/LoginPage';
 
 @connect(state => ({token: state.credentials.token}))
 export class LoginDispatcher extends React.Component {
