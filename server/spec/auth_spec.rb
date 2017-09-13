@@ -52,7 +52,8 @@ describe Auth::API do
       expect(last_response.headers).to include 'Authorization'
       expect(last_response.headers['Authorization']).to start_with 'Bearer '
       expect(JSON.parse(last_response.body)).to eq({
-        'email' => 'harold'
+        'email' => 'harold',
+        'is_admin' => false
       })
     end
   end
