@@ -1,0 +1,21 @@
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/_variables.scss';
+@import '~bootstrap/scss/mixins/_breakpoints.scss';
+
+.budget-table {
+  thead {
+    th {
+      border-top: 0
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    td:first-child, th:first-child {
+      padding-left: map-get($spacers, 4);
+    }
+
+    td:last-child, th:last-child {
+      padding-right: map-get($spacers, 4);
+    }
+  }
+}

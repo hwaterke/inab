@@ -9,8 +9,13 @@ import ButtonIcon from '../ButtonIcon';
 import {CategoryResource} from 'inab-shared';
 import {byIdSelector} from 'hw-react-shared';
 
+const mapStateToProps = state => ({
+  categoriesById: byIdSelector(CategoryResource)(state)
+});
+
 @ui()
-class CategoryFormDialog extends React.Component {
+@connect(mapStateToProps)
+export class CategoryFormDialog extends React.Component {
   constructor(props) {
     super(props);
     this.handleOpenNew = this.handleOpenNew.bind(this);
@@ -38,7 +43,7 @@ class CategoryFormDialog extends React.Component {
     const closeButton = <Button onClick={this.handleClose}>Close</Button>;
     return (
       <span>
-        <ButtonIcon className="btn btn-info" onClick={this.handleOpenNew} icon="plus">
+        <ButtonIcon className="btn btn-link" onClick={this.handleOpenNew} icon="plus">
           Category
         </ButtonIcon>
         <Dialog
@@ -51,7 +56,7 @@ class CategoryFormDialog extends React.Component {
           <CategoryForm
             updatedResource={
               this.props.ui.categorySelected &&
-                this.props.categoriesById[this.props.ui.categorySelected]
+              this.props.categoriesById[this.props.ui.categorySelected]
             }
             postSubmit={this.handleClose}
           />
@@ -60,9 +65,3 @@ class CategoryFormDialog extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  categoriesById: byIdSelector(CategoryResource)(state)
-});
-
-export default connect(mapStateToProps)(CategoryFormDialog);

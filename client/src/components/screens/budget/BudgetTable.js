@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {CategoryRow} from './CategoryRow';
-import CategoryGroupRow from './CategoryGroupRow';
+import {CategoryRow} from '../../CategoryRow';
+import CategoryGroupRow from '../../CategoryGroupRow';
 import ui from 'redux-ui';
-import '../styles/tables.scss';
+import '../../../styles/tables.scss';
 import {
   CategoryGroupResource,
   CategoryResource,
@@ -38,7 +38,18 @@ export class BudgetTable extends React.Component {
     selectedMonthActivityByCategoryId: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(BudgetItemResource.propType).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
+    ui: PropTypes.shape({
+      categorySelected: PropTypes.string
+    }).isRequired,
     updateUI: PropTypes.func.isRequired
+  };
+
+  categoryNameClick = categoryUuid => () => {
+    if (this.props.ui.categorySelected === categoryUuid) {
+      this.props.updateUI({categorySelected: null});
+    } else {
+      this.props.updateUI({categorySelected: categoryUuid, categoryFormOpen: false});
+    }
   };
 
   render() {
@@ -58,8 +69,7 @@ export class BudgetTable extends React.Component {
             <CategoryRow
               key={'c' + c.uuid}
               category={c}
-              onNameClick={() =>
-                this.props.updateUI({categorySelected: c.uuid, categoryFormOpen: true})}
+              onNameClick={this.categoryNameClick(c.uuid)}
               budgetItem={this.props.selectedMonthBudgetItemByCategoryId[c.uuid]}
               activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
               available={this.props.availableByCategory.get(c.uuid)}

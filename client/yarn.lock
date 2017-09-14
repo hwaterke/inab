@@ -3262,12 +3262,12 @@ in-publish@^2.0.0:
 
 inab-shared@hwaterke/inab-shared#build:
   version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/4109fa9480deff9f48c93a54df006c67f2db280d"
+  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/0b0e739c1909cb4ea729ff2d662002c167f30a4d"
   dependencies:
     hw-react-shared hwaterke/react-shared#build
     moment "^2.18.1"
     ramda "^0.24.1"
-    redux "^3.6.0"
+    redux "^3.7.2"
     redux-crud "^3.0.5"
     reselect "^3.0.1"
 
