@@ -3,8 +3,9 @@
 type Credentials = {
   backend?: string,
   email?: string,
+  is_admin?: boolean,
   token?: ?string
-}
+};
 
 export const setCredentials = (payload: Credentials) => ({
   type: 'SET_CREDENTIALS',

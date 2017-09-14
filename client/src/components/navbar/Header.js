@@ -12,7 +12,8 @@ import {clearToken} from '../../reducers/credentials';
 const mapStateToProps = state => ({
   accounts: arraySelector(AccountResource)(state),
   balanceByAccountId: selectBalanceByAccountId(state),
-  budgetBalance: getBudgetBalance(state)
+  budgetBalance: getBudgetBalance(state),
+  isAdmin: state.credentials.is_admin
 });
 
 @connect(mapStateToProps, {clearToken})
@@ -21,6 +22,7 @@ export class Header extends React.Component {
     accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
     budgetBalance: PropTypes.number.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
     clearToken: PropTypes.func.isRequired
   };
 
@@ -105,6 +107,13 @@ export class Header extends React.Component {
                   </RouterLink>
                 </div>
               </li>
+
+              {this.props.isAdmin &&
+                <li className="nav-item">
+                  <RouterLink className="nav-link" to="/admin">
+                    Admin
+                  </RouterLink>
+                </li>}
 
               <li className="nav-item">
                 <a href="#" className="nav-link" onClick={this.logout}>

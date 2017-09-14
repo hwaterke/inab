@@ -12,6 +12,7 @@ import {PayeeList} from './screens/payees/PayeeList';
 import {PayeeDetail} from './screens/payees/PayeeDetail';
 import {AccountList} from './screens/accounts/AccountList';
 import {AccountDetail} from './screens/accounts/AccountDetail';
+import {AdminPage} from './screens/admin/AdminPage';
 
 export class Main extends React.Component {
   render() {
@@ -22,6 +23,9 @@ export class Main extends React.Component {
         <EntityLoader>
           <Switch>
             <Route exact path="/" component={LandingPage} />
+
+            <Route exact path="/admin" component={AdminPage} />
+
             <Route path="/budget" component={BudgetPage} />
 
             <Route exact path="/payees" component={PayeeList} />

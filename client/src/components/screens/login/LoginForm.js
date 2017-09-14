@@ -52,7 +52,8 @@ export class LoginForm extends React.Component {
       .then(response => {
         if (response.headers.authorization) {
           const token = response.headers.authorization;
-          this.props.setCredentials({email, token});
+          const {is_admin} = response.data;
+          this.props.setCredentials({email, is_admin, token});
         } else {
           this.props.addError('Authentication failed.');
         }
