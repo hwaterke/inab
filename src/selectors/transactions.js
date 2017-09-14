@@ -28,6 +28,12 @@ export const transactionsUpToMonth = createUpToMonthSelectors(
   (t: Transaction) => beginningOfMonth(t.date)
 );
 
+export const getToBeBudgetedSumInSelectedMonth = createSelector(
+  transactionsInMonth.selected,
+  (transactions: Transaction[]) =>
+    sumOfAmounts(transactions.filter(t => t.type === 'to_be_budgeted'))
+);
+
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   transactionsUpToMonth.selected,
   (transactions: Transaction[]) =>

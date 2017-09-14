@@ -36,9 +36,9 @@ import {
   transactionsInMonth,
   transactionsUpToMonth,
   getToBeBudgetedSumUpToSelectedMonth,
-  getPayees,
   flattenTransactions,
-  selectSelectedMonthActivityByCategoryId
+  selectSelectedMonthActivityByCategoryId,
+  getToBeBudgetedSumInSelectedMonth
 } from './selectors/transactions';
 import {
   getAvailableByCategoryIdForSelectedMonth,
@@ -74,6 +74,7 @@ export {
   getSortedTransactions,
   transactionsInMonth,
   transactionsUpToMonth,
+  getToBeBudgetedSumInSelectedMonth,
   getToBeBudgetedSumUpToSelectedMonth,
   flattenTransactions,
   getBudgetBalance,
