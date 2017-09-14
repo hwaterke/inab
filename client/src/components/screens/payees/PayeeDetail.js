@@ -24,7 +24,7 @@ export class PayeeDetail extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col">
-            <div className="box">
+            <div className="mt-4 p-4 box">
               <h4>Payee</h4>
 
               <PayeeForm

@@ -20,7 +20,7 @@ export class AccountList extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-8">
-            <div className="box">
+            <div className="mt-4 p-4 box">
               <h4>Accounts</h4>
 
               <div className="my-3">
@@ -44,7 +44,7 @@ export class AccountList extends React.Component {
           </div>
 
           <div className="col-sm-4">
-            <div className="box">
+            <div className="mt-4 p-4 box">
               <h4>Statistics</h4>
               <h5>
                 {this.props.accounts.length} accounts

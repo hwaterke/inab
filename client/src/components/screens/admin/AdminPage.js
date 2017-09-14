@@ -49,7 +49,7 @@ export class AdminPage extends React.Component {
         <div className="row">
           <div className="col-sm-2" />
           <div className="col-sm-8">
-            <div className="box">
+            <div className="mt-4 p-4 box">
               <h4>Administration</h4>
 
               {this.state.loading
