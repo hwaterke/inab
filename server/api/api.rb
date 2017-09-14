@@ -24,6 +24,7 @@ module INAB
     helpers WardenHelpers
 
     mount ::Auth::API
+    mount ::INAB::Entities::Settings
     mount ::INAB::Entities::Accounts
     mount ::INAB::Entities::CategoryGroups
     mount ::INAB::Entities::Categories

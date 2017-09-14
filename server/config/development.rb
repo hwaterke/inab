@@ -8,7 +8,8 @@ unless user
   user = User.create(
     email: 'harold@example.com',
     password: '123',
-    password_confirmation: '123'
+    password_confirmation: '123',
+    is_admin: true
   )
 end
 

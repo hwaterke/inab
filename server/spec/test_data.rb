@@ -1,7 +1,8 @@
 h = User.create(
   email: 'harold',
   password: '123',
-  password_confirmation: '123'
+  password_confirmation: '123',
+  is_admin: true
 )
 
 Account.create(

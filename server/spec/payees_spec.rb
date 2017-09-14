@@ -1,6 +1,6 @@
 require_relative 'inab_spec_helper'
 
-describe INAB::API do
+describe INAB::Entities::Payees do
   include INAB::Test::Helpers
 
   context 'without token' do
