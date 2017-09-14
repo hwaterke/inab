@@ -12,18 +12,12 @@ The simplest solution that works out of the box is to use the existing docker im
 docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab
 ```
 
-The first time you run the container, it will create an empty database.
-You therefore need to tell it which User should be created.
-You can do so by providing two environment variables to the container:
-`-e "EMAIL=john@example.com" -e "PASSWORD=123"`
-Once this is done you can stop the container and remove those before restarting it.
+You can then access INAB at http://localhost:8080
 
 When running the docker image, it is recommended to add another environment variable.
 `-e "JWT_SECRET=some_secret"`.
 This is optional, a random secret will be used if none is provided.
 But providing one will allow your users to stay connected after a container restart.
-
-You can then access INAB at http://localhost:8080
 
 ### Production build
 If you want to create the docker image yourself, execute the following steps.
