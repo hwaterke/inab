@@ -78,7 +78,9 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
     const sortedResult = new Map();
     result.forEach((g, category_uuid) => {
       const sortedMonth = new Map();
-      Array.from(g.keys()).sort().forEach(m => sortedMonth.set(m, g.get(m)));
+      Array.from(g.keys())
+        .sort()
+        .forEach(m => sortedMonth.set(m, g.get(m)));
       sortedResult.set(category_uuid, sortedMonth);
     });
 
@@ -98,9 +100,20 @@ const getOverspendingByCategoryIdByMonth = createSelector(
       g.forEach((value, month) => {
         sumAccrossMonths += value;
         if (sumAccrossMonths < 0) {
-          const newMap = new Map();
-          newMap.set(month, sumAccrossMonths);
-          overspendings.set(category_uuid, newMap);
+          // Make sure there is a Map for this category.
+          if (!overspendings.get(category_uuid)) {
+            overspendings.set(category_uuid, new Map());
+          }
+
+          // Extract Map to make Flow understand it is not undefined
+          const categoryMap = overspendings.get(category_uuid);
+          if (categoryMap) {
+            // Add the overspending to the Map for this category.
+            categoryMap.set(month, sumAccrossMonths);
+          } else {
+            throw new Error('This should not happen');
+          }
+
           sumAccrossMonths = 0;
         }
       });
