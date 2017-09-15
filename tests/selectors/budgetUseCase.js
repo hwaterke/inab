@@ -1,8 +1,23 @@
 // @flow
-import {createInflowTBB, createAccount, createOutflow, createCategory, createCategoryGroup, createBudgetItem, dispatchSelectMonth} from './utils';
+import {
+  createInflowTBB,
+  createAccount,
+  createOutflow,
+  createCategory,
+  createCategoryGroup,
+  createBudgetItem,
+  dispatchSelectMonth
+} from './utils';
 import type {Account} from '../../src/entities/Account';
 import type {Category} from '../../src/entities/Category';
-import {getAvailableByCategoryIdForSelectedMonth, getAvailableToBudget, getFundsForSelectedMonth, getOverspentLastMonth, getBudgetedThisMonth, getBudgetedInFuture} from '../../src/selectors/budget';
+import {
+  getAvailableByCategoryIdForSelectedMonth,
+  getAvailableToBudget,
+  getFundsForSelectedMonth,
+  getOverspentLastMonth,
+  getBudgetedThisMonth,
+  getBudgetedInFuture
+} from '../../src/selectors/budget';
 
 export function budgetUseCaseTests(getStore: Function) {
   describe('Budget selectors', () => {
@@ -305,9 +320,55 @@ export function budgetUseCaseTests(getStore: Function) {
 
       describe('#getAvailableToBudget', function () {
         it('should cover overspending of previous month', function () {
+          expectAvailable(getMonth(-1), 0);
+          expectAvailable(getMonth(0), 0);
           expectAvailable(getMonth(1), -5);
+          expectAvailable(getMonth(2), -5);
         });
       });
+    });
+
+    describe('Overspending over two months', function () {
+      /*
+       |  -2 |  -1 |  0  |  1  |
+       |-----|-----|-----|-----|
+       | s3  |  s7 |     |     |
+       |=====|=====|=====|=====|
+       |  0  |   0 |  -3 | -10 | Funds
+       |  0  |  -3 |  -7 |   0 | Overspending last month
+       |  0  |   0 |   0 |   0 | Budgeted this month
+       |  0  |   0 |   0 |   0 | Budgeted in the future
+       |=====|=====|=====|=====|
+       |  0  |  -3 | -10 | -10 | Available to budget
+       */
+      it('should cover both overspending', function () {
+        addOutflow(getMonth(-2), -3);
+        addOutflow(getMonth(-1), -7);
+
+        // Two month ago
+        expectAvailableByCategoryIdForSelectedMonth(getMonth(-2), new Map([[category1.uuid, -3]]));
+        expectFunds(getMonth(-2), 0);
+        expectOverspentLastMonth(getMonth(-2), 0);
+        expectAvailable(getMonth(-2), 0);
+
+        // Last month
+        expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[category1.uuid, -7]]));
+        expectFunds(getMonth(-1), 0);
+        expectOverspentLastMonth(getMonth(-1), -3);
+        expectAvailable(getMonth(-1), -3);
+
+        // This month
+        expectAvailableByCategoryIdForSelectedMonth(getMonth(0), new Map([[category1.uuid, 0]]));
+        expectFunds(getMonth(0), -3);
+        expectOverspentLastMonth(getMonth(0), -7);
+        expectAvailable(getMonth(0), -10);
+
+        // Next month
+        expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 0]]));
+        expectFunds(getMonth(1), -10);
+        expectOverspentLastMonth(getMonth(1), 0);
+        expectAvailable(getMonth(0), -10);
+      })
     });
 
     describe('Unbudgeting', function () {
