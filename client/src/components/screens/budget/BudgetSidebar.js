@@ -49,6 +49,10 @@ export class BudgetSidebar extends React.Component {
     updateUI: PropTypes.func.isRequired
   };
 
+  state = {
+    budgeting: false
+  };
+
   /**
    * Adds the specified amount to the category
    */
@@ -72,6 +76,7 @@ export class BudgetSidebar extends React.Component {
   };
 
   quickBudgetUnderfunded = async () => {
+    this.setState({budgeting: true});
     let availableToBudget = this.props.availableToBudget;
 
     for (let category of this.props.categories) {
@@ -84,6 +89,7 @@ export class BudgetSidebar extends React.Component {
         }
       }
     }
+    this.setState({budgeting: false});
   };
 
   render() {
@@ -106,9 +112,10 @@ export class BudgetSidebar extends React.Component {
             </h2>
           </div>
 
-          <button onClick={this.quickBudgetUnderfunded} className="btn btn-primary">
-            Quick budget underfunded
-          </button>
+          {!this.state.budgeting &&
+            <button onClick={this.quickBudgetUnderfunded} className="btn btn-primary">
+              Quick budget underfunded
+            </button>}
         </div>
       );
     }
