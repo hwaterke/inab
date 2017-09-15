@@ -1,5 +1,5 @@
 // @flow
-import {flattenTransactions, getPayees, getToBeBudgetedSumUpToSelectedMonth, transactionsInMonth, transactionsUpToMonth, getSortedTransactions, selectSelectedMonthActivityByCategoryId} from '../../src/selectors/transactions';
+import {flattenTransactions, getToBeBudgetedSumUpToSelectedMonth, transactionsInMonth, transactionsUpToMonth, getSortedTransactions, selectSelectedMonthActivityByCategoryId} from '../../src/selectors/transactions';
 import {createOutflow, createInflowTBB} from './utils';
 import {selectMonth} from '../../src/reducers/month';
 
@@ -44,15 +44,6 @@ export function transactionsSelectorTests(getStore: Function) {
       getStore().dispatch(selectMonth(2017, 5));
 
       expect(getToBeBudgetedSumUpToSelectedMonth(getStore().getState())).toEqual(8);
-    });
-
-    test('getPayees', () => {
-      createOutflow(getStore(), 't1', 'acc1', '2017-01-01', -3, 'cat1', 'Payee1');
-      createOutflow(getStore(), 't2', 'acc1', '2017-01-01', -3, 'cat1');
-      createOutflow(getStore(), 't3', 'acc1', '2017-01-01', -3, 'cat1', 'Payee1');
-      createOutflow(getStore(), 't4', 'acc1', '2017-01-01', -3, 'cat1', 'Payee2');
-      createOutflow(getStore(), 't5', 'acc1', '2017-01-01', -3, 'cat1', 'Payee3');
-      expect(getPayees(getStore().getState())).toEqual(['Payee1', 'Payee2', 'Payee3']);
     });
 
     test('flattenTransactions', () => {
