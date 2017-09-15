@@ -4,6 +4,7 @@ import {MonthSelector} from './MonthSelector';
 import {globalStyles} from '../../../constants/styles';
 import {Banner} from '../../Banner';
 import {BudgetList} from './BudgetList';
+import {BudgetHeader} from './BudgetHeader';
 
 export class BudgetScreen extends React.Component {
   render() {
@@ -11,6 +12,7 @@ export class BudgetScreen extends React.Component {
       <View style={globalStyles.screen}>
         <Banner />
         <MonthSelector />
+        <BudgetHeader />
         <BudgetList />
       </View>
     );
