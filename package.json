@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": [
+    "{src,tests}/**/*.js": [
       "prettier --write --single-quote --bracket-spacing=false --print-width 100",
       "eslint",
       "git add"
