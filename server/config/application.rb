@@ -14,9 +14,23 @@ DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] == 'development'
 
 require 'roar/json'
 
+# Load settings model
+require_relative File.join('..', 'models', 'system_setting')
+
+# Set schema version if not done
+SCHEMA_VERSION = 2
+
+schema_version = SystemSetting.with_pk 'schema_version'
+if schema_version
+  unless schema_version.value == SCHEMA_VERSION.to_s
+    raise "Your database is using an old schema (v#{schema_version.value}) instead of #{SCHEMA_VERSION}. Please update"
+  end
+else
+  SystemSetting.create(key: 'schema_version', value: SCHEMA_VERSION.to_s) unless schema_version
+end
+
 # Load all models
 require_relative File.join('..', 'auth', 'models', 'users')
-require_relative File.join('..', 'models', 'system_setting')
 require_relative File.join('..', 'models', 'account')
 require_relative File.join('..', 'models', 'category_group')
 require_relative File.join('..', 'models', 'category')
@@ -26,10 +40,6 @@ require_relative File.join('..', 'models', 'location')
 require_relative File.join('..', 'models', 'transaction_tags')
 require_relative File.join('..', 'models', 'transaction')
 require_relative File.join('..', 'models', 'subtransaction')
-
-# Set schema version if not done
-schema_version = SystemSetting.with_pk 'schema_version'
-SystemSetting.create(key: 'schema_version', value: '1') unless schema_version
 
 require_relative '../api/helpers/warden_helpers'
 

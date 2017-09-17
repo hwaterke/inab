@@ -21,6 +21,14 @@ module INAB
       def patch_json(path, content)
         patch(path, content.to_json, {'CONTENT_TYPE' => 'application/json'})
       end
+
+      def symbolize_keys(some_hash)
+        result = {}
+        some_hash.each_key do |key|
+          result[(key.to_sym rescue key)] = some_hash[key]
+        end
+        result
+      end
     end
   end
 end

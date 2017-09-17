@@ -9,4 +9,9 @@ end
 
 class CategoryGroup < Sequel::Model
   many_to_one :user, key: :user_uuid
+
+  def before_validation
+    self.priority = 0 unless self.priority
+    super
+  end
 end
