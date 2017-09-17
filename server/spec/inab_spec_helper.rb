@@ -24,3 +24,44 @@ module INAB
     end
   end
 end
+
+# Creates tests to make sure it is not possible to access a CRUD without a token
+def no_crud_without_token(path)
+  context 'without token' do
+    context "GET /api/#{path}/uuid" do
+      it 'requires authentication' do
+        get "/api/#{path}/uuid"
+        expect(last_response.status).to eq(401)
+      end
+    end
+
+    context "GET /api/#{path}" do
+      it 'requires authentication' do
+        get "/api/#{path}"
+        expect(last_response.status).to eq(401)
+      end
+    end
+
+    context "POST /api/#{path}" do
+      it 'requires authentication' do
+        post_json "/api/#{path}", {name: 'Some name'}
+        expect(last_response.status).to eq(401)
+      end
+    end
+
+    context "PATCH /api/#{path}/uuid" do
+      it 'requires authentication' do
+        patch_json "/api/#{path}/uuid", {name: 'Some name'}
+        expect(last_response.status).to eq(401)
+      end
+    end
+
+    context "DELETE /api/#{path}/uuid" do
+      it 'requires authentication' do
+        delete "/api/#{path}/uuid"
+        expect(last_response.status).to eq(401)
+      end
+    end
+  end
+
+end

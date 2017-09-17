@@ -1,45 +1,9 @@
 require_relative 'inab_spec_helper'
 
-describe INAB::API do
+describe INAB::Entities::Accounts do
   include INAB::Test::Helpers
 
-  context 'without token' do
-    context 'GET /api/accounts/uuid' do
-      it 'requires authentication' do
-        get '/api/accounts/uuid'
-        expect(last_response.status).to eq(401)
-      end
-    end
-
-    context 'GET /api/accounts' do
-      it 'requires authentication' do
-        get '/api/accounts'
-        expect(last_response.status).to eq(401)
-      end
-    end
-
-    context 'POST /api/accounts' do
-      it 'requires authentication' do
-        post_json '/api/accounts', {name: 'MyAccount'}
-        expect(last_response.status).to eq(401)
-      end
-    end
-
-    context 'PATCH /api/accounts/uuid' do
-      it 'requires authentication' do
-        patch_json '/api/accounts/uuid', {name: 'MyAccount'}
-        expect(last_response.status).to eq(401)
-      end
-    end
-
-    context 'DELETE /api/accounts/uuid' do
-      it 'requires authentication' do
-        delete '/api/accounts/uuid'
-        expect(last_response.status).to eq(401)
-      end
-    end
-  end
-
+  no_crud_without_token('accounts')
 
   context 'when logged in' do
     before do

@@ -3,6 +3,8 @@ require_relative 'inab_spec_helper'
 describe INAB::Entities::BudgetItems do
   include INAB::Test::Helpers
 
+  no_crud_without_token('budget_items')
+
   context 'when logged in' do
     before do
       post_json '/api/login', {email: 'harold', password: '123'}
