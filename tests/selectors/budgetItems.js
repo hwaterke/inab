@@ -1,13 +1,28 @@
 import {createCategory, createCategoryGroup, createBudgetItem} from './utils';
-import {budgetItemsInMonth, budgetItemsUpToMonth, getSelectedMonthBudgetItemByCategoryId, getBudgetItemsSumUpToPreviousMonth} from '../../src/selectors/budgetItems';
+import {
+  budgetItemsInMonth,
+  budgetItemsUpToMonth,
+  getSelectedMonthBudgetItemByCategoryId,
+  getBudgetItemsSumUpToPreviousMonth
+} from '../../src/selectors/budgetItems';
 import {selectMonth} from '../../src/reducers/month';
 
 export function budgetItemsSelectorTests(getStore) {
   describe('Budget Items selectors', () => {
     beforeEach(() => {
       createCategoryGroup(getStore(), 'cg1', 'Category Group 1', 1);
-      createCategory(getStore(), 'c1', 'Category 1', 1, 'cg1');
-      createCategory(getStore(), 'c2', 'Category 2', 2, 'cg1');
+      createCategory(getStore(), {
+        uuid: 'c1',
+        name: 'Category 1',
+        priority: 1,
+        category_group_uuid: 'cg1'
+      });
+      createCategory(getStore(), {
+        uuid: 'c2',
+        name: 'Category 2',
+        priority: 2,
+        category_group_uuid: 'cg1'
+      });
     });
 
     test('inMonth', () => {

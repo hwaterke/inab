@@ -28,9 +28,19 @@ export function budgetUseCaseTests(getStore: Function) {
     const getMonth = (delta = 0) => 5 + delta;
     const monthString = (month: number) => `2016-0${month + 1}-01`;
 
-    const addInflow = (month, amount) => createInflowTBB(getStore(), '' + (nextId++), account1.uuid, monthString(month), amount);
-    const addOutflow = (month, amount) => createOutflow(getStore(), '' + (nextId++), account1.uuid, monthString(month), amount, category1.uuid);
-    const budget = (month, amount) => createBudgetItem(getStore(), '' + (nextId++), monthString(month), category1.uuid, amount);
+    const addInflow = (month, amount) =>
+      createInflowTBB(getStore(), '' + nextId++, account1.uuid, monthString(month), amount);
+    const addOutflow = (month, amount) =>
+      createOutflow(
+        getStore(),
+        '' + nextId++,
+        account1.uuid,
+        monthString(month),
+        amount,
+        category1.uuid
+      );
+    const budget = (month, amount) =>
+      createBudgetItem(getStore(), '' + nextId++, monthString(month), category1.uuid, amount);
 
     const expectAvailableByCategoryIdForSelectedMonth = (month, value) => {
       dispatchSelectMonth(getStore(), 2016, month);
@@ -66,10 +76,15 @@ export function budgetUseCaseTests(getStore: Function) {
       nextId = 1;
       account1 = createAccount(getStore(), 'acc1', 'Account 1');
       createCategoryGroup(getStore(), 'cg1', 'Category Group 1', 1);
-      category1 = createCategory(getStore(), 'c1', 'Category 1', 1, 'cg1');
+      category1 = createCategory(getStore(), {
+        uuid: 'c1',
+        name: 'Category 1',
+        priority: 1,
+        category_group_uuid: 'cg1'
+      });
     });
 
-    describe('Handle default state', function () {
+    describe('Handle default state', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -77,19 +92,19 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  |  0  |  0  | Available to budget
        */
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should be 0 for previous month', () => expectAvailable(getMonth(-1), 0));
         it('Should be 0 for current month', () => expectAvailable(getMonth(), 0));
         it('Should be 0 for next month', () => expectAvailable(getMonth(1), 0));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('Should be 0 for previous month', () => expectFunds(getMonth(-1), 0));
         it('Should be 0 for current month', () => expectFunds(getMonth(), 0));
         it('Should be 0 for next month', () => expectFunds(getMonth(1), 0));
       });
     });
 
-    describe('Handle one inflow', function () {
+    describe('Handle one inflow', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -97,22 +112,22 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  |  3  |  3  | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(), 3);
       });
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should ignore inflow of next month', () => expectAvailable(getMonth(-1), 0));
         it('Should include inflow of current month', () => expectAvailable(getMonth(), 3));
         it('Should include left over from last month', () => expectAvailable(getMonth(1), 3));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('Should ignore inflow of next month', () => expectFunds(getMonth(-1), 0));
         it('Should include inflow of current month', () => expectFunds(getMonth(), 3));
         it('Should include left over from last month', () => expectFunds(getMonth(1), 3));
       });
     });
 
-    describe('Multiple inflows', function () {
+    describe('Multiple inflows', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -120,24 +135,25 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  3  |  8  |  15 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(-1), 3);
         addInflow(getMonth(), 5);
         addInflow(getMonth(1), 7);
       });
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should ignore inflow of next months', () => expectAvailable(getMonth(-1), 3));
-        it('Should combine inflow of current and previous month', () => expectAvailable(getMonth(), 8));
+        it('Should combine inflow of current and previous month', () =>
+          expectAvailable(getMonth(), 8));
         it('Should combine inflows over one month', () => expectAvailable(getMonth(1), 15));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('Should ignore inflow of next month', () => expectFunds(getMonth(-1), 3));
         it('Should combine inflow of current and previous month', () => expectFunds(getMonth(), 8));
         it('Should combine inflows over one month', () => expectFunds(getMonth(1), 15));
       });
     });
 
-    describe('Use less than last month remaining funds', function () {
+    describe('Use less than last month remaining funds', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -146,25 +162,25 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  2  |   9 |  22 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(-1), 5);
         addInflow(getMonth(), 7);
         addInflow(getMonth(1), 13);
         budget(getMonth(), 3);
       });
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 2));
         it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 9));
         it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 22));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
         it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
         it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 3 + 13));
       });
     });
 
-    describe('Use all of last month remaining funds', function () {
+    describe('Use all of last month remaining funds', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -173,25 +189,25 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  |   2 |  15 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(-1), 5);
         addInflow(getMonth(), 7);
         addInflow(getMonth(1), 13);
         budget(getMonth(), 5);
       });
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 0));
         it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 7));
         it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 20));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
         it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
         it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 5 + 13));
       });
     });
 
-    describe('Use more than last month remaining funds', function () {
+    describe('Use more than last month remaining funds', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -200,25 +216,25 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  |   4 |  17 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(-1), 5);
         addInflow(getMonth(), 7);
         addInflow(getMonth(1), 13);
         budget(getMonth(), 8);
       });
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('Should account for future budgeting', () => expectAvailable(getMonth(-1), 0));
         it('Should account for budgetting in current month', () => expectAvailable(getMonth(), 4));
         it('Should account for previous budgeting', () => expectAvailable(getMonth(1), 17));
       });
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should ignore future budgeting', () => expectFunds(getMonth(-1), 5));
         it('should ignore budgeting of the month', () => expectFunds(getMonth(), 5 + 7));
         it('should include past budgeting', () => expectFunds(getMonth(1), 5 + 7 - 8 + 13));
       });
     });
 
-    describe('Over budgeting', function () {
+    describe('Over budgeting', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -232,44 +248,53 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  | -42 | -35 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addInflow(getMonth(-1), 3);
         addInflow(getMonth(), 5);
         addInflow(getMonth(1), 7);
         budget(getMonth(), 50);
       });
 
-      describe('#getAvailableByCategoryIdForSelectedMonth', function () {
-        it('should not affect previous month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[category1.uuid, 0]])));
-        it('should affect current month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, 50]])));
-        it('should affect next month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 50]])));
+      describe('#getAvailableByCategoryIdForSelectedMonth', function() {
+        it('should not affect previous month', () =>
+          expectAvailableByCategoryIdForSelectedMonth(
+            getMonth(-1),
+            new Map([[category1.uuid, 0]])
+          ));
+        it('should affect current month', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, 50]])));
+        it('should affect next month', () =>
+          expectAvailableByCategoryIdForSelectedMonth(
+            getMonth(1),
+            new Map([[category1.uuid, 50]])
+          ));
       });
 
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should not affect previous month', () => expectFunds(getMonth(-1), 3));
         it('should not affect current month', () => expectFunds(getMonth(), 8));
         it('should be available next month', () => expectFunds(getMonth(1), -35));
       });
 
-      describe('#getOverspentLastMonth', function () {
+      describe('#getOverspentLastMonth', function() {
         it('should not affect previous month', () => expectOverspentLastMonth(getMonth(-1), 0));
         it('should not affect current month', () => expectOverspentLastMonth(getMonth(), 0));
         it('should not affect next month', () => expectOverspentLastMonth(getMonth(1), 0));
       });
 
-      describe('#getBudgetedThisMonth', function () {
+      describe('#getBudgetedThisMonth', function() {
         it('should not affect previous month', () => expectBudgetedThisMonth(getMonth(-1), 0));
         it('should affect current month', () => expectBudgetedThisMonth(getMonth(), -50));
         it('should not affect next month', () => expectBudgetedThisMonth(getMonth(1), 0));
       });
 
-      describe('#getBudgetedInFuture', function () {
+      describe('#getBudgetedInFuture', function() {
         it('should affect previous month', () => expectBudgetedInFuture(getMonth(-1), -3));
         it('should not affect current month', () => expectBudgetedInFuture(getMonth(), 0));
         it('should not affect next month', () => expectBudgetedInFuture(getMonth(1), 0));
       });
 
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('should account for the budgeting', () => {
           expectAvailable(getMonth(-1), 0);
           expectAvailable(getMonth(), -42);
@@ -278,7 +303,7 @@ export function budgetUseCaseTests(getStore: Function) {
       });
     });
 
-    describe('Overspending', function () {
+    describe('Overspending', function() {
       /*
        |     |  x  |     |     |
        |-----|-----|-----|-----|
@@ -291,26 +316,35 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|=====|
        |  0  |   0 |  -5 |  -5 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         addOutflow(getMonth(), -5);
       });
 
-      describe('#getAvailableByCategoryIdForSelectedMonth', function () {
-        it('should be default without transactions', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[category1.uuid, 0]])));
-        it('should take transactions of this month into account', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, -5]])));
-        it('should be reset to 0 in case of overspending', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 0]])));
-        it('should be stay reset to 0 in case of overspending', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(2), new Map([[category1.uuid, 0]])));
+      describe('#getAvailableByCategoryIdForSelectedMonth', function() {
+        it('should be default without transactions', () =>
+          expectAvailableByCategoryIdForSelectedMonth(
+            getMonth(-1),
+            new Map([[category1.uuid, 0]])
+          ));
+        it('should take transactions of this month into account', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, -5]])));
+        it('should be reset to 0 in case of overspending', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 0]])));
+        it('should be stay reset to 0 in case of overspending', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(2), new Map([[category1.uuid, 0]])));
       });
 
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should be default in previous month', () => expectFunds(getMonth(-1), 0));
-        it('should not be affected by current month overspending', () => expectFunds(getMonth(), 0));
+        it('should not be affected by current month overspending', () =>
+          expectFunds(getMonth(), 0));
         it('should not be affected by previous oversepnding', () => expectFunds(getMonth(1), 0));
-        it('should be affected by oversepnding of couple month ago', () => expectFunds(getMonth(2), -5));
+        it('should be affected by oversepnding of couple month ago', () =>
+          expectFunds(getMonth(2), -5));
       });
 
-      describe('#getOverspentLastMonth', function () {
-        it('should only affect month after spending', function () {
+      describe('#getOverspentLastMonth', function() {
+        it('should only affect month after spending', function() {
           expectOverspentLastMonth(getMonth(-1), 0);
           expectOverspentLastMonth(getMonth(), 0);
           expectOverspentLastMonth(getMonth(1), -5);
@@ -318,8 +352,8 @@ export function budgetUseCaseTests(getStore: Function) {
         });
       });
 
-      describe('#getAvailableToBudget', function () {
-        it('should cover overspending of previous month', function () {
+      describe('#getAvailableToBudget', function() {
+        it('should cover overspending of previous month', function() {
           expectAvailable(getMonth(-1), 0);
           expectAvailable(getMonth(0), 0);
           expectAvailable(getMonth(1), -5);
@@ -328,7 +362,7 @@ export function budgetUseCaseTests(getStore: Function) {
       });
     });
 
-    describe('Overspending over two months', function () {
+    describe('Overspending over two months', function() {
       /*
        |  -2 |  -1 |  0  |  1  |
        |-----|-----|-----|-----|
@@ -341,7 +375,7 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|=====|
        |  0  |  -3 | -10 | -10 | Available to budget
        */
-      it('should cover both overspending', function () {
+      it('should cover both overspending', function() {
         addOutflow(getMonth(-2), -3);
         addOutflow(getMonth(-1), -7);
 
@@ -368,10 +402,10 @@ export function budgetUseCaseTests(getStore: Function) {
         expectFunds(getMonth(1), -10);
         expectOverspentLastMonth(getMonth(1), 0);
         expectAvailable(getMonth(0), -10);
-      })
+      });
     });
 
-    describe('Unbudgeting', function () {
+    describe('Unbudgeting', function() {
       /*
        |     |  x  |     |
        |-----|-----|-----|
@@ -384,46 +418,51 @@ export function budgetUseCaseTests(getStore: Function) {
        |=====|=====|=====|
        |  0  |   3 |   0 | Available to budget
        */
-      beforeEach(function () {
+      beforeEach(function() {
         budget(getMonth(), -3);
       });
 
-      describe('#getAvailableByCategoryIdForSelectedMonth', function () {
-        it('should not affect previous month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(-1), new Map([[category1.uuid, 0]])));
-        it('should affect current month', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, -3]])));
-        it('should be reset to 0 in case of overbudgeting', () => expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 0]])));
+      describe('#getAvailableByCategoryIdForSelectedMonth', function() {
+        it('should not affect previous month', () =>
+          expectAvailableByCategoryIdForSelectedMonth(
+            getMonth(-1),
+            new Map([[category1.uuid, 0]])
+          ));
+        it('should affect current month', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(), new Map([[category1.uuid, -3]])));
+        it('should be reset to 0 in case of overbudgeting', () =>
+          expectAvailableByCategoryIdForSelectedMonth(getMonth(1), new Map([[category1.uuid, 0]])));
       });
 
-      describe('#getFundsForSelectedMonth', function () {
+      describe('#getFundsForSelectedMonth', function() {
         it('should not affect previous month', () => expectFunds(getMonth(-1), 0));
         it('should not affect current month', () => expectFunds(getMonth(), 0));
         it('should be available next month', () => expectFunds(getMonth(1), 3));
       });
 
-      describe('#getOverspentLastMonth', function () {
+      describe('#getOverspentLastMonth', function() {
         it('should not affect previous month', () => expectOverspentLastMonth(getMonth(-1), 0));
         it('should not affect current month', () => expectOverspentLastMonth(getMonth(), 0));
         it('should be reflected next month', () => expectOverspentLastMonth(getMonth(1), -3));
       });
 
-      describe('#getBudgetedThisMonth', function () {
+      describe('#getBudgetedThisMonth', function() {
         it('should not affect previous month', () => expectBudgetedThisMonth(getMonth(-1), 0));
         it('should affect current month', () => expectBudgetedThisMonth(getMonth(), 3));
         it('should not affect next month', () => expectBudgetedThisMonth(getMonth(1), 0));
       });
 
-      describe('#getBudgetedInFuture', function () {
+      describe('#getBudgetedInFuture', function() {
         it('should not affect previous month', () => expectBudgetedInFuture(getMonth(-1), 0));
         it('should not affect current month', () => expectBudgetedInFuture(getMonth(), 0));
         it('should not affect next month', () => expectBudgetedInFuture(getMonth(1), 0));
       });
 
-      describe('#getAvailableToBudget', function () {
+      describe('#getAvailableToBudget', function() {
         it('should not affect previous month', () => expectAvailable(getMonth(-1), 0));
         it('should affect current month', () => expectAvailable(getMonth(), 3));
         it('should not affect next month', () => expectAvailable(getMonth(1), 0));
       });
     });
-
   });
 }

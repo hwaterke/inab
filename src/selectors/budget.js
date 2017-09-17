@@ -1,5 +1,6 @@
 // @flow
 import R from 'ramda';
+import moment from 'moment';
 import {createSelector} from 'reselect';
 import {arraySelector} from 'hw-react-shared';
 import type {Transaction} from '../entities/Transaction';
@@ -15,7 +16,8 @@ import {getSelectedMonthMoment, getPreviousMonthMoment} from './month';
 import {
   budgetItemsInMonth,
   getBudgetItemsSumUpToPreviousMonth,
-  budgetItemsUpToMonth
+  budgetItemsUpToMonth,
+  getSelectedMonthBudgetItemByCategoryId
 } from './budgetItems';
 import {
   getToBeBudgetedSumUpToSelectedMonth,
@@ -236,4 +238,53 @@ export const getAvailableToBudget = createSelector(
   getBudgetedInFuture,
   (funds, overspent: number, budgeted, budgetedFuture) =>
     funds + overspent + budgeted + budgetedFuture
+);
+
+// Budgeting goals
+export const goalToBudgetByCategoryForSelectedMonth = createSelector(
+  arraySelector(CategoryResource),
+  getSelectedMonthBudgetItemByCategoryId,
+  getSelectedMonthMoment,
+  getAvailableByCategoryIdForSelectedMonth,
+  (
+    categories: Category[],
+    budgetItemsByCategoryId,
+    currentMonth,
+    availableByCategoryIdForSelectedMonth
+  ) => {
+    const result = {};
+
+    categories.filter(category => category.goal_type === 'mf').forEach(category => {
+      const budgeted = budgetItemsByCategoryId[category.uuid]
+        ? budgetItemsByCategoryId[category.uuid].amount
+        : 0;
+      const toBudget = category.monthly_funding ? category.monthly_funding - budgeted : 0;
+      if (toBudget > 0) {
+        result[category.uuid] = toBudget;
+      }
+    });
+
+    categories.filter(category => category.goal_type === 'tbd').forEach(category => {
+      // How many month left?
+      const monthsLeft = moment(category.target_balance_month).diff(currentMonth, 'months');
+      if (monthsLeft > 0) {
+        const budgeted = budgetItemsByCategoryId[category.uuid]
+          ? budgetItemsByCategoryId[category.uuid].amount
+          : 0;
+
+        // How much available ?
+        const available = availableByCategoryIdForSelectedMonth.get(category.uuid);
+
+        if (category.target_balance && available !== undefined) {
+          const toBudget =
+            Math.round((category.target_balance - (available - budgeted)) / monthsLeft) - budgeted;
+          if (toBudget > 0) {
+            result[category.uuid] = toBudget;
+          }
+        }
+      }
+    });
+
+    return result;
+  }
 );

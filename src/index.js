@@ -48,7 +48,8 @@ import {
   getBudgetedThisMonth,
   getBudgetedInFuture,
   selectBalanceByAccountId,
-  getBudgetBalance
+  getBudgetBalance,
+  goalToBudgetByCategoryForSelectedMonth
 } from './selectors/budget';
 import {getSortedPayees} from './selectors/payees';
 
@@ -84,6 +85,7 @@ export {
   getFundsForSelectedMonth,
   getOverspentLastMonth,
   getAvailableToBudget,
+  goalToBudgetByCategoryForSelectedMonth,
   getBudgetedThisMonth,
   getBudgetedInFuture,
   getPreviousMonthMoment,

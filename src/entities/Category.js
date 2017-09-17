@@ -16,5 +16,11 @@ export type Category = {
   uuid: string,
   name: string,
   priority: number,
-  category_group_uuid: string
+  category_group_uuid: string,
+
+  goal_type?: string,
+  goal_creation_month?: string,
+  target_balance?: number,
+  target_balance_month?: string,
+  monthly_funding?: number
 };

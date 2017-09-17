@@ -23,12 +23,11 @@ export const createCategoryGroup = (store: any, uuid: string, name: string, prio
   return item;
 };
 
-export const createCategory = (store: any, uuid: string, name: string, priority: number, categoryGroupUuid: string) => {
-  const item: Category = {uuid, name, priority, category_group_uuid: categoryGroupUuid};
+export const createCategory = (store: any, category: Category) => {
   store.dispatch(
-    reduxCrud.actionCreatorsFor(CategoryResource.path, {key: 'uuid'}).createSuccess(item)
+    reduxCrud.actionCreatorsFor(CategoryResource.path, {key: 'uuid'}).createSuccess(category)
   );
-  return item;
+  return category;
 };
 
 export const createAccount = (store: any, uuid: string, name: string) => {
@@ -39,7 +38,13 @@ export const createAccount = (store: any, uuid: string, name: string) => {
   return item;
 };
 
-export const createBudgetItem = (store: any, uuid: string, month: string, category_uuid: string, amount: number) => {
+export const createBudgetItem = (
+  store: any,
+  uuid: string,
+  month: string,
+  category_uuid: string,
+  amount: number
+) => {
   const item: BudgetItem = {uuid, month, category_uuid, amount};
   store.dispatch(
     reduxCrud.actionCreatorsFor(BudgetItemResource.path, {key: 'uuid'}).createSuccess(item)
@@ -47,7 +52,14 @@ export const createBudgetItem = (store: any, uuid: string, month: string, catego
   return item;
 };
 
-export const createInflowTBB = (store: any, uuid: string, account_uuid: string, date: string, amount: number, payee?: string) => {
+export const createInflowTBB = (
+  store: any,
+  uuid: string,
+  account_uuid: string,
+  date: string,
+  amount: number,
+  payee?: string
+) => {
   const item: Transaction = {
     uuid,
     date,
@@ -64,7 +76,15 @@ export const createInflowTBB = (store: any, uuid: string, account_uuid: string, 
   return item;
 };
 
-export const createOutflow = (store: any, uuid: string, account_uuid: string, date: string, amount: number, category_uuid: string, payee?: string) => {
+export const createOutflow = (
+  store: any,
+  uuid: string,
+  account_uuid: string,
+  date: string,
+  amount: number,
+  category_uuid: string,
+  payee?: string
+) => {
   const item: Transaction = {
     uuid,
     date,
@@ -82,7 +102,14 @@ export const createOutflow = (store: any, uuid: string, account_uuid: string, da
   return item;
 };
 
-export const createTransfer = (store: any, uuid: string, account_uuid: string, transfer_account_uuid: string, date: string, amount: number) => {
+export const createTransfer = (
+  store: any,
+  uuid: string,
+  account_uuid: string,
+  transfer_account_uuid: string,
+  date: string,
+  amount: number
+) => {
   const item: Transaction = {
     uuid,
     date,
