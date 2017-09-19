@@ -13,7 +13,8 @@ import {
   getSelectedMonthBudgetItemByCategoryId,
   BudgetItemResource,
   selectSelectedMonthActivityByCategoryId,
-  getAvailableByCategoryIdForSelectedMonth
+  getAvailableByCategoryIdForSelectedMonth,
+  goalToBudgetByCategoryForSelectedMonth
 } from 'inab-shared';
 import {withRouter} from 'react-router-dom';
 
@@ -22,7 +23,8 @@ const mapStateToProps = state => ({
   categoriesByGroupId: selectCategoriesByGroupId(state),
   selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
   selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
-  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
+  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
+  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(state)
 });
 
 @ui({
@@ -40,6 +42,7 @@ export class BudgetTable extends React.Component {
     selectedMonthActivityByCategoryId: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(BudgetItemResource.propType).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
+    goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number).isRequired,
     ui: PropTypes.shape({
       categorySelected: PropTypes.string
     }).isRequired,
@@ -77,6 +80,7 @@ export class BudgetTable extends React.Component {
               budgetItem={this.props.selectedMonthBudgetItemByCategoryId[c.uuid]}
               activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
               available={this.props.availableByCategory.get(c.uuid)}
+              goal={!!this.props.goalToBudgetByCategoryForSelectedMonth[c.uuid]}
             />
           );
         });

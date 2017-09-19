@@ -7,6 +7,7 @@ class Amount extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
     color: PropTypes.bool,
+    goal: PropTypes.bool,
     className: PropTypes.string
   };
 
@@ -20,6 +21,8 @@ class Amount extends React.Component {
 
     if (amount < 0) {
       styles.push('amount-negative');
+    } else if (this.props.goal) {
+      styles.push('amount-goal');
     } else if (amount > 0) {
       styles.push('amount-positive');
     } else {

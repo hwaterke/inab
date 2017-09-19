@@ -30,7 +30,8 @@ export class CategoryRow extends React.Component {
     updateUI: PropTypes.func.isRequired,
     budgetItem: BudgetItemResource.propType,
     onNameClick: PropTypes.func,
-    selectedMonth: PropTypes.object.isRequired
+    selectedMonth: PropTypes.object.isRequired,
+    goal: PropTypes.bool.isRequired
   };
 
   editBudgetItem() {
@@ -82,7 +83,7 @@ export class CategoryRow extends React.Component {
           </RouterLink>
         </td>
         <td className="right">
-          <Amount amount={this.props.available} color />
+          <Amount amount={this.props.available} color goal={this.props.goal} />
         </td>
       </tr>
     );

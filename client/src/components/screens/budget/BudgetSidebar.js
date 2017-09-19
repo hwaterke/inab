@@ -11,7 +11,8 @@ import {
   getBudgetedThisMonth,
   getSelectedMonthBudgetItemByCategoryId,
   getSelectedMonthMoment,
-  getToBeBudgetedSumInSelectedMonth
+  getToBeBudgetedSumInSelectedMonth,
+  goalToBudgetByCategoryForSelectedMonth
 } from 'inab-shared';
 import Amount from '../../Amount';
 import {crud} from '../../../hoc/crud';
@@ -25,7 +26,8 @@ const mapStateToProps = state => ({
   selectedMonth: getSelectedMonthMoment(state),
   selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
   budgetedThisMonth: getBudgetedThisMonth(state),
-  inflowInCurrentMonth: getToBeBudgetedSumInSelectedMonth(state)
+  inflowInCurrentMonth: getToBeBudgetedSumInSelectedMonth(state),
+  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(state)
 });
 
 @crud
@@ -131,6 +133,50 @@ export class BudgetSidebar extends React.Component {
 
           <Link to={`/categories/edit/${category.uuid}`}>Edit</Link>
         </div>
+
+        {category.goal_type &&
+          <div>
+            <h5>Goal</h5>
+            <b>
+              {category.goal_type === 'tb' && 'Target category balance'}
+              {category.goal_type === 'tbd' && 'Target category balance by date'}
+              {category.goal_type === 'mf' && 'Monthly funding goal'}
+            </b>
+
+            <div className="d-flex justify-content-center">
+              <div>
+                <div className="text-right">
+                  {category.goal_creation_month}
+                </div>
+                {category.target_balance > 0 &&
+                  <div className="text-right">
+                    <Amount amount={category.target_balance} />
+                  </div>}
+                {category.target_balance_month &&
+                  <div className="text-right">
+                    {category.target_balance_month}
+                  </div>}
+                {category.monthly_funding > 0 &&
+                  <div className="text-right">
+                    <Amount amount={category.monthly_funding} />
+                  </div>}
+                {this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid] &&
+                  <div className="text-right">
+                    <Amount
+                      amount={this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid]}
+                    />
+                  </div>}
+              </div>
+              <div className="ml-2">
+                <div>Creation month</div>
+                {category.target_balance > 0 && <div>Target balance</div>}
+                {category.target_balance_month && <div>Target balance month</div>}
+                {category.monthly_funding > 0 && <div>Monthly funding goal</div>}
+                {this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid] &&
+                  <div>To budget</div>}
+              </div>
+            </div>
+          </div>}
       </div>
     );
   }
