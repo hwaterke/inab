@@ -1,11 +1,11 @@
 import React from 'react';
-import {BudgetTable} from './BudgetTable';
+import {Link} from 'react-router-dom';
+import FontAwesome from 'react-fontawesome';
 import ui from 'redux-ui';
+import {BudgetTable} from './BudgetTable';
 import {BudgetHeader} from './BudgetHeader';
-import './BudgetPage.scss';
-import {CategoryGroupFormDialog} from '../../forms/CategoryGroupFormDialog';
-import {CategoryFormDialog} from '../../forms/CategoryFormDialog';
 import {BudgetSidebar} from './BudgetSidebar';
+import './BudgetPage.scss';
 
 @ui({
   state: {
@@ -26,8 +26,12 @@ export class BudgetPage extends React.Component {
             <div className="col-md-8">
               <div className="mt-4 pb-4 box">
                 <div className="my-4">
-                  <CategoryGroupFormDialog />
-                  <CategoryFormDialog />
+                  <Link to="/category_groups/new">
+                    <FontAwesome name="plus" fixedWidth /> Category Group
+                  </Link>
+                  <Link to="/categories/new">
+                    <FontAwesome name="plus" fixedWidth /> Category
+                  </Link>
                 </div>
                 <BudgetTable />
               </div>

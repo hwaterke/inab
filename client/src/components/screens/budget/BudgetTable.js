@@ -15,6 +15,7 @@ import {
   selectSelectedMonthActivityByCategoryId,
   getAvailableByCategoryIdForSelectedMonth
 } from 'inab-shared';
+import {withRouter} from 'react-router-dom';
 
 const mapStateToProps = state => ({
   categoryGroups: getSortedCategoryGroups(state),
@@ -30,6 +31,7 @@ const mapStateToProps = state => ({
   }
 })
 @connect(mapStateToProps)
+@withRouter
 export class BudgetTable extends React.Component {
   static propTypes = {
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
@@ -41,14 +43,17 @@ export class BudgetTable extends React.Component {
     ui: PropTypes.shape({
       categorySelected: PropTypes.string
     }).isRequired,
-    updateUI: PropTypes.func.isRequired
+    updateUI: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
+    }).isRequired
   };
 
   categoryNameClick = categoryUuid => () => {
     if (this.props.ui.categorySelected === categoryUuid) {
       this.props.updateUI({categorySelected: null});
     } else {
-      this.props.updateUI({categorySelected: categoryUuid, categoryFormOpen: false});
+      this.props.updateUI({categorySelected: categoryUuid});
     }
   };
 
@@ -59,8 +64,7 @@ export class BudgetTable extends React.Component {
         <CategoryGroupRow
           key={'cg' + cg.uuid}
           categoryGroup={cg}
-          onClick={() =>
-            this.props.updateUI({categoryGroupSelected: cg.uuid, categoryGroupFormOpen: true})}
+          onClick={() => this.props.history.push(`/category_groups/edit/${cg.uuid}`)}
         />
       );
       if (this.props.categoriesByGroupId[cg.uuid]) {

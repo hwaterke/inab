@@ -15,6 +15,7 @@ import {
 } from 'inab-shared';
 import Amount from '../../Amount';
 import {crud} from '../../../hoc/crud';
+import {Link} from 'react-router-dom';
 
 const mapStateToProps = state => ({
   categories: arraySelector(CategoryResource)(state),
@@ -45,8 +46,7 @@ export class BudgetSidebar extends React.Component {
     updateResource: PropTypes.func.isRequired,
     ui: PropTypes.shape({
       categorySelected: PropTypes.string
-    }).isRequired,
-    updateUI: PropTypes.func.isRequired
+    }).isRequired
   };
 
   state = {
@@ -93,7 +93,7 @@ export class BudgetSidebar extends React.Component {
   };
 
   render() {
-    const {ui: {categorySelected}, updateUI, categoriesById} = this.props;
+    const {ui: {categorySelected}, categoriesById} = this.props;
 
     if (!categorySelected) {
       return (
@@ -120,16 +120,16 @@ export class BudgetSidebar extends React.Component {
       );
     }
 
+    const category = categoriesById[categorySelected];
+
     return (
       <div>
         <div className="d-flex justify-content-between">
           <h4>
-            {categoriesById[categorySelected].name}
+            {category.name}
           </h4>
 
-          <button onClick={() => updateUI({categoryFormOpen: true})} className="btn btn-primary">
-            Edit
-          </button>
+          <Link to={`/categories/edit/${category.uuid}`}>Edit</Link>
         </div>
       </div>
     );

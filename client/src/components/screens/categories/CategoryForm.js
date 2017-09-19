@@ -2,18 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {connect} from 'react-redux';
-import {SimpleSelectField} from './fields/SimpleSelectField';
+import {SimpleSelectField} from '../../forms/fields/SimpleSelectField';
 import {CategoryResource, CategoryGroupResource} from 'inab-shared';
-import {FormActionBar} from './FormActionBar';
+import {FormActionBar} from '../../forms/FormActionBar';
 import {arraySelector, resourceForm} from 'hw-react-shared';
-import {crud} from '../../hoc/crud';
+import {crud} from '../../../hoc/crud';
+import {InputField} from '../../forms/fields/InputField';
 
 const mapStateToProps = state => ({
   categoryGroups: arraySelector(CategoryGroupResource)(state)
 });
 
+const formToResource = data => {
+  return {...data, priority: parseInt(data.priority, 10)};
+};
+
 @connect(mapStateToProps)
-class CategoryForm extends React.Component {
+@resourceForm(crud, CategoryResource, formToResource)
+export class CategoryForm extends React.Component {
   static propTypes = {
     updatedResource: CategoryResource.propType,
     isCreate: PropTypes.bool.isRequired,
@@ -39,28 +45,9 @@ class CategoryForm extends React.Component {
           />
         </div>
 
-        <div className="form-group">
-          <label>Name</label>
-          <Field
-            name="name"
-            component="input"
-            type="text"
-            className="form-control"
-            placeholder="Name"
-            autoFocus
-          />
-        </div>
+        <Field name="name" component={InputField} type="text" label="Name" />
 
-        <div className="form-group">
-          <label>Priority</label>
-          <Field
-            name="priority"
-            component="input"
-            type="number"
-            className="form-control"
-            placeholder="Priority"
-          />
-        </div>
+        <Field name="priority" component={InputField} type="number" label="Priority" />
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}
@@ -74,9 +61,3 @@ class CategoryForm extends React.Component {
     );
   }
 }
-
-const formToResource = data => {
-  return {...data, priority: parseInt(data.priority, 10)};
-};
-
-export default resourceForm(crud, CategoryResource, formToResource)(CategoryForm);

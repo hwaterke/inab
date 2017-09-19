@@ -13,6 +13,8 @@ import {PayeeDetail} from './screens/payees/PayeeDetail';
 import {AccountList} from './screens/accounts/AccountList';
 import {AccountDetail} from './screens/accounts/AccountDetail';
 import {AdminPage} from './screens/admin/AdminPage';
+import {CategoryDetail} from './screens/categories/CategoryDetail';
+import {CategoryGroupDetail} from './screens/category_groups/CategoryGroupDetail';
 
 export class Main extends React.Component {
   render() {
@@ -35,6 +37,12 @@ export class Main extends React.Component {
             <Route exact path="/accounts" component={AccountList} />
             <Route exact path="/accounts/new" component={AccountDetail} />
             <Route exact path="/accounts/edit/:uuid" component={AccountDetail} />
+
+            <Route exact path="/categories/new" component={CategoryDetail} />
+            <Route exact path="/categories/edit/:uuid" component={CategoryDetail} />
+
+            <Route exact path="/category_groups/new" component={CategoryGroupDetail} />
+            <Route exact path="/category_groups/edit/:uuid" component={CategoryGroupDetail} />
 
             <Route exact path="/account/:uuid?" component={AccountPage} />
             <Route path="/account/:date/:category_uuid" component={AccountPage} />

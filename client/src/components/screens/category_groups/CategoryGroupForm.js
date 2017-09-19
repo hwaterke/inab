@@ -2,11 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
 import {CategoryGroupResource} from 'inab-shared';
-import {FormActionBar} from './FormActionBar';
+import {FormActionBar} from '../../forms/FormActionBar';
 import {resourceForm} from 'hw-react-shared';
-import {crud} from '../../hoc/crud';
+import {crud} from '../../../hoc/crud';
+import {InputField} from '../../forms/fields/InputField';
 
-class CategoryGroupForm extends React.Component {
+const formToResource = data => {
+  return {...data, priority: parseInt(data.priority, 10)};
+};
+
+@resourceForm(crud, CategoryGroupResource, formToResource)
+export class CategoryGroupForm extends React.Component {
   static propTypes = {
     updatedResource: CategoryGroupResource.propType,
     isCreate: PropTypes.bool.isRequired,
@@ -21,28 +27,9 @@ class CategoryGroupForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <Field
-            name="name"
-            component="input"
-            type="text"
-            className="form-control"
-            placeholder="Name"
-            autoFocus
-          />
-        </div>
+        <Field name="name" component={InputField} type="text" label="Name" />
 
-        <div className="form-group">
-          <label>Priority</label>
-          <Field
-            name="priority"
-            component="input"
-            type="number"
-            className="form-control"
-            placeholder="Priority"
-          />
-        </div>
+        <Field name="priority" component={InputField} type="number" label="Priority" />
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}
@@ -56,9 +43,3 @@ class CategoryGroupForm extends React.Component {
     );
   }
 }
-
-const formToResource = data => {
-  return {...data, priority: parseInt(data.priority, 10)};
-};
-
-export default resourceForm(crud, CategoryGroupResource, formToResource)(CategoryGroupForm);
