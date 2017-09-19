@@ -1,17 +1,8 @@
 // This file is used by react-app-rewired to override the webpack config of react-script.
+const rewired = require('react-app-rewired');
 
 function rewireBabel(config) {
-  const babelOptions = config.module.rules.find(
-    conf => conf.loader && conf.loader.includes('babel-loader')
-  ).options;
-
-  const babelrc = require(babelOptions.presets[0]);
-
-  babelrc.plugins = ['transform-decorators-legacy'].concat(babelrc.plugins || []);
-
-  babelOptions.presets = babelrc;
-
-  return config;
+  return rewired.injectBabelPlugin('transform-decorators-legacy', config);
 }
 
 function rewireSass(config) {
