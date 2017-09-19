@@ -8,7 +8,13 @@ export const CategoryResource: ResourceDefinition = {
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
     priority: PropTypes.number.isRequired,
-    category_group_uuid: PropTypes.string.isRequired
+    category_group_uuid: PropTypes.string.isRequired,
+
+    goal_type: PropTypes.oneOf(['tb', 'tbd', 'mf']),
+    goal_creation_month: PropTypes.string,
+    target_balance: PropTypes.number,
+    target_balance_month: PropTypes.string,
+    monthly_funding: PropTypes.number
   })
 };
 
