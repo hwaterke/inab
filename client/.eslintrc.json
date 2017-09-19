@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "unix"
+    ]
+  }
+}
