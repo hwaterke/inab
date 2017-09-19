@@ -6,21 +6,18 @@ function rewireBabel(config) {
 }
 
 function rewireSass(config) {
-  // Exclude scss files from the file-loader
-  config.module.rules
-    .find(conf => conf.loader && conf.loader.includes('file-loader'))
-    .exclude.push(/\.scss$/);
-
-  // Extract config for CSS
-  const cssLoader = config.module.rules.find(
-    conf => conf.test && String(conf.test) === String(/\.css$/)
+  const cssLoader = rewired.getLoader(
+    config.module.rules,
+    rule => rule.test && String(rule.test) === String(/\.css$/)
   );
 
-  // Add loader for scss files
-  config.module.rules.push({
+  const sassLoader = {
     test: /\.scss$/,
     use: [...(cssLoader.loader || cssLoader.use), 'sass-loader']
-  });
+  };
+
+  const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf;
+  oneOf.unshift(sassLoader);
 
   return config;
 }
