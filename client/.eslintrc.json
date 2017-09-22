@@ -6,7 +6,7 @@
     "plugin:import/warnings"
   ],
   "rules": {
-    "react/no-unused-prop-types": "error",
+    "react/no-unused-prop-types": "warn",
     "linebreak-style": [
       "error",
       "unix"
