@@ -8,14 +8,14 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "format": "prettier --single-quote --bracket-spacing=false --print-width 100 --write 'src/**/*.js'",
+    "format": "prettier --single-quote --bracket-spacing=false --write 'src/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
     "gitDir": "../",
     "linters": {
       "*.js": [
-        "prettier --write --single-quote --bracket-spacing=false --print-width 100",
+        "prettier --write --single-quote --bracket-spacing=false",
         "eslint",
         "git add"
       ]
