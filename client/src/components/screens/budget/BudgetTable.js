@@ -21,10 +21,16 @@ import {withRouter} from 'react-router-dom';
 const mapStateToProps = state => ({
   categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: selectCategoriesByGroupId(state),
-  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(state),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
+  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(
+    state
+  ),
+  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
+    state
+  ),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
-  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(state)
+  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
+    state
+  )
 });
 
 @ui({
@@ -36,13 +42,20 @@ const mapStateToProps = state => ({
 @withRouter
 export class BudgetTable extends React.Component {
   static propTypes = {
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired,
-    categoriesByGroupId: PropTypes.objectOf(PropTypes.arrayOf(CategoryResource.propType).isRequired)
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
       .isRequired,
-    selectedMonthActivityByCategoryId: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
-    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(BudgetItemResource.propType).isRequired,
+    categoriesByGroupId: PropTypes.objectOf(
+      PropTypes.arrayOf(CategoryResource.propType).isRequired
+    ).isRequired,
+    selectedMonthActivityByCategoryId: PropTypes.objectOf(
+      PropTypes.number.isRequired
+    ).isRequired,
+    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
+      BudgetItemResource.propType
+    ).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
-    goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number).isRequired,
+    goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
+      .isRequired,
     ui: PropTypes.shape({
       categorySelected: PropTypes.string
     }).isRequired,
@@ -67,7 +80,8 @@ export class BudgetTable extends React.Component {
         <CategoryGroupRow
           key={'cg' + cg.uuid}
           categoryGroup={cg}
-          onClick={() => this.props.history.push(`/category_groups/edit/${cg.uuid}`)}
+          onClick={() =>
+            this.props.history.push(`/category_groups/edit/${cg.uuid}`)}
         />
       );
       if (this.props.categoriesByGroupId[cg.uuid]) {
@@ -77,7 +91,9 @@ export class BudgetTable extends React.Component {
               key={'c' + c.uuid}
               category={c}
               onNameClick={this.categoryNameClick(c.uuid)}
-              budgetItem={this.props.selectedMonthBudgetItemByCategoryId[c.uuid]}
+              budgetItem={
+                this.props.selectedMonthBudgetItemByCategoryId[c.uuid]
+              }
               activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
               available={this.props.availableByCategory.get(c.uuid)}
               goal={!!this.props.goalToBudgetByCategoryForSelectedMonth[c.uuid]}
@@ -92,14 +108,12 @@ export class BudgetTable extends React.Component {
         <thead>
           <tr>
             <th>Category</th>
-            <th className="right">Budgeted</th>
-            <th className="right">Activity</th>
-            <th className="right">Available</th>
+            <th className="text-right budgeted-column">Budgeted</th>
+            <th className="text-right">Activity</th>
+            <th className="text-right">Available</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
     );
   }

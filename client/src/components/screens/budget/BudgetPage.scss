@@ -11,9 +11,20 @@
 }
 
 .budget-table {
+
+  .budgeted-column {
+    width: 15%;
+  }
+
+  input {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    text-align: right;
+  }
+
   thead {
     th {
-      border-top: 0
+      border-top: 0;
     }
   }
 
