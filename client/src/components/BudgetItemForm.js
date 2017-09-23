@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'redux-form';
-import {BudgetItemResource, amountToCents, getSelectedMonthMoment} from 'inab-shared';
+import {
+  amountToCents,
+  BudgetItemResource,
+  getSelectedMonthMoment
+} from 'inab-shared';
 import {connect} from 'react-redux';
 import {resourceForm} from 'hw-react-shared';
 import {crud} from '../hoc/crud';
@@ -19,17 +23,24 @@ const formToResource = (data, props) => ({
 const resourceToForm = () => ({});
 
 @connect(mapStateToProps)
-@resourceForm(crud, BudgetItemResource, formToResource, resourceToForm)
+@resourceForm({
+  crud,
+  resource: BudgetItemResource,
+  formToResource,
+  resourceToForm
+})
 export class BudgetItemForm extends React.Component {
   static propTypes = {
     updatedResource: BudgetItemResource.propType,
     deleteResource: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     postSubmit: PropTypes.func.isRequired,
-    category_uuid: PropTypes.string,
     handleSubmit: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
-    selectedMonth: PropTypes.object.isRequired
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectedMonth: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    category_uuid: PropTypes.string
   };
 
   onSubmit = data => {

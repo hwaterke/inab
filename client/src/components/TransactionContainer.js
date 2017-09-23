@@ -6,7 +6,7 @@ import {getTransactionsForRendering} from '../selectors/transactionsRendering';
 import * as Immutable from 'immutable';
 import TransactionToolbar from './TransactionToolbar';
 import ui from 'redux-ui';
-import TransactionForm from './forms/TransactionForm';
+import {TransactionForm} from './forms/TransactionForm';
 import TransactionTotalAmount from './TransactionTotalAmount';
 import TransactionFilters from './TransactionFilters';
 import {TransactionSearchService} from '../services/TransactionSearchService';
@@ -41,7 +41,8 @@ const mapStateToProps = state => ({
 class TransactionContainer extends React.Component {
   static propTypes = {
     transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    transactionsById: PropTypes.objectOf(TransactionResource.propType).isRequired,
+    transactionsById: PropTypes.objectOf(TransactionResource.propType)
+      .isRequired,
     transactionsForRendering: PropTypes.array.isRequired,
     transactionFilters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)),
     updateResource: PropTypes.func.isRequired,
@@ -62,7 +63,9 @@ class TransactionContainer extends React.Component {
     this.hideForm = this.hideForm.bind(this);
     this.toggleColumn = this.toggleColumn.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
-    this.toggleClearingTransactionStatus = this.toggleClearingTransactionStatus.bind(this);
+    this.toggleClearingTransactionStatus = this.toggleClearingTransactionStatus.bind(
+      this
+    );
   }
 
   selectTransaction(id) {
@@ -77,9 +80,15 @@ class TransactionContainer extends React.Component {
   toggleClearingTransactionStatus(id) {
     const transaction = this.props.transactionsById[id];
     if (transaction.cleared_at) {
-      this.props.updateResource(TransactionResource, {...transaction, cleared_at: null});
+      this.props.updateResource(TransactionResource, {
+        ...transaction,
+        cleared_at: null
+      });
     } else {
-      this.props.updateResource(TransactionResource, {...transaction, cleared_at: new Date()});
+      this.props.updateResource(TransactionResource, {
+        ...transaction,
+        cleared_at: new Date()
+      });
     }
   }
 
@@ -88,7 +97,9 @@ class TransactionContainer extends React.Component {
   }
 
   deleteSelection() {
-    const records = this.props.ui.selected.map(id => this.props.transactionsById[id]);
+    const records = this.props.ui.selected.map(
+      id => this.props.transactionsById[id]
+    );
     this.clearSelection();
     records.forEach(r => this.props.deleteResource(TransactionResource, r));
   }
@@ -98,7 +109,10 @@ class TransactionContainer extends React.Component {
   }
 
   displayUpdate(transaction_uuid) {
-    this.props.updateUI({addingTransaction: false, editingTransactionId: transaction_uuid});
+    this.props.updateUI({
+      addingTransaction: false,
+      editingTransactionId: transaction_uuid
+    });
   }
 
   hideForm() {
@@ -137,19 +151,23 @@ class TransactionContainer extends React.Component {
 
   render() {
     const transactionsToRender = this.getTransactionsToRender();
-    const total = sumOfAmounts(transactionsToRender.filter(tr => tr.type !== 'split'));
+    const total = sumOfAmounts(
+      transactionsToRender.filter(tr => tr.type !== 'split')
+    );
 
     return (
       <div>
-        {(this.props.ui.addingTransaction || this.props.ui.editingTransactionId) &&
-          <TransactionForm
-            updatedResource={this.props.transactions.find(
-              tr => tr.uuid === this.props.ui.editingTransactionId
-            )}
-            selectedAccountId={this.props.accountId}
-            postSubmit={this.hideForm}
-            onCancel={this.hideForm}
-          />}
+        {(this.props.ui.addingTransaction ||
+          this.props.ui.editingTransactionId) && (
+            <TransactionForm
+              updatedResource={this.props.transactions.find(
+                tr => tr.uuid === this.props.ui.editingTransactionId
+              )}
+              selectedAccountId={this.props.accountId}
+              postSubmit={this.hideForm}
+              onCancel={this.hideForm}
+            />
+          )}
 
         <div className="box-container">
           <TransactionToolbar

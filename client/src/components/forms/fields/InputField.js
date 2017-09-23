@@ -5,16 +5,26 @@ export class InputField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
+    step: PropTypes.string,
     meta: PropTypes.shape({
       touched: PropTypes.bool.isRequired,
       error: PropTypes.string
     }).isRequired,
     required: PropTypes.bool,
-    label: PropTypes.string
+    label: PropTypes.string,
+    placeholder: PropTypes.string
   };
 
   render() {
-    const {label, input, type, required, meta: {touched, error}} = this.props;
+    const {
+      input,
+      type,
+      step,
+      required,
+      meta: {touched, error},
+      label,
+      placeholder
+    } = this.props;
     const classname = ['form-control'];
     if (touched && error) {
       classname.push('is-invalid');
@@ -22,22 +32,16 @@ export class InputField extends React.Component {
 
     return (
       <div className="form-group">
-        {label &&
-          <label>
-            {label}
-          </label>}
+        {label && <label>{label}</label>}
         <input
           {...input}
-          placeholder={label}
+          placeholder={placeholder || label}
           required={required}
           className={classname.join(' ')}
           type={type}
+          step={step}
         />
-        {touched &&
-          error &&
-          <div className="invalid-feedback">
-            {error}
-          </div>}
+        {touched && error && <div className="invalid-feedback">{error}</div>}
       </div>
     );
   }

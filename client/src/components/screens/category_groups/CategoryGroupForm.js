@@ -6,15 +6,15 @@ import {FormActionBar} from '../../forms/FormActionBar';
 import {resourceForm} from 'hw-react-shared';
 import {crud} from '../../../hoc/crud';
 import {InputField} from '../../forms/fields/InputField';
+import {required} from '../../forms/validations';
 
 const formToResource = data => {
   return {...data, priority: parseInt(data.priority, 10)};
 };
 
-@resourceForm(crud, CategoryGroupResource, formToResource)
+@resourceForm({crud, resource: CategoryGroupResource, formToResource})
 export class CategoryGroupForm extends React.Component {
   static propTypes = {
-    updatedResource: CategoryGroupResource.propType,
     isCreate: PropTypes.bool.isRequired,
     isUpdate: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -27,9 +27,21 @@ export class CategoryGroupForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <Field name="name" component={InputField} type="text" label="Name" />
+        <Field
+          name="name"
+          component={InputField}
+          type="text"
+          label="Name"
+          validate={[required]}
+          required
+        />
 
-        <Field name="priority" component={InputField} type="number" label="Priority" />
+        <Field
+          name="priority"
+          component={InputField}
+          type="number"
+          label="Priority"
+        />
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}

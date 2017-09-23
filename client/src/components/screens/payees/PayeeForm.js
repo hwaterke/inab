@@ -7,6 +7,8 @@ import {PayeeResource} from 'inab-shared';
 import {crud} from '../../../hoc/crud';
 import ButtonCheck from '../../ButtonCheck';
 import ButtonDelete from '../../ButtonDelete';
+import {required} from '../../forms/validations';
+import {InputField} from '../../forms/fields/InputField';
 
 function formToResource(formData) {
   if (formData.locations) {
@@ -21,12 +23,12 @@ function formToResource(formData) {
   return {...formData, locations: []};
 }
 
-const renderLocations = ({fields}) =>
+const renderLocations = ({fields}) => (
   <div>
     <ButtonCheck onClick={() => fields.push()}>Add location</ButtonCheck>
 
     <div className="d-flex flex-wrap">
-      {fields.map((location, index) =>
+      {fields.map((location, index) => (
         <div className="card m-3" key={index} style={{maxWidth: '20rem'}}>
           <div className="card-body">
             <div className="form-group">
@@ -54,15 +56,16 @@ const renderLocations = ({fields}) =>
             <ButtonDelete onClick={() => fields.remove(index)} />
           </div>
         </div>
-      )}
+      ))}
     </div>
-  </div>;
+  </div>
+);
 
 renderLocations.propTypes = {
   fields: PropTypes.object.isRequired
 };
 
-@resourceForm(crud, PayeeResource, formToResource)
+@resourceForm({crud, resource: PayeeResource, formToResource})
 export class PayeeForm extends React.Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
@@ -77,16 +80,14 @@ export class PayeeForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <Field
-            name="name"
-            component="input"
-            type="text"
-            className="form-control"
-            placeholder="Name"
-          />
-        </div>
+        <Field
+          name="name"
+          component={InputField}
+          type="text"
+          label="Name"
+          validate={[required]}
+          required
+        />
 
         <div className="form-group">
           <label>Locations</label>

@@ -214,6 +214,16 @@ $border-highlight: #80bdff;
   }
 }
 
+.react-selectize.is-invalid {
+  .react-selectize-control {
+    border-color: #dc3545;
+  }
+}
+
+.react-selectize ~ .invalid-feedback {
+  display: block;
+}
+
 .react-selectize.dropdown-menu-wrapper.flipped {
   margin-bottom: 5px;
 }

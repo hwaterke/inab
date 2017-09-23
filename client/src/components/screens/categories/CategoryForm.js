@@ -1,27 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Field} from 'redux-form';
+import {Field, formValueSelector} from 'redux-form';
 import {connect} from 'react-redux';
 import {SimpleSelectField} from '../../forms/fields/SimpleSelectField';
-import {CategoryResource, CategoryGroupResource} from 'inab-shared';
+import {
+  CategoryResource,
+  CategoryGroupResource,
+  getSelectedMonthMoment,
+  amountToCents
+} from 'inab-shared';
 import {FormActionBar} from '../../forms/FormActionBar';
 import {arraySelector, resourceForm} from 'hw-react-shared';
 import {crud} from '../../../hoc/crud';
 import {InputField} from '../../forms/fields/InputField';
+import {required} from '../../forms/validations';
 
 const mapStateToProps = state => ({
-  categoryGroups: arraySelector(CategoryGroupResource)(state)
+  categoryGroups: arraySelector(CategoryGroupResource)(state),
+  selectedMonth: getSelectedMonthMoment(state),
+  goalTypeValue: selector(state, 'goal_type')
 });
 
-const formToResource = data => {
-  return {...data, priority: parseInt(data.priority, 10)};
+const formToResource = (data, ownProps) => {
+  return {
+    ...data,
+    priority: parseInt(data.priority, 10),
+    goal_type: data.goal_type === 'none' ? null : data.goal_type,
+    goal_creation_month:
+      data.goal_type === 'none'
+        ? null
+        : ownProps.selectedMonth.format('YYYY-MM-DD'),
+    target_balance: ['tb', 'tbd'].includes(data.goal_type)
+      ? amountToCents(data.target_balance)
+      : null,
+    target_balance_month:
+      data.goal_type === 'tbd' ? data.target_balance_month : null,
+    monthly_funding:
+      data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null
+  };
 };
 
+const selector = formValueSelector(CategoryResource.path);
+
+function validateTargetBalance(value, data) {
+  if (['tb', 'tbd'].includes(data.goal_type)) {
+    if (!value || Number(value) <= 0) {
+      return 'Must be positive';
+    }
+  }
+  return undefined;
+}
+
+function validateTargetBalanceMonth(value, data) {
+  if (data.goal_type === 'tbd') {
+    if (!/\d{4}-\d{2}-01/g.test(value)) {
+      return 'Must be YYYY-MM-01';
+    }
+  }
+  return undefined;
+}
+
+function validateMonthlyFunding(value, data) {
+  if (data.goal_type === 'mf') {
+    if (!value || Number(value) <= 0) {
+      return 'Must be positive';
+    }
+  }
+  return undefined;
+}
+
 @connect(mapStateToProps)
-@resourceForm(crud, CategoryResource, formToResource)
+@resourceForm({crud, resource: CategoryResource, formToResource})
 export class CategoryForm extends React.Component {
   static propTypes = {
-    updatedResource: CategoryResource.propType,
     isCreate: PropTypes.bool.isRequired,
     isUpdate: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -29,7 +80,9 @@ export class CategoryForm extends React.Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     deleteResource: PropTypes.func.isRequired,
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType).isRequired
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
+      .isRequired,
+    goalTypeValue: PropTypes.string
   };
 
   render() {
@@ -41,13 +94,71 @@ export class CategoryForm extends React.Component {
             name="category_group_uuid"
             component={SimpleSelectField}
             placeholder="Category group"
-            options={this.props.categoryGroups.map(cg => ({label: cg.name, value: cg.uuid}))}
+            validate={[required]}
+            options={this.props.categoryGroups.map(cg => ({
+              label: cg.name,
+              value: cg.uuid
+            }))}
           />
         </div>
 
-        <Field name="name" component={InputField} type="text" label="Name" />
+        <Field
+          name="name"
+          component={InputField}
+          type="text"
+          label="Name"
+          validate={[required]}
+          required
+        />
 
-        <Field name="priority" component={InputField} type="number" label="Priority" />
+        <Field
+          name="priority"
+          component={InputField}
+          type="number"
+          label="Priority"
+        />
+
+        <div className="form-group">
+          <label>Goal type</label>
+          <Field name="goal_type" component="select" className="form-control">
+            <option value="none">None</option>
+            <option value="tb">Target balance</option>
+            <option value="tbd">Target balance by date</option>
+            <option value="mf">Monthly funding</option>
+          </Field>
+        </div>
+
+        {['tb', 'tbd'].includes(this.props.goalTypeValue) && (
+          <Field
+            name="target_balance"
+            component={InputField}
+            type="number"
+            step="0.01"
+            label="Target Balance"
+            validate={[validateTargetBalance]}
+          />
+        )}
+
+        {this.props.goalTypeValue === 'tbd' && (
+          <Field
+            name="target_balance_month"
+            component={InputField}
+            type="text"
+            label="Target Balance Month"
+            validate={[validateTargetBalanceMonth]}
+          />
+        )}
+
+        {this.props.goalTypeValue === 'mf' && (
+          <Field
+            name="monthly_funding"
+            component={InputField}
+            type="number"
+            step="0.01"
+            label="Monthly Funding"
+            validate={[validateMonthlyFunding]}
+          />
+        )}
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}

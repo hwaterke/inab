@@ -5,8 +5,10 @@ import {FormActionBar} from '../../forms/FormActionBar';
 import {resourceForm} from 'hw-react-shared';
 import {AccountResource} from 'inab-shared';
 import {crud} from '../../../hoc/crud';
+import {required} from '../../forms/validations';
+import {InputField} from '../../forms/fields/InputField';
 
-@resourceForm(crud, AccountResource)
+@resourceForm({crud, resource: AccountResource})
 export class AccountForm extends React.Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
@@ -21,16 +23,14 @@ export class AccountForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <Field
-            name="name"
-            component="input"
-            type="text"
-            className="form-control"
-            placeholder="Name"
-          />
-        </div>
+        <Field
+          name="name"
+          component={InputField}
+          type="text"
+          label="Name"
+          validate={[required]}
+          required
+        />
 
         <FormActionBar
           handleSubmit={this.props.handleSubmit}
