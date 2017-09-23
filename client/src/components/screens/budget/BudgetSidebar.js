@@ -17,6 +17,7 @@ import {
 import Amount from '../../Amount';
 import {crud} from '../../../hoc/crud';
 import {Link} from 'react-router-dom';
+import {ValueHighlight} from '../../ValueHighlight';
 
 const mapStateToProps = state => ({
   categories: arraySelector(CategoryResource)(state),
@@ -128,19 +129,13 @@ export class BudgetSidebar extends React.Component {
     if (!categorySelected) {
       return (
         <div>
-          <div className="d-flex flex-column align-items-center mb-4">
-            <h4>Total budgeted</h4>
-            <h2>
-              <Amount amount={-this.props.budgetedThisMonth} />
-            </h2>
-          </div>
+          <ValueHighlight name="Total budgeted">
+            <Amount amount={-this.props.budgetedThisMonth} />
+          </ValueHighlight>
 
-          <div className=" d-flex flex-column align-items-center mb-4">
-            <h4>Total inflows</h4>
-            <h2>
-              <Amount amount={this.props.inflowInCurrentMonth} />
-            </h2>
-          </div>
+          <ValueHighlight name="Total inflows">
+            <Amount amount={this.props.inflowInCurrentMonth} />
+          </ValueHighlight>
 
           {!this.state.budgeting && (
             <button
