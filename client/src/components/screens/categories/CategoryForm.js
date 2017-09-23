@@ -7,7 +7,8 @@ import {
   CategoryResource,
   CategoryGroupResource,
   getSelectedMonthMoment,
-  amountToCents
+  amountToCents,
+  amountFromCents
 } from 'inab-shared';
 import {FormActionBar} from '../../forms/FormActionBar';
 import {arraySelector, resourceForm} from 'hw-react-shared';
@@ -21,7 +22,7 @@ const mapStateToProps = state => ({
   goalTypeValue: selector(state, 'goal_type')
 });
 
-const formToResource = (data, ownProps) => {
+function formToResource(data, ownProps) {
   return {
     ...data,
     priority: parseInt(data.priority, 10),
@@ -38,7 +39,19 @@ const formToResource = (data, ownProps) => {
     monthly_funding:
       data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null
   };
-};
+}
+
+function resourceToForm(category) {
+  if (category) {
+    return {
+      ...category,
+      target_balance: amountFromCents(category.target_balance),
+      monthly_funding: amountFromCents(category.monthly_funding)
+    };
+  }
+
+  return {};
+}
 
 const selector = formValueSelector(CategoryResource.path);
 
@@ -70,7 +83,12 @@ function validateMonthlyFunding(value, data) {
 }
 
 @connect(mapStateToProps)
-@resourceForm({crud, resource: CategoryResource, formToResource})
+@resourceForm({
+  crud,
+  resource: CategoryResource,
+  formToResource,
+  resourceToForm
+})
 export class CategoryForm extends React.Component {
   static propTypes = {
     isCreate: PropTypes.bool.isRequired,
