@@ -17,12 +17,15 @@ def schema_version(database)
   '0'
 end
 
+require_relative 'migrate0to1'
+require_relative 'migrate1to2'
+
 # ======================================================================
 
 puts "INAB - Migration tool starting up".blue
 
 if ARGV.size < 2
-  puts "Usage migrate2V1 old_database.db new_database.db".red
+  puts "Usage migrate old_database.db new_database.db".red
   exit(-1)
 end
 
@@ -46,86 +49,18 @@ DB_NEW = Sequel.sqlite(database_new_file)
 # DB_NEW.loggers << Logger.new($stdout)
 
 puts "Checking schema version".yellow
-unless schema_version(DB_OLD) == '0'
+schema_old = schema_version(DB_OLD)
+puts "Schema version, old database: #{schema_old}"
+schame_new = schema_version(DB_NEW)
+puts "Schema version, mew database: #{schema_new}"
+
+if schema_old == '0' && schame_new == '1'
+  migrate_0_to_1 DB_NEW, DB_OLD
+elsif schema_old == '1' && schame_new == '2'
+  migrate_1_to_2 DB_NEW, DB_OLD
+else
   puts "Oops, looks like you fucked up ¯\\_(ツ)_/¯".red
-  raise "Expected schema version of #{database_old_file} to be 0"
-end
-
-unless schema_version(DB_NEW) == '1'
-  puts "Oops, looks like you fucked up ¯\\_(ツ)_/¯".red
-  raise "Expected schema version of #{database_new_file_file} to be 1"
-end
-
-# Empty new database before migrating
-puts "Emptying new database".yellow
-
-[
-  :budget_items,
-  :transaction_tags,
-  :subtransactions,
-  :transactions,
-  :accounts,
-  :categories,
-  :category_groups,
-  :locations,
-  :payees,
-  :users
-].each do |table_name|
-  puts " > Emptying #{table_name}".blue
-  DB_NEW[table_name].delete
-end
-
-puts "Starting migration".yellow
-
-[
-  :users,
-  :accounts,
-  :category_groups,
-  :categories,
-  :budget_items
-].each do |table_name|
-  puts " > #{table_name}".blue
-  rows = DB_OLD[table_name].all
-  rows.delete_if {|row| row[:amount].zero? } if table_name == :budget_items
-  DB_NEW[table_name].multi_insert rows
-end
-
-puts " > payees".blue
-
-now = Time.now.strftime '%FT%T%:z'
-DB_OLD[:transactions].all do |transaction|
-  # Check if it already exist
-  unless transaction[:payee].nil? || DB_NEW[:payees].where({name: transaction[:payee], user_uuid: transaction[:user_uuid]}).first
-    DB_NEW[:payees].insert({
-      uuid: SecureRandom.uuid,
-      name: transaction[:payee],
-      user_uuid: transaction[:user_uuid],
-      created_at: now,
-      updated_at: now
-    })
-  end
-end
-
-puts " > transactions".blue
-DB_OLD[:transactions].all do |transaction|
-  # Add payee_uuid field
-  unless transaction[:payee].nil?
-    transaction[:payee_uuid] = DB_NEW[:payees].where({name: transaction[:payee], user_uuid: transaction[:user_uuid]}).first[:uuid]
-  end
-
-  # Remove payee field
-  transaction.delete_if {|key| key == :payee }
-
-  DB_NEW[:transactions].insert(transaction)
-end
-
-[
-  :transaction_tags,
-  :subtransactions
-].each do |table_name|
-  puts " > #{table_name}".blue
-  rows = DB_OLD[table_name].all
-  DB_NEW[table_name].multi_insert rows
+  raise "Cannot migrate schema version #{schema_old} to version #{schame_new}"
 end
 
 puts "Great success 🍺".green

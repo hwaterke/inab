@@ -5,6 +5,6 @@ WORKDIR /app/migration
 COPY Gemfile* ./
 RUN bundle install
 
-COPY migrate.rb ./
+COPY *.rb ./
 
 ENTRYPOINT ["bundle", "exec", "ruby", "migrate.rb"]
