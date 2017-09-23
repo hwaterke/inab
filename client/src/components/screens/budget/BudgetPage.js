@@ -23,8 +23,8 @@ export class BudgetPage extends React.Component {
 
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-8">
-              <div className="mt-4 pb-4 box">
+            <div className="col-md-8 budget-page-table-container">
+              <div className="mt-4 pb-4">
                 <div className="my-4">
                   <Link to="/category_groups/new">
                     <FontAwesome name="plus" fixedWidth /> Category Group
@@ -38,9 +38,7 @@ export class BudgetPage extends React.Component {
             </div>
 
             <div className="col-md-4">
-              <div className="mt-4 p-4 box">
-                <BudgetSidebar />
-              </div>
+              <BudgetSidebar />
             </div>
           </div>
         </div>

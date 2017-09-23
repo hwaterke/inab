@@ -16,8 +16,8 @@ import {
 } from 'inab-shared';
 import Amount from '../../Amount';
 import {crud} from '../../../hoc/crud';
-import {Link} from 'react-router-dom';
 import {ValueHighlight} from '../../ValueHighlight';
+import {BudgetSidebarCategory} from './BudgetSidebarCategory';
 
 const mapStateToProps = state => ({
   categories: arraySelector(CategoryResource)(state),
@@ -126,105 +126,38 @@ export class BudgetSidebar extends React.Component {
   render() {
     const {ui: {categorySelected}, categoriesById} = this.props;
 
-    if (!categorySelected) {
+    if (categorySelected) {
       return (
-        <div>
-          <ValueHighlight name="Total budgeted">
-            <Amount amount={-this.props.budgetedThisMonth} />
-          </ValueHighlight>
-
-          <ValueHighlight name="Total inflows">
-            <Amount amount={this.props.inflowInCurrentMonth} />
-          </ValueHighlight>
-
-          {!this.state.budgeting && (
-            <button
-              onClick={this.quickBudgetUnderfunded}
-              className="btn budget-sidebar-button mt-3"
-            >
-              Quick budget underfunded
-            </button>
-          )}
-
-          {!this.state.budgeting && (
-            <button
-              onClick={this.quickBudgetGoals}
-              className="btn budget-sidebar-button mt-3"
-            >
-              Quick budget goals
-            </button>
-          )}
-        </div>
+        <BudgetSidebarCategory category={categoriesById[categorySelected]} />
       );
     }
 
-    const category = categoriesById[categorySelected];
-
     return (
-      <div>
-        <div className="d-flex justify-content-between">
-          <h4>{category.name}</h4>
+      <div className="mt-3 p-4 box">
+        <ValueHighlight name="Total budgeted">
+          <Amount amount={-this.props.budgetedThisMonth} />
+        </ValueHighlight>
 
-          <Link to={`/categories/edit/${category.uuid}`}>Edit</Link>
-        </div>
+        <ValueHighlight name="Total inflows">
+          <Amount amount={this.props.inflowInCurrentMonth} />
+        </ValueHighlight>
 
-        {category.goal_type && (
-          <div>
-            <h5>Goal</h5>
-            <b>
-              {category.goal_type === 'tb' && 'Target category balance'}
-              {category.goal_type === 'tbd' &&
-                'Target category balance by date'}
-              {category.goal_type === 'mf' && 'Monthly funding goal'}
-            </b>
+        {!this.state.budgeting && (
+          <button
+            onClick={this.quickBudgetUnderfunded}
+            className="btn budget-sidebar-button mt-3"
+          >
+            Quick budget underfunded
+          </button>
+        )}
 
-            <div className="d-flex justify-content-center">
-              <div>
-                <div className="text-right">{category.goal_creation_month}</div>
-                {category.target_balance > 0 && (
-                  <div className="text-right">
-                    <Amount amount={category.target_balance} />
-                  </div>
-                )}
-                {category.target_balance_month && (
-                  <div className="text-right">
-                    {category.target_balance_month}
-                  </div>
-                )}
-                {category.monthly_funding > 0 && (
-                  <div className="text-right">
-                    <Amount amount={category.monthly_funding} />
-                  </div>
-                )}
-                {this.props.goalToBudgetByCategoryForSelectedMonth[
-                  category.uuid
-                ] && (
-                  <div className="text-right">
-                    <Amount
-                      amount={
-                        this.props.goalToBudgetByCategoryForSelectedMonth[
-                          category.uuid
-                        ]
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="ml-2">
-                <div>Creation month</div>
-                {category.target_balance > 0 && <div>Target balance</div>}
-                {category.target_balance_month && (
-                  <div>Target balance month</div>
-                )}
-                {category.monthly_funding > 0 && (
-                  <div>Monthly funding goal</div>
-                )}
-                {this.props.goalToBudgetByCategoryForSelectedMonth[
-                  category.uuid
-                ] && <div>To budget</div>}
-              </div>
-            </div>
-          </div>
+        {!this.state.budgeting && (
+          <button
+            onClick={this.quickBudgetGoals}
+            className="btn budget-sidebar-button mt-3"
+          >
+            Quick budget goals
+          </button>
         )}
       </div>
     );

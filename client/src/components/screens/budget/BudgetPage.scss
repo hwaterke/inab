@@ -1,6 +1,14 @@
 @import '~bootstrap/scss/_functions.scss';
 @import '~bootstrap/scss/_variables.scss';
 @import '~bootstrap/scss/mixins/_breakpoints.scss';
+@import '../../../styles/main';
+
+.budget-page-table-container {
+  @extend .box;
+  border-top: 0;
+  border-left:0;
+  border-radius: 0;
+}
 
 .budget-table {
   thead {
