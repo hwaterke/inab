@@ -3224,6 +3224,17 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
+hw-react-shared@hwaterke/react-shared#98cf6e6:
+  version "0.0.1"
+  resolved "https://codeload.github.com/hwaterke/react-shared/tar.gz/98cf6e6509e524032b4b4952c9fd75ffc7729372"
+  dependencies:
+    axios "^0.16.2"
+    react-redux "^5.0.6"
+    redux "^3.7.2"
+    redux-crud "^3.2.0"
+    redux-form "^7.0.4"
+    reselect "^3.0.1"
+
 hw-react-shared@hwaterke/react-shared#build:
   version "0.0.1"
   resolved "https://codeload.github.com/hwaterke/react-shared/tar.gz/b5130fd59f8b3f5cf1f41b61ef578fb66d867ae3"
@@ -3273,9 +3284,9 @@ in-publish@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/in-publish/-/in-publish-2.0.0.tgz#e20ff5e3a2afc2690320b6dc552682a9c7fadf51"
 
-inab-shared@hwaterke/inab-shared#build:
+inab-shared@hwaterke/inab-shared#63b2e77:
   version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/19863908b8e6bdb82054e2486c483118caa774d3"
+  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/63b2e7767a3632a1a51f4da89464c77e51307dcf"
   dependencies:
     hw-react-shared hwaterke/react-shared#build
     moment "^2.18.1"
