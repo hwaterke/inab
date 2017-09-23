@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  BudgetItemResource,
   CategoryResource,
+  getAvailableByCategoryIdForSelectedMonth,
+  getSelectedMonthBudgetItemByCategoryId,
   goalToBudgetByCategoryForSelectedMonth
 } from 'inab-shared';
 import {connect} from 'react-redux';
 import Amount from '../../Amount';
+import {VictoryPie} from 'victory';
+import moment from 'moment';
 
 const mapStateToProps = state => ({
+  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
+  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
+    state
+  ),
   goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
     state
   )
@@ -17,12 +26,28 @@ const mapStateToProps = state => ({
 export class BudgetSidebarGoal extends React.Component {
   static propTypes = {
     category: CategoryResource.propType,
+    availableByCategory: PropTypes.instanceOf(Map).isRequired,
+    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
+      BudgetItemResource.propType
+    ).isRequired,
     goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
       .isRequired
   };
 
   render() {
     const {category} = this.props;
+
+    // How many percent of the goal did we reach?
+    const currentGoalValue =
+      category.goal_type === 'mf'
+        ? this.props.selectedMonthBudgetItemByCategoryId[category.uuid] &&
+          this.props.selectedMonthBudgetItemByCategoryId[category.uuid].amount
+        : this.props.availableByCategory.get(category.uuid);
+    const maxGoalValue =
+      category.goal_type === 'mf'
+        ? category.monthly_funding
+        : category.target_balance;
+    const goalPercentage = Math.min(1, (currentGoalValue || 0) / maxGoalValue);
 
     return (
       <div className="mt-3 p-4 box">
@@ -43,7 +68,9 @@ export class BudgetSidebarGoal extends React.Component {
         >
           <div className="d-flex justify-content-between">
             <span>Creation month</span>
-            <span>{category.goal_creation_month}</span>
+            <span>
+              {moment(category.goal_creation_month).format('MMMM YYYY')}
+            </span>
           </div>
 
           {category.target_balance > 0 && (
@@ -58,7 +85,9 @@ export class BudgetSidebarGoal extends React.Component {
           {category.target_balance_month && (
             <div className="d-flex justify-content-between">
               <span>Target balance month</span>
-              <span>{category.target_balance_month}</span>
+              <span>
+                {moment(category.target_balance_month).format('MMMM YYYY')}
+              </span>
             </div>
           )}
 
@@ -85,6 +114,26 @@ export class BudgetSidebarGoal extends React.Component {
               </span>
             </div>
           )}
+        </div>
+
+        <div className="d-flex justify-content-center">
+          <div className="w-25">
+            <VictoryPie
+              animate={{duration: 500}}
+              colorScale={['#85c9e6', '#e6e6e6']}
+              innerRadius={100}
+              labels={() => null}
+              data={[
+                {x: 'Budgeted', y: goalPercentage},
+                {x: 'To budget', y: 1 - goalPercentage}
+              ]}
+            />
+          </div>
+        </div>
+
+        <div>
+          You budgeted <Amount amount={currentGoalValue} /> out of{' '}
+          <Amount amount={maxGoalValue} />
         </div>
       </div>
     );
