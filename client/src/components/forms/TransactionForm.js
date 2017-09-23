@@ -181,7 +181,7 @@ const resourceToForm = (transaction, props) => {
 };
 
 function validateAmount(value, data) {
-  if (data.subtransactions) {
+  if (data.subtransactions && data.subtransactions.length > 0) {
     const sum = data.subtransactions
       .map(st => Number(st.amount) || 0)
       .reduce((acc, value) => acc + value, 0);
