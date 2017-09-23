@@ -24,10 +24,14 @@ const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
   selectedMonth: getSelectedMonthMoment(state),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(state),
+  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
+    state
+  ),
   budgetedThisMonth: getBudgetedThisMonth(state),
   inflowInCurrentMonth: getToBeBudgetedSumInSelectedMonth(state),
-  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(state)
+  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
+    state
+  )
 });
 
 @crud
@@ -40,10 +44,13 @@ export class BudgetSidebar extends React.Component {
     availableToBudget: PropTypes.number.isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
     selectedMonth: PropTypes.object.isRequired,
-    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(BudgetItemResource.propType).isRequired,
+    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
+      BudgetItemResource.propType
+    ).isRequired,
     budgetedThisMonth: PropTypes.number.isRequired,
     inflowInCurrentMonth: PropTypes.number.isRequired,
-    selectedCategoryId: PropTypes.string,
+    goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
+      .isRequired,
     createResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     ui: PropTypes.shape({
@@ -59,7 +66,9 @@ export class BudgetSidebar extends React.Component {
    * Adds the specified amount to the category
    */
   budgetCategoryAdd = (categoryUuid, amount) => {
-    const existingBudgetItem = this.props.selectedMonthBudgetItemByCategoryId[categoryUuid];
+    const existingBudgetItem = this.props.selectedMonthBudgetItemByCategoryId[
+      categoryUuid
+    ];
 
     if (existingBudgetItem) {
       // Update
@@ -94,6 +103,25 @@ export class BudgetSidebar extends React.Component {
     this.setState({budgeting: false});
   };
 
+  quickBudgetGoals = async () => {
+    this.setState({budgeting: true});
+    let availableToBudget = this.props.availableToBudget;
+
+    for (let category of this.props.categories) {
+      const missingForGoal = this.props.goalToBudgetByCategoryForSelectedMonth[
+        category.uuid
+      ];
+      if (missingForGoal > 0) {
+        const adding = Math.min(missingForGoal, availableToBudget);
+        if (adding > 0) {
+          await this.budgetCategoryAdd(category.uuid, adding);
+          availableToBudget -= adding;
+        }
+      }
+    }
+    this.setState({budgeting: false});
+  };
+
   render() {
     const {ui: {categorySelected}, categoriesById} = this.props;
 
@@ -114,10 +142,23 @@ export class BudgetSidebar extends React.Component {
             </h2>
           </div>
 
-          {!this.state.budgeting &&
-            <button onClick={this.quickBudgetUnderfunded} className="btn btn-primary">
+          {!this.state.budgeting && (
+            <button
+              onClick={this.quickBudgetUnderfunded}
+              className="btn budget-sidebar-button mt-3"
+            >
               Quick budget underfunded
-            </button>}
+            </button>
+          )}
+
+          {!this.state.budgeting && (
+            <button
+              onClick={this.quickBudgetGoals}
+              className="btn budget-sidebar-button mt-3"
+            >
+              Quick budget goals
+            </button>
+          )}
         </div>
       );
     }
@@ -127,56 +168,69 @@ export class BudgetSidebar extends React.Component {
     return (
       <div>
         <div className="d-flex justify-content-between">
-          <h4>
-            {category.name}
-          </h4>
+          <h4>{category.name}</h4>
 
           <Link to={`/categories/edit/${category.uuid}`}>Edit</Link>
         </div>
 
-        {category.goal_type &&
+        {category.goal_type && (
           <div>
             <h5>Goal</h5>
             <b>
               {category.goal_type === 'tb' && 'Target category balance'}
-              {category.goal_type === 'tbd' && 'Target category balance by date'}
+              {category.goal_type === 'tbd' &&
+                'Target category balance by date'}
               {category.goal_type === 'mf' && 'Monthly funding goal'}
             </b>
 
             <div className="d-flex justify-content-center">
               <div>
-                <div className="text-right">
-                  {category.goal_creation_month}
-                </div>
-                {category.target_balance > 0 &&
+                <div className="text-right">{category.goal_creation_month}</div>
+                {category.target_balance > 0 && (
                   <div className="text-right">
                     <Amount amount={category.target_balance} />
-                  </div>}
-                {category.target_balance_month &&
+                  </div>
+                )}
+                {category.target_balance_month && (
                   <div className="text-right">
                     {category.target_balance_month}
-                  </div>}
-                {category.monthly_funding > 0 &&
+                  </div>
+                )}
+                {category.monthly_funding > 0 && (
                   <div className="text-right">
                     <Amount amount={category.monthly_funding} />
-                  </div>}
-                {this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid] &&
+                  </div>
+                )}
+                {this.props.goalToBudgetByCategoryForSelectedMonth[
+                  category.uuid
+                ] && (
                   <div className="text-right">
                     <Amount
-                      amount={this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid]}
+                      amount={
+                        this.props.goalToBudgetByCategoryForSelectedMonth[
+                          category.uuid
+                        ]
+                      }
                     />
-                  </div>}
+                  </div>
+                )}
               </div>
               <div className="ml-2">
                 <div>Creation month</div>
                 {category.target_balance > 0 && <div>Target balance</div>}
-                {category.target_balance_month && <div>Target balance month</div>}
-                {category.monthly_funding > 0 && <div>Monthly funding goal</div>}
-                {this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid] &&
-                  <div>To budget</div>}
+                {category.target_balance_month && (
+                  <div>Target balance month</div>
+                )}
+                {category.monthly_funding > 0 && (
+                  <div>Monthly funding goal</div>
+                )}
+                {this.props.goalToBudgetByCategoryForSelectedMonth[
+                  category.uuid
+                ] && <div>To budget</div>}
               </div>
             </div>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
