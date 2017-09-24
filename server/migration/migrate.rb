@@ -51,16 +51,16 @@ DB_NEW = Sequel.sqlite(database_new_file)
 puts "Checking schema version".yellow
 schema_old = schema_version(DB_OLD)
 puts "Schema version, old database: #{schema_old}"
-schame_new = schema_version(DB_NEW)
+schema_new = schema_version(DB_NEW)
 puts "Schema version, mew database: #{schema_new}"
 
-if schema_old == '0' && schame_new == '1'
+if schema_old == '0' && schema_new == '1'
   migrate_0_to_1 DB_NEW, DB_OLD
-elsif schema_old == '1' && schame_new == '2'
+elsif schema_old == '1' && schema_new == '2'
   migrate_1_to_2 DB_NEW, DB_OLD
 else
   puts "Oops, looks like you fucked up ¯\\_(ツ)_/¯".red
-  raise "Cannot migrate schema version #{schema_old} to version #{schame_new}"
+  raise "Cannot migrate schema version #{schema_old} to version #{schema_new}"
 end
 
 puts "Great success 🍺".green
