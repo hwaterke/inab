@@ -1,11 +1,9 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
-
 import {Header} from './navbar/Header';
 import {EntityLoader} from './EntityLoader';
 import ErrorList from './ErrorList';
 import {LoginDispatcher} from './LoginDispatcher';
-import LandingPage from './LandingPage';
 import {AccountPage} from './screens/accounts/AccountPage';
 import {BudgetPage} from './screens/budget/BudgetPage';
 import {PayeeList} from './screens/payees/PayeeList';
@@ -24,11 +22,9 @@ export class Main extends React.Component {
         <ErrorList />
         <EntityLoader>
           <Switch>
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/" component={BudgetPage} />
 
             <Route exact path="/admin" component={AdminPage} />
-
-            <Route path="/budget" component={BudgetPage} />
 
             <Route exact path="/payees" component={PayeeList} />
             <Route exact path="/payees/new" component={PayeeDetail} />
@@ -36,16 +32,35 @@ export class Main extends React.Component {
 
             <Route exact path="/accounts" component={AccountList} />
             <Route exact path="/accounts/new" component={AccountDetail} />
-            <Route exact path="/accounts/edit/:uuid" component={AccountDetail} />
+            <Route
+              exact
+              path="/accounts/edit/:uuid"
+              component={AccountDetail}
+            />
 
             <Route exact path="/categories/new" component={CategoryDetail} />
-            <Route exact path="/categories/edit/:uuid" component={CategoryDetail} />
+            <Route
+              exact
+              path="/categories/edit/:uuid"
+              component={CategoryDetail}
+            />
 
-            <Route exact path="/category_groups/new" component={CategoryGroupDetail} />
-            <Route exact path="/category_groups/edit/:uuid" component={CategoryGroupDetail} />
+            <Route
+              exact
+              path="/category_groups/new"
+              component={CategoryGroupDetail}
+            />
+            <Route
+              exact
+              path="/category_groups/edit/:uuid"
+              component={CategoryGroupDetail}
+            />
 
             <Route exact path="/account/:uuid?" component={AccountPage} />
-            <Route path="/account/:date/:category_uuid" component={AccountPage} />
+            <Route
+              path="/account/:date/:category_uuid"
+              component={AccountPage}
+            />
           </Switch>
         </EntityLoader>
       </LoginDispatcher>

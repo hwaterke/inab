@@ -5,7 +5,11 @@ import Amount from '../Amount';
 import {connect} from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 import {Link as RouterLink} from 'react-router-dom';
-import {AccountResource, selectBalanceByAccountId, getBudgetBalance} from 'inab-shared';
+import {
+  AccountResource,
+  selectBalanceByAccountId,
+  getBudgetBalance
+} from 'inab-shared';
 import {arraySelector} from 'hw-react-shared';
 import {clearToken} from '../../reducers/credentials';
 
@@ -53,7 +57,7 @@ export class Header extends React.Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <RouterLink className="nav-link" to="/budget">
+                <RouterLink className="nav-link" to="/">
                   Budget
                 </RouterLink>
               </li>
@@ -75,7 +79,10 @@ export class Header extends React.Component {
                   Accounts
                 </a>
 
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
                   <RouterLink className="apart dropdown-item" to="/account">
                     <span>All&nbsp;</span>
                     <Amount amount={this.props.budgetBalance} color />
@@ -83,21 +90,24 @@ export class Header extends React.Component {
 
                   {this.props.accounts.map(
                     account =>
-                      account.busy
-                        ? <Link className="dropdown-item" key={account.uuid}>
-                            <FontAwesome name="refresh" spin fixedWidth />
-                            {account.name}
-                          </Link>
-                        : <RouterLink
-                            className="apart dropdown-item"
-                            key={account.uuid}
-                            to={`/account/${account.uuid}`}
-                          >
-                            <span>
-                              {account.name}&nbsp;
-                            </span>
-                            <Amount amount={this.props.balanceByAccountId[account.uuid]} color />
-                          </RouterLink>
+                      account.busy ? (
+                        <Link className="dropdown-item" key={account.uuid}>
+                          <FontAwesome name="refresh" spin fixedWidth />
+                          {account.name}
+                        </Link>
+                      ) : (
+                        <RouterLink
+                          className="apart dropdown-item"
+                          key={account.uuid}
+                          to={`/account/${account.uuid}`}
+                        >
+                          <span>{account.name}&nbsp;</span>
+                          <Amount
+                            amount={this.props.balanceByAccountId[account.uuid]}
+                            color
+                          />
+                        </RouterLink>
+                      )
                   )}
 
                   <div role="separator" className="dropdown-divider" />
@@ -108,12 +118,13 @@ export class Header extends React.Component {
                 </div>
               </li>
 
-              {this.props.isAdmin &&
+              {this.props.isAdmin && (
                 <li className="nav-item">
                   <RouterLink className="nav-link" to="/admin">
                     Admin
                   </RouterLink>
-                </li>}
+                </li>
+              )}
 
               <li className="nav-item">
                 <a href="#" className="nav-link" onClick={this.logout}>
