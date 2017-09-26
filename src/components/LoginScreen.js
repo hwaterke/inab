@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, TouchableOpacity, Text, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import {reduxForm, Field} from 'redux-form';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -58,57 +66,59 @@ export class LoginScreen extends React.Component {
 
   render() {
     return (
-      <LinearGradient
-        colors={['#ABDCFF', '#0396FF']}
-        style={styles.container}
-        start={[0.25, 0.0]}
-        end={[1.0, 1.0]}
-      >
-        <View style={styles.logoContainer}>
-          <Image source={require('../assets/icons/login.png')} />
-        </View>
-
-        <View style={styles.fieldWrapper}>
-          <Field
-            name="backend"
-            component={TextInputField}
-            placeholder="Server"
-            autoCapitalize="none"
-            placeholderTextColor="rgba(255,255,255,0.6)"
-            style={styles.field}
-          />
-        </View>
-
-        <View style={styles.fieldWrapper}>
-          <Field
-            name="email"
-            component={TextInputField}
-            placeholder="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholderTextColor="rgba(255,255,255,0.6)"
-            style={styles.field}
-          />
-        </View>
-
-        <View style={styles.fieldWrapper}>
-          <Field
-            name="password"
-            component={TextInputField}
-            placeholder="Password"
-            secureTextEntry
-            placeholderTextColor="rgba(255,255,255,0.6)"
-            style={styles.field}
-          />
-        </View>
-
-        <TouchableOpacity
-          onPress={this.props.handleSubmit(this.onSubmit)}
-          style={styles.button}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <LinearGradient
+          colors={['#ABDCFF', '#0396FF']}
+          style={styles.container}
+          start={[0.25, 0.0]}
+          end={[1.0, 1.0]}
         >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </LinearGradient>
+          <View style={styles.logoContainer}>
+            <Image source={require('../assets/icons/login.png')} />
+          </View>
+
+          <View style={styles.fieldWrapper}>
+            <Field
+              name="backend"
+              component={TextInputField}
+              placeholder="Server"
+              autoCapitalize="none"
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              style={styles.field}
+            />
+          </View>
+
+          <View style={styles.fieldWrapper}>
+            <Field
+              name="email"
+              component={TextInputField}
+              placeholder="Email"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              style={styles.field}
+            />
+          </View>
+
+          <View style={styles.fieldWrapper}>
+            <Field
+              name="password"
+              component={TextInputField}
+              placeholder="Password"
+              secureTextEntry
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              style={styles.field}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={this.props.handleSubmit(this.onSubmit)}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </TouchableWithoutFeedback>
     );
   }
 }
