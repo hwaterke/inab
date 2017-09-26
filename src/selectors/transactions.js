@@ -1,11 +1,12 @@
 // @flow
 import {createSelector} from 'reselect';
 import {byIdSelector} from 'hw-react-shared';
-import type {Account, Category, Transaction} from 'inab-shared';
+import type {Account, Category, Transaction, Payee} from 'inab-shared';
 import {
   getSortedTransactions,
   AccountResource,
-  CategoryResource
+  CategoryResource,
+  PayeeResource
 } from 'inab-shared';
 
 const getMirrorTransfer = transaction => {
@@ -23,10 +24,12 @@ export const getTransactionForRendering = createSelector(
   getSortedTransactions,
   byIdSelector(AccountResource),
   byIdSelector(CategoryResource),
+  byIdSelector(PayeeResource),
   (
     transactions: Transaction[],
     accountsById: {[string]: Account},
-    categoriesById: {[string]: Category}
+    categoriesById: {[string]: Category},
+    payeeById: {string: Payee}
   ) => {
     const result = [];
 
@@ -44,6 +47,10 @@ export const getTransactionForRendering = createSelector(
       }
 
       trResult.accountName = accountsById[tr.account_uuid].name;
+
+      if (tr.payee_uuid) {
+        trResult.payeeName = payeeById[tr.payee_uuid].name;
+      }
 
       if (tr.transfer_account_uuid) {
         trResult.isTransfer = true;

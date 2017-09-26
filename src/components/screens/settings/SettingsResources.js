@@ -6,7 +6,8 @@ import {
   CategoryGroupResource,
   CategoryResource,
   TransactionResource,
-  BudgetItemResource
+  BudgetItemResource,
+  PayeeResource
 } from 'inab-shared';
 import {connect} from 'react-redux';
 import {crud} from '../../hoc/crud';
@@ -24,14 +25,19 @@ export class SettingsResources extends React.Component {
     fetchAll: PropTypes.func.isRequired
   };
 
-  fetchAll = () => {
-    this.props
-      .fetchAll(AccountResource, true)
-      .then(() => this.props.fetchAll(CategoryGroupResource, true))
-      .then(() => this.props.fetchAll(CategoryResource, true))
-      .then(() => this.props.fetchAll(BudgetItemResource, true))
-      .then(() => this.props.fetchAll(TransactionResource, true))
-      .catch(() => {});
+  fetchAll = async () => {
+    const resources = [
+      AccountResource,
+      PayeeResource,
+      CategoryGroupResource,
+      CategoryResource,
+      BudgetItemResource,
+      TransactionResource
+    ];
+
+    for (let resource of resources) {
+      await this.props.fetchAll(resource, true);
+    }
   };
 
   render() {

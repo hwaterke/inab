@@ -27,7 +27,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz",
     "react-navigation": "react-community/react-navigation",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.0",
+    "redux": "^3.7.2",
     "redux-form": "^7.0.3",
     "redux-persist": "^4.8.2",
     "reselect": "^3.0.1"

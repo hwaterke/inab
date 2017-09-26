@@ -23,7 +23,7 @@ export class TransactionRow extends React.Component {
                 </Text>
               </View>
             : <Text>
-                {transaction.payee}
+                {transaction.payeeName}
               </Text>}
 
           {transaction.categoryName &&

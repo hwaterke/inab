@@ -2158,12 +2158,12 @@ imurmurhash@^0.1.4:
 
 inab-shared@hwaterke/inab-shared#build:
   version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/f87f79d6181621202312873b991e6327f857ca98"
+  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/a326fb52f6ace064f8e89920a61457bde5f55457"
   dependencies:
     hw-react-shared hwaterke/react-shared#build
     moment "^2.18.1"
     ramda "^0.24.1"
-    redux "^3.6.0"
+    redux "^3.7.2"
     redux-crud "^3.0.5"
     reselect "^3.0.1"
 
@@ -3654,7 +3654,7 @@ redux-persist@^4.8.2:
     lodash "^4.17.4"
     lodash-es "^4.17.4"
 
-redux@^3.6.0, redux@^3.7.0, redux@^3.7.1:
+redux@^3.6.0, redux@^3.7.1, redux@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
   dependencies:
