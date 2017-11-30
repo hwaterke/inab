@@ -1,7 +1,12 @@
 import {createSelector} from 'reselect';
 import R from 'ramda';
 import {byIdSelector} from 'hw-react-shared';
-import {AccountResource, CategoryResource, getSortedTransactions, PayeeResource} from 'inab-shared';
+import {
+  AccountResource,
+  CategoryResource,
+  getSortedTransactions,
+  PayeeResource
+} from 'inab-shared';
 
 const getMirrorTransfer = transaction => {
   const mirror = Object.assign({}, transaction);
@@ -56,13 +61,14 @@ export const getTransactionsForRendering = createSelector(
 
       tr.subtransactions.forEach((str, strIndex) => {
         const str_result = {
-          // TODO make sure subtransaction always have an id, index is bad as key
           key: 's' + (str.uuid ? str.uuid : 'i' + strIndex),
           uuid: str.uuid,
           date: tr.date,
           account_uuid: tr.account_uuid,
           category_uuid: str.category_uuid,
-          category: str.category_uuid ? categoriesById[str.category_uuid].name : '',
+          category: str.category_uuid
+            ? categoriesById[str.category_uuid].name
+            : '',
           description: str.description,
           amount: str.amount,
           subtransaction: true,
