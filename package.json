@@ -1,5 +1,14 @@
 {
-	"devDependencies": {
-		"lerna": "^2.10.2"
-	}
+  "scripts": {
+    "precommit": "lint-staged && lerna run --concurrency 1 --stream precommit"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lerna": "^2.10.2",
+    "lint-staged": "^7.0.4",
+    "prettier": "^1.12.1"
+  },
+  "lint-staged": {
+    "*.{js,css,scss,json,md}": ["prettier --write", "git add"]
+  }
 }
