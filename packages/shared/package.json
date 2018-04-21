@@ -1,5 +1,7 @@
 {
-  "name": "inab-shared",
+  "name": "shared",
+  "version": "0.0.0",
+  "private": true,
   "description": "Shared code between web and native clients",
   "main": "lib/index.js",
   "scripts": {
@@ -8,15 +10,6 @@
     "compile:flow": "flow-copy-source src lib",
     "precommit": "lint-staged",
     "test": "jest"
-  },
-  "lint-staged": {
-    "{src,tests}/**/*.js": [
-      "eslint",
-      "git add"
-    ]
-  },
-  "peerDependencies": {
-    "react": "^15.0.0"
   },
   "dependencies": {
     "hw-react-shared": "hwaterke/react-shared#build",
@@ -44,14 +37,10 @@
     "lint-staged": "^7.0.4",
     "react": "^15.5.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hwaterke/inab-shared.git"
+  "peerDependencies": {
+    "react": "^15.0.0"
   },
-  "author": "Harold Waterkeyn",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hwaterke/inab-shared/issues"
-  },
-  "homepage": "https://github.com/hwaterke/inab-shared#readme"
+  "lint-staged": {
+    "{src,tests}/**/*.js": ["eslint", "git add"]
+  }
 }

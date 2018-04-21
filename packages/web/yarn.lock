@@ -3721,17 +3721,6 @@ hw-react-shared@hwaterke/react-shared#98cf6e6:
     redux-form "^6.8.0"
     reselect "^3.0.0"
 
-hw-react-shared@hwaterke/react-shared#build:
-  version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/react-shared/tar.gz/b5130fd59f8b3f5cf1f41b61ef578fb66d867ae3"
-  dependencies:
-    axios "^0.16.2"
-    react-redux "^5.0.5"
-    redux "^3.7.1"
-    redux-crud "^3.2.0"
-    redux-form "^6.8.0"
-    reselect "^3.0.0"
-
 iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
@@ -3773,17 +3762,6 @@ imurmurhash@^0.1.4:
 in-publish@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/in-publish/-/in-publish-2.0.0.tgz#e20ff5e3a2afc2690320b6dc552682a9c7fadf51"
-
-inab-shared@hwaterke/inab-shared#63b2e77:
-  version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/63b2e7767a3632a1a51f4da89464c77e51307dcf"
-  dependencies:
-    hw-react-shared hwaterke/react-shared#build
-    moment "^2.18.1"
-    ramda "^0.24.1"
-    redux "^3.7.2"
-    redux-crud "^3.0.5"
-    reselect "^3.0.1"
 
 indent-string@^2.1.0:
   version "2.1.0"
@@ -5370,7 +5348,7 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-moment@^2.17.1, moment@^2.18.1:
+moment@^2.17.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -6807,7 +6785,7 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-crud@^3.0.4, redux-crud@^3.0.5, redux-crud@^3.2.0:
+redux-crud@^3.0.4, redux-crud@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/redux-crud/-/redux-crud-3.2.0.tgz#4dd7fe5b2bab87f4e24009a6aba670a63f571acb"
   dependencies:

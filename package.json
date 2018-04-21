@@ -1,4 +1,14 @@
 {
+  "author": "Harold Waterkeyn",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hwaterke/inab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hwaterke/inab/issues"
+  },
+  "homepage": "https://github.com/hwaterke/inab#readme",
   "scripts": {
     "precommit": "lint-staged && lerna run --concurrency 1 --stream precommit"
   },
