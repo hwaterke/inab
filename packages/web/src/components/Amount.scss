@@ -2,13 +2,14 @@
   color: #cfd5d8;
 }
 
-.amount-positive, .amount-negative {
+.amount-positive,
+.amount-negative {
   color: #373a3c;
 }
 
 .amount-color {
   color: white;
-  padding: .14rem .5rem;
+  padding: 0.14rem 0.5rem;
   border-radius: 1rem;
   font-weight: bold;
 
@@ -17,14 +18,14 @@
   }
 
   &.amount-goal {
-    background-color: #FFDB58;
+    background-color: #ffdb58;
   }
 
   &.amount-positive {
-    background-color: #84ECAE;
+    background-color: #84ecae;
   }
 
   &.amount-negative {
-    background-color: #FFA48F;
+    background-color: #ffa48f;
   }
 }

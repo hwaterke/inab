@@ -1,30 +1,32 @@
 // @flow
-import {Filter} from '../entities/Filter';
+import {Filter} from '../entities/Filter'
 
 export class TransactionSearchService {
   applyFiltersToTransactions(transactions, filters: Filter[]) {
-    return transactions.filter(tr => this.applyFiltersToTransaction(tr, filters));
+    return transactions.filter(tr =>
+      this.applyFiltersToTransaction(tr, filters)
+    )
   }
 
   applyFiltersToTransaction(transaction, filters: Filter[]) {
     for (let filter: Filter of filters) {
-      const value = transaction[filter.attribute];
-      const searchValue = filter.value;
+      const value = transaction[filter.attribute]
+      const searchValue = filter.value
       if (filter.operator === '=' && !this.matchExact(value, searchValue)) {
-        return false;
+        return false
       }
       if (!this.matchContain(value, searchValue)) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   }
 
   filter(transactions, searchText) {
     if (!searchText) {
-      return transactions;
+      return transactions
     }
-    return transactions.filter(tr => this.transactionContains(tr, searchText));
+    return transactions.filter(tr => this.transactionContains(tr, searchText))
   }
 
   transactionContains(transaction, searchText) {
@@ -36,30 +38,34 @@ export class TransactionSearchService {
       'category',
       'description',
       'tagsForSearch',
-      'payee'
-    ];
+      'payee',
+    ]
 
     return searchText
       .split(/\s+/)
-      .every(st => searchColumns.some(col => this.matchContain(transaction[col], st)));
+      .every(st =>
+        searchColumns.some(col => this.matchContain(transaction[col], st))
+      )
   }
 
   matchExact(value, searchText) {
-    return this.tranformForSearch(value) === this.tranformForSearch(searchText);
+    return this.tranformForSearch(value) === this.tranformForSearch(searchText)
   }
 
   matchContain(value, searchText) {
-    return this.indexOf(searchText, value) !== -1;
+    return this.indexOf(searchText, value) !== -1
   }
 
   indexOf(searchText, value) {
-    return this.tranformForSearch(value).indexOf(this.tranformForSearch(searchText));
+    return this.tranformForSearch(value).indexOf(
+      this.tranformForSearch(searchText)
+    )
   }
 
   tranformForSearch(value) {
     if (value === undefined) {
-      return '';
+      return ''
     }
-    return value.toString().toLowerCase();
+    return value.toString().toLowerCase()
   }
 }

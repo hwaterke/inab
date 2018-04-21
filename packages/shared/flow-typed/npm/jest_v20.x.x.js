@@ -17,7 +17,7 @@ type JestMockFn = {
      * An array that contains all the object instances that have been
      * instantiated from this mock function.
      */
-    instances: mixed
+    instances: mixed,
   },
   /**
    * Resets all information stored in the mockFn.mock.calls and
@@ -54,15 +54,15 @@ type JestMockFn = {
   /**
    * Sugar for only returning a value once inside your mock
    */
-  mockReturnValueOnce(value: any): JestMockFn
-};
+  mockReturnValueOnce(value: any): JestMockFn,
+}
 
 type JestAsymmetricEqualityType = {
   /**
    * A custom Jasmine equality tester
    */
-  asymmetricMatch(value: mixed): boolean
-};
+  asymmetricMatch(value: mixed): boolean,
+}
 
 type JestCallsType = {
   allArgs(): mixed,
@@ -71,22 +71,22 @@ type JestCallsType = {
   count(): number,
   first(): mixed,
   mostRecent(): mixed,
-  reset(): void
-};
+  reset(): void,
+}
 
 type JestClockType = {
   install(): void,
   mockDate(date: Date): void,
   tick(): void,
-  uninstall(): void
-};
+  uninstall(): void,
+}
 
 type JestMatcherResult = {
   message?: string | (() => string),
-  pass: boolean
-};
+  pass: boolean,
+}
 
-type JestMatcher = (actual: any, expected: any) => JestMatcherResult;
+type JestMatcher = (actual: any, expected: any) => JestMatcherResult
 
 type JestPromiseType = {
   /**
@@ -98,8 +98,8 @@ type JestPromiseType = {
    * Use resolves to unwrap the value of a fulfilled promise so any other
    * matcher can be chained. If the promise is rejected the assertion fails.
    */
-  resolves: JestExpectType
-};
+  resolves: JestExpectType,
+}
 
 type JestExpectType = {
   not: JestExpectType,
@@ -237,8 +237,8 @@ type JestExpectType = {
    * Use .toThrowErrorMatchingSnapshot to test that a function throws a error
    * matching the most recent snapshot when it is called.
    */
-  toThrowErrorMatchingSnapshot(): void
-};
+  toThrowErrorMatchingSnapshot(): void,
+}
 
 type JestObjectType = {
   /**
@@ -364,23 +364,23 @@ type JestObjectType = {
    * Creates a mock function similar to jest.fn but also tracks calls to
    * object[methodName].
    */
-  spyOn(object: Object, methodName: string): JestMockFn
-};
+  spyOn(object: Object, methodName: string): JestMockFn,
+}
 
 type JestSpyType = {
-  calls: JestCallsType
-};
+  calls: JestCallsType,
+}
 
 /** Runs this function after every test inside this context */
-declare function afterEach(fn: Function): void;
+declare function afterEach(fn: Function): void
 /** Runs this function before every test inside this context */
-declare function beforeEach(fn: Function): void;
+declare function beforeEach(fn: Function): void
 /** Runs this function after all tests have finished inside this context */
-declare function afterAll(fn: Function): void;
+declare function afterAll(fn: Function): void
 /** Runs this function before any tests have started inside this context */
-declare function beforeAll(fn: Function): void;
+declare function beforeAll(fn: Function): void
 /** A context for grouping tests together */
-declare function describe(name: string, fn: Function): void;
+declare function describe(name: string, fn: Function): void
 
 /** An individual test unit */
 declare var it: {
@@ -411,26 +411,26 @@ declare var it: {
    * @param {string} Name of Test
    * @param {Function} Test
    */
-  concurrent(name: string, fn?: Function): ?Promise<void>
-};
-declare function fit(name: string, fn: Function): ?Promise<void>;
+  concurrent(name: string, fn?: Function): ?Promise<void>,
+}
+declare function fit(name: string, fn: Function): ?Promise<void>
 /** An individual test unit */
-declare var test: typeof it;
+declare var test: typeof it
 /** A disabled group of tests */
-declare var xdescribe: typeof describe;
+declare var xdescribe: typeof describe
 /** A focused group of tests */
-declare var fdescribe: typeof describe;
+declare var fdescribe: typeof describe
 /** A disabled individual test */
-declare var xit: typeof it;
+declare var xit: typeof it
 /** A disabled individual test */
-declare var xtest: typeof it;
+declare var xtest: typeof it
 
 /** The expect function is used every time you want to test a value */
 declare var expect: {
   /** The object that you want to make assertions against */
   (value: any): JestExpectType & JestPromiseType,
   /** Add additional Jasmine matchers to Jest's roster */
-  extend(matchers: { [name: string]: JestMatcher }): void,
+  extend(matchers: {[name: string]: JestMatcher}): void,
   /** Add a module that formats application-specific data structures. */
   addSnapshotSerializer(serializer: (input: Object) => string): void,
   assertions(expectedAssertions: number): void,
@@ -441,15 +441,15 @@ declare var expect: {
   objectContaining(value: Object): void,
   /** Matches any received string that contains the exact expected string. */
   stringContaining(value: string): void,
-  stringMatching(value: string | RegExp): void
-};
+  stringMatching(value: string | RegExp): void,
+}
 
 // TODO handle return type
 // http://jasmine.github.io/2.4/introduction.html#section-Spies
-declare function spyOn(value: mixed, method: string): Object;
+declare function spyOn(value: mixed, method: string): Object
 
 /** Holds all functions related to manipulating test runner */
-declare var jest: JestObjectType;
+declare var jest: JestObjectType
 
 /**
  * The global Jamine object, this is generally not exposed as the public API,
@@ -465,7 +465,7 @@ declare var jasmine: {
   createSpyObj(
     baseName: string,
     methodNames: Array<string>
-  ): { [methodName: string]: JestSpyType },
+  ): {[methodName: string]: JestSpyType},
   objectContaining(value: Object): void,
-  stringMatching(value: string): void
-};
+  stringMatching(value: string): void,
+}

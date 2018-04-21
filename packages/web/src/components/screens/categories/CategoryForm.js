@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Field, formValueSelector} from 'redux-form';
-import {connect} from 'react-redux';
-import {SimpleSelectField} from '../../forms/fields/SimpleSelectField';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Field, formValueSelector} from 'redux-form'
+import {connect} from 'react-redux'
+import {SimpleSelectField} from '../../forms/fields/SimpleSelectField'
 import {
   CategoryResource,
   CategoryGroupResource,
   getSelectedMonthMoment,
   amountToCents,
-  amountFromCents
-} from 'inab-shared';
-import {FormActionBar} from '../../forms/FormActionBar';
-import {arraySelector, resourceForm} from 'hw-react-shared';
-import {crud} from '../../../hoc/crud';
-import {InputField} from '../../forms/fields/InputField';
-import {required} from '../../forms/validations';
+  amountFromCents,
+} from 'inab-shared'
+import {FormActionBar} from '../../forms/FormActionBar'
+import {arraySelector, resourceForm} from 'hw-react-shared'
+import {crud} from '../../../hoc/crud'
+import {InputField} from '../../forms/fields/InputField'
+import {required} from '../../forms/validations'
 
 const mapStateToProps = state => ({
   categoryGroups: arraySelector(CategoryGroupResource)(state),
   selectedMonth: getSelectedMonthMoment(state),
-  goalTypeValue: selector(state, 'goal_type')
-});
+  goalTypeValue: selector(state, 'goal_type'),
+})
 
 function formToResource(data, ownProps) {
   return {
@@ -37,8 +37,8 @@ function formToResource(data, ownProps) {
     target_balance_month:
       data.goal_type === 'tbd' ? data.target_balance_month : null,
     monthly_funding:
-      data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null
-  };
+      data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null,
+  }
 }
 
 function resourceToForm(category) {
@@ -46,40 +46,40 @@ function resourceToForm(category) {
     return {
       ...category,
       target_balance: amountFromCents(category.target_balance),
-      monthly_funding: amountFromCents(category.monthly_funding)
-    };
+      monthly_funding: amountFromCents(category.monthly_funding),
+    }
   }
 
-  return {};
+  return {}
 }
 
-const selector = formValueSelector(CategoryResource.path);
+const selector = formValueSelector(CategoryResource.path)
 
 function validateTargetBalance(value, data) {
   if (['tb', 'tbd'].includes(data.goal_type)) {
     if (!value || Number(value) <= 0) {
-      return 'Must be positive';
+      return 'Must be positive'
     }
   }
-  return undefined;
+  return undefined
 }
 
 function validateTargetBalanceMonth(value, data) {
   if (data.goal_type === 'tbd') {
     if (!/\d{4}-\d{2}-01/g.test(value)) {
-      return 'Must be YYYY-MM-01';
+      return 'Must be YYYY-MM-01'
     }
   }
-  return undefined;
+  return undefined
 }
 
 function validateMonthlyFunding(value, data) {
   if (data.goal_type === 'mf') {
     if (!value || Number(value) <= 0) {
-      return 'Must be positive';
+      return 'Must be positive'
     }
   }
-  return undefined;
+  return undefined
 }
 
 @connect(mapStateToProps)
@@ -87,7 +87,7 @@ function validateMonthlyFunding(value, data) {
   crud,
   resource: CategoryResource,
   formToResource,
-  resourceToForm
+  resourceToForm,
 })
 export class CategoryForm extends React.Component {
   static propTypes = {
@@ -100,8 +100,8 @@ export class CategoryForm extends React.Component {
     deleteResource: PropTypes.func.isRequired,
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
       .isRequired,
-    goalTypeValue: PropTypes.string
-  };
+    goalTypeValue: PropTypes.string,
+  }
 
   render() {
     return (
@@ -115,7 +115,7 @@ export class CategoryForm extends React.Component {
             validate={[required]}
             options={this.props.categoryGroups.map(cg => ({
               label: cg.name,
-              value: cg.uuid
+              value: cg.uuid,
             }))}
           />
         </div>
@@ -187,6 +187,6 @@ export class CategoryForm extends React.Component {
           remove={this.props.deleteResource}
         />
       </form>
-    );
+    )
   }
 }

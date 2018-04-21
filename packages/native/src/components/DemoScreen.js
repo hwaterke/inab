@@ -1,6 +1,6 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {colors} from '../constants/colors';
+import React from 'react'
+import {StyleSheet, Text, View} from 'react-native'
+import {colors} from '../constants/colors'
 
 export class DemoScreen extends React.Component {
   render() {
@@ -8,7 +8,7 @@ export class DemoScreen extends React.Component {
       <View style={styles.container}>
         <Text>DemoScreen</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -17,6 +17,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.banner,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+    justifyContent: 'center',
+  },
+})

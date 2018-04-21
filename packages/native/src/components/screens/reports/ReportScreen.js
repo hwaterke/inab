@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React from 'react'
+import {StyleSheet, Text, View} from 'react-native'
 
 export class ReportScreen extends React.Component {
   render() {
@@ -7,7 +7,7 @@ export class ReportScreen extends React.Component {
       <View style={styles.container}>
         <Text>ReportScreen</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'tomato',
     alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+    justifyContent: 'center',
+  },
+})

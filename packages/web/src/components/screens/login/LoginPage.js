@@ -1,17 +1,17 @@
-import React from 'react';
-import './LoginPage.scss';
-import {LoginForm} from './LoginForm';
-import {RegistrationForm} from './RegistrationForm';
-import ErrorList from '../../ErrorList';
+import React from 'react'
+import './LoginPage.scss'
+import {LoginForm} from './LoginForm'
+import {RegistrationForm} from './RegistrationForm'
+import ErrorList from '../../ErrorList'
 
 export class LoginPage extends React.Component {
   state = {
-    showLogin: true
-  };
+    showLogin: true,
+  }
 
   toggle = () => {
-    this.setState({showLogin: !this.state.showLogin});
-  };
+    this.setState({showLogin: !this.state.showLogin})
+  }
 
   render() {
     return (
@@ -26,24 +26,26 @@ export class LoginPage extends React.Component {
 
                 {this.state.showLogin ? <LoginForm /> : <RegistrationForm />}
 
-                {this.state.showLogin
-                  ? <p className="text-secondary mt-3">
-                      No account?{' '}
-                      <a href="#" onClick={this.toggle}>
-                        Register here
-                      </a>
-                    </p>
-                  : <p className="text-secondary mt-3">
-                      Already have an account?{' '}
-                      <a href="#" onClick={this.toggle}>
-                        Login here
-                      </a>
-                    </p>}
+                {this.state.showLogin ? (
+                  <p className="text-secondary mt-3">
+                    No account?{' '}
+                    <a href="#" onClick={this.toggle}>
+                      Register here
+                    </a>
+                  </p>
+                ) : (
+                  <p className="text-secondary mt-3">
+                    Already have an account?{' '}
+                    <a href="#" onClick={this.toggle}>
+                      Login here
+                    </a>
+                  </p>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

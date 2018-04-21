@@ -4,19 +4,22 @@ type Credentials = {
   backend?: string,
   email?: string,
   is_admin?: boolean,
-  token?: ?string
-};
+  token?: ?string,
+}
 
 export const setCredentials = (payload: Credentials) => ({
   type: 'SET_CREDENTIALS',
-  payload: payload
-});
+  payload: payload,
+})
 
-export const clearToken = () => setCredentials({token: null});
+export const clearToken = () => setCredentials({token: null})
 
-export const credentialsReducer = (state: Credentials = {backend: '/api'}, action) => {
+export const credentialsReducer = (
+  state: Credentials = {backend: '/api'},
+  action
+) => {
   if (action.type === 'SET_CREDENTIALS') {
-    return {...state, ...action.payload};
+    return {...state, ...action.payload}
   }
-  return state;
-};
+  return state
+}

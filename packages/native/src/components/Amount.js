@@ -1,45 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, Text, View} from 'react-native';
-import {colors} from '../constants/colors';
-import {amountFromCents} from 'inab-shared';
-import {globalStyles} from '../constants/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {StyleSheet, Text, View} from 'react-native'
+import {colors} from '../constants/colors'
+import {amountFromCents} from 'inab-shared'
+import {globalStyles} from '../constants/styles'
 
 export class Amount extends React.Component {
   static propTypes = {
     value: PropTypes.number.isRequired,
-    color: PropTypes.bool.isRequired
-  };
+    color: PropTypes.bool.isRequired,
+  }
 
   static defaultProps = {
     value: 0,
-    color: false
-  };
+    color: false,
+  }
 
   viewStyle = () => {
     if (this.props.color) {
       if (this.props.value < 0) {
-        return styles.negativeContainer;
+        return styles.negativeContainer
       }
       if (this.props.value > 0) {
-        return styles.positiveContainer;
+        return styles.positiveContainer
       }
-      return styles.zeroContainer;
+      return styles.zeroContainer
     }
-    return null;
-  };
+    return null
+  }
 
   textStyle = () => {
     if (this.props.color) {
-      return styles.text;
+      return styles.text
     }
 
     if (this.props.value === 0) {
-      return styles.zeroText;
+      return styles.zeroText
     }
 
-    return globalStyles.text;
-  };
+    return globalStyles.text
+  }
 
   render() {
     return (
@@ -47,42 +47,42 @@ export class Amount extends React.Component {
         <Text style={this.textStyle()}>
           {amountFromCents(this.props.value).toLocaleString(undefined, {
             style: 'currency',
-            currency: 'EUR'
+            currency: 'EUR',
           })}
         </Text>
       </View>
-    );
+    )
   }
 }
 
 const sharedStyle = {
   paddingHorizontal: 8,
   paddingVertical: 2,
-  borderRadius: 10
-};
+  borderRadius: 10,
+}
 
 const styles = StyleSheet.create({
   positiveContainer: {
     ...sharedStyle,
-    backgroundColor: colors.green
+    backgroundColor: colors.green,
   },
 
   negativeContainer: {
     ...sharedStyle,
-    backgroundColor: '#ffa48f'
+    backgroundColor: '#ffa48f',
   },
 
   zeroContainer: {
     ...sharedStyle,
-    backgroundColor: '#cfd5d8'
+    backgroundColor: '#cfd5d8',
   },
 
   text: {
     color: '#ffffff',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 
   zeroText: {
-    color: '#cfd5d8'
-  }
-});
+    color: '#cfd5d8',
+  },
+})

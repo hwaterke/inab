@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,42 +7,42 @@ import {
   View,
   Image,
   TouchableWithoutFeedback,
-  Keyboard
-} from 'react-native';
-import {reduxForm, Field} from 'redux-form';
-import axios from 'axios';
-import {connect} from 'react-redux';
-import {selectBackend, selectEmail} from '../selectors/credentials';
-import {setCredentials} from '../reducers/credentials';
-import {TextInputField} from './fields/TextInputField';
-import {LinearGradient} from 'expo';
+  Keyboard,
+} from 'react-native'
+import {reduxForm, Field} from 'redux-form'
+import axios from 'axios'
+import {connect} from 'react-redux'
+import {selectBackend, selectEmail} from '../selectors/credentials'
+import {setCredentials} from '../reducers/credentials'
+import {TextInputField} from './fields/TextInputField'
+import {LinearGradient} from 'expo'
 
 const mapStateToProps = state => ({
   initialValues: {
     backend: selectBackend(state),
-    email: selectEmail(state)
-  }
-});
+    email: selectEmail(state),
+  },
+})
 
 const mapDispatchToProps = {
-  setCredentials
-};
+  setCredentials,
+}
 
 @connect(mapStateToProps, mapDispatchToProps)
 @reduxForm({form: 'login', enableReinitialize: true})
 export class LoginScreen extends React.Component {
   static propTypes = {
     setCredentials: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
-  };
+    handleSubmit: PropTypes.func.isRequired,
+  }
 
   onSubmit = data => {
     this.props.setCredentials({
       backend: data.backend,
-      email: data.email
-    });
-    this.performLogin(data.backend, data.email, data.password);
-  };
+      email: data.email,
+    })
+    this.performLogin(data.backend, data.email, data.password)
+  }
 
   performLogin = (backend, email, password) => {
     axios({
@@ -50,19 +50,19 @@ export class LoginScreen extends React.Component {
       method: 'POST',
       data: {
         email,
-        password
-      }
+        password,
+      },
     })
       .then(response => {
         if (response.headers.authorization) {
           // Dispatch save token
-          this.props.setCredentials({token: response.headers.authorization});
+          this.props.setCredentials({token: response.headers.authorization})
         } else {
-          alert('Login error');
+          alert('Login error')
         }
       })
-      .catch(err => alert('Login error: ' + err.toString()));
-  };
+      .catch(err => alert('Login error: ' + err.toString()))
+  }
 
   render() {
     return (
@@ -119,33 +119,33 @@ export class LoginScreen extends React.Component {
           </TouchableOpacity>
         </LinearGradient>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 }
 
-const verticalSpacing = 12;
+const verticalSpacing = 12
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 3 * verticalSpacing
+    marginBottom: 3 * verticalSpacing,
   },
 
   field: {
     height: 40,
-    color: 'white'
+    color: 'white',
   },
 
   fieldWrapper: {
     marginHorizontal: 24,
     marginVertical: verticalSpacing,
     borderBottomColor: 'rgba(255,255,255,.6)',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 
   button: {
@@ -153,11 +153,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,.1)',
     padding: verticalSpacing,
     marginHorizontal: 24,
-    marginTop: verticalSpacing
+    marginTop: verticalSpacing,
   },
 
   buttonText: {
     fontSize: 18,
-    color: 'white'
-  }
-});
+    color: 'white',
+  },
+})

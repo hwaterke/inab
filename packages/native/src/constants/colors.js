@@ -5,5 +5,5 @@ export const colors = {
   bannerText: '#FFFFFF',
   background: '#FAFAFA',
   green: '#71DB9C',
-  red: '#DC5841'
-};
+  red: '#DC5841',
+}

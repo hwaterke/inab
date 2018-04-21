@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {CategoryResource} from 'inab-shared';
-import {byIdSelector} from 'hw-react-shared';
-import {CategoryForm} from './CategoryForm';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {CategoryResource} from 'inab-shared'
+import {byIdSelector} from 'hw-react-shared'
+import {CategoryForm} from './CategoryForm'
 
 const mapStateToProps = state => ({
-  categoryById: byIdSelector(CategoryResource)(state)
-});
+  categoryById: byIdSelector(CategoryResource)(state),
+})
 
 @connect(mapStateToProps)
 export class CategoryDetail extends React.Component {
   static propTypes = {
     categoryById: PropTypes.objectOf(CategoryResource.propType).isRequired,
     history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired
+      goBack: PropTypes.func.isRequired,
     }).isRequired,
-    match: PropTypes.object.isRequired
-  };
+    match: PropTypes.object.isRequired,
+  }
 
   render() {
     return (
@@ -38,6 +38,6 @@ export class CategoryDetail extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

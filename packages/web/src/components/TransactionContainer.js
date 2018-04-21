@@ -1,27 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TransactionTable from './TransactionTable';
-import {connect} from 'react-redux';
-import {getTransactionsForRendering} from '../selectors/transactionsRendering';
-import * as Immutable from 'immutable';
-import TransactionToolbar from './TransactionToolbar';
-import ui from 'redux-ui';
-import {TransactionForm} from './forms/TransactionForm';
-import TransactionTotalAmount from './TransactionTotalAmount';
-import TransactionFilters from './TransactionFilters';
-import {TransactionSearchService} from '../services/TransactionSearchService';
-import {Filter} from '../entities/Filter';
-import {TransactionResource} from 'inab-shared';
-import {sumOfAmounts} from '../selectors/utils';
-import {arraySelector, byIdSelector} from 'hw-react-shared';
-import {crud} from '../hoc/crud';
+import React from 'react'
+import PropTypes from 'prop-types'
+import TransactionTable from './TransactionTable'
+import {connect} from 'react-redux'
+import {getTransactionsForRendering} from '../selectors/transactionsRendering'
+import * as Immutable from 'immutable'
+import TransactionToolbar from './TransactionToolbar'
+import ui from 'redux-ui'
+import {TransactionForm} from './forms/TransactionForm'
+import TransactionTotalAmount from './TransactionTotalAmount'
+import TransactionFilters from './TransactionFilters'
+import {TransactionSearchService} from '../services/TransactionSearchService'
+import {Filter} from '../entities/Filter'
+import {TransactionResource} from 'inab-shared'
+import {sumOfAmounts} from '../selectors/utils'
+import {arraySelector, byIdSelector} from 'hw-react-shared'
+import {crud} from '../hoc/crud'
 
 const mapStateToProps = state => ({
   transactions: arraySelector(TransactionResource)(state),
   transactionsById: byIdSelector(TransactionResource)(state),
   transactionsForRendering: getTransactionsForRendering(state),
-  transactionFilters: state.transactionFilters
-});
+  transactionFilters: state.transactionFilters,
+})
 
 @ui({
   state: {
@@ -31,10 +31,10 @@ const mapStateToProps = state => ({
     hideColumn: props => ({
       time: true,
       tags: true,
-      account: !!props.hideAccount
+      account: !!props.hideAccount,
     }),
-    searchValue: ''
-  }
+    searchValue: '',
+  },
 })
 @crud
 @connect(mapStateToProps)
@@ -49,125 +49,125 @@ class TransactionContainer extends React.Component {
     deleteResource: PropTypes.func.isRequired,
     accountId: PropTypes.string,
     ui: PropTypes.object.isRequired,
-    updateUI: PropTypes.func.isRequired
-  };
+    updateUI: PropTypes.func.isRequired,
+  }
 
   constructor(props) {
-    super(props);
-    this.searchService = new TransactionSearchService();
-    this.selectTransaction = this.selectTransaction.bind(this);
-    this.clearSelection = this.clearSelection.bind(this);
-    this.deleteSelection = this.deleteSelection.bind(this);
-    this.displayNew = this.displayNew.bind(this);
-    this.displayUpdate = this.displayUpdate.bind(this);
-    this.hideForm = this.hideForm.bind(this);
-    this.toggleColumn = this.toggleColumn.bind(this);
-    this.onSearchChange = this.onSearchChange.bind(this);
+    super(props)
+    this.searchService = new TransactionSearchService()
+    this.selectTransaction = this.selectTransaction.bind(this)
+    this.clearSelection = this.clearSelection.bind(this)
+    this.deleteSelection = this.deleteSelection.bind(this)
+    this.displayNew = this.displayNew.bind(this)
+    this.displayUpdate = this.displayUpdate.bind(this)
+    this.hideForm = this.hideForm.bind(this)
+    this.toggleColumn = this.toggleColumn.bind(this)
+    this.onSearchChange = this.onSearchChange.bind(this)
     this.toggleClearingTransactionStatus = this.toggleClearingTransactionStatus.bind(
       this
-    );
+    )
   }
 
   selectTransaction(id) {
-    const current = this.props.ui.selected;
+    const current = this.props.ui.selected
     if (current.includes(id)) {
-      this.props.updateUI('selected', current.delete(id));
+      this.props.updateUI('selected', current.delete(id))
     } else {
-      this.props.updateUI('selected', current.add(id));
+      this.props.updateUI('selected', current.add(id))
     }
   }
 
   toggleClearingTransactionStatus(id) {
-    const transaction = this.props.transactionsById[id];
+    const transaction = this.props.transactionsById[id]
     if (transaction.cleared_at) {
       this.props.updateResource(TransactionResource, {
         ...transaction,
-        cleared_at: null
-      });
+        cleared_at: null,
+      })
     } else {
       this.props.updateResource(TransactionResource, {
         ...transaction,
-        cleared_at: new Date()
-      });
+        cleared_at: new Date(),
+      })
     }
   }
 
   clearSelection() {
-    this.props.updateUI('selected', Immutable.Set());
+    this.props.updateUI('selected', Immutable.Set())
   }
 
   deleteSelection() {
     const records = this.props.ui.selected.map(
       id => this.props.transactionsById[id]
-    );
-    this.clearSelection();
-    records.forEach(r => this.props.deleteResource(TransactionResource, r));
+    )
+    this.clearSelection()
+    records.forEach(r => this.props.deleteResource(TransactionResource, r))
   }
 
   displayNew() {
-    this.props.updateUI({addingTransaction: true, editingTransactionId: null});
+    this.props.updateUI({addingTransaction: true, editingTransactionId: null})
   }
 
   displayUpdate(transaction_uuid) {
     this.props.updateUI({
       addingTransaction: false,
-      editingTransactionId: transaction_uuid
-    });
+      editingTransactionId: transaction_uuid,
+    })
   }
 
   hideForm() {
-    this.props.updateUI({addingTransaction: false, editingTransactionId: null});
+    this.props.updateUI({addingTransaction: false, editingTransactionId: null})
   }
 
   toggleColumn(name) {
     this.props.updateUI('hideColumn', {
       ...this.props.ui.hideColumn,
-      [name]: !this.props.ui.hideColumn[name]
-    });
+      [name]: !this.props.ui.hideColumn[name],
+    })
   }
 
   onSearchChange(event) {
-    this.props.updateUI('searchValue', event.target.value);
+    this.props.updateUI('searchValue', event.target.value)
   }
 
   getTransactionsToRender() {
     // Filter the selected account
-    let transactions = this.props.transactionsForRendering;
+    let transactions = this.props.transactionsForRendering
     if (this.props.accountId) {
       transactions = this.props.transactionsForRendering.filter(
         tr => tr.account_uuid === this.props.accountId
-      );
+      )
     }
 
     // Filter with Filter[]
     transactions = this.searchService.applyFiltersToTransactions(
       transactions,
       this.props.transactionFilters
-    );
+    )
 
     // Filters further with search text
-    return this.searchService.filter(transactions, this.props.ui.searchValue);
+    return this.searchService.filter(transactions, this.props.ui.searchValue)
   }
 
   render() {
-    const transactionsToRender = this.getTransactionsToRender();
+    const transactionsToRender = this.getTransactionsToRender()
     const total = sumOfAmounts(
       transactionsToRender.filter(tr => tr.type !== 'split')
-    );
+    )
 
     return (
       <div>
         {(this.props.ui.addingTransaction ||
           this.props.ui.editingTransactionId) && (
-            <TransactionForm
-              updatedResource={this.props.transactions.find(
-                tr => tr.uuid === this.props.ui.editingTransactionId
-              )}
-              selectedAccountId={this.props.accountId}
-              postSubmit={this.hideForm}
-              onCancel={this.hideForm}
-            />
-          )}
+          <TransactionForm
+            updatedResource={this.props.transactions.find(
+              tr => tr.uuid === this.props.ui.editingTransactionId
+            )}
+            selectedAccountId={this.props.accountId}
+            postSubmit={this.hideForm}
+            onCancel={this.hideForm}
+          />
+        )}
 
         <div className="box-container">
           <TransactionToolbar
@@ -195,8 +195,8 @@ class TransactionContainer extends React.Component {
           <TransactionTotalAmount amount={total} />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default TransactionContainer;
+export default TransactionContainer

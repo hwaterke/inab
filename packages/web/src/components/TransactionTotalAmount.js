@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './TransactionTotalAmount.scss';
-import Amount from './Amount';
+import React from 'react'
+import PropTypes from 'prop-types'
+import './TransactionTotalAmount.scss'
+import Amount from './Amount'
 
 const TransactionTotalAmount = ({amount}) => {
   return (
@@ -9,11 +9,11 @@ const TransactionTotalAmount = ({amount}) => {
       <span className="transaction-total-label">Total</span>
       <Amount amount={amount} color />
     </div>
-  );
-};
+  )
+}
 
 TransactionTotalAmount.propTypes = {
-  amount: PropTypes.number
-};
+  amount: PropTypes.number,
+}
 
-export default TransactionTotalAmount;
+export default TransactionTotalAmount

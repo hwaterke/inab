@@ -1,32 +1,32 @@
-import React from 'react';
-import {Keyboard, TouchableWithoutFeedback, View} from 'react-native';
-import {resourceForm} from 'hw-react-shared';
-import {crud} from '../../hoc/crud';
-import {TransactionResource} from 'inab-shared';
-import {Field} from 'redux-form';
-import {globalStyles} from '../../../constants/styles';
-import {AmountField} from './AmountField';
-import {Banner} from '../../Banner';
+import React from 'react'
+import {Keyboard, TouchableWithoutFeedback, View} from 'react-native'
+import {resourceForm} from 'hw-react-shared'
+import {crud} from '../../hoc/crud'
+import {TransactionResource} from 'inab-shared'
+import {Field} from 'redux-form'
+import {globalStyles} from '../../../constants/styles'
+import {AmountField} from './AmountField'
+import {Banner} from '../../Banner'
 
 function formToResource(v) {
-  return v;
+  return v
 }
 
 function resourceToForm(v) {
   return {
     amount: {
       amount: 0,
-      isOutcome: true
+      isOutcome: true,
     },
-    ...v
-  };
+    ...v,
+  }
 }
 
 @resourceForm(crud, TransactionResource, formToResource, resourceToForm)
 export class TransactionAddScreen extends React.Component {
   state = {
-    language: undefined
-  };
+    language: undefined,
+  }
 
   render() {
     return (
@@ -38,6 +38,6 @@ export class TransactionAddScreen extends React.Component {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 }

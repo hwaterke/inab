@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Link from '../Link';
-import Amount from '../Amount';
-import {connect} from 'react-redux';
-import FontAwesome from 'react-fontawesome';
-import {Link as RouterLink} from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from '../Link'
+import Amount from '../Amount'
+import {connect} from 'react-redux'
+import FontAwesome from 'react-fontawesome'
+import {Link as RouterLink} from 'react-router-dom'
 import {
   AccountResource,
   selectBalanceByAccountId,
-  getBudgetBalance
-} from 'inab-shared';
-import {arraySelector} from 'hw-react-shared';
-import {clearToken} from '../../reducers/credentials';
+  getBudgetBalance,
+} from 'inab-shared'
+import {arraySelector} from 'hw-react-shared'
+import {clearToken} from '../../reducers/credentials'
 
 const mapStateToProps = state => ({
   accounts: arraySelector(AccountResource)(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),
-  isAdmin: state.credentials.is_admin
-});
+  isAdmin: state.credentials.is_admin,
+})
 
 @connect(mapStateToProps, {clearToken})
 export class Header extends React.Component {
@@ -27,12 +27,12 @@ export class Header extends React.Component {
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
     budgetBalance: PropTypes.number.isRequired,
     isAdmin: PropTypes.bool.isRequired,
-    clearToken: PropTypes.func.isRequired
-  };
+    clearToken: PropTypes.func.isRequired,
+  }
 
   logout = () => {
-    this.props.clearToken();
-  };
+    this.props.clearToken()
+  }
 
   render() {
     return (
@@ -135,6 +135,6 @@ export class Header extends React.Component {
           </div>
         </div>
       </nav>
-    );
+    )
   }
 }

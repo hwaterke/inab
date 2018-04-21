@@ -1,44 +1,47 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {amountFromCents} from 'inab-shared';
-import './Amount.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {amountFromCents} from 'inab-shared'
+import './Amount.scss'
 
 class Amount extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
     color: PropTypes.bool,
     goal: PropTypes.bool,
-    className: PropTypes.string
-  };
+    className: PropTypes.string,
+  }
 
   render() {
-    const amount = this.props.amount || 0;
-    const styles = [];
+    const amount = this.props.amount || 0
+    const styles = []
 
     if (this.props.color) {
-      styles.push('amount-color');
+      styles.push('amount-color')
     }
 
     if (amount < 0) {
-      styles.push('amount-negative');
+      styles.push('amount-negative')
     } else if (this.props.goal) {
-      styles.push('amount-goal');
+      styles.push('amount-goal')
     } else if (amount > 0) {
-      styles.push('amount-positive');
+      styles.push('amount-positive')
     } else {
-      styles.push('amount-zero');
+      styles.push('amount-zero')
     }
 
     if (this.props.className) {
-      styles.push(this.props.className);
+      styles.push(this.props.className)
     }
 
     return (
       <span className={styles.join(' ')}>
-        {amountFromCents(amount).toLocaleString(undefined, {style: 'currency', currency: 'EUR'})}
+        {amountFromCents(amount).toLocaleString(undefined, {
+          style: 'currency',
+          currency: 'EUR',
+        })}
       </span>
-    );
+    )
   }
 }
 
-export default Amount;
+export default Amount

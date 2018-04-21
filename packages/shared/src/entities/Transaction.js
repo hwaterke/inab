@@ -1,17 +1,17 @@
 // @flow
-import PropTypes from 'prop-types';
-import type {ResourceDefinition} from 'hw-react-shared';
+import PropTypes from 'prop-types'
+import type {ResourceDefinition} from 'hw-react-shared'
 
 const tagPropType: ReactPropsCheckType = PropTypes.shape({
-  name: PropTypes.string.isRequired
-});
+  name: PropTypes.string.isRequired,
+})
 
 const subtransactionPropType: ReactPropsCheckType = PropTypes.shape({
   uuid: PropTypes.string,
   description: PropTypes.string,
   amount: PropTypes.number.isRequired,
-  category_uuid: PropTypes.string.isRequired
-});
+  category_uuid: PropTypes.string.isRequired,
+})
 
 export const TransactionResource: ResourceDefinition = {
   path: 'transactions',
@@ -27,20 +27,20 @@ export const TransactionResource: ResourceDefinition = {
     transfer_account_uuid: PropTypes.string,
     type: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(tagPropType).isRequired,
-    subtransactions: PropTypes.arrayOf(subtransactionPropType).isRequired
-  })
-};
+    subtransactions: PropTypes.arrayOf(subtransactionPropType).isRequired,
+  }),
+}
 
 export type TransactionTag = {
-  name: string
-};
+  name: string,
+}
 
 export type Subtransaction = {
   uuid: string,
   description?: string,
   amount: number,
-  category_uuid: string
-};
+  category_uuid: string,
+}
 
 export type Transaction = {
   uuid: string,
@@ -54,5 +54,5 @@ export type Transaction = {
   transfer_account_uuid?: string,
   type: string,
   tags: TransactionTag[],
-  subtransactions: Subtransaction[]
-};
+  subtransactions: Subtransaction[],
+}

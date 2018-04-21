@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {PayeeResource} from 'inab-shared';
-import {byIdSelector} from 'hw-react-shared';
-import {PayeeForm} from './PayeeForm';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {PayeeResource} from 'inab-shared'
+import {byIdSelector} from 'hw-react-shared'
+import {PayeeForm} from './PayeeForm'
 
 const mapStateToProps = state => ({
-  payeesById: byIdSelector(PayeeResource)(state)
-});
+  payeesById: byIdSelector(PayeeResource)(state),
+})
 
 @connect(mapStateToProps)
 export class PayeeDetail extends React.Component {
   static propTypes = {
     payeesById: PropTypes.objectOf(PayeeResource.propType).isRequired,
     history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired
+      goBack: PropTypes.func.isRequired,
     }).isRequired,
-    match: PropTypes.object.isRequired
-  };
+    match: PropTypes.object.isRequired,
+  }
 
   render() {
     return (
@@ -38,6 +38,6 @@ export class PayeeDetail extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

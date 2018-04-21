@@ -1,6 +1,6 @@
 // @flow
-import PropTypes from 'prop-types';
-import type {ResourceDefinition} from 'hw-react-shared';
+import PropTypes from 'prop-types'
+import type {ResourceDefinition} from 'hw-react-shared'
 
 export const CategoryResource: ResourceDefinition = {
   path: 'categories',
@@ -14,9 +14,9 @@ export const CategoryResource: ResourceDefinition = {
     goal_creation_month: PropTypes.string,
     target_balance: PropTypes.number,
     target_balance_month: PropTypes.string,
-    monthly_funding: PropTypes.number
-  })
-};
+    monthly_funding: PropTypes.number,
+  }),
+}
 
 export type Category = {
   uuid: string,
@@ -28,5 +28,5 @@ export type Category = {
   goal_creation_month?: string,
   target_balance?: number,
   target_balance_month?: string,
-  monthly_funding?: number
-};
+  monthly_funding?: number,
+}

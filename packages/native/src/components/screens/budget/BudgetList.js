@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Text, View, SectionList, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Text, View, SectionList, StyleSheet} from 'react-native'
+import {connect} from 'react-redux'
 import {
   BudgetItemResource,
   CategoryResource,
@@ -10,12 +10,12 @@ import {
   selectCategoriesByGroupId,
   selectSelectedMonthActivityByCategoryId,
   getSelectedMonthBudgetItemByCategoryId,
-  getAvailableByCategoryIdForSelectedMonth
-} from 'inab-shared';
-import {crud} from '../../hoc/crud';
-import {uuidExtractor} from '../../../utils';
-import {globalStyles} from '../../../constants/styles';
-import {Amount} from '../../Amount';
+  getAvailableByCategoryIdForSelectedMonth,
+} from 'inab-shared'
+import {crud} from '../../hoc/crud'
+import {uuidExtractor} from '../../../utils'
+import {globalStyles} from '../../../constants/styles'
+import {Amount} from '../../Amount'
 
 const mapStateToProps = state => ({
   categoryGroups: getSortedCategoryGroups(state),
@@ -26,8 +26,8 @@ const mapStateToProps = state => ({
   selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
     state
   ),
-  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state)
-});
+  availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
+})
 
 @crud
 @connect(mapStateToProps)
@@ -45,40 +45,40 @@ export class BudgetList extends React.Component {
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
       BudgetItemResource.propType
     ).isRequired,
-    availableByCategory: PropTypes.instanceOf(Map).isRequired
-  };
+    availableByCategory: PropTypes.instanceOf(Map).isRequired,
+  }
 
   state = {
     isFetching: false,
-    sections: []
-  };
+    sections: [],
+  }
 
   onRefresh = () => {
     this.setState({isFetching: true}, () => {
       Promise.all([
         this.props.fetchAll(CategoryGroupResource, true),
         this.props.fetchAll(CategoryResource, true),
-        this.props.fetchAll(BudgetItemResource, true)
+        this.props.fetchAll(BudgetItemResource, true),
       ])
         .then(() => this.setState({isFetching: false}))
-        .catch(() => this.setState({isFetching: false}));
-    });
-  };
+        .catch(() => this.setState({isFetching: false}))
+    })
+  }
 
   groupCategories = (categoryGroups, categoriesByGroupId) => {
     this.setState({
       sections: categoryGroups.map(cg => ({
         title: cg.name,
-        data: categoriesByGroupId[cg.uuid]
-      }))
-    });
-  };
+        data: categoriesByGroupId[cg.uuid],
+      })),
+    })
+  }
 
   componentDidMount() {
     this.groupCategories(
       this.props.categoryGroups,
       this.props.categoriesByGroupId
-    );
+    )
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,16 +94,14 @@ export class BudgetList extends React.Component {
       this.groupCategories(
         nextProps.categoryGroups,
         nextProps.categoriesByGroupId
-      );
+      )
     }
   }
 
-  renderItem = ({item}) =>
+  renderItem = ({item}) => (
     <View style={globalStyles.row}>
       <View style={styles.categoryName}>
-        <Text>
-          {item.name}
-        </Text>
+        <Text>{item.name}</Text>
       </View>
 
       <View style={styles.child}>
@@ -125,14 +123,14 @@ export class BudgetList extends React.Component {
       <View style={styles.child}>
         <Amount color value={this.props.availableByCategory.get(item.uuid)} />
       </View>
-    </View>;
+    </View>
+  )
 
-  renderSectionHeader = ({section}) =>
+  renderSectionHeader = ({section}) => (
     <View style={globalStyles.sectionView}>
-      <Text style={globalStyles.sectionText}>
-        {section.title}
-      </Text>
-    </View>;
+      <Text style={globalStyles.sectionText}>{section.title}</Text>
+    </View>
+  )
 
   render() {
     return (
@@ -144,17 +142,17 @@ export class BudgetList extends React.Component {
         renderItem={this.renderItem}
         renderSectionHeader={this.renderSectionHeader}
       />
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   categoryName: {
-    flex: 4
+    flex: 4,
   },
 
   child: {
     flex: 3,
-    alignItems: 'flex-end'
-  }
-});
+    alignItems: 'flex-end',
+  },
+})

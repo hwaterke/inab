@@ -1,11 +1,11 @@
-import React from 'react';
-import {TabNavigator} from 'react-navigation';
-import {SettingsScreen} from './screens/settings/SettingsScreen';
-import {Ionicons} from '@expo/vector-icons';
-import {TransactionStackNavigator} from './screens/transactions/TransactionStackNavigator';
-import {BudgetScreen} from './screens/budget/BudgetScreen';
-import {ReportScreen} from './screens/reports/ReportScreen';
-import {TransactionAddScreen} from './screens/transactions/TransactionAddScreen';
+import React from 'react'
+import {TabNavigator} from 'react-navigation'
+import {SettingsScreen} from './screens/settings/SettingsScreen'
+import {Ionicons} from '@expo/vector-icons'
+import {TransactionStackNavigator} from './screens/transactions/TransactionStackNavigator'
+import {BudgetScreen} from './screens/budget/BudgetScreen'
+import {ReportScreen} from './screens/reports/ReportScreen'
+import {TransactionAddScreen} from './screens/transactions/TransactionAddScreen'
 
 BudgetScreen.navigationOptions = {
   tabBarLabel: 'Budget',
@@ -16,8 +16,8 @@ BudgetScreen.navigationOptions = {
       size={26}
       style={{color: tintColor}}
     />
-  )
-};
+  ),
+}
 
 TransactionStackNavigator.navigationOptions = {
   tabBarLabel: 'Accounts',
@@ -28,8 +28,8 @@ TransactionStackNavigator.navigationOptions = {
       size={26}
       style={{color: tintColor}}
     />
-  )
-};
+  ),
+}
 
 TransactionAddScreen.navigationOptions = {
   tabBarLabel: 'Add',
@@ -40,8 +40,8 @@ TransactionAddScreen.navigationOptions = {
       size={26}
       style={{color: tintColor}}
     />
-  )
-};
+  ),
+}
 
 ReportScreen.navigationOptions = {
   tabBarLabel: 'Report',
@@ -52,8 +52,8 @@ ReportScreen.navigationOptions = {
       size={26}
       style={{color: tintColor}}
     />
-  )
-};
+  ),
+}
 
 SettingsScreen.navigationOptions = {
   tabBarLabel: 'Settings',
@@ -64,23 +64,23 @@ SettingsScreen.navigationOptions = {
       size={26}
       style={{color: tintColor}}
     />
-  )
-};
+  ),
+}
 
 export const MainTabNavigator = TabNavigator({
   Budget: {
-    screen: BudgetScreen
+    screen: BudgetScreen,
   },
   Transactions: {
-    screen: TransactionStackNavigator
+    screen: TransactionStackNavigator,
   },
   AddTransaction: {
-    screen: TransactionAddScreen
+    screen: TransactionAddScreen,
   },
   Report: {
-    screen: ReportScreen
+    screen: ReportScreen,
   },
   Settings: {
-    screen: SettingsScreen
-  }
-});
+    screen: SettingsScreen,
+  },
+})

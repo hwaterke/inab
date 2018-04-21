@@ -1,11 +1,11 @@
 // This file merely configures the store for hot reloading.
 // This boilerplate file is likely to be the same for each project that uses Redux.
 // With Redux, the actual stores are in /reducers.
-import {createStore, compose, applyMiddleware} from 'redux';
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
-import thunkMiddleware from 'redux-thunk';
-import rootReducer from '../reducers';
-import {autoRehydrate, persistStore} from 'redux-persist';
+import {createStore, compose, applyMiddleware} from 'redux'
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
+import thunkMiddleware from 'redux-thunk'
+import rootReducer from '../reducers'
+import {autoRehydrate, persistStore} from 'redux-persist'
 
 export default function configureStore(initialState) {
   const middlewares = [
@@ -17,23 +17,25 @@ export default function configureStore(initialState) {
     // thunk middleware can also accept an extra argument to be passed to each thunk action
     // https://github.com/gaearon/redux-thunk#injecting-a-custom-argument
     thunkMiddleware,
-  ];
+  ]
 
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(rootReducer, initialState, composeEnhancers(
-    applyMiddleware(...middlewares),
-    autoRehydrate()
-  ));
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  const store = createStore(
+    rootReducer,
+    initialState,
+    composeEnhancers(applyMiddleware(...middlewares), autoRehydrate())
+  )
 
-  persistStore(store, {whitelist: ['credentials']});
+  persistStore(store, {whitelist: ['credentials']})
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers').default; // eslint-disable-line global-require
-      store.replaceReducer(nextReducer);
-    });
+      const nextReducer = require('../reducers').default // eslint-disable-line global-require
+      store.replaceReducer(nextReducer)
+    })
   }
 
-  return store;
+  return store
 }

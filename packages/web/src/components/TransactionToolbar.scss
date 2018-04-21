@@ -1,14 +1,14 @@
-@import "../styles/mixins";
+@import '../styles/mixins';
 
 .transaction-toolbar {
-  margin: .5rem;
+  margin: 0.5rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
 
   .transaction-toolbar-search {
-    @include marginTopBottom
+    @include marginTopBottom;
   }
 
   @media (min-width: 768px) {

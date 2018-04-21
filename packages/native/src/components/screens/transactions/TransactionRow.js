@@ -1,51 +1,46 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, Text, View} from 'react-native';
-import {FontAwesome} from '@expo/vector-icons';
-import {amountFromCents} from 'inab-shared';
-import {colors} from '../../../constants/colors';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {StyleSheet, Text, View} from 'react-native'
+import {FontAwesome} from '@expo/vector-icons'
+import {amountFromCents} from 'inab-shared'
+import {colors} from '../../../constants/colors'
 
 export class TransactionRow extends React.Component {
   static propTypes = {
-    transaction: PropTypes.object.isRequired
-  };
+    transaction: PropTypes.object.isRequired,
+  }
 
   render() {
-    const {transaction} = this.props;
+    const {transaction} = this.props
     return (
       <View style={styles.row}>
         <View style={styles.innerLeft}>
-          {transaction.isTransfer
-            ? <View style={styles.withIcon}>
-                <FontAwesome name="exchange" size={14} style={styles.icon} />
-                <Text>
-                  {transaction.transferAccountName}
-                </Text>
-              </View>
-            : <Text>
-                {transaction.payeeName}
-              </Text>}
+          {transaction.isTransfer ? (
+            <View style={styles.withIcon}>
+              <FontAwesome name="exchange" size={14} style={styles.icon} />
+              <Text>{transaction.transferAccountName}</Text>
+            </View>
+          ) : (
+            <Text>{transaction.payeeName}</Text>
+          )}
 
-          {transaction.categoryName &&
-            <Text style={styles.smallText}>
-              {transaction.categoryName}
-            </Text>}
+          {transaction.categoryName && (
+            <Text style={styles.smallText}>{transaction.categoryName}</Text>
+          )}
         </View>
 
         <View style={styles.innerRight}>
           <Text style={transaction.amount < 0 ? styles.red : styles.green}>
             {amountFromCents(transaction.amount).toLocaleString(undefined, {
               style: 'currency',
-              currency: 'EUR'
+              currency: 'EUR',
             })}
           </Text>
 
-          <Text style={styles.smallText}>
-            {transaction.accountName}
-          </Text>
+          <Text style={styles.smallText}>{transaction.accountName}</Text>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -57,35 +52,35 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#ffffff',
     borderBottomColor: '#e5e5e5',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 
   innerLeft: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   innerRight: {
     justifyContent: 'space-between',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
 
   withIcon: {flexDirection: 'row', alignItems: 'center'},
 
   icon: {
     color: colors.lightText,
-    marginRight: 8
+    marginRight: 8,
   },
 
   smallText: {
     color: colors.lightText,
-    fontSize: 10
+    fontSize: 10,
   },
 
   green: {
-    color: colors.green
+    color: colors.green,
   },
 
   red: {
-    color: colors.red
-  }
-});
+    color: colors.red,
+  },
+})

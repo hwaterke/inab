@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View, SectionList, Text} from 'react-native';
-import {connect} from 'react-redux';
-import {TransactionResource} from 'inab-shared';
-import moment from 'moment';
-import R from 'ramda';
-import {crud} from '../../hoc/crud';
-import {globalStyles} from '../../../constants/styles';
-import {getTransactionForRendering} from '../../../selectors/transactions';
-import {TransactionRow} from './TransactionRow';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {View, SectionList, Text} from 'react-native'
+import {connect} from 'react-redux'
+import {TransactionResource} from 'inab-shared'
+import moment from 'moment'
+import R from 'ramda'
+import {crud} from '../../hoc/crud'
+import {globalStyles} from '../../../constants/styles'
+import {getTransactionForRendering} from '../../../selectors/transactions'
+import {TransactionRow} from './TransactionRow'
 
 const mapStateToProps = state => ({
-  transactions: getTransactionForRendering(state)
-});
+  transactions: getTransactionForRendering(state),
+})
 
 @crud
 @connect(mapStateToProps)
@@ -23,28 +23,28 @@ export class TransactionListScreen extends React.Component {
     navigation: PropTypes.shape({
       state: PropTypes.shape({
         params: PropTypes.shape({
-          accountUuid: PropTypes.string
-        }).isRequired
-      }).isRequired
-    }).isRequired
-  };
+          accountUuid: PropTypes.string,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+  }
 
   state = {
     isFetching: false,
-    filteredTransactions: []
-  };
+    filteredTransactions: [],
+  }
 
   onRefresh = () => {
     this.setState({isFetching: true}, () => {
       this.props
         .fetchAll(TransactionResource, true)
         .then(() => this.setState({isFetching: false}))
-        .catch(() => this.setState({isFetching: false}));
-    });
-  };
+        .catch(() => this.setState({isFetching: false}))
+    })
+  }
 
   filterTransactions = transactions => {
-    const {accountUuid} = this.props.navigation.state.params;
+    const {accountUuid} = this.props.navigation.state.params
 
     const sections = Object.entries(
       R.groupBy(
@@ -53,15 +53,15 @@ export class TransactionListScreen extends React.Component {
           tr => !accountUuid || tr.account_uuid === accountUuid
         )
       )
-    ).map(en => ({title: en[0], data: en[1]}));
+    ).map(en => ({title: en[0], data: en[1]}))
 
     this.setState({
-      filteredTransactions: sections
-    });
-  };
+      filteredTransactions: sections,
+    })
+  }
 
   componentDidMount() {
-    this.filterTransactions(this.props.transactions);
+    this.filterTransactions(this.props.transactions)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,18 +70,17 @@ export class TransactionListScreen extends React.Component {
         nextProps.navigation.state.params ||
       this.props.transactions !== nextProps.transactions
     ) {
-      this.filterTransactions(nextProps.transactions);
+      this.filterTransactions(nextProps.transactions)
     }
   }
 
-  renderItem = ({item}) => <TransactionRow transaction={item} />;
+  renderItem = ({item}) => <TransactionRow transaction={item} />
 
-  renderSectionHeader = ({section}) =>
+  renderSectionHeader = ({section}) => (
     <View style={globalStyles.sectionView}>
-      <Text style={globalStyles.sectionText}>
-        {section.title}
-      </Text>
-    </View>;
+      <Text style={globalStyles.sectionText}>{section.title}</Text>
+    </View>
+  )
 
   render() {
     return (
@@ -94,6 +93,6 @@ export class TransactionListScreen extends React.Component {
           renderSectionHeader={this.renderSectionHeader}
         />
       </View>
-    );
+    )
   }
 }

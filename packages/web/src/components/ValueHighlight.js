@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './ValueHighlight.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import './ValueHighlight.scss'
 
 export class ValueHighlight extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
-  };
+    children: PropTypes.node.isRequired,
+  }
 
   render() {
     return (
@@ -16,6 +16,6 @@ export class ValueHighlight extends React.Component {
           <h3>{this.props.children}</h3>
         </div>
       </div>
-    );
+    )
   }
 }

@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {CategoryGroupResource} from 'inab-shared';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {CategoryGroupResource} from 'inab-shared'
 
 const style = {
-  backgroundColor: '#85C9E6'
-};
+  backgroundColor: '#85C9E6',
+}
 
 class CategoryGroupRow extends React.Component {
   static propTypes = {
     categoryGroup: CategoryGroupResource.propType.isRequired,
-    onClick: PropTypes.func
-  };
+    onClick: PropTypes.func,
+  }
 
   render() {
     return (
@@ -19,8 +19,8 @@ class CategoryGroupRow extends React.Component {
           {this.props.categoryGroup.name}
         </th>
       </tr>
-    );
+    )
   }
 }
 
-export default CategoryGroupRow;
+export default CategoryGroupRow

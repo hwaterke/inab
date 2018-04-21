@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {SimpleSelect} from 'react-selectize';
-import './SimpleSelect.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {SimpleSelect} from 'react-selectize'
+import './SimpleSelect.scss'
 
 export const SimpleSelectField = ({
   placeholder,
   disabled,
   options,
   input,
-  meta: {touched, error}
+  meta: {touched, error},
 }) => (
   <div className="form-group">
     <SimpleSelect
@@ -21,7 +21,7 @@ export const SimpleSelectField = ({
     />
     {touched && error && <div className="invalid-feedback">{error}</div>}
   </div>
-);
+)
 
 SimpleSelectField.propTypes = {
   placeholder: PropTypes.string,
@@ -29,15 +29,15 @@ SimpleSelectField.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired
+      value: PropTypes.any.isRequired,
     })
   ).isRequired,
   input: PropTypes.shape({
     value: PropTypes.any.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
-    error: PropTypes.string
-  }).isRequired
-};
+    error: PropTypes.string,
+  }).isRequired,
+}

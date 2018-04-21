@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Table from 'reactabular-table';
-import Amount from './Amount';
-import FontAwesome from 'react-fontawesome';
-import * as Immutable from 'immutable';
-import Link from './Link';
-import './TransactionTable.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import * as Table from 'reactabular-table'
+import Amount from './Amount'
+import FontAwesome from 'react-fontawesome'
+import * as Immutable from 'immutable'
+import Link from './Link'
+import './TransactionTable.scss'
 
 class TransactionTable extends React.Component {
   constructor(props) {
-    super(props);
-    this.onRow = this.onRow.bind(this);
+    super(props)
+    this.onRow = this.onRow.bind(this)
   }
 
   static propTypes = {
@@ -19,20 +19,20 @@ class TransactionTable extends React.Component {
     onSelectRow: PropTypes.func,
     onPencilClick: PropTypes.func.isRequired,
     onClearClick: PropTypes.func.isRequired,
-    hiddenColumns: PropTypes.object.isRequired
-  };
+    hiddenColumns: PropTypes.object.isRequired,
+  }
 
   onRow(row) {
     if (row.subtransaction) {
       return {
         className: row.selected && 'table-active',
-        onClick: () => this.props.onSelectRow(row.parent_transaction)
-      };
+        onClick: () => this.props.onSelectRow(row.parent_transaction),
+      }
     }
     return {
       className: row.selected && 'table-active',
-      onClick: () => this.props.onSelectRow(row.uuid)
-    };
+      onClick: () => this.props.onSelectRow(row.uuid),
+    }
   }
 
   getColumns() {
@@ -44,36 +44,36 @@ class TransactionTable extends React.Component {
             (selected, extra) => {
               if (!extra.rowData.subtransaction) {
                 if (selected) {
-                  return <FontAwesome name="check-circle-o" />;
+                  return <FontAwesome name="check-circle-o" />
                 }
-                return <FontAwesome name="circle-o" />;
+                return <FontAwesome name="circle-o" />
               }
-            }
-          ]
-        }
+            },
+          ],
+        },
       },
       {
         property: 'account',
         header: {
-          label: 'Account'
-        }
+          label: 'Account',
+        },
       },
       {
         property: 'display_date',
         header: {
-          label: 'Date'
-        }
+          label: 'Date',
+        },
       },
       {
         property: 'time',
         header: {
-          label: 'Time'
-        }
+          label: 'Time',
+        },
       },
       {
         property: 'payee',
         header: {
-          label: 'Payee'
+          label: 'Payee',
         },
         cell: {
           formatters: [
@@ -83,17 +83,17 @@ class TransactionTable extends React.Component {
                   <div>
                     <FontAwesome name="exchange" /> {payee}
                   </div>
-                );
+                )
               }
-              return payee;
-            }
-          ]
-        }
+              return payee
+            },
+          ],
+        },
       },
       {
         property: 'category',
         header: {
-          label: 'Category'
+          label: 'Category',
         },
         cell: {
           formatters: [
@@ -103,56 +103,53 @@ class TransactionTable extends React.Component {
                   <div className="no-category">
                     <FontAwesome name="exclamation-triangle" /> No category
                   </div>
-                );
+                )
               }
-              return category;
-            }
-          ]
-        }
+              return category
+            },
+          ],
+        },
       },
       {
         property: 'description',
         header: {
-          label: 'Description'
-        }
+          label: 'Description',
+        },
       },
       {
         property: 'tags',
         header: {
-          label: 'Tags'
+          label: 'Tags',
         },
         cell: {
           formatters: [
-            tags =>
+            tags => (
               <div className="table-tags">
-                {tags.map(t =>
-                  <span key={t.name}>
-                    {t.name}
-                  </span>
-                )}
+                {tags.map(t => <span key={t.name}>{t.name}</span>)}
               </div>
-          ]
-        }
+            ),
+          ],
+        },
       },
       {
         property: 'amount',
         header: {
-          label: 'Amount'
+          label: 'Amount',
         },
         props: {
           style: {
-            textAlign: 'right'
-          }
+            textAlign: 'right',
+          },
         },
         cell: {
-          formatters: [amount => <Amount amount={amount} color />]
-        }
+          formatters: [amount => <Amount amount={amount} color />],
+        },
       },
       {
         props: {
           style: {
-            textAlign: 'center'
-          }
+            textAlign: 'center',
+          },
         },
         cell: {
           formatters: [
@@ -161,24 +158,24 @@ class TransactionTable extends React.Component {
                 return (
                   <Link
                     onClick={event => {
-                      event.stopPropagation();
-                      this.props.onPencilClick(e.rowData.uuid);
+                      event.stopPropagation()
+                      this.props.onPencilClick(e.rowData.uuid)
                     }}
                   >
                     <FontAwesome name="pencil" />
                   </Link>
-                );
+                )
               }
-              return null;
-            }
-          ]
-        }
+              return null
+            },
+          ],
+        },
       },
       {
         props: {
           style: {
-            textAlign: 'center'
-          }
+            textAlign: 'center',
+          },
         },
         cell: {
           formatters: [
@@ -187,25 +184,27 @@ class TransactionTable extends React.Component {
                 return (
                   <Link
                     onClick={event => {
-                      event.stopPropagation();
-                      this.props.onClearClick(e.rowData.uuid);
+                      event.stopPropagation()
+                      this.props.onClearClick(e.rowData.uuid)
                     }}
                   >
                     <FontAwesome
                       title={e.rowData.cleared_at ? 'Unclear' : 'Clear'}
-                      name={e.rowData.cleared_at ? 'check-circle-o' : 'circle-o'}
+                      name={
+                        e.rowData.cleared_at ? 'check-circle-o' : 'circle-o'
+                      }
                     />
                   </Link>
-                );
+                )
               }
-              return null;
-            }
-          ]
-        }
-      }
-    ];
+              return null
+            },
+          ],
+        },
+      },
+    ]
 
-    return columns.filter(c => !this.props.hiddenColumns[c.property]);
+    return columns.filter(c => !this.props.hiddenColumns[c.property])
   }
 
   render() {
@@ -213,8 +212,8 @@ class TransactionTable extends React.Component {
       ...tr,
       selected: tr.subtransaction
         ? this.props.selectedRows.has(tr.parent_transaction)
-        : this.props.selectedRows.has(tr.uuid)
-    }));
+        : this.props.selectedRows.has(tr.uuid),
+    }))
 
     return (
       <Table.Provider
@@ -222,10 +221,14 @@ class TransactionTable extends React.Component {
         columns={this.getColumns()}
       >
         <Table.Header />
-        <Table.Body rows={selectedTransactions} onRow={this.onRow} rowKey="key" />
+        <Table.Body
+          rows={selectedTransactions}
+          onRow={this.onRow}
+          rowKey="key"
+        />
       </Table.Provider>
-    );
+    )
   }
 }
 
-export default TransactionTable;
+export default TransactionTable

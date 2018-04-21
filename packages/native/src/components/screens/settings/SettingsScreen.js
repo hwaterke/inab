@@ -1,9 +1,9 @@
-import React from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
-import {SettingsLogin} from './SettingsLogin';
-import {colors} from '../../../constants/colors';
-import {Banner} from '../../Banner';
-import {SettingsResources} from './SettingsResources';
+import React from 'react'
+import {StyleSheet, ScrollView, View} from 'react-native'
+import {SettingsLogin} from './SettingsLogin'
+import {colors} from '../../../constants/colors'
+import {Banner} from '../../Banner'
+import {SettingsResources} from './SettingsResources'
 
 export class SettingsScreen extends React.Component {
   render() {
@@ -15,13 +15,13 @@ export class SettingsScreen extends React.Component {
           <SettingsResources />
         </ScrollView>
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
-  }
-});
+    backgroundColor: colors.background,
+  },
+})

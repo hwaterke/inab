@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   BudgetItemResource,
   CategoryResource,
   getAvailableByCategoryIdForSelectedMonth,
   getSelectedMonthBudgetItemByCategoryId,
-  goalToBudgetByCategoryForSelectedMonth
-} from 'inab-shared';
-import {connect} from 'react-redux';
-import Amount from '../../Amount';
-import {VictoryPie} from 'victory';
-import moment from 'moment';
+  goalToBudgetByCategoryForSelectedMonth,
+} from 'inab-shared'
+import {connect} from 'react-redux'
+import Amount from '../../Amount'
+import {VictoryPie} from 'victory'
+import moment from 'moment'
 
 const mapStateToProps = state => ({
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
@@ -19,8 +19,8 @@ const mapStateToProps = state => ({
   ),
   goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
     state
-  )
-});
+  ),
+})
 
 @connect(mapStateToProps)
 export class BudgetSidebarGoal extends React.Component {
@@ -31,23 +31,23 @@ export class BudgetSidebarGoal extends React.Component {
       BudgetItemResource.propType
     ).isRequired,
     goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
-      .isRequired
-  };
+      .isRequired,
+  }
 
   render() {
-    const {category} = this.props;
+    const {category} = this.props
 
     // How many percent of the goal did we reach?
     const currentGoalValue =
       category.goal_type === 'mf'
         ? this.props.selectedMonthBudgetItemByCategoryId[category.uuid] &&
           this.props.selectedMonthBudgetItemByCategoryId[category.uuid].amount
-        : this.props.availableByCategory.get(category.uuid);
+        : this.props.availableByCategory.get(category.uuid)
     const maxGoalValue =
       category.goal_type === 'mf'
         ? category.monthly_funding
-        : category.target_balance;
-    const goalPercentage = Math.min(1, (currentGoalValue || 0) / maxGoalValue);
+        : category.target_balance
+    const goalPercentage = Math.min(1, (currentGoalValue || 0) / maxGoalValue)
 
     return (
       <div className="mt-3 p-4 box">
@@ -63,7 +63,7 @@ export class BudgetSidebarGoal extends React.Component {
           className="py-2 my-3"
           style={{
             borderTop: '1px solid #e6e6e6',
-            borderBottom: '1px solid #e6e6e6'
+            borderBottom: '1px solid #e6e6e6',
           }}
         >
           <div className="d-flex justify-content-between">
@@ -125,7 +125,7 @@ export class BudgetSidebarGoal extends React.Component {
               labels={() => null}
               data={[
                 {x: 'Budgeted', y: goalPercentage},
-                {x: 'To budget', y: 1 - goalPercentage}
+                {x: 'To budget', y: 1 - goalPercentage},
               ]}
             />
           </div>
@@ -136,6 +136,6 @@ export class BudgetSidebarGoal extends React.Component {
           <Amount amount={maxGoalValue} />
         </div>
       </div>
-    );
+    )
   }
 }

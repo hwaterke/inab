@@ -1,5 +1,5 @@
-@import "../../../styles/variables";
-@import "../../../styles/mixins";
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
 
 .budget-header {
   display: flex;
@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: .5rem 1rem;
+  margin: 0.5rem 1rem;
   .amount-color {
     font-size: 2rem;
   }
@@ -27,7 +27,7 @@
 
 .budget-header-amounts-details {
   display: flex;
-  margin: .5rem;
+  margin: 0.5rem;
 }
 
 .budget-header-amounts-details-amount {
@@ -35,5 +35,5 @@
 }
 
 .budget-header-amounts-details-names {
-  margin-left: .3em;
+  margin-left: 0.3em;
 }

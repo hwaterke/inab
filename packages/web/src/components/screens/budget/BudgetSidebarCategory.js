@@ -1,15 +1,15 @@
-import React from 'react';
-import {CategoryResource} from 'inab-shared';
-import {Link} from 'react-router-dom';
-import {BudgetSidebarGoal} from './BudgetSidebarGoal';
+import React from 'react'
+import {CategoryResource} from 'inab-shared'
+import {Link} from 'react-router-dom'
+import {BudgetSidebarGoal} from './BudgetSidebarGoal'
 
 export class BudgetSidebarCategory extends React.Component {
   static propTypes = {
-    category: CategoryResource.propType
-  };
+    category: CategoryResource.propType,
+  }
 
   render() {
-    const {category} = this.props;
+    const {category} = this.props
 
     return (
       <div>
@@ -21,6 +21,6 @@ export class BudgetSidebarCategory extends React.Component {
 
         {category.goal_type && <BudgetSidebarGoal category={category} />}
       </div>
-    );
+    )
   }
 }

@@ -1,42 +1,53 @@
 // @flow
-import reduxCrud from 'redux-crud';
-import type {CategoryGroup} from '../../src/entities/CategoryGroup';
-import {CategoryGroupResource} from '../../src/entities/CategoryGroup';
-import type {Category} from '../../src/entities/Category';
-import {CategoryResource} from '../../src/entities/Category';
-import type {BudgetItem} from '../../src/entities/BudgetItem';
-import {BudgetItemResource} from '../../src/entities/BudgetItem';
-import type {Transaction} from '../../src/entities/Transaction';
-import {TransactionResource} from '../../src/entities/Transaction';
-import type {Account} from '../../src/entities/Account';
-import {AccountResource} from '../../src/entities/Account';
-import {selectMonth} from '../../src/reducers/month';
+import reduxCrud from 'redux-crud'
+import type {CategoryGroup} from '../../src/entities/CategoryGroup'
+import {CategoryGroupResource} from '../../src/entities/CategoryGroup'
+import type {Category} from '../../src/entities/Category'
+import {CategoryResource} from '../../src/entities/Category'
+import type {BudgetItem} from '../../src/entities/BudgetItem'
+import {BudgetItemResource} from '../../src/entities/BudgetItem'
+import type {Transaction} from '../../src/entities/Transaction'
+import {TransactionResource} from '../../src/entities/Transaction'
+import type {Account} from '../../src/entities/Account'
+import {AccountResource} from '../../src/entities/Account'
+import {selectMonth} from '../../src/reducers/month'
 
 export const dispatchSelectMonth = (store: any, year: number, month: number) =>
-  store.dispatch(selectMonth(year, month));
+  store.dispatch(selectMonth(year, month))
 
-export const createCategoryGroup = (store: any, uuid: string, name: string, priority: number) => {
-  const item: CategoryGroup = {uuid, name, priority};
+export const createCategoryGroup = (
+  store: any,
+  uuid: string,
+  name: string,
+  priority: number
+) => {
+  const item: CategoryGroup = {uuid, name, priority}
   store.dispatch(
-    reduxCrud.actionCreatorsFor(CategoryGroupResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(CategoryGroupResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}
 
 export const createCategory = (store: any, category: Category) => {
   store.dispatch(
-    reduxCrud.actionCreatorsFor(CategoryResource.path, {key: 'uuid'}).createSuccess(category)
-  );
-  return category;
-};
+    reduxCrud
+      .actionCreatorsFor(CategoryResource.path, {key: 'uuid'})
+      .createSuccess(category)
+  )
+  return category
+}
 
 export const createAccount = (store: any, uuid: string, name: string) => {
-  const item: Account = {uuid, name};
+  const item: Account = {uuid, name}
   store.dispatch(
-    reduxCrud.actionCreatorsFor(AccountResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(AccountResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}
 
 export const createBudgetItem = (
   store: any,
@@ -45,12 +56,14 @@ export const createBudgetItem = (
   category_uuid: string,
   amount: number
 ) => {
-  const item: BudgetItem = {uuid, month, category_uuid, amount};
+  const item: BudgetItem = {uuid, month, category_uuid, amount}
   store.dispatch(
-    reduxCrud.actionCreatorsFor(BudgetItemResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(BudgetItemResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}
 
 export const createInflowTBB = (
   store: any,
@@ -68,13 +81,15 @@ export const createInflowTBB = (
     payee,
     type: 'to_be_budgeted',
     tags: [],
-    subtransactions: []
-  };
+    subtransactions: [],
+  }
   store.dispatch(
-    reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}
 
 export const createOutflow = (
   store: any,
@@ -94,13 +109,15 @@ export const createOutflow = (
     payee,
     type: 'regular',
     tags: [],
-    subtransactions: []
-  };
+    subtransactions: [],
+  }
   store.dispatch(
-    reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}
 
 export const createTransfer = (
   store: any,
@@ -118,10 +135,12 @@ export const createTransfer = (
     amount,
     type: 'regular',
     tags: [],
-    subtransactions: []
-  };
+    subtransactions: [],
+  }
   store.dispatch(
-    reduxCrud.actionCreatorsFor(TransactionResource.path, {key: 'uuid'}).createSuccess(item)
-  );
-  return item;
-};
+    reduxCrud
+      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .createSuccess(item)
+  )
+  return item
+}

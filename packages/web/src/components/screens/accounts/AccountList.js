@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {arraySelector} from 'hw-react-shared';
-import {AccountResource} from 'inab-shared';
-import {Link} from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {arraySelector} from 'hw-react-shared'
+import {AccountResource} from 'inab-shared'
+import {Link} from 'react-router-dom'
 
 const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state)
-});
+  accounts: arraySelector(AccountResource)(state),
+})
 
 @connect(mapStateToProps)
 export class AccountList extends React.Component {
   static propTypes = {
-    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired
-  };
+    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+  }
 
   render() {
     return (
@@ -30,7 +30,7 @@ export class AccountList extends React.Component {
               </div>
 
               <div className="list-group">
-                {this.props.accounts.map(account =>
+                {this.props.accounts.map(account => (
                   <Link
                     key={account.uuid}
                     to={`/accounts/edit/${account.uuid}`}
@@ -38,7 +38,7 @@ export class AccountList extends React.Component {
                   >
                     {account.name}
                   </Link>
-                )}
+                ))}
               </div>
             </div>
           </div>
@@ -46,13 +46,11 @@ export class AccountList extends React.Component {
           <div className="col-sm-4">
             <div className="mt-4 p-4 box">
               <h4>Statistics</h4>
-              <h5>
-                {this.props.accounts.length} accounts
-              </h5>
+              <h5>{this.props.accounts.length} accounts</h5>
             </div>
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

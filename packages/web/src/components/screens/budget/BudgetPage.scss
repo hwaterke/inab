@@ -6,12 +6,11 @@
 .budget-page-table-container {
   @extend .box;
   border-top: 0;
-  border-left:0;
+  border-left: 0;
   border-radius: 0;
 }
 
 .budget-table {
-
   .budgeted-column {
     width: 15%;
   }
@@ -29,11 +28,13 @@
   }
 
   @include media-breakpoint-up(md) {
-    td:first-child, th:first-child {
+    td:first-child,
+    th:first-child {
       padding-left: map-get($spacers, 4);
     }
 
-    td:last-child, th:last-child {
+    td:last-child,
+    th:last-child {
       padding-right: map-get($spacers, 4);
     }
   }
@@ -42,7 +43,7 @@
 .budget-sidebar-button {
   display: block;
   width: 100%;
-  color:white;
+  color: white;
   border-color: #85c9e6;
   background-color: #85c9e6;
 

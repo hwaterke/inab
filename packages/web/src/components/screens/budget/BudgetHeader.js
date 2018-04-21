@@ -1,25 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import {
   getAvailableToBudget,
   getFundsForSelectedMonth,
   getOverspentLastMonth,
   getBudgetedThisMonth,
-  getBudgetedInFuture
-} from 'inab-shared';
+  getBudgetedInFuture,
+} from 'inab-shared'
 
-import MonthSelector from '../../MonthSelector';
-import Amount from '../../Amount';
-import './BudgetHeader.scss';
+import MonthSelector from '../../MonthSelector'
+import Amount from '../../Amount'
+import './BudgetHeader.scss'
 
 const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),
   fundsAvailable: getFundsForSelectedMonth(state),
   overspentLastMonth: getOverspentLastMonth(state),
   budgetedThisMonth: getBudgetedThisMonth(state),
-  budgetedInFuture: getBudgetedInFuture(state)
-});
+  budgetedInFuture: getBudgetedInFuture(state),
+})
 
 @connect(mapStateToProps)
 export class BudgetHeader extends React.Component {
@@ -28,8 +28,8 @@ export class BudgetHeader extends React.Component {
     fundsAvailable: PropTypes.number.isRequired,
     overspentLastMonth: PropTypes.number.isRequired,
     budgetedThisMonth: PropTypes.number.isRequired,
-    budgetedInFuture: PropTypes.number.isRequired
-  };
+    budgetedInFuture: PropTypes.number.isRequired,
+  }
 
   render() {
     return (
@@ -73,6 +73,6 @@ export class BudgetHeader extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

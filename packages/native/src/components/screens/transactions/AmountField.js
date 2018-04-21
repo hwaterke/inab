@@ -1,42 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput
-} from 'react-native';
-import {colors} from '../../../constants/colors';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native'
+import {colors} from '../../../constants/colors'
 
 export class AmountField extends React.Component {
   static propTypes = {
     input: PropTypes.shape({
       value: PropTypes.shape({
         amount: PropTypes.number.isRequired,
-        isOutcome: PropTypes.bool.isRequired
+        isOutcome: PropTypes.bool.isRequired,
       }).isRequired,
-      onChange: PropTypes.func.isRequired
+      onChange: PropTypes.func.isRequired,
     }).isRequired,
-    meta: PropTypes.object
-  };
+    meta: PropTypes.object,
+  }
 
-  textInputValue = () => this.props.input.value.amount.toString();
+  textInputValue = () => this.props.input.value.amount.toString()
 
   setValue = value => {
     this.props.input.onChange({
       ...this.props.input.value,
-      amount: Number(value)
-    });
-  };
+      amount: Number(value),
+    })
+  }
 
   setOutcome = () => {
-    this.props.input.onChange({...this.props.input.value, isOutcome: true});
-  };
+    this.props.input.onChange({...this.props.input.value, isOutcome: true})
+  }
 
   setIncome = () => {
-    this.props.input.onChange({...this.props.input.value, isOutcome: false});
-  };
+    this.props.input.onChange({...this.props.input.value, isOutcome: false})
+  }
 
   render() {
     return (
@@ -50,8 +44,8 @@ export class AmountField extends React.Component {
             {
               color: this.props.input.value.isOutcome
                 ? colors.red
-                : colors.green
-            }
+                : colors.green,
+            },
           ]}
           keyboardType="numeric"
         />
@@ -65,33 +59,33 @@ export class AmountField extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#313131'
+    backgroundColor: '#313131',
   },
 
   input: {
     height: 50,
     paddingHorizontal: 24,
     fontSize: 28,
-    textAlign: 'right'
+    textAlign: 'right',
   },
 
   button: {
     flex: 1,
     padding: 8,
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   textIncome: {
-    color: colors.green
+    color: colors.green,
   },
 
   textOutcome: {
-    color: colors.red
-  }
-});
+    color: colors.red,
+  },
+})

@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
-import PropTypes from 'prop-types';
-import ButtonCheck from '../ButtonCheck';
-import ButtonIcon from '../ButtonIcon';
-import ButtonDelete from '../ButtonDelete';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ButtonCheck from '../ButtonCheck'
+import ButtonIcon from '../ButtonIcon'
+import ButtonDelete from '../ButtonDelete'
 
 export class FormActionBar extends React.Component {
   static propTypes = {
@@ -13,8 +13,8 @@ export class FormActionBar extends React.Component {
     disableReset: PropTypes.bool,
     reset: PropTypes.func.isRequired,
     cancel: PropTypes.func,
-    remove: PropTypes.func.isRequired
-  };
+    remove: PropTypes.func.isRequired,
+  }
 
   render() {
     return (
@@ -23,21 +23,24 @@ export class FormActionBar extends React.Component {
           {this.props.isUpdate ? 'Update' : 'Create'}
         </ButtonCheck>
 
-        <ButtonIcon onClick={this.props.reset} icon="undo" disabled={this.props.disableReset}>
+        <ButtonIcon
+          onClick={this.props.reset}
+          icon="undo"
+          disabled={this.props.disableReset}
+        >
           Reset
         </ButtonIcon>
 
-        {this.props.cancel &&
+        {this.props.cancel && (
           <ButtonIcon onClick={this.props.cancel} icon="close">
             Cancel
-          </ButtonIcon>}
+          </ButtonIcon>
+        )}
 
-        {this.props.isUpdate &&
-          <ButtonDelete onClick={this.props.remove}>
-            Delete
-          </ButtonDelete>}
-
+        {this.props.isUpdate && (
+          <ButtonDelete onClick={this.props.remove}>Delete</ButtonDelete>
+        )}
       </div>
-    );
+    )
   }
 }

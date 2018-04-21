@@ -1,18 +1,18 @@
-import React from 'react';
-import {Switch, Route} from 'react-router-dom';
-import {Header} from './navbar/Header';
-import {EntityLoader} from './EntityLoader';
-import ErrorList from './ErrorList';
-import {LoginDispatcher} from './LoginDispatcher';
-import {AccountPage} from './screens/accounts/AccountPage';
-import {BudgetPage} from './screens/budget/BudgetPage';
-import {PayeeList} from './screens/payees/PayeeList';
-import {PayeeDetail} from './screens/payees/PayeeDetail';
-import {AccountList} from './screens/accounts/AccountList';
-import {AccountDetail} from './screens/accounts/AccountDetail';
-import {AdminPage} from './screens/admin/AdminPage';
-import {CategoryDetail} from './screens/categories/CategoryDetail';
-import {CategoryGroupDetail} from './screens/category_groups/CategoryGroupDetail';
+import React from 'react'
+import {Switch, Route} from 'react-router-dom'
+import {Header} from './navbar/Header'
+import {EntityLoader} from './EntityLoader'
+import ErrorList from './ErrorList'
+import {LoginDispatcher} from './LoginDispatcher'
+import {AccountPage} from './screens/accounts/AccountPage'
+import {BudgetPage} from './screens/budget/BudgetPage'
+import {PayeeList} from './screens/payees/PayeeList'
+import {PayeeDetail} from './screens/payees/PayeeDetail'
+import {AccountList} from './screens/accounts/AccountList'
+import {AccountDetail} from './screens/accounts/AccountDetail'
+import {AdminPage} from './screens/admin/AdminPage'
+import {CategoryDetail} from './screens/categories/CategoryDetail'
+import {CategoryGroupDetail} from './screens/category_groups/CategoryGroupDetail'
 
 export class Main extends React.Component {
   render() {
@@ -64,6 +64,6 @@ export class Main extends React.Component {
           </Switch>
         </EntityLoader>
       </LoginDispatcher>
-    );
+    )
   }
 }

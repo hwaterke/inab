@@ -7,10 +7,7 @@
     "plugin:import/warnings"
   ],
   "rules": {
-    "curly": [
-      "error",
-      "all"
-    ],
+    "curly": ["error", "all"],
     "react/default-props-match-prop-types": "error",
     "react/no-direct-mutation-state": "error",
     "react/no-typos": "warn",
@@ -18,9 +15,6 @@
     "react/no-will-update-set-state": "error",
     "react/prop-types": "error",
     "react/void-dom-elements-no-children": "error",
-    "linebreak-style": [
-      "error",
-      "unix"
-    ]
+    "linebreak-style": ["error", "unix"]
   }
 }

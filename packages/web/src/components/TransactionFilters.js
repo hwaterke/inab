@@ -1,42 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import ButtonIcon from './ButtonIcon';
-import {deleteFilter} from '../reducers/filters';
-import {getTransactionColumns} from '../selectors/transactionsRendering';
-import {Filter} from '../entities/Filter';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import ButtonIcon from './ButtonIcon'
+import {deleteFilter} from '../reducers/filters'
+import {getTransactionColumns} from '../selectors/transactionsRendering'
+import {Filter} from '../entities/Filter'
 
 const mapStateToProps = state => ({
   filters: state.transactionFilters,
-  columns: getTransactionColumns(state)
-});
+  columns: getTransactionColumns(state),
+})
 
 const mapDispatchToProps = dispatch => ({
   onClickDelete(index) {
-    dispatch(deleteFilter(index));
-  }
-});
+    dispatch(deleteFilter(index))
+  },
+})
 
 @connect(mapStateToProps, mapDispatchToProps)
 class TransactionFilters extends React.Component {
   static propTypes = {
     filters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)).isRequired,
     columns: PropTypes.object.isRequired,
-    onClickDelete: PropTypes.func.isRequired
-  };
+    onClickDelete: PropTypes.func.isRequired,
+  }
 
   getAttributeLabel(name) {
-    return this.props.columns[name].label;
+    return this.props.columns[name].label
   }
 
   getValueLabel(filter) {
-    const options = this.props.columns[filter.attribute].options;
+    const options = this.props.columns[filter.attribute].options
     if (options) {
       if (options instanceof Map) {
-        return options.get(filter.value);
+        return options.get(filter.value)
       }
     }
-    return filter.value;
+    return filter.value
   }
 
   render() {
@@ -50,16 +50,13 @@ class TransactionFilters extends React.Component {
               icon="ban"
               onClick={() => this.props.onClickDelete(index)}
             >
-              {this.getAttributeLabel(filter.attribute)}
-              {' '}
-              {filter.operator}
-              {' '}
+              {this.getAttributeLabel(filter.attribute)} {filter.operator}{' '}
               {this.getValueLabel(filter)}
             </ButtonIcon>
           ))}
         </div>
       </div>
-    );
+    )
   }
 }
-export default TransactionFilters;
+export default TransactionFilters

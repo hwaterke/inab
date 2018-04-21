@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Field} from 'redux-form';
-import {FormActionBar} from '../../forms/FormActionBar';
-import {resourceForm} from 'hw-react-shared';
-import {AccountResource} from 'inab-shared';
-import {crud} from '../../../hoc/crud';
-import {required} from '../../forms/validations';
-import {InputField} from '../../forms/fields/InputField';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Field} from 'redux-form'
+import {FormActionBar} from '../../forms/FormActionBar'
+import {resourceForm} from 'hw-react-shared'
+import {AccountResource} from 'inab-shared'
+import {crud} from '../../../hoc/crud'
+import {required} from '../../forms/validations'
+import {InputField} from '../../forms/fields/InputField'
 
 @resourceForm({crud, resource: AccountResource})
 export class AccountForm extends React.Component {
@@ -17,8 +17,8 @@ export class AccountForm extends React.Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired
-  };
+    deleteResource: PropTypes.func.isRequired,
+  }
 
   render() {
     return (
@@ -41,6 +41,6 @@ export class AccountForm extends React.Component {
           remove={this.props.deleteResource}
         />
       </form>
-    );
+    )
   }
 }

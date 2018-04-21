@@ -1,19 +1,19 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import FontAwesome from 'react-fontawesome';
-import ui from 'redux-ui';
-import {BudgetTable} from './BudgetTable';
-import {BudgetHeader} from './BudgetHeader';
-import {BudgetSidebar} from './BudgetSidebar';
-import './BudgetPage.scss';
+import React from 'react'
+import {Link} from 'react-router-dom'
+import FontAwesome from 'react-fontawesome'
+import ui from 'redux-ui'
+import {BudgetTable} from './BudgetTable'
+import {BudgetHeader} from './BudgetHeader'
+import {BudgetSidebar} from './BudgetSidebar'
+import './BudgetPage.scss'
 
 @ui({
   state: {
     categoryGroupFormOpen: false,
     categoryGroupSelected: null,
     categoryFormOpen: false,
-    categorySelected: null
-  }
+    categorySelected: null,
+  },
 })
 export class BudgetPage extends React.Component {
   render() {
@@ -43,6 +43,6 @@ export class BudgetPage extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

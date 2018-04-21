@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ui from 'redux-ui';
-import {connect} from 'react-redux';
-import {arraySelector, byIdSelector} from 'hw-react-shared';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ui from 'redux-ui'
+import {connect} from 'react-redux'
+import {arraySelector, byIdSelector} from 'hw-react-shared'
 import {
   BudgetItemResource,
   CategoryResource,
@@ -12,12 +12,12 @@ import {
   getSelectedMonthBudgetItemByCategoryId,
   getSelectedMonthMoment,
   getToBeBudgetedSumInSelectedMonth,
-  goalToBudgetByCategoryForSelectedMonth
-} from 'inab-shared';
-import Amount from '../../Amount';
-import {crud} from '../../../hoc/crud';
-import {ValueHighlight} from '../../ValueHighlight';
-import {BudgetSidebarCategory} from './BudgetSidebarCategory';
+  goalToBudgetByCategoryForSelectedMonth,
+} from 'inab-shared'
+import Amount from '../../Amount'
+import {crud} from '../../../hoc/crud'
+import {ValueHighlight} from '../../ValueHighlight'
+import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
 const mapStateToProps = state => ({
   categories: arraySelector(CategoryResource)(state),
@@ -32,8 +32,8 @@ const mapStateToProps = state => ({
   inflowInCurrentMonth: getToBeBudgetedSumInSelectedMonth(state),
   goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
     state
-  )
-});
+  ),
+})
 
 @crud
 @ui()
@@ -55,13 +55,13 @@ export class BudgetSidebar extends React.Component {
     createResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     ui: PropTypes.shape({
-      categorySelected: PropTypes.string
-    }).isRequired
-  };
+      categorySelected: PropTypes.string,
+    }).isRequired,
+  }
 
   state = {
-    budgeting: false
-  };
+    budgeting: false,
+  }
 
   /**
    * Adds the specified amount to the category
@@ -69,67 +69,70 @@ export class BudgetSidebar extends React.Component {
   budgetCategoryAdd = (categoryUuid, amount) => {
     const existingBudgetItem = this.props.selectedMonthBudgetItemByCategoryId[
       categoryUuid
-    ];
+    ]
 
     if (existingBudgetItem) {
       // Update
       return this.props.updateResource(BudgetItemResource, {
         ...existingBudgetItem,
-        amount: amount + existingBudgetItem.amount
-      });
+        amount: amount + existingBudgetItem.amount,
+      })
     } else {
       // Create
       return this.props.createResource(BudgetItemResource, {
         month: this.props.selectedMonth.format('YYYY-MM-DD'),
         category_uuid: categoryUuid,
-        amount
-      });
+        amount,
+      })
     }
-  };
+  }
 
   quickBudgetUnderfunded = async () => {
-    this.setState({budgeting: true});
-    let availableToBudget = this.props.availableToBudget;
+    this.setState({budgeting: true})
+    let availableToBudget = this.props.availableToBudget
 
     for (let category of this.props.categories) {
-      const available = this.props.availableByCategory.get(category.uuid);
+      const available = this.props.availableByCategory.get(category.uuid)
       if (available < 0) {
-        const adding = Math.min(-available, availableToBudget);
+        const adding = Math.min(-available, availableToBudget)
         if (adding > 0) {
-          await this.budgetCategoryAdd(category.uuid, adding);
-          availableToBudget -= adding;
+          await this.budgetCategoryAdd(category.uuid, adding)
+          availableToBudget -= adding
         }
       }
     }
-    this.setState({budgeting: false});
-  };
+    this.setState({budgeting: false})
+  }
 
   quickBudgetGoals = async () => {
-    this.setState({budgeting: true});
-    let availableToBudget = this.props.availableToBudget;
+    this.setState({budgeting: true})
+    let availableToBudget = this.props.availableToBudget
 
     for (let category of this.props.categories) {
       const missingForGoal = this.props.goalToBudgetByCategoryForSelectedMonth[
         category.uuid
-      ];
+      ]
       if (missingForGoal > 0) {
-        const adding = Math.min(missingForGoal, availableToBudget);
+        const adding = Math.min(missingForGoal, availableToBudget)
         if (adding > 0) {
-          await this.budgetCategoryAdd(category.uuid, adding);
-          availableToBudget -= adding;
+          await this.budgetCategoryAdd(category.uuid, adding)
+          availableToBudget -= adding
         }
       }
     }
-    this.setState({budgeting: false});
-  };
+    this.setState({budgeting: false})
+  }
 
   render() {
-    const {ui: {categorySelected}, categoriesById} = this.props;
+    const {
+      ui: {categorySelected},
+      categoriesById,
+    } = this.props
 
     if (categorySelected) {
       return (
         <BudgetSidebarCategory category={categoriesById[categorySelected]} />
-      );
+      )
     }
 
     return (
@@ -160,6 +163,6 @@ export class BudgetSidebar extends React.Component {
           </button>
         )}
       </div>
-    );
+    )
   }
 }

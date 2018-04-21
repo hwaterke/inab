@@ -1,22 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Link extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func,
-    className: PropTypes.string
-  };
+    className: PropTypes.string,
+  }
 
   constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
+    super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(e) {
-    e.preventDefault();
+    e.preventDefault()
     if (this.props.onClick) {
-      this.props.onClick(e);
+      this.props.onClick(e)
     }
   }
 
@@ -25,6 +25,6 @@ export default class Link extends React.Component {
       <a className={this.props.className} onClick={this.handleClick}>
         {this.props.children}
       </a>
-    );
+    )
   }
 }

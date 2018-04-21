@@ -1,37 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {reduxForm, Field} from 'redux-form';
-import axios from 'axios';
-import {addError} from '../../../actions/error';
-import {setCredentials} from '../../../reducers/credentials';
-import {InputField} from '../../forms/fields/InputField';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {reduxForm, Field} from 'redux-form'
+import axios from 'axios'
+import {addError} from '../../../actions/error'
+import {setCredentials} from '../../../reducers/credentials'
+import {InputField} from '../../forms/fields/InputField'
 
 const mapStateToProps = state => ({
   backend: state.credentials.backend,
   initialValues: {
-    email: state.credentials.email
-  }
-});
+    email: state.credentials.email,
+  },
+})
 
 const mapDispatchToProps = {
   addError,
-  setCredentials
-};
+  setCredentials,
+}
 
 const validate = data => {
-  const errors = {};
+  const errors = {}
 
   if (!data.email) {
-    errors.email = 'Required';
+    errors.email = 'Required'
   }
 
   if (!data.password) {
-    errors.password = 'Required';
+    errors.password = 'Required'
   }
 
-  return errors;
-};
+  return errors
+}
 
 @connect(mapStateToProps, mapDispatchToProps)
 @reduxForm({form: 'login', enableReinitialize: true, validate})
@@ -40,44 +40,60 @@ export class LoginForm extends React.Component {
     backend: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     setCredentials: PropTypes.func.isRequired,
-    addError: PropTypes.func.isRequired
-  };
+    addError: PropTypes.func.isRequired,
+  }
 
   onSubmit = ({email, password}) => {
     axios
       .post(`${this.props.backend}/login`, {
         email,
-        password
+        password,
       })
       .then(response => {
         if (response.headers.authorization) {
-          const token = response.headers.authorization;
-          const {is_admin} = response.data;
-          this.props.setCredentials({email, is_admin, token});
+          const token = response.headers.authorization
+          const {is_admin} = response.data
+          this.props.setCredentials({email, is_admin, token})
         } else {
-          this.props.addError('Authentication failed.');
+          this.props.addError('Authentication failed.')
         }
       })
       .catch(error => {
-        if (error.response && error.response.data && error.response.data.message) {
-          this.props.addError(error.response.data.message);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          this.props.addError(error.response.data.message)
         } else {
-          this.props.addError('Authentication failed.');
+          this.props.addError('Authentication failed.')
         }
-      });
-  };
+      })
+  }
 
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-        <Field name="email" component={InputField} type="email" label="Email" required />
+        <Field
+          name="email"
+          component={InputField}
+          type="email"
+          label="Email"
+          required
+        />
 
-        <Field name="password" component={InputField} type="password" label="Password" required />
+        <Field
+          name="password"
+          component={InputField}
+          type="password"
+          label="Password"
+          required
+        />
 
         <button type="submit" className="btn btn-secondary">
           Login
         </button>
       </form>
-    );
+    )
   }
 }

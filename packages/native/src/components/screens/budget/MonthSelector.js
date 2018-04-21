@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
+import {connect} from 'react-redux'
 import {
   getSelectedMonthMoment,
   selectPreviousMonth,
   selectNextMonth,
-  selectMonth
-} from 'inab-shared';
-import {Ionicons} from '@expo/vector-icons';
-import {colors} from '../../../constants/colors';
-import moment from 'moment';
+  selectMonth,
+} from 'inab-shared'
+import {Ionicons} from '@expo/vector-icons'
+import {colors} from '../../../constants/colors'
+import moment from 'moment'
 
 const mapStateToProps = state => ({
-  selectedMonthMoment: getSelectedMonthMoment(state)
-});
+  selectedMonthMoment: getSelectedMonthMoment(state),
+})
 
 const mapDispatchToProps = {
   selectPreviousMonth,
   selectNextMonth,
-  selectMonth
-};
+  selectMonth,
+}
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class MonthSelector extends React.Component {
@@ -28,13 +28,13 @@ export class MonthSelector extends React.Component {
     selectedMonthMoment: PropTypes.object.isRequired,
     selectPreviousMonth: PropTypes.func.isRequired,
     selectNextMonth: PropTypes.func.isRequired,
-    selectMonth: PropTypes.func.isRequired
-  };
+    selectMonth: PropTypes.func.isRequired,
+  }
 
   selectCurrentMonth = () => {
-    const now = moment();
-    this.props.selectMonth(now.year(), now.month());
-  };
+    const now = moment()
+    this.props.selectMonth(now.year(), now.month())
+  }
 
   render() {
     return (
@@ -62,35 +62,35 @@ export class MonthSelector extends React.Component {
           <Ionicons name="ios-arrow-forward" size={26} style={styles.white} />
         </TouchableOpacity>
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.banner
+    backgroundColor: colors.banner,
   },
 
   childIcons: {
     paddingVertical: 8,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   child: {
     flex: 2,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   monthText: {
     color: 'white',
-    fontSize: 18
+    fontSize: 18,
   },
 
   white: {
-    color: 'white'
-  }
-});
+    color: 'white',
+  },
+})
