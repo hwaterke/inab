@@ -41,6 +41,6 @@
     "react": "^15.0.0"
   },
   "lint-staged": {
-    "{src,tests}/**/*.js": ["eslint", "git add"]
+    "{src,tests}/**/*.js": ["eslint --max-warnings 0", "git add"]
   }
 }
