@@ -1,11 +1,16 @@
 {
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -13,5 +18,16 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["react"]
+  "plugins": ["react"],
+  "rules": {
+    "curly": ["error", "all"],
+    "react/default-props-match-prop-types": "error",
+    "react/no-direct-mutation-state": "error",
+    "react/no-typos": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/no-will-update-set-state": "error",
+    "react/prop-types": "error",
+    "react/void-dom-elements-no-children": "error",
+    "linebreak-style": ["error", "unix"]
+  }
 }
