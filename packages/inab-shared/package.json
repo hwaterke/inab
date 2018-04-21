@@ -1,5 +1,5 @@
 {
-  "name": "shared",
+  "name": "inab-shared",
   "version": "0.0.0",
   "private": true,
   "description": "Shared code between web and native clients",

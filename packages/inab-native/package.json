@@ -1,5 +1,5 @@
 {
-  "name": "native",
+  "name": "inab-native",
   "version": "0.0.0",
   "private": true,
   "description": "INAB Native",
@@ -22,7 +22,7 @@
     "redux-form": "^7.0.4",
     "redux-persist": "^4.10.1",
     "reselect": "^3.0.1",
-    "shared": "^0.0.0"
+    "inab-shared": "^0.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",

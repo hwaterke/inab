@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "inab-web",
   "version": "0.0.0",
   "private": true,
   "description": "INAB Web",
@@ -37,7 +37,7 @@
     "redux-thunk": "^2.1.0",
     "redux-ui": "0.1.1",
     "reselect": "^3.0.1",
-    "shared": "^0.0.0",
+    "inab-shared": "^0.0.0",
     "victory": "^0.22.2"
   },
   "devDependencies": {
