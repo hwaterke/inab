@@ -2750,17 +2750,6 @@ imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
 
-inab-shared@hwaterke/inab-shared#build:
-  version "0.0.1"
-  resolved "https://codeload.github.com/hwaterke/inab-shared/tar.gz/a326fb52f6ace064f8e89920a61457bde5f55457"
-  dependencies:
-    hw-react-shared hwaterke/react-shared#build
-    moment "^2.18.1"
-    ramda "^0.24.1"
-    redux "^3.7.2"
-    redux-crud "^3.0.5"
-    reselect "^3.0.1"
-
 indent-string@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-2.1.0.tgz#8e2d48348742121b4a8218b7a137e9a52049dc80"
@@ -4779,7 +4768,7 @@ rebound@^0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/rebound/-/rebound-0.0.13.tgz#4a225254caf7da756797b19c5817bf7a7941fac1"
 
-redux-crud@^3.0.5, redux-crud@^3.2.0:
+redux-crud@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/redux-crud/-/redux-crud-3.2.0.tgz#4dd7fe5b2bab87f4e24009a6aba670a63f571acb"
   dependencies:
