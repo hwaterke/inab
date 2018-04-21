@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "inab",
+    "description": "INAB",
+    "slug": "inab",
+    "privacy": "unlisted",
+    "sdkVersion": "21.0.0",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./src/assets/icons/app.png",
+    "loading": {
+      "icon": "./src/assets/icons/loading.png",
+      "hideExponentText": true
+    },
+    "packagerOpts": {
+      "assetExts": ["ttf", "mp4"]
+    },
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}

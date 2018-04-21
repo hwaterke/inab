@@ -1,0 +1,39 @@
+{
+  "name": "native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "INAB Native",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "expo": "^21.0.0",
+    "hw-react-shared": "hwaterke/react-shared#build",
+    "inab-shared": "hwaterke/inab-shared#build",
+    "moment": "^2.18.1",
+    "ramda": "^0.24.1",
+    "react": "16.0.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
+    "react-navigation": "^1.0.0-beta.13",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-form": "^7.0.4",
+    "redux-persist": "^4.10.1",
+    "reselect": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.8.0",
+    "eslint-plugin-react": "^7.4.0",
+    "flow-bin": "^0.56.0",
+    "lint-staged": "^7.0.4"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="512" height="512" viewBox="0, 0, 512, 512">
+  <g id="Layer_1">
+    <text transform="matrix(1, -0, 0, 1, 256, 256)">
+      <tspan x="-120.2" y="34" font-family="Helvetica" font-size="103" fill="#ABDCFF">INAB</tspan>
+    </text>
+  </g>
+  <g id="Layer_2">
+    <path d="M256.5,500.5 C121.743,500.5 12.5,391.258 12.5,256.5 C12.5,121.743 121.743,12.5 256.5,12.5 C391.258,12.5 500.5,121.743 500.5,256.5 C500.5,391.258 391.258,500.5 256.5,500.5 z" fill-opacity="0" stroke="#ABDCFF" stroke-width="8"/>
+    <path d="M256.5,444.5 C152.671,444.5 68.5,360.329 68.5,256.5 C68.5,152.67 152.671,68.5 256.5,68.5 C360.329,68.5 444.5,152.67 444.5,256.5 C444.5,360.329 360.329,444.5 256.5,444.5 z" fill-opacity="0" stroke="#ABDCFF" stroke-width="8"/>
+  </g>
+</svg>
