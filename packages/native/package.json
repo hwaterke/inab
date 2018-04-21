@@ -1,9 +1,8 @@
 {
-  "name": "inab-native",
-  "version": "0.0.1",
-  "description": "INAB Native",
-  "author": "Harold Waterkeyn",
+  "name": "native",
+  "version": "0.0.0",
   "private": true,
+  "description": "INAB Native",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "precommit": "lint-staged"
