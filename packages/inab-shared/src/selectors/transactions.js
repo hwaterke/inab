@@ -1,12 +1,12 @@
 // @flow
 import R from 'ramda'
 import {
+  beginningOfMonth,
   createInMonthSelectors,
   createUpToMonthSelectors,
-  beginningOfMonth,
   sumOfAmounts,
 } from './utils'
-import {arraySelector} from 'hw-react-shared'
+import {select} from 'redux-crud-provider'
 import type {Transaction} from '../entities/Transaction'
 import {TransactionResource} from '../entities/Transaction'
 import {createSelector} from 'reselect'
@@ -17,17 +17,17 @@ const dateAmountSort = R.sortWith([
 ])
 
 export const getSortedTransactions = createSelector(
-  arraySelector(TransactionResource),
+  select(TransactionResource).asArray,
   (transactions: Transaction[]) => dateAmountSort(transactions)
 )
 
 export const transactionsInMonth = createInMonthSelectors(
-  arraySelector(TransactionResource),
+  select(TransactionResource).asArray,
   (t: Transaction) => beginningOfMonth(t.date)
 )
 
 export const transactionsUpToMonth = createUpToMonthSelectors(
-  arraySelector(TransactionResource),
+  select(TransactionResource).asArray,
   (t: Transaction) => beginningOfMonth(t.date)
 )
 

@@ -1,22 +1,22 @@
 // @flow
 import R from 'ramda'
 import {createSelector} from 'reselect'
-import {arraySelector} from 'hw-react-shared'
 import {
   createInMonthSelectors,
   createUpToMonthSelectors,
   sumOfAmounts,
 } from './utils'
-import {BudgetItemResource} from '../entities/BudgetItem'
 import type {BudgetItem} from '../entities/BudgetItem'
+import {BudgetItemResource} from '../entities/BudgetItem'
+import {select} from 'redux-crud-provider'
 
 export const budgetItemsInMonth = createInMonthSelectors(
-  arraySelector(BudgetItemResource),
+  select(BudgetItemResource).asArray,
   (bi: BudgetItem) => bi.month
 )
 
 export const budgetItemsUpToMonth = createUpToMonthSelectors(
-  arraySelector(BudgetItemResource),
+  select(BudgetItemResource).asArray,
   (bi: BudgetItem) => bi.month
 )
 

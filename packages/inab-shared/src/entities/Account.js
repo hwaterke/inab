@@ -1,10 +1,13 @@
 // @flow
 import PropTypes from 'prop-types'
-import type {ResourceDefinition} from 'hw-react-shared'
+// eslint-disable-next-line import/named
+import type {ResourceDefinition} from 'redux-crud-provider'
 
 export const AccountResource: ResourceDefinition = {
-  path: 'accounts',
-  propType: PropTypes.shape({
+  name: 'accounts',
+  key: 'uuid',
+  defaultPath: 'accounts',
+  propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
   }),

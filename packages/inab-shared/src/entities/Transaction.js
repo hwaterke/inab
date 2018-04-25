@@ -1,6 +1,7 @@
 // @flow
 import PropTypes from 'prop-types'
-import type {ResourceDefinition} from 'hw-react-shared'
+// eslint-disable-next-line import/named
+import type {ResourceDefinition} from 'redux-crud-provider'
 
 const tagPropType: ReactPropsCheckType = PropTypes.shape({
   name: PropTypes.string.isRequired,
@@ -14,8 +15,10 @@ const subtransactionPropType: ReactPropsCheckType = PropTypes.shape({
 })
 
 export const TransactionResource: ResourceDefinition = {
-  path: 'transactions',
-  propType: PropTypes.shape({
+  name: 'transactions',
+  key: 'uuid',
+  defaultPath: 'transactions',
+  propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     date: PropTypes.string.isRequired,
     time: PropTypes.string,

@@ -1,6 +1,7 @@
 // @flow
 import PropTypes from 'prop-types'
-import type {ResourceDefinition} from 'hw-react-shared'
+// eslint-disable-next-line import/named
+import type {ResourceDefinition} from 'redux-crud-provider'
 
 const locationPropType: ReactPropsCheckType = PropTypes.shape({
   latitude: PropTypes.number.isRequired,
@@ -8,8 +9,10 @@ const locationPropType: ReactPropsCheckType = PropTypes.shape({
 })
 
 export const PayeeResource: ResourceDefinition = {
-  path: 'payees',
-  propType: PropTypes.shape({
+  name: 'payees',
+  key: 'uuid',
+  defaultPath: 'payees',
+  propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
     locations: PropTypes.arrayOf(locationPropType).isRequired,

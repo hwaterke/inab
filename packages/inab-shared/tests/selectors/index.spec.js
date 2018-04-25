@@ -1,13 +1,14 @@
-import {createStore, combineReducers} from 'redux'
-import {resourcesReducer} from '../../src/reducers/resources'
-import {categoryGroupsSelectorTests} from './categoryGroups'
-import {categoriesSelectorTests} from './categories'
-import {monthSelectorTests} from './month'
+import {combineReducers, createStore} from 'redux'
+import {resourcesActivityReducer} from '../../src'
 import {selectedMonthReducer} from '../../src/reducers/month'
-import {budgetItemsSelectorTests} from './budgetItems'
-import {transactionsSelectorTests} from './transactions'
+import {resourcesReducer} from '../../src/reducers/resources'
 import {budgetSelectorTests} from './budget'
+import {budgetItemsSelectorTests} from './budgetItems'
 import {budgetUseCaseTests} from './budgetUseCase'
+import {categoriesSelectorTests} from './categories'
+import {categoryGroupsSelectorTests} from './categoryGroups'
+import {monthSelectorTests} from './month'
+import {transactionsSelectorTests} from './transactions'
 
 describe('Selectors', () => {
   let store
@@ -19,6 +20,7 @@ describe('Selectors', () => {
   beforeEach(() => {
     const reducer = combineReducers({
       resources: resourcesReducer,
+      resourcesActivity: resourcesActivityReducer,
       selectedMonth: selectedMonthReducer,
     })
     store = createStore(reducer)

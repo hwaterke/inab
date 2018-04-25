@@ -1,10 +1,13 @@
 // @flow
 import PropTypes from 'prop-types'
-import type {ResourceDefinition} from 'hw-react-shared'
+// eslint-disable-next-line import/named
+import type {ResourceDefinition} from 'redux-crud-provider'
 
 export const BudgetItemResource: ResourceDefinition = {
-  path: 'budget_items',
-  propType: PropTypes.shape({
+  name: 'budget_items',
+  key: 'uuid',
+  defaultPath: 'budget_items',
+  propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     month: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,

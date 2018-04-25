@@ -16,7 +16,7 @@ import {
   selectNextMonth,
   selectMonth,
 } from './reducers/month'
-import {resourcesReducer} from './reducers/resources'
+import {resourcesReducer, resourcesActivityReducer} from './reducers/resources'
 import {amountToCents, amountFromCents} from './utils/amount'
 import {
   budgetItemsInMonth,
@@ -61,6 +61,7 @@ export {
   PayeeResource,
   TransactionResource,
   resourcesReducer,
+  resourcesActivityReducer,
   selectedMonthReducer,
   selectPreviousMonth,
   selectNextMonth,

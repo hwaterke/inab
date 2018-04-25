@@ -24,7 +24,7 @@ export const createCategoryGroup = (
   const item: CategoryGroup = {uuid, name, priority}
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(CategoryGroupResource.path, {key: 'uuid'})
+      .actionCreatorsFor(CategoryGroupResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item
@@ -33,7 +33,7 @@ export const createCategoryGroup = (
 export const createCategory = (store: any, category: Category) => {
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(CategoryResource.path, {key: 'uuid'})
+      .actionCreatorsFor(CategoryResource.name, {key: 'uuid'})
       .createSuccess(category)
   )
   return category
@@ -43,7 +43,7 @@ export const createAccount = (store: any, uuid: string, name: string) => {
   const item: Account = {uuid, name}
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(AccountResource.path, {key: 'uuid'})
+      .actionCreatorsFor(AccountResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item
@@ -59,7 +59,7 @@ export const createBudgetItem = (
   const item: BudgetItem = {uuid, month, category_uuid, amount}
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(BudgetItemResource.path, {key: 'uuid'})
+      .actionCreatorsFor(BudgetItemResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item
@@ -85,7 +85,7 @@ export const createInflowTBB = (
   }
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .actionCreatorsFor(TransactionResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item
@@ -113,7 +113,7 @@ export const createOutflow = (
   }
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .actionCreatorsFor(TransactionResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item
@@ -139,7 +139,7 @@ export const createTransfer = (
   }
   store.dispatch(
     reduxCrud
-      .actionCreatorsFor(TransactionResource.path, {key: 'uuid'})
+      .actionCreatorsFor(TransactionResource.name, {key: 'uuid'})
       .createSuccess(item)
   )
   return item

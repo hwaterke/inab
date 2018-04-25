@@ -1,10 +1,13 @@
 // @flow
 import PropTypes from 'prop-types'
-import type {ResourceDefinition} from 'hw-react-shared'
+// eslint-disable-next-line import/named
+import type {ResourceDefinition} from 'redux-crud-provider'
 
 export const CategoryResource: ResourceDefinition = {
-  path: 'categories',
-  propType: PropTypes.shape({
+  name: 'categories',
+  key: 'uuid',
+  defaultPath: 'categories',
+  propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
     priority: PropTypes.number.isRequired,

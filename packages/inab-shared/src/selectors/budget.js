@@ -2,34 +2,34 @@
 import R from 'ramda'
 import moment from 'moment'
 import {createSelector} from 'reselect'
-import {arraySelector} from 'hw-react-shared'
 import type {Transaction} from '../entities/Transaction'
 import {TransactionResource} from '../entities/Transaction'
-import {sumOfAmounts, beginningOfMonth} from './utils'
+import {beginningOfMonth, sumOfAmounts} from './utils'
 import type {Account} from '../entities/Account'
 import {AccountResource} from '../entities/Account'
 import type {Category} from '../entities/Category'
 import {CategoryResource} from '../entities/Category'
 import type {BudgetItem} from '../entities/BudgetItem'
 import {BudgetItemResource} from '../entities/BudgetItem'
-import {getSelectedMonthMoment, getPreviousMonthMoment} from './month'
+import {getPreviousMonthMoment, getSelectedMonthMoment} from './month'
 import {
   budgetItemsInMonth,
-  getBudgetItemsSumUpToPreviousMonth,
   budgetItemsUpToMonth,
+  getBudgetItemsSumUpToPreviousMonth,
   getSelectedMonthBudgetItemByCategoryId,
 } from './budgetItems'
 import {
+  flattenTransactions,
   getToBeBudgetedSumUpToSelectedMonth,
   transactionsUpToMonth,
-  flattenTransactions,
 } from './transactions'
+import {select} from 'redux-crud-provider'
 
 /**
  * Returns the balance of the budget i.e. the total amount of money across accounts.
  */
 export const getBudgetBalance = createSelector(
-  arraySelector(TransactionResource),
+  select(TransactionResource).asArray,
   (transactions: Transaction[]) =>
     sumOfAmounts(transactions.filter(t => !t.transfer_account_uuid))
 )
@@ -38,8 +38,8 @@ export const getBudgetBalance = createSelector(
  * Returns the balance per account
  */
 export const selectBalanceByAccountId = createSelector(
-  arraySelector(AccountResource),
-  arraySelector(TransactionResource),
+  select(AccountResource).asArray,
+  select(TransactionResource).asArray,
   (accounts: Account[], transactions: Transaction[]) => {
     const withTransferAccount = R.filter(R.prop('transfer_account_uuid'))
     const reduceToAmountSumBy = R.reduceBy(
@@ -62,9 +62,9 @@ export const selectBalanceByAccountId = createSelector(
  * Returns the sum of all budget items and transactions by category and by month (chronological)
  */
 const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
-  arraySelector(CategoryResource),
-  arraySelector(BudgetItemResource),
-  arraySelector(TransactionResource),
+  select(CategoryResource).asArray,
+  select(BudgetItemResource).asArray,
+  select(TransactionResource).asArray,
   (
     categories: Category[],
     budgetItems: BudgetItem[],
@@ -139,7 +139,7 @@ const getOverspendingByCategoryIdByMonth = createSelector(
 
 // Returns for each category the amount available in the budget for that category for the month
 export const getAvailableByCategoryIdForSelectedMonth = createSelector(
-  arraySelector(CategoryResource),
+  select(CategoryResource).asArray,
   budgetItemsUpToMonth.selected,
   transactionsUpToMonth.selected,
   getSelectedMonthMoment,
@@ -232,7 +232,7 @@ export const getOverspentLastMonth = createSelector(
 // Budgeted this month
 export const getBudgetedThisMonth = createSelector(
   budgetItemsInMonth.selected,
-  items => -sumOfAmounts(items)
+  items => 0 - sumOfAmounts(items)
 )
 
 // Budgeted in the future
@@ -241,13 +241,13 @@ export const getBudgetedInFuture = createSelector(
   getOverspentLastMonth,
   getBudgetedThisMonth,
   getSelectedMonthMoment,
-  arraySelector(BudgetItemResource),
+  select(BudgetItemResource).asArray,
   (funds, overspent: number, budgeted, currentMonth, allBudgetItems) => {
     const maximum = funds + overspent + budgeted
     const futureBudgeting = sumOfAmounts(
       allBudgetItems.filter(i => currentMonth.isBefore(i.month))
     )
-    return Math.min(0, -Math.min(maximum, futureBudgeting))
+    return Math.min(0, 0 - Math.min(maximum, futureBudgeting))
   }
 )
 
@@ -263,7 +263,7 @@ export const getAvailableToBudget = createSelector(
 
 // Budgeting goals
 export const goalToBudgetByCategoryForSelectedMonth = createSelector(
-  arraySelector(CategoryResource),
+  select(CategoryResource).asArray,
   getSelectedMonthBudgetItemByCategoryId,
   getSelectedMonthMoment,
   getAvailableByCategoryIdForSelectedMonth,

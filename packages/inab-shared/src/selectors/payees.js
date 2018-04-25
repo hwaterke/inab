@@ -1,9 +1,9 @@
 import R from 'ramda'
 import {createSelector} from 'reselect'
-import {arraySelector} from 'hw-react-shared'
+import {select} from 'redux-crud-provider'
 import {PayeeResource} from '../entities/Payee'
 
 export const getSortedPayees = createSelector(
-  arraySelector(PayeeResource),
+  select(PayeeResource).asArray,
   payees => R.sortBy(R.prop('name'), payees)
 )
