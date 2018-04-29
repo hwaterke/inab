@@ -20,12 +20,12 @@ class TransactionTable extends React.Component {
   onRow = row => {
     if (row.subtransaction) {
       return {
-        className: row.selected && 'table-active',
+        className: row.selected ? 'table-active' : null,
         onClick: () => this.props.onSelectRow(row.parent_transaction),
       }
     }
     return {
-      className: row.selected && 'table-active',
+      className: row.selected ? 'table-active' : null,
       onClick: () => this.props.onSelectRow(row.uuid),
     }
   }

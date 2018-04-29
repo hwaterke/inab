@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {connect} from 'react-redux'
 import {LoginPage} from './screens/login/LoginPage'
 
@@ -12,7 +12,7 @@ export class LoginDispatcher extends React.Component {
 
   render() {
     if (this.props.token) {
-      return <div>{this.props.children}</div>
+      return this.props.children
     }
 
     return <LoginPage />
