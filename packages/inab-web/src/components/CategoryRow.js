@@ -33,19 +33,13 @@ export class CategoryRow extends React.Component {
     goal: PropTypes.bool.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.editBudgetItem = this.editBudgetItem.bind(this)
-    this.clearBudgetItemForm = this.clearBudgetItemForm.bind(this)
-  }
-
-  editBudgetItem() {
+  editBudgetItem = () => {
     if (!(this.props.budgetItem && this.props.budgetItem.busy)) {
       this.props.updateUI('editingCategoryId', this.props.category.uuid)
     }
   }
 
-  clearBudgetItemForm() {
+  clearBudgetItemForm = () => {
     this.props.updateUI('editingCategoryId', null)
   }
 

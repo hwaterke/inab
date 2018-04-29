@@ -57,20 +57,9 @@ class TransactionContainer extends React.Component {
   constructor(props) {
     super(props)
     this.searchService = new TransactionSearchService()
-    this.selectTransaction = this.selectTransaction.bind(this)
-    this.clearSelection = this.clearSelection.bind(this)
-    this.deleteSelection = this.deleteSelection.bind(this)
-    this.displayNew = this.displayNew.bind(this)
-    this.displayUpdate = this.displayUpdate.bind(this)
-    this.hideForm = this.hideForm.bind(this)
-    this.toggleColumn = this.toggleColumn.bind(this)
-    this.onSearchChange = this.onSearchChange.bind(this)
-    this.toggleClearingTransactionStatus = this.toggleClearingTransactionStatus.bind(
-      this
-    )
   }
 
-  selectTransaction(id) {
+  selectTransaction = id => {
     const current = this.props.ui.selected
     if (current.includes(id)) {
       this.props.updateUI('selected', current.delete(id))
@@ -79,7 +68,7 @@ class TransactionContainer extends React.Component {
     }
   }
 
-  toggleClearingTransactionStatus(id) {
+  toggleClearingTransactionStatus = id => {
     const transaction = this.props.transactionsById[id]
     if (transaction.cleared_at) {
       this.props.updateResource({
@@ -100,11 +89,11 @@ class TransactionContainer extends React.Component {
     }
   }
 
-  clearSelection() {
+  clearSelection = () => {
     this.props.updateUI('selected', Immutable.Set())
   }
 
-  deleteSelection() {
+  deleteSelection = () => {
     const records = this.props.ui.selected.map(
       id => this.props.transactionsById[id]
     )
@@ -114,29 +103,29 @@ class TransactionContainer extends React.Component {
     )
   }
 
-  displayNew() {
+  displayNew = () => {
     this.props.updateUI({addingTransaction: true, editingTransactionId: null})
   }
 
-  displayUpdate(transaction_uuid) {
+  displayUpdate = transaction_uuid => {
     this.props.updateUI({
       addingTransaction: false,
       editingTransactionId: transaction_uuid,
     })
   }
 
-  hideForm() {
+  hideForm = () => {
     this.props.updateUI({addingTransaction: false, editingTransactionId: null})
   }
 
-  toggleColumn(name) {
+  toggleColumn = name => {
     this.props.updateUI('hideColumn', {
       ...this.props.ui.hideColumn,
       [name]: !this.props.ui.hideColumn[name],
     })
   }
 
-  onSearchChange(event) {
+  onSearchChange = event => {
     this.props.updateUI('searchValue', event.target.value)
   }
 

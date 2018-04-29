@@ -1,18 +1,13 @@
-import React from 'react'
+import * as Immutable from 'immutable'
 import PropTypes from 'prop-types'
+import React from 'react'
+import FontAwesome from 'react-fontawesome'
 import * as Table from 'reactabular-table'
 import Amount from './Amount'
-import FontAwesome from 'react-fontawesome'
-import * as Immutable from 'immutable'
 import Link from './Link'
 import './TransactionTable.scss'
 
 class TransactionTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.onRow = this.onRow.bind(this)
-  }
-
   static propTypes = {
     transactions: PropTypes.array.isRequired,
     selectedRows: PropTypes.instanceOf(Immutable.Set),
@@ -22,7 +17,7 @@ class TransactionTable extends React.Component {
     hiddenColumns: PropTypes.object.isRequired,
   }
 
-  onRow(row) {
+  onRow = row => {
     if (row.subtransaction) {
       return {
         className: row.selected && 'table-active',

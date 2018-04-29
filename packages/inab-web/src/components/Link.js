@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 export default class Link extends React.Component {
   static propTypes = {
@@ -8,12 +8,7 @@ export default class Link extends React.Component {
     className: PropTypes.string,
   }
 
-  constructor() {
-    super()
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick(e) {
+  handleClick = e => {
     e.preventDefault()
     if (this.props.onClick) {
       this.props.onClick(e)

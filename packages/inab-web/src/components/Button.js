@@ -1,12 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 export default class Button extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
   static propTypes = {
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func,
@@ -14,7 +9,7 @@ export default class Button extends React.Component {
     disabled: PropTypes.bool,
   }
 
-  handleClick(e) {
+  handleClick = e => {
     e.preventDefault()
     if (this.props.onClick) {
       this.props.onClick()

@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import moment from 'moment'
-import Button from './Button'
-import ButtonIcon from './ButtonIcon'
-import {connect} from 'react-redux'
 import {
-  selectPreviousMonth,
+  getSelectedMonthMoment,
   selectMonth,
   selectNextMonth,
-  getSelectedMonthMoment,
+  selectPreviousMonth,
 } from 'inab-shared'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import Button from './Button'
+import ButtonIcon from './ButtonIcon'
 
 @connect(state => ({selectedMonth: getSelectedMonthMoment(state)}))
 class MonthSelector extends React.Component {
@@ -18,17 +18,11 @@ class MonthSelector extends React.Component {
     dispatch: PropTypes.func.isRequired,
   }
 
-  constructor() {
-    super()
-    this.current = this.current.bind(this)
-    this.next = this.next.bind(this)
-  }
-
   previous = () => {
     this.props.dispatch(selectPreviousMonth())
   }
 
-  current() {
+  current = () => {
     const now = moment()
     this.props.dispatch(selectMonth(now.year(), now.month()))
   }
