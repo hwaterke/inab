@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {AccountHeader} from './AccountHeader'
 import TransactionContainer from '../../TransactionContainer'
-import {byIdSelector} from 'hw-react-shared'
 import {
   AccountResource,
   getBudgetBalance,
   selectBalanceByAccountId,
 } from 'inab-shared'
 import {setFilter} from '../../../reducers/filters'
+import {select} from 'redux-crud-provider'
 import {Filter} from '../../../entities/Filter'
 
 const mapStateToProps = (state, ownProps) => {
@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
 
   if (aid) {
     // Check if the account exist./
-    const account = byIdSelector(AccountResource)(state)[aid]
+    const account = select(AccountResource).byId(state)[aid]
     if (account) {
       title = account.name
       balance = selectBalanceByAccountId(state)[aid]
@@ -42,7 +42,6 @@ export class AccountPage extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     balance: PropTypes.number,
-    selectedAccountId: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         uuid: PropTypes.string,

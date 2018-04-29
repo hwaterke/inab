@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
-import R from 'ramda'
-import {byIdSelector} from 'hw-react-shared'
+import {prop, map} from 'ramda'
+import {select} from 'redux-crud-provider'
 import {
   AccountResource,
   CategoryResource,
@@ -22,9 +22,9 @@ const getMirrorTransfer = transaction => {
 // Converts the transactions to TransactionView
 export const getTransactionsForRendering = createSelector(
   getSortedTransactions,
-  byIdSelector(AccountResource),
-  byIdSelector(CategoryResource),
-  byIdSelector(PayeeResource),
+  select(AccountResource).byId,
+  select(CategoryResource).byId,
+  select(PayeeResource).byId,
   (transactions, accountsById, categoriesById, payeeById) => {
     const result = []
 
@@ -84,14 +84,14 @@ export const getTransactionsForRendering = createSelector(
 )
 
 export const getTransactionColumns = createSelector(
-  byIdSelector(AccountResource),
-  byIdSelector(CategoryResource),
-  byIdSelector(PayeeResource),
+  select(AccountResource).byId,
+  select(CategoryResource).byId,
+  select(PayeeResource).byId,
   (accountsById, categoriesById, payeesById) => ({
     account: {
       label: 'Account',
       type: 'text',
-      options: R.map(R.prop('name'), accountsById),
+      options: map(prop('name'), accountsById),
     },
     date: {
       label: 'Date',
@@ -100,7 +100,7 @@ export const getTransactionColumns = createSelector(
     category_uuid: {
       label: 'Category',
       type: 'text',
-      options: R.map(R.prop('name'), categoriesById),
+      options: map(prop('name'), categoriesById),
     },
     amount: {
       label: 'Amount',
@@ -113,7 +113,7 @@ export const getTransactionColumns = createSelector(
     payee: {
       label: 'Payee',
       type: 'text',
-      options: R.map(R.prop('name'), payeesById),
+      options: map(prop('name'), payeesById),
     },
   })
 )

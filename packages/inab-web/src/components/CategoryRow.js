@@ -1,17 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Cell from './Cell'
-import Amount from './Amount'
-import ui from 'redux-ui'
-import {BudgetItemForm} from './BudgetItemForm'
-import FontAwesome from 'react-fontawesome'
-import {Link as RouterLink} from 'react-router-dom'
 import {
-  CategoryResource,
   BudgetItemResource,
+  CategoryResource,
   getSelectedMonthMoment,
 } from 'inab-shared'
+import PropTypes from 'prop-types'
+import {path} from 'ramda'
+import React from 'react'
+import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
+import {Link as RouterLink} from 'react-router-dom'
+import ui from 'redux-ui'
+import Amount from './Amount'
+import {BudgetItemFormContainer} from './BudgetItemFormContainer'
+import Cell from './Cell'
 
 const mapStateToProps = state => ({
   selectedMonth: getSelectedMonthMoment(state),
@@ -20,22 +21,22 @@ const mapStateToProps = state => ({
 @ui()
 @connect(mapStateToProps)
 export class CategoryRow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.editBudgetItem = this.editBudgetItem.bind(this)
-    this.clearBudgetItemForm = this.clearBudgetItemForm.bind(this)
-  }
-
   static propTypes = {
-    category: CategoryResource.propType,
+    category: CategoryResource.propTypes,
     activity: PropTypes.number,
     available: PropTypes.number,
     ui: PropTypes.object.isRequired,
     updateUI: PropTypes.func.isRequired,
-    budgetItem: BudgetItemResource.propType,
+    budgetItem: BudgetItemResource.propTypes,
     onNameClick: PropTypes.func,
     selectedMonth: PropTypes.object.isRequired,
     goal: PropTypes.bool.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.editBudgetItem = this.editBudgetItem.bind(this)
+    this.clearBudgetItemForm = this.clearBudgetItemForm.bind(this)
   }
 
   editBudgetItem() {
@@ -49,14 +50,16 @@ export class CategoryRow extends React.Component {
   }
 
   render() {
+    const {budgetItem} = this.props
+
     let budgetCell
     if (this.props.ui.editingCategoryId === this.props.category.uuid) {
       budgetCell = (
         <Cell className="right">
-          <BudgetItemForm
+          <BudgetItemFormContainer
+            uuid={path(['uuid'], budgetItem)}
             category_uuid={this.props.category.uuid}
             postSubmit={this.clearBudgetItemForm}
-            updatedResource={this.props.budgetItem}
             onBlur={this.clearBudgetItemForm}
           />
         </Cell>

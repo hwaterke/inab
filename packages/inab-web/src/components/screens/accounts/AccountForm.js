@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Field} from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import {FormActionBar} from '../../forms/FormActionBar'
-import {resourceForm} from 'hw-react-shared'
 import {AccountResource} from 'inab-shared'
-import {crud} from '../../../hoc/crud'
 import {required} from '../../forms/validations'
 import {InputField} from '../../forms/fields/InputField'
 
-@resourceForm({crud, resource: AccountResource})
+@reduxForm({form: AccountResource.name})
 export class AccountForm extends React.Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
@@ -17,7 +15,7 @@ export class AccountForm extends React.Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func,
   }
 
   render() {

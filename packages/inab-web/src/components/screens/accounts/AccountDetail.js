@@ -1,43 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {AccountResource} from 'inab-shared'
-import {byIdSelector} from 'hw-react-shared'
 import {AccountForm} from './AccountForm'
+import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
 
-const mapStateToProps = state => ({
-  accountsById: byIdSelector(AccountResource)(state),
-})
+export const AccountDetail = ({match, history}) => (
+  <div className="container">
+    <div className="row">
+      <div className="col">
+        <div className="mt-4 p-4 box">
+          <h4>Account</h4>
 
-@connect(mapStateToProps)
-export class AccountDetail extends React.Component {
-  static propTypes = {
-    accountsById: PropTypes.objectOf(AccountResource.propType).isRequired,
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-    }).isRequired,
-    match: PropTypes.object.isRequired,
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="mt-4 p-4 box">
-              <h4>Account</h4>
-
-              <AccountForm
-                updatedResource={
-                  this.props.match.params.uuid &&
-                  this.props.accountsById[this.props.match.params.uuid]
-                }
-                postSubmit={this.props.history.goBack}
-              />
-            </div>
-          </div>
+          <ResourceFormProvider
+            uuid={match.params.uuid}
+            resource={AccountResource}
+            postAction={history.goBack}
+          >
+            {props => <AccountForm {...props} />}
+          </ResourceFormProvider>
         </div>
       </div>
-    )
-  }
+    </div>
+  </div>
+)
+
+AccountDetail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      uuid: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 }

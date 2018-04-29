@@ -2,16 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   AccountResource,
-  CategoryResource,
-  CategoryGroupResource,
   BudgetItemResource,
-  TransactionResource,
+  CategoryGroupResource,
+  CategoryResource,
   PayeeResource,
+  TransactionResource,
 } from 'inab-shared'
-import {crud} from '../hoc/crud'
+import {connect} from 'react-redux'
+import {crudThunks} from '../thunks/crudThunks'
+
+const mapDispatchToProps = {
+  fetchAll: crudThunks.fetchAll,
+}
 
 // Until we have a better solution, this component silently loads the entities on startup.
-@crud
+@connect(undefined, mapDispatchToProps)
 export class EntityLoader extends React.Component {
   static propTypes = {
     fetchAll: PropTypes.func.isRequired,
@@ -28,12 +33,24 @@ export class EntityLoader extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchAll(AccountResource).then(() => this.decrementFetch())
-    this.props.fetchAll(CategoryGroupResource).then(() => this.decrementFetch())
-    this.props.fetchAll(CategoryResource).then(() => this.decrementFetch())
-    this.props.fetchAll(BudgetItemResource).then(() => this.decrementFetch())
-    this.props.fetchAll(PayeeResource).then(() => this.decrementFetch())
-    this.props.fetchAll(TransactionResource).then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: AccountResource})
+      .then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: CategoryGroupResource})
+      .then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: CategoryResource})
+      .then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: BudgetItemResource})
+      .then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: PayeeResource})
+      .then(() => this.decrementFetch())
+    this.props
+      .fetchAll({resource: TransactionResource})
+      .then(() => this.decrementFetch())
   }
 
   render() {

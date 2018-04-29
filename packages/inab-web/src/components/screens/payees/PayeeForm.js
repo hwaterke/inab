@@ -1,27 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Field, FieldArray} from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {FormActionBar} from '../../forms/FormActionBar'
-import {resourceForm} from 'hw-react-shared'
-import {PayeeResource} from 'inab-shared'
-import {crud} from '../../../hoc/crud'
 import ButtonCheck from '../../ButtonCheck'
 import ButtonDelete from '../../ButtonDelete'
 import {required} from '../../forms/validations'
 import {InputField} from '../../forms/fields/InputField'
-
-function formToResource(formData) {
-  if (formData.locations) {
-    return {
-      ...formData,
-      locations: formData.locations.map(location => ({
-        longitude: Number(location.longitude),
-        latitude: Number(location.latitude),
-      })),
-    }
-  }
-  return {...formData, locations: []}
-}
+import {PayeeResource} from 'inab-shared'
 
 const renderLocations = ({fields}) => (
   <div>
@@ -65,7 +50,7 @@ renderLocations.propTypes = {
   fields: PropTypes.object.isRequired,
 }
 
-@resourceForm({crud, resource: PayeeResource, formToResource})
+@reduxForm({form: PayeeResource.name})
 export class PayeeForm extends React.Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
@@ -74,7 +59,7 @@ export class PayeeForm extends React.Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func,
   }
 
   render() {

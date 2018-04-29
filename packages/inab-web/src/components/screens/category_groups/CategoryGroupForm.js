@@ -1,18 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {Field} from 'redux-form'
 import {CategoryGroupResource} from 'inab-shared'
-import {FormActionBar} from '../../forms/FormActionBar'
-import {resourceForm} from 'hw-react-shared'
-import {crud} from '../../../hoc/crud'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {Field, reduxForm} from 'redux-form'
 import {InputField} from '../../forms/fields/InputField'
+import {FormActionBar} from '../../forms/FormActionBar'
 import {required} from '../../forms/validations'
 
-const formToResource = data => {
-  return {...data, priority: parseInt(data.priority, 10)}
-}
-
-@resourceForm({crud, resource: CategoryGroupResource, formToResource})
+@reduxForm({form: CategoryGroupResource.name})
 export class CategoryGroupForm extends React.Component {
   static propTypes = {
     isCreate: PropTypes.bool.isRequired,
@@ -21,7 +15,7 @@ export class CategoryGroupForm extends React.Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func,
   }
 
   render() {

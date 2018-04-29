@@ -42,16 +42,16 @@ const mapStateToProps = state => ({
 @withRouter
 export class BudgetTable extends React.Component {
   static propTypes = {
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
       .isRequired,
     categoriesByGroupId: PropTypes.objectOf(
-      PropTypes.arrayOf(CategoryResource.propType).isRequired
+      PropTypes.arrayOf(CategoryResource.propTypes).isRequired
     ).isRequired,
     selectedMonthActivityByCategoryId: PropTypes.objectOf(
       PropTypes.number.isRequired
     ).isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
-      BudgetItemResource.propType
+      BudgetItemResource.propTypes
     ).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
     goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)

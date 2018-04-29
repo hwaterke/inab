@@ -1,6 +1,6 @@
-import R from 'ramda'
+import {reduce} from 'ramda'
 
-export const sumOfAmounts = R.reduce((acc, record) => acc + record.amount, 0)
+export const sumOfAmounts = reduce((acc, record) => acc + record.amount, 0)
 
 export const groupBy = (items, ...mappers) => {
   const mapper = mappers.shift()

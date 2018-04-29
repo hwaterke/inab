@@ -25,10 +25,10 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 export class BudgetSidebarGoal extends React.Component {
   static propTypes = {
-    category: CategoryResource.propType,
+    category: CategoryResource.propTypes,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
-      BudgetItemResource.propType
+      BudgetItemResource.propTypes
     ).isRequired,
     goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
       .isRequired,

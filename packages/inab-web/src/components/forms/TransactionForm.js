@@ -1,27 +1,23 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import './TransactionForm.scss'
-import {Field, FieldArray, formValueSelector} from 'redux-form'
-import {SimpleSelectField} from './fields/SimpleSelectField'
-import {connect} from 'react-redux'
-import DatePickerField from './fields/DatePickerField'
-import ButtonDelete from '../ButtonDelete'
-import ButtonIcon from '../ButtonIcon'
-import Button from '../Button'
-import moment from 'moment'
-import {FormActionBar} from './FormActionBar'
-import {crud} from '../../hoc/crud'
 import {
   AccountResource,
-  amountFromCents,
-  amountToCents,
   CategoryResource,
   getSortedPayees,
   PayeeResource,
   TransactionResource,
 } from 'inab-shared'
-import {arraySelector, resourceForm} from 'hw-react-shared'
+import PropTypes from 'prop-types'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {select} from 'redux-crud-provider'
+import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
+import Button from '../Button'
+import ButtonDelete from '../ButtonDelete'
+import ButtonIcon from '../ButtonIcon'
+import DatePickerField from './fields/DatePickerField'
 import {InputField} from './fields/InputField'
+import {SimpleSelectField} from './fields/SimpleSelectField'
+import {FormActionBar} from './FormActionBar'
+import './TransactionForm.scss'
 
 /**
  * Component used for rendering the subtransaction forms
@@ -94,91 +90,15 @@ renderSubtransactions.propTypes = {
   ).isRequired,
 }
 
-const selector = formValueSelector(TransactionResource.path)
+const selector = formValueSelector(TransactionResource.name)
 
 const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state),
-  categories: arraySelector(CategoryResource)(state),
+  accounts: select(AccountResource).asArray(state),
+  categories: select(CategoryResource).asArray(state),
   payees: getSortedPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category'),
 })
-
-const formToResource = data => {
-  const transaction = {...data}
-
-  // Compute the type of transaction
-  transaction.type = 'regular'
-  if (data.category === 'tbb') {
-    transaction.type = 'to_be_budgeted'
-    transaction.category = null
-  } else if (data.category === 'split') {
-    transaction.type = 'split'
-    transaction.category = null
-  } else {
-    transaction.category_uuid = data.category
-  }
-
-  // Compute the transfer_account_uuid
-  transaction.payee_uuid = data.payee
-  transaction.transfer_account_uuid = null
-  if (data.payee && data.payee.startsWith('transfer:')) {
-    transaction.transfer_account_uuid = data.payee.slice('transfer:'.length)
-    transaction.payee_uuid = null
-  }
-
-  transaction.amount = amountToCents(data.amount)
-
-  // Update the subtransactions
-  if (data.category === 'split' && data.subtransactions) {
-    transaction.subtransactions = data.subtransactions.map(str => ({
-      amount: amountToCents(str.amount),
-      category_uuid: str.category,
-      description: str.description,
-    }))
-  } else {
-    transaction.subtransactions = []
-  }
-  transaction.tags = []
-
-  return transaction
-}
-
-const resourceToForm = (transaction, props) => {
-  const formData = {
-    account_uuid: props.selectedAccountId,
-    date: moment().format('YYYY-MM-DD'),
-  }
-
-  if (transaction) {
-    formData.account_uuid = transaction.account_uuid
-    formData.date = transaction.date
-    formData.description = transaction.description
-    formData.amount = amountFromCents(transaction.amount)
-
-    if (transaction.transfer_account_uuid) {
-      formData.payee = 'transfer:' + transaction.transfer_account_uuid
-    } else {
-      formData.payee = transaction.payee_uuid
-    }
-
-    if (transaction.type === 'to_be_budgeted') {
-      formData.category = 'tbb'
-    } else if (transaction.type === 'split') {
-      formData.category = 'split'
-    } else {
-      formData.category = transaction.category_uuid
-    }
-
-    formData.subtransactions = transaction.subtransactions.map(str => ({
-      amount: amountFromCents(str.amount),
-      description: str.description,
-      category: str.category_uuid,
-    }))
-  }
-
-  return formData
-}
 
 function validateAmount(value, data) {
   if (data.subtransactions && data.subtransactions.length > 0) {
@@ -193,12 +113,7 @@ function validateAmount(value, data) {
 }
 
 @connect(mapStateToProps)
-@resourceForm({
-  crud,
-  resource: TransactionResource,
-  formToResource,
-  resourceToForm,
-})
+@reduxForm({form: TransactionResource.name})
 export class TransactionForm extends Component {
   static propTypes = {
     isCreate: PropTypes.bool.isRequired,
@@ -207,11 +122,11 @@ export class TransactionForm extends Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func,
     // Reference data
-    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
-    categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    payees: PropTypes.arrayOf(PayeeResource.propType).isRequired,
+    accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
+    categories: PropTypes.arrayOf(CategoryResource.propTypes).isRequired,
+    payees: PropTypes.arrayOf(PayeeResource.propTypes).isRequired,
     payeeValue: PropTypes.string,
     categoryValue: PropTypes.string,
     onCancel: PropTypes.func,

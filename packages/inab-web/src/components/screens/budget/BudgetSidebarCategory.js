@@ -5,7 +5,7 @@ import {BudgetSidebarGoal} from './BudgetSidebarGoal'
 
 export class BudgetSidebarCategory extends React.Component {
   static propTypes = {
-    category: CategoryResource.propType,
+    category: CategoryResource.propTypes,
   }
 
   render() {

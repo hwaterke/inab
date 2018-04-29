@@ -8,7 +8,7 @@ const style = {
 
 class CategoryGroupRow extends React.Component {
   static propTypes = {
-    categoryGroup: CategoryGroupResource.propType.isRequired,
+    categoryGroup: CategoryGroupResource.propTypes.isRequired,
     onClick: PropTypes.func,
   }
 

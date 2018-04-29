@@ -1,44 +1,42 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {CategoryGroupResource} from 'inab-shared'
-import {byIdSelector} from 'hw-react-shared'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
 import {CategoryGroupForm} from './CategoryGroupForm'
 
-const mapStateToProps = state => ({
-  categoryGroupById: byIdSelector(CategoryGroupResource)(state),
-})
+const formToResource = data => {
+  return {...data, priority: parseInt(data.priority, 10)}
+}
 
-@connect(mapStateToProps)
-export class CategoryGroupDetail extends React.Component {
-  static propTypes = {
-    categoryGroupById: PropTypes.objectOf(CategoryGroupResource.propType)
-      .isRequired,
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-    }).isRequired,
-    match: PropTypes.object.isRequired,
-  }
+export const CategoryGroupDetail = ({match, history}) => (
+  <div className="container">
+    <div className="row">
+      <div className="col">
+        <div className="mt-4 p-4 box">
+          <h4>Category Group</h4>
 
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="mt-4 p-4 box">
-              <h4>Category Group</h4>
-
-              <CategoryGroupForm
-                updatedResource={
-                  this.props.match.params.uuid &&
-                  this.props.categoryGroupById[this.props.match.params.uuid]
-                }
-                postSubmit={this.props.history.goBack}
-              />
-            </div>
-          </div>
+          <ResourceFormProvider
+            uuid={match.params.uuid}
+            resource={CategoryGroupResource}
+            formToResource={formToResource}
+            postAction={history.goBack}
+          >
+            {props => <CategoryGroupForm {...props} />}
+          </ResourceFormProvider>
         </div>
       </div>
-    )
-  }
+    </div>
+  </div>
+)
+
+CategoryGroupDetail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      uuid: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 }

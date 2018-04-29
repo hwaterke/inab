@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {arraySelector} from 'hw-react-shared'
 import {AccountResource} from 'inab-shared'
 import {Link} from 'react-router-dom'
+import {select} from 'redux-crud-provider'
 
 const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state),
+  accounts: select(AccountResource).asArray(state),
 })
 
 @connect(mapStateToProps)
 export class AccountList extends React.Component {
   static propTypes = {
-    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+    accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
   }
 
   render() {

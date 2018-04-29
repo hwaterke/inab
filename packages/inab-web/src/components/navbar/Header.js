@@ -10,11 +10,11 @@ import {
   selectBalanceByAccountId,
   getBudgetBalance,
 } from 'inab-shared'
-import {arraySelector} from 'hw-react-shared'
+import {select} from 'redux-crud-provider'
 import {clearToken} from '../../reducers/credentials'
 
 const mapStateToProps = state => ({
-  accounts: arraySelector(AccountResource)(state),
+  accounts: select(AccountResource).asArray(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),
   isAdmin: state.credentials.is_admin,
@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps, {clearToken})
 export class Header extends React.Component {
   static propTypes = {
-    accounts: PropTypes.arrayOf(AccountResource.propType).isRequired,
+    accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
     balanceByAccountId: PropTypes.objectOf(PropTypes.number).isRequired,
     budgetBalance: PropTypes.number.isRequired,
     isAdmin: PropTypes.bool.isRequired,
@@ -125,14 +125,18 @@ export class Header extends React.Component {
                   </RouterLink>
                 </li>
               )}
-
-              <li className="nav-item">
-                <a href="#" className="nav-link" onClick={this.logout}>
-                  Logout
-                </a>
-              </li>
             </ul>
           </div>
+
+          <form className="form-inline">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={this.logout}
+            >
+              Logout
+            </button>
+          </form>
         </div>
       </nav>
     )

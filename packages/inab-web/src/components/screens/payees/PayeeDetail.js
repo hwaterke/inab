@@ -1,43 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {PayeeResource} from 'inab-shared'
-import {byIdSelector} from 'hw-react-shared'
 import {PayeeForm} from './PayeeForm'
+import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
 
-const mapStateToProps = state => ({
-  payeesById: byIdSelector(PayeeResource)(state),
-})
-
-@connect(mapStateToProps)
-export class PayeeDetail extends React.Component {
-  static propTypes = {
-    payeesById: PropTypes.objectOf(PayeeResource.propType).isRequired,
-    history: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-    }).isRequired,
-    match: PropTypes.object.isRequired,
+function formToResource(formData) {
+  if (formData.locations) {
+    return {
+      ...formData,
+      locations: formData.locations.map(location => ({
+        longitude: Number(location.longitude),
+        latitude: Number(location.latitude),
+      })),
+    }
   }
+  return {...formData, locations: []}
+}
 
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="mt-4 p-4 box">
-              <h4>Payee</h4>
+export const PayeeDetail = ({match, history}) => (
+  <div className="container">
+    <div className="row">
+      <div className="col">
+        <div className="mt-4 p-4 box">
+          <h4>Payee</h4>
 
-              <PayeeForm
-                updatedResource={
-                  this.props.match.params.uuid &&
-                  this.props.payeesById[this.props.match.params.uuid]
-                }
-                postSubmit={this.props.history.goBack}
-              />
-            </div>
-          </div>
+          <ResourceFormProvider
+            uuid={match.params.uuid}
+            resource={PayeeResource}
+            formToResource={formToResource}
+            postAction={history.goBack}
+          >
+            {props => <PayeeForm {...props} />}
+          </ResourceFormProvider>
         </div>
       </div>
-    )
-  }
+    </div>
+  </div>
+)
+
+PayeeDetail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      uuid: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 }

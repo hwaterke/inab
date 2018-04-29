@@ -1,59 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {Field, formValueSelector} from 'redux-form'
-import {connect} from 'react-redux'
-import {SimpleSelectField} from '../../forms/fields/SimpleSelectField'
 import {
-  CategoryResource,
   CategoryGroupResource,
+  CategoryResource,
   getSelectedMonthMoment,
-  amountToCents,
-  amountFromCents,
 } from 'inab-shared'
-import {FormActionBar} from '../../forms/FormActionBar'
-import {arraySelector, resourceForm} from 'hw-react-shared'
-import {crud} from '../../../hoc/crud'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import {select} from 'redux-crud-provider'
+import {Field, formValueSelector, reduxForm} from 'redux-form'
 import {InputField} from '../../forms/fields/InputField'
+import {SimpleSelectField} from '../../forms/fields/SimpleSelectField'
+import {FormActionBar} from '../../forms/FormActionBar'
 import {required} from '../../forms/validations'
 
 const mapStateToProps = state => ({
-  categoryGroups: arraySelector(CategoryGroupResource)(state),
+  categoryGroups: select(CategoryGroupResource).asArray(state),
   selectedMonth: getSelectedMonthMoment(state),
   goalTypeValue: selector(state, 'goal_type'),
 })
 
-function formToResource(data, ownProps) {
-  return {
-    ...data,
-    priority: parseInt(data.priority, 10),
-    goal_type: data.goal_type === 'none' ? null : data.goal_type,
-    goal_creation_month:
-      data.goal_type === 'none'
-        ? null
-        : ownProps.selectedMonth.format('YYYY-MM-DD'),
-    target_balance: ['tb', 'tbd'].includes(data.goal_type)
-      ? amountToCents(data.target_balance)
-      : null,
-    target_balance_month:
-      data.goal_type === 'tbd' ? data.target_balance_month : null,
-    monthly_funding:
-      data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null,
-  }
-}
-
-function resourceToForm(category) {
-  if (category) {
-    return {
-      ...category,
-      target_balance: amountFromCents(category.target_balance),
-      monthly_funding: amountFromCents(category.monthly_funding),
-    }
-  }
-
-  return {}
-}
-
-const selector = formValueSelector(CategoryResource.path)
+const selector = formValueSelector(CategoryResource.name)
 
 function validateTargetBalance(value, data) {
   if (['tb', 'tbd'].includes(data.goal_type)) {
@@ -83,12 +49,7 @@ function validateMonthlyFunding(value, data) {
 }
 
 @connect(mapStateToProps)
-@resourceForm({
-  crud,
-  resource: CategoryResource,
-  formToResource,
-  resourceToForm,
-})
+@reduxForm({form: CategoryResource.name})
 export class CategoryForm extends React.Component {
   static propTypes = {
     isCreate: PropTypes.bool.isRequired,
@@ -97,8 +58,8 @@ export class CategoryForm extends React.Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func.isRequired,
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
+    deleteResource: PropTypes.func,
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
       .isRequired,
     goalTypeValue: PropTypes.string,
   }

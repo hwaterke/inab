@@ -1,27 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import TransactionTable from './TransactionTable'
-import {connect} from 'react-redux'
-import {getTransactionsForRendering} from '../selectors/transactionsRendering'
 import * as Immutable from 'immutable'
-import TransactionToolbar from './TransactionToolbar'
-import ui from 'redux-ui'
-import {TransactionForm} from './forms/TransactionForm'
-import TransactionTotalAmount from './TransactionTotalAmount'
-import TransactionFilters from './TransactionFilters'
-import {TransactionSearchService} from '../services/TransactionSearchService'
-import {Filter} from '../entities/Filter'
 import {TransactionResource} from 'inab-shared'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import {select} from 'redux-crud-provider'
+import ui from 'redux-ui'
+import {Filter} from '../entities/Filter'
+import {getTransactionsForRendering} from '../selectors/transactionsRendering'
 import {sumOfAmounts} from '../selectors/utils'
-import {arraySelector, byIdSelector} from 'hw-react-shared'
-import {crud} from '../hoc/crud'
+import {TransactionSearchService} from '../services/TransactionSearchService'
+import {crudThunks} from '../thunks/crudThunks'
+import {TransactionFormContainer} from './forms/TransactionFormContainer'
+import TransactionFilters from './TransactionFilters'
+import TransactionTable from './TransactionTable'
+import TransactionToolbar from './TransactionToolbar'
+import TransactionTotalAmount from './TransactionTotalAmount'
 
 const mapStateToProps = state => ({
-  transactions: arraySelector(TransactionResource)(state),
-  transactionsById: byIdSelector(TransactionResource)(state),
+  transactionsById: select(TransactionResource).byId(state),
   transactionsForRendering: getTransactionsForRendering(state),
   transactionFilters: state.transactionFilters,
 })
+
+const mapDispatchToProps = {
+  updateResource: crudThunks.updateResource,
+  deleteResource: crudThunks.deleteResource,
+}
 
 @ui({
   state: {
@@ -36,12 +40,10 @@ const mapStateToProps = state => ({
     searchValue: '',
   },
 })
-@crud
-@connect(mapStateToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 class TransactionContainer extends React.Component {
   static propTypes = {
-    transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    transactionsById: PropTypes.objectOf(TransactionResource.propType)
+    transactionsById: PropTypes.objectOf(TransactionResource.propTypes)
       .isRequired,
     transactionsForRendering: PropTypes.array.isRequired,
     transactionFilters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)),
@@ -80,14 +82,20 @@ class TransactionContainer extends React.Component {
   toggleClearingTransactionStatus(id) {
     const transaction = this.props.transactionsById[id]
     if (transaction.cleared_at) {
-      this.props.updateResource(TransactionResource, {
-        ...transaction,
-        cleared_at: null,
+      this.props.updateResource({
+        resource: TransactionResource,
+        entity: {
+          ...transaction,
+          cleared_at: null,
+        },
       })
     } else {
-      this.props.updateResource(TransactionResource, {
-        ...transaction,
-        cleared_at: new Date(),
+      this.props.updateResource({
+        resource: TransactionResource,
+        entity: {
+          ...transaction,
+          cleared_at: new Date(),
+        },
       })
     }
   }
@@ -101,7 +109,9 @@ class TransactionContainer extends React.Component {
       id => this.props.transactionsById[id]
     )
     this.clearSelection()
-    records.forEach(r => this.props.deleteResource(TransactionResource, r))
+    records.forEach(r =>
+      this.props.deleteResource({resource: TransactionResource, entity: r})
+    )
   }
 
   displayNew() {
@@ -159,10 +169,8 @@ class TransactionContainer extends React.Component {
       <div>
         {(this.props.ui.addingTransaction ||
           this.props.ui.editingTransactionId) && (
-          <TransactionForm
-            updatedResource={this.props.transactions.find(
-              tr => tr.uuid === this.props.ui.editingTransactionId
-            )}
+          <TransactionFormContainer
+            uuid={this.props.ui.editingTransactionId}
             selectedAccountId={this.props.accountId}
             postSubmit={this.hideForm}
             onCancel={this.hideForm}

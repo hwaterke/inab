@@ -1,8 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ui from 'redux-ui'
-import {connect} from 'react-redux'
-import {arraySelector, byIdSelector} from 'hw-react-shared'
 import {
   BudgetItemResource,
   CategoryResource,
@@ -14,14 +9,19 @@ import {
   getToBeBudgetedSumInSelectedMonth,
   goalToBudgetByCategoryForSelectedMonth,
 } from 'inab-shared'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import {select} from 'redux-crud-provider'
+import ui from 'redux-ui'
+import {crudThunks} from '../../../thunks/crudThunks'
 import Amount from '../../Amount'
-import {crud} from '../../../hoc/crud'
 import {ValueHighlight} from '../../ValueHighlight'
 import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
 const mapStateToProps = state => ({
-  categories: arraySelector(CategoryResource)(state),
-  categoriesById: byIdSelector(CategoryResource)(state),
+  categories: select(CategoryResource).asArray(state),
+  categoriesById: select(CategoryResource).byId(state),
   availableToBudget: getAvailableToBudget(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
   selectedMonth: getSelectedMonthMoment(state),
@@ -35,18 +35,22 @@ const mapStateToProps = state => ({
   ),
 })
 
-@crud
+const mapDispatchToProps = {
+  createResource: crudThunks.createResource,
+  updateResource: crudThunks.updateResource,
+}
+
 @ui()
-@connect(mapStateToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 export class BudgetSidebar extends React.Component {
   static propTypes = {
-    categories: PropTypes.arrayOf(CategoryResource.propType).isRequired,
-    categoriesById: PropTypes.objectOf(CategoryResource.propType).isRequired,
+    categories: PropTypes.arrayOf(CategoryResource.propTypes).isRequired,
+    categoriesById: PropTypes.objectOf(CategoryResource.propTypes).isRequired,
     availableToBudget: PropTypes.number.isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
     selectedMonth: PropTypes.object.isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
-      BudgetItemResource.propType
+      BudgetItemResource.propTypes
     ).isRequired,
     budgetedThisMonth: PropTypes.number.isRequired,
     inflowInCurrentMonth: PropTypes.number.isRequired,
@@ -73,16 +77,22 @@ export class BudgetSidebar extends React.Component {
 
     if (existingBudgetItem) {
       // Update
-      return this.props.updateResource(BudgetItemResource, {
-        ...existingBudgetItem,
-        amount: amount + existingBudgetItem.amount,
+      return this.props.updateResource({
+        resource: BudgetItemResource,
+        entity: {
+          ...existingBudgetItem,
+          amount: amount + existingBudgetItem.amount,
+        },
       })
     } else {
       // Create
-      return this.props.createResource(BudgetItemResource, {
-        month: this.props.selectedMonth.format('YYYY-MM-DD'),
-        category_uuid: categoryUuid,
-        amount,
+      return this.props.createResource({
+        resource: BudgetItemResource,
+        entity: {
+          month: this.props.selectedMonth.format('YYYY-MM-DD'),
+          category_uuid: categoryUuid,
+          amount,
+        },
       })
     }
   }
