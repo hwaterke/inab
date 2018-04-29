@@ -1,5 +1,12 @@
 // @flow
-import R from 'ramda'
+import {
+  filter,
+  forEachObjIndexed,
+  groupBy,
+  mergeWith,
+  prop,
+  reduceBy,
+} from 'ramda'
 import moment from 'moment'
 import {createSelector} from 'reselect'
 import type {Transaction} from '../entities/Transaction'
@@ -41,16 +48,16 @@ export const selectBalanceByAccountId = createSelector(
   select(AccountResource).asArray,
   select(TransactionResource).asArray,
   (accounts: Account[], transactions: Transaction[]) => {
-    const withTransferAccount = R.filter(R.prop('transfer_account_uuid'))
-    const reduceToAmountSumBy = R.reduceBy(
+    const withTransferAccount = filter(prop('transfer_account_uuid'))
+    const reduceToAmountSumBy = reduceBy(
       (acc, record) => acc + record.amount,
       0
     )
-    const sumByAccountId = reduceToAmountSumBy(R.prop('account_uuid'))
+    const sumByAccountId = reduceToAmountSumBy(prop('account_uuid'))
     const sumByTransferAccountId = reduceToAmountSumBy(
-      R.prop('transfer_account_uuid')
+      prop('transfer_account_uuid')
     )
-    return R.mergeWith(
+    return mergeWith(
       (a, b) => a - b,
       sumByAccountId(transactions),
       sumByTransferAccountId(withTransferAccount(transactions))
@@ -150,8 +157,8 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
     // Initialize the result for each existing category.
     categories.forEach(c => result.set(c.uuid, 0))
 
-    const groupedBudgetItems = R.groupBy(R.prop('category_uuid'), budgetItems)
-    R.forEachObjIndexed((v, category_uuid) => {
+    const groupedBudgetItems = groupBy(prop('category_uuid'), budgetItems)
+    forEachObjIndexed((v, category_uuid) => {
       result.set(category_uuid, result.get(category_uuid) + sumOfAmounts(v))
     }, groupedBudgetItems)
 

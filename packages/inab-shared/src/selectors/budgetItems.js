@@ -1,5 +1,5 @@
 // @flow
-import R from 'ramda'
+import {groupBy, head, map, prop} from 'ramda'
 import {createSelector} from 'reselect'
 import {
   createInMonthSelectors,
@@ -23,7 +23,7 @@ export const budgetItemsUpToMonth = createUpToMonthSelectors(
 export const getSelectedMonthBudgetItemByCategoryId = createSelector(
   budgetItemsInMonth.selected,
   (budgetItems: BudgetItem[]) =>
-    R.map(R.head)(R.groupBy(R.prop('category_uuid'), budgetItems))
+    map(head)(groupBy(prop('category_uuid'), budgetItems))
 )
 
 export const getBudgetItemsSumUpToPreviousMonth = createSelector(

@@ -1,5 +1,5 @@
 // @flow
-import R from 'ramda'
+import {ascend, descend, prop, reduceBy, sortWith} from 'ramda'
 import {
   beginningOfMonth,
   createInMonthSelectors,
@@ -11,10 +11,7 @@ import type {Transaction} from '../entities/Transaction'
 import {TransactionResource} from '../entities/Transaction'
 import {createSelector} from 'reselect'
 
-const dateAmountSort = R.sortWith([
-  R.descend(R.prop('date')),
-  R.ascend(R.prop('amount')),
-])
+const dateAmountSort = sortWith([descend(prop('date')), ascend(prop('amount'))])
 
 export const getSortedTransactions = createSelector(
   select(TransactionResource).asArray,
@@ -67,11 +64,11 @@ export const flattenTransactions = (transactions: Transaction[]) =>
 export const selectSelectedMonthActivityByCategoryId = createSelector(
   transactionsInMonth.selected,
   (transactions: Transaction[]) => {
-    const reduceToAmountSumBy = R.reduceBy(
+    const reduceToAmountSumBy = reduceBy(
       (acc, record) => acc + record.amount,
       0
     )
-    const sumByCategoryId = reduceToAmountSumBy(R.prop('category_uuid'))
+    const sumByCategoryId = reduceToAmountSumBy(prop('category_uuid'))
     return sumByCategoryId(flattenTransactions(transactions))
   }
 )

@@ -1,15 +1,15 @@
 // @flow
-import R from 'ramda'
+import {reduce} from 'ramda'
 import moment from 'moment'
 import {createSelector} from 'reselect'
 import {
+  getNextMonthMoment,
   getPreviousMonthMoment,
   getSelectedMonthMoment,
-  getNextMonthMoment,
 } from './month'
 
 type sumOfAmountsType = <T: {amount: number}>(items: T[]) => number
-export const sumOfAmounts: sumOfAmountsType = R.reduce(
+export const sumOfAmounts: sumOfAmountsType = reduce(
   (acc: number, record: {amount: number}) => acc + record.amount,
   0
 )
