@@ -4,16 +4,24 @@
 
 INAB is a budgeting tool.
 
+This is a monorepo that contains different packages
+
+* [server](server) contains the server files (Ruby)
+* [packages/inab-web](packages/inab-web) contains the web app
+* [packages/inab-native](packages/inab-native) contains the mobile app
+* [packages/inab-shared](packages/inab-shared) contains common file for web and native apps
+
 # Use
 
 There are several ways of deploying and using INAB.  
 The simplest solution that works out of the box is to use the existing docker image.
 
 ```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab
+docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab:api
 ```
 
-You can then access INAB at http://localhost:8080
+This starts the server. You then need to build and serve the frontend code yourself.
+You can then access INAB api at http://localhost:8080/api
 
 When running the docker image, it is recommended to add another environment variable.
 `-e "JWT_SECRET=some_secret"`.
@@ -30,17 +38,8 @@ If you want to create the docker image yourself, execute the following steps.
 You can then run inab by using:
 
 ```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab
+docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab:api
 ```
-
-### Production build - API
-
-The docker image above contains both the API and the frontend.
-In some cases tough, you might want to serve the frontend in a different way, by using a reverse proxy like NGINX. It is therefore possible to build a docker image that only contains the API and not the frontend.
-
-Simply go to the server folder and run `docker-compose up`
-
-Serving the frontend i.e. the content of the `build` folder to your client is then left to you.
 
 ### Migrate database
 
@@ -60,7 +59,7 @@ This will migrate all the data in the old database to the new database that you 
 
 If you want to contribute and help developing INAB, you can use the development configuration.
 
-The docker-compose file at the root of the project starts the server in development mode.
+The `docker-compose.yml` file at the root of the project starts the server in development mode.
 
 With the following command `docker-compose up`, you will get the following:
 
@@ -68,7 +67,16 @@ With the following command `docker-compose up`, you will get the following:
 * Server (API) listens on port 8080
 * Any change to the server code restarts it
 
-Once the server is up and running, you can start the client in dev mode by issuing the following commands in the `client` folder:
+Once the server is up and running, you need to bootstrap the repo and compile the shared code:
+
+```
+yarn lerna bootstrap
+cd packages/inab-shared
+yarn compile
+yarn compile:flow
+```
+
+You can then start the client in dev mode by issuing the following commands in the `packages/inab-web` folder:
 
 ```
 yarn
