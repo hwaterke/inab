@@ -5,11 +5,12 @@ import {reduxForm, Field} from 'redux-form'
 import axios from 'axios'
 import {addError} from '../../../actions/error'
 import {setCredentials} from '../../../reducers/credentials'
+import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
 
 const mapStateToProps = state => ({
-  backend: state.credentials.backend,
   initialValues: {
+    backend: state.credentials.backend,
     email: state.credentials.email,
   },
 })
@@ -19,33 +20,18 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-const validate = data => {
-  const errors = {}
-
-  if (!data.email) {
-    errors.email = 'Required'
-  }
-
-  if (!data.password) {
-    errors.password = 'Required'
-  }
-
-  return errors
-}
-
 @connect(mapStateToProps, mapDispatchToProps)
-@reduxForm({form: 'login', enableReinitialize: true, validate})
+@reduxForm({form: 'login', enableReinitialize: true})
 export class LoginForm extends React.Component {
   static propTypes = {
-    backend: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     setCredentials: PropTypes.func.isRequired,
     addError: PropTypes.func.isRequired,
   }
 
-  onSubmit = ({email, password}) => {
+  onSubmit = ({backend, email, password}) => {
     axios
-      .post(`${this.props.backend}/login`, {
+      .post(`${backend}/login`, {
         email,
         password,
       })
@@ -53,7 +39,7 @@ export class LoginForm extends React.Component {
         if (response.headers.authorization) {
           const token = response.headers.authorization
           const {is_admin} = response.data
-          this.props.setCredentials({email, is_admin, token})
+          this.props.setCredentials({backend, email, is_admin, token})
         } else {
           this.props.addError('Authentication failed.')
         }
@@ -75,11 +61,22 @@ export class LoginForm extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <Field
+          name="backend"
+          component={InputField}
+          type="text"
+          label="Backend"
+          required
+          validate={requiredField}
+        />
+
+        <Field
           name="email"
           component={InputField}
           type="email"
           label="Email"
+          autoComplete="email"
           required
+          validate={requiredField}
         />
 
         <Field
@@ -87,7 +84,9 @@ export class LoginForm extends React.Component {
           component={InputField}
           type="password"
           label="Password"
+          autoComplete="current-password"
           required
+          validate={requiredField}
         />
 
         <button type="submit" className="btn btn-secondary">
