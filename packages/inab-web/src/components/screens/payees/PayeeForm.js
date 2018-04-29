@@ -20,10 +20,10 @@ const renderLocations = ({fields}) => (
               <label>Latitude</label>
               <Field
                 name={`${location}.latitude`}
+                component={InputField}
                 type="number"
-                component="input"
-                className="form-control"
                 placeholder="Latitude"
+                validate={[required]}
               />
             </div>
 
@@ -31,10 +31,10 @@ const renderLocations = ({fields}) => (
               <label>Longitude</label>
               <Field
                 name={`${location}.longitude`}
+                component={InputField}
                 type="number"
-                component="input"
-                className="form-control"
                 placeholder="Longitude"
+                validate={[required]}
               />
             </div>
 
