@@ -1,6 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {
   getAvailableToBudget,
   getBudgetedInFuture,
@@ -8,9 +5,42 @@ import {
   getFundsForSelectedMonth,
   getOverspentLastMonth,
 } from 'inab-shared'
-import MonthSelector from '../../MonthSelector'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import styled from 'styled-components'
 import {Amount} from '../../Amount'
-import './BudgetHeader.scss'
+import MonthSelector from '../../MonthSelector'
+
+const Header = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+`
+
+const Available = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem 1rem;
+  > span {
+    font-size: 2rem;
+  }
+`
+
+const Details = styled.div`
+  display: flex;
+  margin: 0.5rem;
+`
+
+const Right = styled.div`
+  text-align: right;
+`
+
+const Names = styled.div`
+  margin-left: 0.3em;
+`
 
 const mapStateToProps = state => ({
   availableToBudget: getAvailableToBudget(state),
@@ -36,41 +66,41 @@ export class BudgetHeader extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col">
-              <div className="budget-header">
+              <Header>
                 <MonthSelector />
-                <div className="budget-header-amounts">
-                  <div className="budget-header-amounts-available">
+                <Header>
+                  <Available>
                     <Amount
                       amount={this.props.availableToBudget}
                       hasBackground
                     />
                     <div>Available to budget</div>
-                  </div>
+                  </Available>
 
-                  <div className="budget-header-amounts-details">
-                    <div>
-                      <div className="budget-header-amounts-details-amount">
+                  <Details>
+                    <Right>
+                      <div>
                         <Amount amount={this.props.fundsAvailable} />
                       </div>
-                      <div className="budget-header-amounts-details-amount">
+                      <div>
                         <Amount amount={this.props.overspentLastMonth} />
                       </div>
-                      <div className="budget-header-amounts-details-amount">
+                      <div>
                         <Amount amount={this.props.budgetedThisMonth} />
                       </div>
-                      <div className="budget-header-amounts-details-amount">
+                      <div>
                         <Amount amount={this.props.budgetedInFuture} />
                       </div>
-                    </div>
-                    <div className="budget-header-amounts-details-names">
+                    </Right>
+                    <Names>
                       <div>Funds</div>
                       <div>Overspent last month</div>
                       <div>Budgeted this month</div>
                       <div>Budgeted in the future</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </Names>
+                  </Details>
+                </Header>
+              </Header>
             </div>
           </div>
         </div>
