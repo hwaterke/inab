@@ -1,19 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './TransactionTotalAmount.scss'
 import {Amount} from './Amount'
+import styled from 'styled-components'
+import {paddingHorizontal, paddingVertical} from '../styles/styleUtils'
 
-const TransactionTotalAmount = ({amount}) => {
+const Container = styled.div`
+  ${paddingHorizontal} ${paddingVertical}
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+
+const Total = styled.span`
+  padding-right: 0.8rem;
+`
+
+export const TransactionTotalAmount = ({amount}) => {
   return (
-    <div className="transaction-total">
-      <span className="transaction-total-label">Total</span>
+    <Container>
+      <Total>Total</Total>
       <Amount amount={amount} hasBackground />
-    </div>
+    </Container>
   )
 }
 
 TransactionTotalAmount.propTypes = {
   amount: PropTypes.number,
 }
-
-export default TransactionTotalAmount
