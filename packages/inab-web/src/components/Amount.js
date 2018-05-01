@@ -1,47 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {amountFromCents} from 'inab-shared'
-import './Amount.scss'
+import styled, {css} from 'styled-components'
+import {colors} from '../constants/colors'
 
-class Amount extends React.Component {
+const AmountSpan = styled.span`
+  color: ${props =>
+    props.hasBackground
+      ? 'white'
+      : props.amount === 0
+        ? colors.lightText
+        : colors.text};
+
+  ${props =>
+    props.hasBackground &&
+    css`
+      padding: 0.14rem 0.5rem;
+      border-radius: 1rem;
+      font-weight: bold;
+
+      background-color: ${props.isGoal
+        ? colors.yellow
+        : props.amount === 0
+          ? colors.lightText
+          : props.amount > 0
+            ? colors.green
+            : colors.red};
+    `};
+`
+
+export class Amount extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
-    color: PropTypes.bool,
-    goal: PropTypes.bool,
-    className: PropTypes.string,
+    hasBackground: PropTypes.bool,
+    isGoal: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    amount: 0,
   }
 
   render() {
-    const amount = this.props.amount || 0
-    const styles = []
-
-    if (this.props.color) {
-      styles.push('amount-color')
-    }
-
-    if (amount < 0) {
-      styles.push('amount-negative')
-    } else if (this.props.goal) {
-      styles.push('amount-goal')
-    } else if (amount > 0) {
-      styles.push('amount-positive')
-    } else {
-      styles.push('amount-zero')
-    }
-
-    if (this.props.className) {
-      styles.push(this.props.className)
-    }
+    const {amount, hasBackground, isGoal} = this.props
 
     return (
-      <span className={styles.join(' ')}>
+      <AmountSpan amount={amount} hasBackground={hasBackground} isGoal={isGoal}>
         {amountFromCents(amount).toLocaleString(undefined, {
           style: 'currency',
           currency: 'EUR',
         })}
-      </span>
+      </AmountSpan>
     )
   }
 }
-
-export default Amount

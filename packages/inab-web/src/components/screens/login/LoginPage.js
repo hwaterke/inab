@@ -1,8 +1,31 @@
 import React from 'react'
-import './LoginPage.scss'
+import styled from 'styled-components'
+import {colors} from '../../../constants/colors'
+import bg from '../../../images/land_slim.jpg'
+import ErrorList from '../../ErrorList'
 import {LoginForm} from './LoginForm'
 import {RegistrationForm} from './RegistrationForm'
-import ErrorList from '../../ErrorList'
+
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  background-image: url(${bg});
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-color: #cccccc;
+`
+
+const Container = styled.div`
+  margin: 1rem;
+  padding: 3rem;
+  background-color: ${colors.frontBackground};
+  border: 1px solid ${colors.border};
+  border-radius: 6px;
+`
 
 export class LoginPage extends React.Component {
   state = {
@@ -15,37 +38,45 @@ export class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className="login-full-page">
+      <Page>
         <div className="container">
           <div className="row">
             <div className="col-md-6" />
 
             <div className="col-md-6">
-              <div className="login-container">
+              <Container>
                 <ErrorList />
 
                 {this.state.showLogin ? <LoginForm /> : <RegistrationForm />}
 
                 {this.state.showLogin ? (
                   <p className="text-secondary mt-3">
-                    No account?{' '}
-                    <a href="#" onClick={this.toggle}>
+                    No account?
+                    <button
+                      type="button"
+                      className="btn btn-link"
+                      onClick={this.toggle}
+                    >
                       Register here
-                    </a>
+                    </button>
                   </p>
                 ) : (
                   <p className="text-secondary mt-3">
-                    Already have an account?{' '}
-                    <a href="#" onClick={this.toggle}>
+                    Already have an account?
+                    <button
+                      type="button"
+                      className="btn btn-link"
+                      onClick={this.toggle}
+                    >
                       Login here
-                    </a>
+                    </button>
                   </p>
                 )}
-              </div>
+              </Container>
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     )
   }
 }

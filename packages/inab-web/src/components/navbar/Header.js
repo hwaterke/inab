@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from '../Link'
-import Amount from '../Amount'
+import {Amount} from '../Amount'
 import {connect} from 'react-redux'
 import FontAwesome from 'react-fontawesome'
 import {Link as RouterLink} from 'react-router-dom'
@@ -85,7 +85,7 @@ export class Header extends React.Component {
                 >
                   <RouterLink className="apart dropdown-item" to="/account">
                     <span>All&nbsp;</span>
-                    <Amount amount={this.props.budgetBalance} color />
+                    <Amount amount={this.props.budgetBalance} hasBackground />
                   </RouterLink>
 
                   {this.props.accounts.map(
@@ -104,7 +104,7 @@ export class Header extends React.Component {
                           <span>{account.name}&nbsp;</span>
                           <Amount
                             amount={this.props.balanceByAccountId[account.uuid]}
-                            color
+                            hasBackground
                           />
                         </RouterLink>
                       )

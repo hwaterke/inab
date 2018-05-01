@@ -10,7 +10,7 @@ import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {Link as RouterLink} from 'react-router-dom'
 import ui from 'redux-ui'
-import Amount from './Amount'
+import {Amount} from './Amount'
 import {BudgetItemFormContainer} from './BudgetItemFormContainer'
 import Cell from './Cell'
 
@@ -86,7 +86,11 @@ export class CategoryRow extends React.Component {
           </RouterLink>
         </td>
         <td className="right">
-          <Amount amount={this.props.available} color goal={this.props.goal} />
+          <Amount
+            amount={this.props.available}
+            hasBackground
+            isGoal={this.props.goal}
+          />
         </td>
       </tr>
     )

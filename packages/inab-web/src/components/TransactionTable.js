@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import FontAwesome from 'react-fontawesome'
 import * as Table from 'reactabular-table'
-import Amount from './Amount'
+import {Amount} from './Amount'
 import Link from './Link'
 import './TransactionTable.scss'
 
@@ -137,7 +137,7 @@ class TransactionTable extends React.Component {
           },
         },
         cell: {
-          formatters: [amount => <Amount amount={amount} color />],
+          formatters: [amount => <Amount amount={amount} hasBackground />],
         },
       },
       {

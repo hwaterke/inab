@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {
   getAvailableToBudget,
+  getBudgetedInFuture,
+  getBudgetedThisMonth,
   getFundsForSelectedMonth,
   getOverspentLastMonth,
-  getBudgetedThisMonth,
-  getBudgetedInFuture,
 } from 'inab-shared'
-
 import MonthSelector from '../../MonthSelector'
-import Amount from '../../Amount'
+import {Amount} from '../../Amount'
 import './BudgetHeader.scss'
 
 const mapStateToProps = state => ({
@@ -41,7 +40,10 @@ export class BudgetHeader extends React.Component {
                 <MonthSelector />
                 <div className="budget-header-amounts">
                   <div className="budget-header-amounts-available">
-                    <Amount amount={this.props.availableToBudget} color />
+                    <Amount
+                      amount={this.props.availableToBudget}
+                      hasBackground
+                    />
                     <div>Available to budget</div>
                   </div>
 

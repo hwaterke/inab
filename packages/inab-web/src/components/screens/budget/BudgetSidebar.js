@@ -15,7 +15,7 @@ import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import ui from 'redux-ui'
 import {crudThunks} from '../../../thunks/crudThunks'
-import Amount from '../../Amount'
+import {Amount} from '../../Amount'
 import {ValueHighlight} from '../../ValueHighlight'
 import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
