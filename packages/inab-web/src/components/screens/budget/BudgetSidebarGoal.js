@@ -11,6 +11,7 @@ import {connect} from 'react-redux'
 import {Amount} from '../../Amount'
 import {VictoryPie} from 'victory'
 import moment from 'moment'
+import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
@@ -50,7 +51,7 @@ export class BudgetSidebarGoal extends React.Component {
     const goalPercentage = Math.min(1, (currentGoalValue || 0) / maxGoalValue)
 
     return (
-      <div className="mt-3 p-4 box">
+      <Box>
         <h5>Goal</h5>
 
         <b>
@@ -135,7 +136,7 @@ export class BudgetSidebarGoal extends React.Component {
           You budgeted <Amount amount={currentGoalValue} /> out of{' '}
           <Amount amount={maxGoalValue} />
         </div>
-      </div>
+      </Box>
     )
   }
 }

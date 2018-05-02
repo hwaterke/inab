@@ -1,6 +1,7 @@
-import React from 'react'
 import {CategoryResource} from 'inab-shared'
+import React, {Fragment} from 'react'
 import {Link} from 'react-router-dom'
+import {Box} from '../../presentational/atoms/Box'
 import {BudgetSidebarGoal} from './BudgetSidebarGoal'
 
 export class BudgetSidebarCategory extends React.Component {
@@ -12,15 +13,15 @@ export class BudgetSidebarCategory extends React.Component {
     const {category} = this.props
 
     return (
-      <div>
-        <div className="d-flex justify-content-between mt-3 p-4 box">
+      <Fragment>
+        <Box className="d-flex justify-content-between">
           <h4>{category.name}</h4>
 
           <Link to={`/categories/edit/${category.uuid}`}>Edit</Link>
-        </div>
+        </Box>
 
         {category.goal_type && <BudgetSidebarGoal category={category} />}
-      </div>
+      </Fragment>
     )
   }
 }

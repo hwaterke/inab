@@ -1,7 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {connect} from 'react-redux'
+import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
   backend: state.credentials.backend,
@@ -49,7 +50,7 @@ export class AdminPage extends React.Component {
         <div className="row">
           <div className="col-sm-2" />
           <div className="col-sm-8">
-            <div className="mt-4 p-4 box">
+            <Box>
               <h4>Administration</h4>
 
               {this.state.loading ? (
@@ -74,7 +75,7 @@ export class AdminPage extends React.Component {
                   Toggle registration
                 </button>
               )}
-            </div>
+            </Box>
           </div>
           <div className="col-sm-2" />
         </div>

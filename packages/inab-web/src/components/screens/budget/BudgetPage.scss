@@ -3,13 +3,6 @@
 @import '~bootstrap/scss/mixins/_breakpoints.scss';
 @import '../../../styles/main';
 
-.budget-page-table-container {
-  @extend .box;
-  border-top: 0;
-  border-left: 0;
-  border-radius: 0;
-}
-
 .budget-table {
   .budgeted-column {
     width: 15%;

@@ -19,12 +19,6 @@ body {
   border: 1px solid $border-color;
 }
 
-.box {
-  background-color: $front-background-color;
-  border: 1px solid $border-color;
-  border-radius: 3px;
-}
-
 .apart {
   display: flex;
   flex-direction: row;
