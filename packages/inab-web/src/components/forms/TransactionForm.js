@@ -6,10 +6,12 @@ import {
   TransactionResource,
 } from 'inab-shared'
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
+import styled from 'styled-components'
+import {colors} from '../../constants/colors'
 import Button from '../Button'
 import ButtonDelete from '../ButtonDelete'
 import ButtonIcon from '../ButtonIcon'
@@ -17,15 +19,26 @@ import DatePickerField from './fields/DatePickerField'
 import {InputField} from './fields/InputField'
 import {SimpleSelectField} from './fields/SimpleSelectField'
 import {FormActionBar} from './FormActionBar'
-import './TransactionForm.scss'
+
+const FormRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid ${colors.border};
+
+  > div {
+    flex: 1 1 150px;
+    padding: 0.5rem;
+  }
+`
 
 /**
  * Component used for rendering the subtransaction forms
  */
 const renderSubtransactions = ({fields, categories}) => (
-  <div>
+  <Fragment>
     {fields.map((subtransaction, index) => (
-      <div key={index} className="tr-form-container">
+      <FormRow key={index}>
         <div />
         <div />
 
@@ -59,9 +72,9 @@ const renderSubtransactions = ({fields, categories}) => (
           step="0.01"
           placeholder="Amount"
         />
-      </div>
+      </FormRow>
     ))}
-    <div className="tr-form-container str-form-container">
+    <FormRow>
       <div />
       <div />
       <div>
@@ -76,8 +89,8 @@ const renderSubtransactions = ({fields, categories}) => (
       <div />
       <div />
       <div />
-    </div>
-  </div>
+    </FormRow>
+  </Fragment>
 )
 
 renderSubtransactions.propTypes = {
@@ -154,7 +167,7 @@ export class TransactionForm extends Component {
 
     return (
       <form className="box-container">
-        <div className="tr-form-container">
+        <FormRow>
           <div>
             <label>Account</label>
             <Field
@@ -219,7 +232,8 @@ export class TransactionForm extends Component {
             label="Amount"
             validate={[validateAmount]}
           />
-        </div>
+        </FormRow>
+
         {this.props.categoryValue === 'split' && (
           <FieldArray
             name="subtransactions"

@@ -14,7 +14,7 @@ import {TransactionFormContainer} from './forms/TransactionFormContainer'
 import TransactionFilters from './TransactionFilters'
 import TransactionTable from './TransactionTable'
 import TransactionToolbar from './TransactionToolbar'
-import TransactionTotalAmount from './TransactionTotalAmount'
+import {TransactionTotalAmount} from './TransactionTotalAmount'
 
 const mapStateToProps = state => ({
   transactionsById: select(TransactionResource).byId(state),

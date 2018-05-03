@@ -1,14 +1,6 @@
 @import 'variables';
 @import 'mixins';
 
-html {
-  font-size: 14px;
-}
-
-body {
-  background-color: $main-background-color;
-}
-
 .box-container {
   @include container;
   @include marginTopBottom;
@@ -17,12 +9,6 @@ body {
 
   background-color: $front-background-color;
   border: 1px solid $border-color;
-}
-
-.box {
-  background-color: $front-background-color;
-  border: 1px solid $border-color;
-  border-radius: 3px;
 }
 
 .apart {
