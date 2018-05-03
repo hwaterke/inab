@@ -3,9 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 import {media, paddingVertical} from '../../../styles/styleUtils'
 import {Amount} from '../../Amount'
+import {HeaderContainer} from '../../presentational/atoms/HeaderContainer'
 
 const Header = styled.div`
-  ${paddingVertical} display: flex;
+  ${paddingVertical};
+  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -19,7 +21,7 @@ const Header = styled.div`
 `
 
 export const AccountHeader = ({name, balance}) => (
-  <div className="full-header-container">
+  <HeaderContainer>
     <div className="container">
       <div className="row">
         <div className="col">
@@ -32,7 +34,7 @@ export const AccountHeader = ({name, balance}) => (
         </div>
       </div>
     </div>
-  </div>
+  </HeaderContainer>
 )
 
 AccountHeader.propTypes = {

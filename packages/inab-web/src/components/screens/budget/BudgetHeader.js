@@ -11,6 +11,7 @@ import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {Amount} from '../../Amount'
 import MonthSelector from '../../MonthSelector'
+import {HeaderContainer} from '../../presentational/atoms/HeaderContainer'
 
 const Header = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ export class BudgetHeader extends React.Component {
 
   render() {
     return (
-      <div className="full-header-container">
+      <HeaderContainer>
         <div className="container">
           <div className="row">
             <div className="col">
@@ -104,7 +105,7 @@ export class BudgetHeader extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </HeaderContainer>
     )
   }
 }
