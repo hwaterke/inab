@@ -3,9 +3,29 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import FontAwesome from 'react-fontawesome'
 import * as Table from 'reactabular-table'
+import styled from 'styled-components'
 import {Amount} from './Amount'
 import Link from './Link'
-import './TransactionTable.scss'
+import './TransactionTable.css'
+
+const Tags = styled.div`
+  display: flex;
+
+  span {
+    font-size: 0.8rem;
+    background-color: #96daf7;
+    color: #1f6380;
+    border: 1px solid #74b8d5;
+    border-radius: 2px;
+    margin-right: 2px;
+    padding: 2px 4px;
+  }
+`
+
+const Error = styled.div`
+  padding-left: 1rem;
+  background-color: tomato;
+`
 
 class TransactionTable extends React.Component {
   static propTypes = {
@@ -95,9 +115,9 @@ class TransactionTable extends React.Component {
             (category, extra) => {
               if (!category && !extra.rowData.is_transfer) {
                 return (
-                  <div className="no-category">
+                  <Error>
                     <FontAwesome name="exclamation-triangle" /> No category
-                  </div>
+                  </Error>
                 )
               }
               return category
@@ -119,9 +139,7 @@ class TransactionTable extends React.Component {
         cell: {
           formatters: [
             tags => (
-              <div className="table-tags">
-                {tags.map(t => <span key={t.name}>{t.name}</span>)}
-              </div>
+              <Tags>{tags.map(t => <span key={t.name}>{t.name}</span>)}</Tags>
             ),
           ],
         },

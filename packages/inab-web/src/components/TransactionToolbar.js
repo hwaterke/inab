@@ -1,12 +1,26 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import * as Immutable from 'immutable'
-import Button from './Button'
-import ButtonIcon from './ButtonIcon'
-import ButtonDelete from './ButtonDelete'
-import ui from 'redux-ui'
-import './TransactionToolbar.scss'
+import PropTypes from 'prop-types'
+import React from 'react'
 import FontAwesome from 'react-fontawesome'
+import ui from 'redux-ui'
+import styled from 'styled-components'
+import Button from './Button'
+import ButtonDelete from './ButtonDelete'
+import ButtonIcon from './ButtonIcon'
+
+export const TransactionToolbarRow = styled.div`
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    > div {
+      flex: 1;
+    }
+  }
+`
 
 @ui({
   state: {
@@ -57,7 +71,7 @@ class TransactionToolbar extends React.Component {
   render() {
     return (
       <div>
-        <div className="transaction-toolbar">
+        <TransactionToolbarRow>
           <div className="btn-group">
             <ButtonIcon
               className="btn btn-info"
@@ -95,7 +109,7 @@ class TransactionToolbar extends React.Component {
             />
           </div>
 
-          <div className="transaction-toolbar-search">
+          <div>
             <div className="input-group">
               <span className="input-group-addon" id="basic-addon1">
                 <FontAwesome name="search" fixedWidth />
@@ -109,10 +123,10 @@ class TransactionToolbar extends React.Component {
               />
             </div>
           </div>
-        </div>
+        </TransactionToolbarRow>
 
         {this.props.ui.filtersVisible && (
-          <div className="transaction-toolbar">
+          <TransactionToolbarRow>
             <div className="btn-group">
               {this.renderColumnToggle('Account', 'account', 'bank')}
               {this.renderColumnToggle('Date', 'display_date', 'calendar')}
@@ -123,7 +137,7 @@ class TransactionToolbar extends React.Component {
               {this.renderColumnToggle('Tags', 'tags', 'tags')}
               {this.renderColumnToggle('Amount', 'amount')}
             </div>
-          </div>
+          </TransactionToolbarRow>
         )}
       </div>
     )
