@@ -1,14 +1,6 @@
 @import 'variables';
 @import 'mixins';
 
-html {
-  font-size: 14px;
-}
-
-body {
-  background-color: $main-background-color;
-}
-
 .box-container {
   @include container;
   @include marginTopBottom;
