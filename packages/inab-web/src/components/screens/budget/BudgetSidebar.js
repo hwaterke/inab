@@ -17,6 +17,7 @@ import ui from 'redux-ui'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Amount} from '../../Amount'
 import {Box} from '../../presentational/atoms/Box'
+import {LargeButton} from '../../presentational/atoms/LargeButton'
 import {ValueHighlight} from '../../ValueHighlight'
 import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
@@ -157,21 +158,15 @@ export class BudgetSidebar extends React.Component {
         </ValueHighlight>
 
         {!this.state.budgeting && (
-          <button
-            onClick={this.quickBudgetUnderfunded}
-            className="btn budget-sidebar-button mt-3"
-          >
+          <LargeButton onClick={this.quickBudgetUnderfunded}>
             Quick budget underfunded
-          </button>
+          </LargeButton>
         )}
 
         {!this.state.budgeting && (
-          <button
-            onClick={this.quickBudgetGoals}
-            className="btn budget-sidebar-button mt-3"
-          >
+          <LargeButton onClick={this.quickBudgetGoals}>
             Quick budget goals
-          </button>
+          </LargeButton>
         )}
       </Box>
     )

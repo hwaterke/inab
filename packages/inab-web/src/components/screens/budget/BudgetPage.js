@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import ui from 'redux-ui'
 import {Box} from '../../presentational/atoms/Box'
 import {BudgetHeader} from './BudgetHeader'
-import './BudgetPage.scss'
 import {BudgetSidebar} from './BudgetSidebar'
 import {BudgetTable} from './BudgetTable'
 
