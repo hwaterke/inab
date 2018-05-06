@@ -10,6 +10,7 @@
   },
   "homepage": "https://github.com/hwaterke/inab#readme",
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "precommit": "lint-staged && lerna run --concurrency 1 --stream precommit"
   },
   "devDependencies": {
