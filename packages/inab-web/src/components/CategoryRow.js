@@ -12,7 +12,7 @@ import {Link as RouterLink} from 'react-router-dom'
 import ui from 'redux-ui'
 import {Amount} from './Amount'
 import {BudgetItemFormContainer} from './BudgetItemFormContainer'
-import Cell from './Cell'
+import {Cell} from './Cell'
 
 const mapStateToProps = state => ({
   selectedMonth: getSelectedMonthMoment(state),
@@ -49,7 +49,7 @@ export class CategoryRow extends React.Component {
     let budgetCell
     if (this.props.ui.editingCategoryId === this.props.category.uuid) {
       budgetCell = (
-        <Cell className="right">
+        <Cell alignRight>
           <BudgetItemFormContainer
             uuid={path(['uuid'], budgetItem)}
             category_uuid={this.props.category.uuid}
@@ -60,7 +60,7 @@ export class CategoryRow extends React.Component {
       )
     } else {
       budgetCell = (
-        <Cell className="right" onClick={this.editBudgetItem}>
+        <Cell alignRight onClick={this.editBudgetItem}>
           {this.props.budgetItem &&
             this.props.budgetItem.busy && (
               <FontAwesome name="refresh" spin fixedWidth />
@@ -76,7 +76,7 @@ export class CategoryRow extends React.Component {
       <tr>
         <Cell onClick={this.props.onNameClick}>{this.props.category.name}</Cell>
         {budgetCell}
-        <td className="right">
+        <Cell alignRight>
           <RouterLink
             to={`/account/${this.props.selectedMonth.format('YYYY-MM')}/${
               this.props.category.uuid
@@ -84,14 +84,14 @@ export class CategoryRow extends React.Component {
           >
             <Amount amount={this.props.activity} />
           </RouterLink>
-        </td>
-        <td className="right">
+        </Cell>
+        <Cell alignRight>
           <Amount
             amount={this.props.available}
             hasBackground
             isGoal={this.props.goal}
           />
-        </td>
+        </Cell>
       </tr>
     )
   }

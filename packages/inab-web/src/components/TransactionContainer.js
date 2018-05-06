@@ -15,6 +15,7 @@ import TransactionFilters from './TransactionFilters'
 import TransactionTable from './TransactionTable'
 import TransactionToolbar from './TransactionToolbar'
 import {TransactionTotalAmount} from './TransactionTotalAmount'
+import {BoxContainer} from './presentational/atoms/BoxContainer'
 
 const mapStateToProps = state => ({
   transactionsById: select(TransactionResource).byId(state),
@@ -166,7 +167,7 @@ class TransactionContainer extends React.Component {
           />
         )}
 
-        <div className="box-container">
+        <BoxContainer>
           <TransactionToolbar
             selectedRows={this.props.ui.selected}
             clearSelection={this.clearSelection}
@@ -190,7 +191,7 @@ class TransactionContainer extends React.Component {
           />
 
           <TransactionTotalAmount amount={total} />
-        </div>
+        </BoxContainer>
       </div>
     )
   }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {dismissErrors} from '../actions/error.js'
 import ButtonCheck from './ButtonCheck'
+import {BoxContainer} from './presentational/atoms/BoxContainer.js'
 
 class ErrorDialog extends React.Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class ErrorDialog extends React.Component {
     }
 
     return (
-      <div className="box-container">
+      <BoxContainer>
         <ul className="list-group">
           {this.props.errors.map((err, i) => (
             <li key={i} className="list-group-item list-group-item-danger">
@@ -25,7 +26,7 @@ class ErrorDialog extends React.Component {
           ))}
         </ul>
         <ButtonCheck onClick={this.props.dismissErrors} />
-      </div>
+      </BoxContainer>
     )
   }
 }
