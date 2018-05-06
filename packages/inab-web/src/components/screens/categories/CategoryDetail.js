@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {Box} from '../../presentational/atoms/Box'
 import {CategoryForm} from './CategoryForm'
 
 function resourceToForm(category) {
@@ -66,7 +67,7 @@ export class CategoryDetail extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col">
-            <div className="mt-4 p-4 box">
+            <Box>
               <h4>Category</h4>
 
               <ResourceFormProvider
@@ -78,7 +79,7 @@ export class CategoryDetail extends React.Component {
               >
                 {props => <CategoryForm {...props} />}
               </ResourceFormProvider>
-            </div>
+            </Box>
           </div>
         </div>
       </div>

@@ -6,10 +6,12 @@ import {
   TransactionResource,
 } from 'inab-shared'
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
+import styled from 'styled-components'
+import {colors} from '../../constants/colors'
 import Button from '../Button'
 import ButtonDelete from '../ButtonDelete'
 import ButtonIcon from '../ButtonIcon'
@@ -17,15 +19,27 @@ import DatePickerField from './fields/DatePickerField'
 import {InputField} from './fields/InputField'
 import {SimpleSelectField} from './fields/SimpleSelectField'
 import {FormActionBar} from './FormActionBar'
-import './TransactionForm.scss'
+import {BoxContainer} from '../presentational/atoms/BoxContainer'
+
+const FormRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid ${colors.border};
+
+  > div {
+    flex: 1 1 150px;
+    padding: 0.5rem;
+  }
+`
 
 /**
  * Component used for rendering the subtransaction forms
  */
 const renderSubtransactions = ({fields, categories}) => (
-  <div>
+  <Fragment>
     {fields.map((subtransaction, index) => (
-      <div key={index} className="tr-form-container">
+      <FormRow key={index}>
         <div />
         <div />
 
@@ -59,9 +73,9 @@ const renderSubtransactions = ({fields, categories}) => (
           step="0.01"
           placeholder="Amount"
         />
-      </div>
+      </FormRow>
     ))}
-    <div className="tr-form-container str-form-container">
+    <FormRow>
       <div />
       <div />
       <div>
@@ -76,8 +90,8 @@ const renderSubtransactions = ({fields, categories}) => (
       <div />
       <div />
       <div />
-    </div>
-  </div>
+    </FormRow>
+  </Fragment>
 )
 
 renderSubtransactions.propTypes = {
@@ -153,91 +167,94 @@ export class TransactionForm extends Component {
     ]
 
     return (
-      <form className="box-container">
-        <div className="tr-form-container">
-          <div>
-            <label>Account</label>
-            <Field
-              name="account_uuid"
-              component={SimpleSelectField}
-              placeholder="Account"
-              options={this.props.accounts.map(cg => ({
-                label: cg.name,
-                value: cg.uuid,
-              }))}
-            />
-          </div>
-
-          <div>
-            <label>Date</label>
+      <BoxContainer>
+        <form>
+          <FormRow>
             <div>
-              <Field name="date" component={DatePickerField} />
+              <label>Account</label>
+              <Field
+                name="account_uuid"
+                component={SimpleSelectField}
+                placeholder="Account"
+                options={this.props.accounts.map(cg => ({
+                  label: cg.name,
+                  value: cg.uuid,
+                }))}
+              />
             </div>
-          </div>
 
-          <div>
-            <label>Payee</label>
+            <div>
+              <label>Date</label>
+              <div>
+                <Field name="date" component={DatePickerField} />
+              </div>
+            </div>
+
+            <div>
+              <label>Payee</label>
+              <Field
+                name="payee"
+                component={SimpleSelectField}
+                placeholder="Payee"
+                options={payeeOptions}
+              />
+            </div>
+
+            <div>
+              <label>Category</label>
+              <Field
+                name="category"
+                component={SimpleSelectField}
+                placeholder={
+                  this.props.payeeValue &&
+                  this.props.payeeValue.startsWith('transfer:')
+                    ? 'No category for transfers'
+                    : 'Category'
+                }
+                disabled={
+                  this.props.payeeValue &&
+                  this.props.payeeValue.startsWith('transfer:')
+                }
+                options={categoryOptions}
+              />
+            </div>
+
             <Field
-              name="payee"
-              component={SimpleSelectField}
-              placeholder="Payee"
-              options={payeeOptions}
+              name="description"
+              component={InputField}
+              type="text"
+              label="Description"
             />
-          </div>
 
-          <div>
-            <label>Category</label>
             <Field
-              name="category"
-              component={SimpleSelectField}
-              placeholder={
-                this.props.payeeValue &&
-                this.props.payeeValue.startsWith('transfer:')
-                  ? 'No category for transfers'
-                  : 'Category'
-              }
-              disabled={
-                this.props.payeeValue &&
-                this.props.payeeValue.startsWith('transfer:')
-              }
-              options={categoryOptions}
+              name="amount"
+              component={InputField}
+              type="number"
+              step="0.01"
+              label="Amount"
+              validate={[validateAmount]}
             />
-          </div>
+          </FormRow>
 
-          <Field
-            name="description"
-            component={InputField}
-            type="text"
-            label="Description"
-          />
+          {this.props.categoryValue === 'split' && (
+            <FieldArray
+              name="subtransactions"
+              categories={subtransactionCategoryOptions}
+              component={renderSubtransactions}
+            />
+          )}
 
-          <Field
-            name="amount"
-            component={InputField}
-            type="number"
-            step="0.01"
-            label="Amount"
-            validate={[validateAmount]}
+          <FormActionBar
+            handleSubmit={this.props.handleSubmit}
+            isCreate={this.props.isCreate}
+            isUpdate={this.props.isUpdate}
+            disableReset={this.props.pristine || this.props.submitting}
+            reset={this.props.reset}
+            remove={this.props.deleteResource}
+            cancel={this.props.onCancel}
           />
-        </div>
-        {this.props.categoryValue === 'split' && (
-          <FieldArray
-            name="subtransactions"
-            categories={subtransactionCategoryOptions}
-            component={renderSubtransactions}
-          />
-        )}
-
-        <FormActionBar
-          handleSubmit={this.props.handleSubmit}
-          isCreate={this.props.isCreate}
-          isUpdate={this.props.isUpdate}
-          disableReset={this.props.pristine || this.props.submitting}
-          reset={this.props.reset}
-          remove={this.props.deleteResource}
-          cancel={this.props.onCancel}
-        />
-      </form>
+        </form>
+      </BoxContainer>
     )
   }
 }

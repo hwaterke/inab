@@ -1,23 +1,40 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import Amount from '../../Amount'
-import './AccountHeader.scss'
+import React from 'react'
+import styled from 'styled-components'
+import {media, paddingVertical} from '../../../styles/styleUtils'
+import {Amount} from '../../Amount'
+import {HeaderContainer} from '../../presentational/atoms/HeaderContainer'
+
+const Header = styled.div`
+  ${paddingVertical};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > h1 {
+    margin-right: 2rem;
+  }
+
+  ${media.tablet`
+    justify-content: flex-start;
+  `};
+`
 
 export const AccountHeader = ({name, balance}) => (
-  <div className="full-header-container">
+  <HeaderContainer>
     <div className="container">
       <div className="row">
         <div className="col">
-          <div className="account-header">
+          <Header>
             <h1>{name}</h1>
             <div>
-              <Amount amount={balance} color />
+              <Amount amount={balance} hasBackground />
             </div>
-          </div>
+          </Header>
         </div>
       </div>
     </div>
-  </div>
+  </HeaderContainer>
 )
 
 AccountHeader.propTypes = {

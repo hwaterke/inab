@@ -5,6 +5,7 @@ import ButtonIcon from './ButtonIcon'
 import {deleteFilter} from '../reducers/filters'
 import {getTransactionColumns} from '../selectors/transactionsRendering'
 import {Filter} from '../entities/Filter'
+import {TransactionToolbarRow} from './TransactionToolbar'
 
 const mapStateToProps = state => ({
   filters: state.transactionFilters,
@@ -41,7 +42,7 @@ class TransactionFilters extends React.Component {
 
   render() {
     return (
-      <div className="transaction-toolbar">
+      <TransactionToolbarRow>
         <div className="btn-group">
           {this.props.filters.map((filter, index) => (
             <ButtonIcon
@@ -55,7 +56,7 @@ class TransactionFilters extends React.Component {
             </ButtonIcon>
           ))}
         </div>
-      </div>
+      </TransactionToolbarRow>
     )
   }
 }

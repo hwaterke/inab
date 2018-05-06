@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {PayeeResource} from 'inab-shared'
+import {Box} from '../../presentational/atoms/Box'
 import {PayeeForm} from './PayeeForm'
 import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
 
@@ -21,7 +22,7 @@ export const PayeeDetail = ({match, history}) => (
   <div className="container">
     <div className="row">
       <div className="col">
-        <div className="mt-4 p-4 box">
+        <Box>
           <h4>Payee</h4>
 
           <ResourceFormProvider
@@ -32,7 +33,7 @@ export const PayeeDetail = ({match, history}) => (
           >
             {props => <PayeeForm {...props} />}
           </ResourceFormProvider>
-        </div>
+        </Box>
       </div>
     </div>
   </div>

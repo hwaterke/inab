@@ -1,14 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import {AccountResource} from 'inab-shared'
-import {AccountForm} from './AccountForm'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {Box} from '../../presentational/atoms/Box'
+import {AccountForm} from './AccountForm'
 
 export const AccountDetail = ({match, history}) => (
   <div className="container">
     <div className="row">
       <div className="col">
-        <div className="mt-4 p-4 box">
+        <Box>
           <h4>Account</h4>
 
           <ResourceFormProvider
@@ -18,7 +19,7 @@ export const AccountDetail = ({match, history}) => (
           >
             {props => <AccountForm {...props} />}
           </ResourceFormProvider>
-        </div>
+        </Box>
       </div>
     </div>
   </div>
