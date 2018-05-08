@@ -1,14 +1,14 @@
-import {combineReducers} from 'redux'
-import errorsReducer from './errors'
-import {reducer as formReducer} from 'redux-form'
-import {reducer as uiReducer} from 'redux-ui'
-import {transactionFiltersReducer} from './filters'
-import {credentialsReducer} from './credentials'
 import {
+  credentialsReducer,
   resourcesActivityReducer,
   resourcesReducer,
   selectedMonthReducer,
 } from 'inab-shared'
+import {combineReducers} from 'redux'
+import {reducer as formReducer} from 'redux-form'
+import {reducer as uiReducer} from 'redux-ui'
+import errorsReducer from './errors'
+import {transactionFiltersReducer} from './filters'
 
 export default combineReducers({
   resources: resourcesReducer,
