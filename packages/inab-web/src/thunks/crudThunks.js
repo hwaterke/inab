@@ -1,8 +1,8 @@
 import cuid from 'cuid'
+import {clearToken} from 'inab-shared'
 import {path} from 'ramda'
 import {createCrudThunks} from 'redux-crud-provider'
 import {addError} from '../actions/error'
-import {clearToken} from '../reducers/credentials'
 
 export const crudThunks = createCrudThunks({
   backendSelector: state => state.credentials.backend,

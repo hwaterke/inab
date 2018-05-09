@@ -1,5 +1,6 @@
 import {
   AccountResource,
+  clearToken,
   getBudgetBalance,
   selectBalanceByAccountId,
 } from 'inab-shared'
@@ -10,7 +11,6 @@ import {connect} from 'react-redux'
 import {Link as RouterLink} from 'react-router-dom'
 import {select} from 'redux-crud-provider'
 import styled from 'styled-components'
-import {clearToken} from '../../reducers/credentials'
 import {Amount} from '../Amount'
 import Link from '../Link'
 

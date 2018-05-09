@@ -21,6 +21,12 @@ export {
   selectPreviousMonth,
 } from './reducers/month'
 
+export {
+  setCredentials,
+  clearToken,
+  credentialsReducer,
+} from './reducers/credentials'
+
 export {resourcesActivityReducer, resourcesReducer} from './reducers/resources'
 
 // Utils
