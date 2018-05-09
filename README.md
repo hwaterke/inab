@@ -72,8 +72,8 @@ Once the server is up and running, you need to bootstrap the repo and compile th
 ```
 yarn lerna bootstrap
 cd packages/inab-shared
-yarn compile
-yarn compile:flow
+yarn build
+yarn build:flow
 ```
 
 You can then start the client in dev mode by issuing the following commands in the `packages/inab-web` folder:

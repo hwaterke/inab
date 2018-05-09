@@ -2,8 +2,8 @@
 set -ex
 
 cd packages/inab-shared
-yarn compile
-yarn compile:flow
+yarn build
+yarn build:flow
 cd ../..
 
 cd packages/inab-web
