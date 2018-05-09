@@ -1,9 +1,10 @@
+import {selectToken} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {LoginPage} from './screens/login/LoginPage'
 
-@connect(state => ({token: state.credentials.token}))
+@connect(state => ({token: selectToken(state)}))
 export class LoginDispatcher extends React.Component {
   static propTypes = {
     token: PropTypes.string,

@@ -33,6 +33,14 @@ export {resourcesActivityReducer, resourcesReducer} from './reducers/resources'
 export {amountFromCents, amountToCents} from './utils/amount'
 
 // Selectors
+
+export {
+  selectBackend,
+  selectEmail,
+  selectIsAdmin,
+  selectToken,
+} from './selectors/credentials'
+
 export {
   budgetItemsInMonth,
   budgetItemsUpToMonth,

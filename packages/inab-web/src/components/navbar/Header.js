@@ -3,6 +3,7 @@ import {
   clearToken,
   getBudgetBalance,
   selectBalanceByAccountId,
+  selectIsAdmin,
 } from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -24,7 +25,7 @@ const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),
-  isAdmin: state.credentials.is_admin,
+  isAdmin: selectIsAdmin(state),
 })
 
 @connect(mapStateToProps, {clearToken})
