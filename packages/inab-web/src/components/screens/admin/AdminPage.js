@@ -1,12 +1,13 @@
 import axios from 'axios'
+import {selectBackend, selectToken} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
-  backend: state.credentials.backend,
-  token: state.credentials.token,
+  backend: selectBackend(state),
+  token: selectToken(state),
 })
 
 @connect(mapStateToProps)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {setCredentials} from 'inab-shared'
+import {selectBackend, selectEmail, setCredentials} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
@@ -10,8 +10,8 @@ import {InputField} from '../../forms/fields/InputField'
 
 const mapStateToProps = state => ({
   initialValues: {
-    backend: state.credentials.backend,
-    email: state.credentials.email,
+    backend: selectBackend(state),
+    email: selectEmail(state),
   },
 })
 
