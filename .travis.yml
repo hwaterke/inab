@@ -14,3 +14,6 @@ script:
   - yarn test
   - yarn build
   - yarn build:flow
+
+  - cd ../inab-web
+  - yarn build
