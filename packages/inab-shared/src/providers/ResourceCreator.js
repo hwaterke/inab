@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {crudThunks} from '../thunks/crudThunks'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
-const mapDispatchToProps = {
-  createResource: crudThunks.createResource,
-}
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators(
+    {
+      createResource: ownProps.crudThunks.createResource,
+    },
+    dispatch
+  )
 
 class _ResourceCreator extends React.Component {
   static propTypes = {
@@ -65,3 +69,20 @@ class _ResourceCreator extends React.Component {
 export const ResourceCreator = connect(undefined, mapDispatchToProps)(
   _ResourceCreator
 )
+
+ResourceCreator.propTypes = {
+  crudThunks: PropTypes.shape({
+    createResource: PropTypes.func.isRequired,
+  }).isRequired,
+
+  children: PropTypes.func.isRequired,
+  resource: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+  }).isRequired,
+  path: PropTypes.string,
+  postAction: PropTypes.func,
+
+  // Optional prop to transform data before sending it.
+  formToResource: PropTypes.func,
+}

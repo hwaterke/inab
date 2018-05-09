@@ -1,8 +1,13 @@
-import {amountFromCents, amountToCents, TransactionResource} from 'inab-shared'
+import {
+  amountFromCents,
+  amountToCents,
+  ResourceFormProvider,
+  TransactionResource,
+} from 'inab-shared'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {ResourceFormProvider} from '../../providers/ResourceFormProvider'
+import {crudThunks} from '../../thunks/crudThunks'
 import {TransactionForm} from './TransactionForm'
 
 const formToResource = data => {
@@ -93,6 +98,7 @@ export class TransactionFormContainer extends React.Component {
     const {uuid, postSubmit, onCancel} = this.props
     return (
       <ResourceFormProvider
+        crudThunks={crudThunks}
         uuid={uuid}
         resource={TransactionResource}
         formToResource={formToResource}
