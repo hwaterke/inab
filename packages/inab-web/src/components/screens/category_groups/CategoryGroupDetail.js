@@ -1,7 +1,7 @@
-import {CategoryGroupResource} from 'inab-shared'
+import {CategoryGroupResource, ResourceFormProvider} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {CategoryGroupForm} from './CategoryGroupForm'
 
@@ -17,6 +17,7 @@ export const CategoryGroupDetail = ({match, history}) => (
           <h4>Category Group</h4>
 
           <ResourceFormProvider
+            crudThunks={crudThunks}
             uuid={match.params.uuid}
             resource={CategoryGroupResource}
             formToResource={formToResource}

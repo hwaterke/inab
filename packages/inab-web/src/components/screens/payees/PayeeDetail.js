@@ -1,9 +1,9 @@
-import React from 'react'
+import {PayeeResource, ResourceFormProvider} from 'inab-shared'
 import PropTypes from 'prop-types'
-import {PayeeResource} from 'inab-shared'
+import React from 'react'
+import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {PayeeForm} from './PayeeForm'
-import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
 
 function formToResource(formData) {
   if (formData.locations) {
@@ -26,6 +26,7 @@ export const PayeeDetail = ({match, history}) => (
           <h4>Payee</h4>
 
           <ResourceFormProvider
+            crudThunks={crudThunks}
             uuid={match.params.uuid}
             resource={PayeeResource}
             formToResource={formToResource}

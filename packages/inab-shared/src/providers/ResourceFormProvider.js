@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {ResourceProvider} from 'redux-crud-provider'
-import {crudThunks} from '../thunks/crudThunks'
 import {ResourceCreator} from './ResourceCreator'
 
 export class ResourceFormProvider extends React.Component {
   static propTypes = {
+    crudThunks: PropTypes.object.isRequired,
+
     /** The uuid of the resource being updated. Undefined for resource creation */
     uuid: PropTypes.string,
 
@@ -33,6 +34,7 @@ export class ResourceFormProvider extends React.Component {
 
   render() {
     const {
+      crudThunks,
       uuid,
       resource,
       formToResource,
@@ -44,6 +46,7 @@ export class ResourceFormProvider extends React.Component {
     if (!uuid) {
       return (
         <ResourceCreator
+          crudThunks={crudThunks}
           resource={resource}
           formToResource={formToResource}
           postAction={postAction}

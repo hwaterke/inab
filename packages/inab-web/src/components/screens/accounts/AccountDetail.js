@@ -1,7 +1,7 @@
-import {AccountResource} from 'inab-shared'
+import {AccountResource, ResourceFormProvider} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {AccountForm} from './AccountForm'
 
@@ -13,6 +13,7 @@ export const AccountDetail = ({match, history}) => (
           <h4>Account</h4>
 
           <ResourceFormProvider
+            crudThunks={crudThunks}
             uuid={match.params.uuid}
             resource={AccountResource}
             postAction={history.goBack}

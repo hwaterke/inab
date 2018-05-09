@@ -3,11 +3,12 @@ import {
   amountToCents,
   CategoryResource,
   getSelectedMonthMoment,
+  ResourceFormProvider,
 } from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {CategoryForm} from './CategoryForm'
 
@@ -71,6 +72,7 @@ export class CategoryDetail extends React.Component {
               <h4>Category</h4>
 
               <ResourceFormProvider
+                crudThunks={crudThunks}
                 uuid={match.params.uuid}
                 resource={CategoryResource}
                 formToResource={this.formToResource}
