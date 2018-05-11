@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet, Text, View, Button} from 'react-native'
+import {Button, StyleSheet, Text, View} from 'react-native'
 import {connect} from 'react-redux'
 import {FontAwesome} from '@expo/vector-icons'
-import {selectBackend, selectEmail} from '../../../selectors/credentials'
-import {clearToken} from '../../../reducers/credentials'
+import {clearToken, selectBackend, selectEmail} from 'inab-shared'
 import {globalStyles} from '../../../constants/styles'
 
 const mapStateToProps = state => ({
