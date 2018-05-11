@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon src/index.js --exec babel-node src/index.js",
     "prebuild": "rm -r build || true",
-    "build": "babel src --copy-files --out-dir build"
+    "build": "babel src --copy-files --out-dir build",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
@@ -15,6 +16,13 @@
     "@babel/plugin-proposal-decorators": "^7.0.0-beta.46",
     "@babel/preset-env": "^7.0.0-beta.46",
     "@babel/preset-stage-3": "^7.0.0-beta.46",
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.11.0",
+    "lint-staged": "^7.1.0",
     "nodemon": "^1.17.4"
+  },
+  "lint-staged": {
+    "*.js": ["eslint --max-warnings 0", "git add"]
   }
 }
