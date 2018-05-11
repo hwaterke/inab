@@ -8,6 +8,10 @@
     "build": "babel src --copy-files --out-dir build",
     "precommit": "lint-staged"
   },
+  "dependencies": {
+    "sqlite3": "^4.0.0",
+    "typeorm": "^0.2.0-alpha.46"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
