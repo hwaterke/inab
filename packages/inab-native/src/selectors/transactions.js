@@ -1,13 +1,13 @@
 // @flow
 import {createSelector} from 'reselect'
-import {byIdSelector} from 'hw-react-shared'
-import type {Account, Category, Transaction, Payee} from 'inab-shared'
+import type {Account, Category, Payee, Transaction} from 'inab-shared'
 import {
-  getSortedTransactions,
   AccountResource,
   CategoryResource,
+  getSortedTransactions,
   PayeeResource,
 } from 'inab-shared'
+import {select} from 'redux-crud-provider'
 
 const getMirrorTransfer = transaction => {
   const mirror = {...transaction}
@@ -22,9 +22,9 @@ const getMirrorTransfer = transaction => {
 
 export const getTransactionForRendering = createSelector(
   getSortedTransactions,
-  byIdSelector(AccountResource),
-  byIdSelector(CategoryResource),
-  byIdSelector(PayeeResource),
+  select(AccountResource).byId,
+  select(CategoryResource).byId,
+  select(PayeeResource).byId,
   (
     transactions: Transaction[],
     accountsById: {[string]: Account},

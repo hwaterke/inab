@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Text, View, SectionList, StyleSheet} from 'react-native'
+import {SectionList, StyleSheet, Text, View} from 'react-native'
 import {connect} from 'react-redux'
 import {
   BudgetItemResource,
-  CategoryResource,
   CategoryGroupResource,
+  CategoryResource,
+  getAvailableByCategoryIdForSelectedMonth,
+  getSelectedMonthBudgetItemByCategoryId,
   getSortedCategoryGroups,
   selectCategoriesByGroupId,
   selectSelectedMonthActivityByCategoryId,
-  getSelectedMonthBudgetItemByCategoryId,
-  getAvailableByCategoryIdForSelectedMonth,
 } from 'inab-shared'
-import {crud} from '../../hoc/crud'
 import {uuidExtractor} from '../../../utils'
 import {globalStyles} from '../../../constants/styles'
 import {Amount} from '../../Amount'
+import {crudThunks} from '../../../thunks/crudThunks'
 
 const mapStateToProps = state => ({
   categoryGroups: getSortedCategoryGroups(state),
@@ -29,21 +29,24 @@ const mapStateToProps = state => ({
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
 })
 
-@crud
-@connect(mapStateToProps)
+const mapDispatchToProps = {
+  fetchAll: crudThunks.fetchAll,
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export class BudgetList extends React.Component {
   static propTypes = {
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propType)
+    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
       .isRequired,
     categoriesByGroupId: PropTypes.objectOf(
-      PropTypes.arrayOf(CategoryResource.propType).isRequired
+      PropTypes.arrayOf(CategoryResource.propTypes).isRequired
     ).isRequired,
     fetchAll: PropTypes.func.isRequired,
     selectedMonthActivityByCategoryId: PropTypes.objectOf(
       PropTypes.number.isRequired
     ).isRequired,
     selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
-      BudgetItemResource.propType
+      BudgetItemResource.propTypes
     ).isRequired,
     availableByCategory: PropTypes.instanceOf(Map).isRequired,
   }
@@ -56,20 +59,19 @@ export class BudgetList extends React.Component {
   onRefresh = () => {
     this.setState({isFetching: true}, () => {
       Promise.all([
-        this.props.fetchAll(CategoryGroupResource, true),
-        this.props.fetchAll(CategoryResource, true),
-        this.props.fetchAll(BudgetItemResource, true),
-      ])
-        .then(() => this.setState({isFetching: false}))
-        .catch(() => this.setState({isFetching: false}))
+        this.props.fetchAll({resource: CategoryGroupResource, replace: true}),
+        this.props.fetchAll({resource: CategoryResource, replace: true}),
+        this.props.fetchAll({resource: BudgetItemResource, replace: true}),
+      ]).finally(() => this.setState({isFetching: false}))
     })
   }
 
+  // TODO: create a selector for this
   groupCategories = (categoryGroups, categoriesByGroupId) => {
     this.setState({
       sections: categoryGroups.map(cg => ({
         title: cg.name,
-        data: categoriesByGroupId[cg.uuid],
+        data: categoriesByGroupId[cg.uuid] || [],
       })),
     })
   }

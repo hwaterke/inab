@@ -4,22 +4,21 @@ import {View, SectionList, Text} from 'react-native'
 import {connect} from 'react-redux'
 import {TransactionResource} from 'inab-shared'
 import moment from 'moment'
-import R from 'ramda'
-import {crud} from '../../hoc/crud'
+import {groupBy} from 'ramda'
 import {globalStyles} from '../../../constants/styles'
 import {getTransactionForRendering} from '../../../selectors/transactions'
 import {TransactionRow} from './TransactionRow'
+import {ResourceListProvider} from 'redux-crud-provider'
+import {crudThunks} from '../../../thunks/crudThunks'
 
 const mapStateToProps = state => ({
   transactions: getTransactionForRendering(state),
 })
 
-@crud
 @connect(mapStateToProps)
 export class TransactionListScreen extends React.Component {
   static propTypes = {
-    transactions: PropTypes.arrayOf(TransactionResource.propType).isRequired,
-    fetchAll: PropTypes.func.isRequired,
+    transactions: PropTypes.arrayOf(TransactionResource.propTypes).isRequired,
     navigation: PropTypes.shape({
       state: PropTypes.shape({
         params: PropTypes.shape({
@@ -30,24 +29,14 @@ export class TransactionListScreen extends React.Component {
   }
 
   state = {
-    isFetching: false,
     filteredTransactions: [],
-  }
-
-  onRefresh = () => {
-    this.setState({isFetching: true}, () => {
-      this.props
-        .fetchAll(TransactionResource, true)
-        .then(() => this.setState({isFetching: false}))
-        .catch(() => this.setState({isFetching: false}))
-    })
   }
 
   filterTransactions = transactions => {
     const {accountUuid} = this.props.navigation.state.params
 
     const sections = Object.entries(
-      R.groupBy(
+      groupBy(
         tr => moment(tr.date, 'YYYY-MM-DD').format('D MMMM YYYY'),
         transactions.filter(
           tr => !accountUuid || tr.account_uuid === accountUuid
@@ -85,13 +74,22 @@ export class TransactionListScreen extends React.Component {
   render() {
     return (
       <View style={globalStyles.screen}>
-        <SectionList
-          sections={this.state.filteredTransactions}
-          onRefresh={this.onRefresh}
-          refreshing={this.state.isFetching}
-          renderItem={this.renderItem}
-          renderSectionHeader={this.renderSectionHeader}
-        />
+        <ResourceListProvider
+          crudThunks={crudThunks}
+          resource={TransactionResource}
+          replace
+          autoFetch
+        >
+          {({fetchAll, loading}) => (
+            <SectionList
+              sections={this.state.filteredTransactions}
+              onRefresh={fetchAll}
+              refreshing={loading}
+              renderItem={this.renderItem}
+              renderSectionHeader={this.renderSectionHeader}
+            />
+          )}
+        </ResourceListProvider>
       </View>
     )
   }

@@ -1,24 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet, Text, View, Button} from 'react-native'
+import {Button, StyleSheet, Text, View} from 'react-native'
 import {
   AccountResource,
+  BudgetItemResource,
   CategoryGroupResource,
   CategoryResource,
-  TransactionResource,
-  BudgetItemResource,
   PayeeResource,
+  TransactionResource,
 } from 'inab-shared'
 import {connect} from 'react-redux'
-import {crud} from '../../hoc/crud'
 import {globalStyles} from '../../../constants/styles'
+import {crudThunks} from '../../../thunks/crudThunks'
 
 const mapStateToProps = state => ({
   resources: state.resources,
 })
 
-@connect(mapStateToProps)
-@crud
+const mapDispatchToProps = {
+  fetchAll: crudThunks.fetchAll,
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export class SettingsResources extends React.Component {
   static propTypes = {
     resources: PropTypes.object.isRequired,
@@ -36,7 +39,7 @@ export class SettingsResources extends React.Component {
     ]
 
     for (let resource of resources) {
-      await this.props.fetchAll(resource, true)
+      await this.props.fetchAll({resource, replace: true})
     }
   }
 

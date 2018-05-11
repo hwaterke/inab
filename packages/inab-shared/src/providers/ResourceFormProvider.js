@@ -69,7 +69,6 @@ export class ResourceFormProvider extends React.Component {
         uuid={uuid}
         resource={resource}
         autoFetch
-        loadingRender={<div>Loading</div>}
         postAction={postAction}
       >
         {({entity, updateEntity, deleteEntity, isUpdating, isRemoving}) =>
