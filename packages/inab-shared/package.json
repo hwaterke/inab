@@ -6,7 +6,8 @@
   "main": "lib/index.js",
   "scripts": {
     "flow": "flow check",
-    "build": "babel -d lib/ src/",
+    "build": "./scripts/build.sh",
+    "build:babel": "babel -d lib/ src/",
     "build:flow": "flow-copy-source src lib",
     "precommit": "lint-staged",
     "test": "jest"
