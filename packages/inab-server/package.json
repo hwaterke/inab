@@ -1,0 +1,17 @@
+{
+  "name": "inab-server",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rm -r build || true",
+    "build": "babel src --copy-files --out-dir build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.46",
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-stage-3": "^7.0.0-beta.46"
+  }
+}
