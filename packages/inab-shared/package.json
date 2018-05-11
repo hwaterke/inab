@@ -10,7 +10,7 @@
     "build:babel": "babel -d lib/ src/",
     "build:flow": "flow-copy-source src lib",
     "precommit": "lint-staged",
-    "test": "jest"
+    "test": "./scripts/test.sh"
   },
   "dependencies": {
     "moment": "^2.22.1",
