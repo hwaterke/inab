@@ -1,6 +1,6 @@
 # INAB
 
-[![Build Status](https://img.shields.io/travis/hwaterke/inab/master.svg?style=flat-square)](https://travis-ci.org/hwaterke/inab)
+[![Build Status](https://travis-ci.org/hwaterke/inab.svg?branch=develop)](https://travis-ci.org/hwaterke/inab)
 
 INAB is a budgeting tool.
 
