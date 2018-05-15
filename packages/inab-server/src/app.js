@@ -3,6 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
 import {catchNotFound, errorHandler} from './errorhandling'
+import {healthRouter} from './routes/health'
 
 export const createExpressApp = () => {
   const app = express()
@@ -19,7 +20,7 @@ export const createExpressApp = () => {
   app.use(express.json())
 
   // Routes
-  app.get('/ping', (req, res) => res.json({message: 'pong'}))
+  app.use('/health', healthRouter())
 
   // Error handling
   app.use(catchNotFound)
