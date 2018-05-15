@@ -2,7 +2,9 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
-import {catchNotFound, errorHandler} from './errorhandling'
+import {catchNotFound, errorHandler, tokenErrorHandler} from './errorhandling'
+import {validateToken} from './middlewares/validateToken'
+import {accountRouter} from './routes/accounts'
 import {authRouter} from './routes/auth'
 import {healthRouter} from './routes/health'
 
@@ -24,8 +26,11 @@ export const createExpressApp = () => {
   app.use('/health', healthRouter())
   app.use('/auth', authRouter())
 
+  app.use('/accounts', validateToken, accountRouter())
+
   // Error handling
   app.use(catchNotFound)
+  app.use(tokenErrorHandler)
   app.use(errorHandler)
 
   return app

@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import {Account} from './Account'
 
 @Entity()
 export class User {
@@ -18,6 +20,9 @@ export class User {
 
   @Column('boolean', {default: false})
   is_admin = false
+
+  @OneToMany(() => Account, account => account.user)
+  accounts = undefined
 
   @CreateDateColumn() created_at = undefined
 
