@@ -9,6 +9,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "cypress": "cypress open",
+    "test:e2e": "cypress run",
     "precommit": "lint-staged"
   },
   "dependencies": {
@@ -50,7 +51,8 @@
     "lint-staged": "^7.1.0",
     "react-app-rewired": "^1.5.2",
     "react-scripts": "1.1.4",
-    "redux-immutable-state-invariant": "2.1.0"
+    "redux-immutable-state-invariant": "2.1.0",
+    "wait-on": "^2.1.0"
   },
   "lint-staged": {
     "*.js": ["eslint --max-warnings 0", "git add"]
