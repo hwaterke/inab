@@ -6,6 +6,10 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "plugins": ["cypress"],
+  "env": {
+    "cypress/globals": true
+  },
   "rules": {
     "curly": ["error", "all"],
     "react/default-props-match-prop-types": "error",
