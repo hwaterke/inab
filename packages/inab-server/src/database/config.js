@@ -1,6 +1,7 @@
 import {Account} from './entities/Account'
+import {User} from './entities/User'
 
-const entities = [Account]
+const entities = [Account, User]
 
 const configs = {
   development: {

@@ -3,6 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
 import {catchNotFound, errorHandler} from './errorhandling'
+import {authRouter} from './routes/auth'
 import {healthRouter} from './routes/health'
 
 export const createExpressApp = () => {
@@ -21,6 +22,7 @@ export const createExpressApp = () => {
 
   // Routes
   app.use('/health', healthRouter())
+  app.use('/auth', authRouter())
 
   // Error handling
   app.use(catchNotFound)
