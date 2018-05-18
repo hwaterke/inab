@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
 import boom from 'boom'
+import {path} from 'ramda'
 import {getRepository} from 'typeorm'
 import {ErrorMessages} from '../constants/ErrorMessages'
+import {SystemSetting} from '../database/entities/SystemSetting'
 import {User} from '../database/entities/User'
 import {createToken} from '../utils/jwt'
 
@@ -24,10 +26,25 @@ export const AuthController = {
       return res.status(boomed.output.statusCode).json(boomed.output.payload)
     }
 
+    // Count the total number of existing user
+    const userCount = await repository.count()
+
+    // Check if registration are enabled
+    const registrationSetting = await getRepository(SystemSetting).findOne({
+      name: 'registration',
+    })
+
+    if (userCount > 0 && path(['value'], registrationSetting) !== '1') {
+      const boomed = boom.unauthorized(ErrorMessages.REGISTRATION_DISABLED)
+      return res.status(boomed.output.statusCode).json(boomed.output.payload)
+    }
+
     const passwordHash = await bcrypt.hash(req.value.body.password, 10)
     const entity = repository.create({
       ...req.value.body,
       password: passwordHash,
+      // Only the first user to register is an admin
+      is_admin: userCount === 0,
     })
     const result = await repository.save(entity)
 

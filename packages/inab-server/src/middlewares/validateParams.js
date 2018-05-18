@@ -1,5 +1,10 @@
 import boom from 'boom'
 import Joi from 'joi'
+import {JoiString} from '../utils/joi'
+
+export const nameSchema = {
+  name: JoiString.required(),
+}
 
 export const uuidSchema = {
   uuid: Joi.string().uuid({version: 'uuidv4'}),

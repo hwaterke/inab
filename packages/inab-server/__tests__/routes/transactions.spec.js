@@ -5,7 +5,7 @@ import {
   UUID_REGEX,
 } from '../utils'
 
-describe.only('transactions', () => {
+describe('transactions', () => {
   const request = initializeDatabaseBeforeEach()
   const token = initializeUsersBeforeEach(request)
 

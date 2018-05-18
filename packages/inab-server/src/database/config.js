@@ -5,6 +5,7 @@ import {CategoryGroup} from './entities/CategoryGroup'
 import {Location} from './entities/Location'
 import {Payee} from './entities/Payee'
 import {Subtransaction} from './entities/Subtransaction'
+import {SystemSetting} from './entities/SystemSetting'
 import {Transaction} from './entities/Transaction'
 import {TransactionTag} from './entities/TransactionTag'
 import {User} from './entities/User'
@@ -20,6 +21,7 @@ const entities = [
   Subtransaction,
   Transaction,
   TransactionTag,
+  SystemSetting,
 ]
 
 const configs = {

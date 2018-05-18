@@ -20,6 +20,7 @@
     "joi": "^13.3.0",
     "jsonwebtoken": "^8.2.1",
     "morgan": "^1.9.0",
+    "ramda": "^0.25.0",
     "sqlite3": "^4.0.0",
     "typeorm": "^0.2.0-alpha.46"
   },

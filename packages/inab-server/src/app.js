@@ -11,6 +11,7 @@ import {categoryRouter} from './routes/categories'
 import {categoryGroupRouter} from './routes/categoryGroups'
 import {healthRouter} from './routes/health'
 import {payeeRouter} from './routes/payees'
+import {systemSettingRouter} from './routes/settings'
 import {transactionRouter} from './routes/transactions'
 
 export const createExpressApp = () => {
@@ -37,6 +38,8 @@ export const createExpressApp = () => {
   app.use('/payees', validateToken, payeeRouter())
   app.use('/budget-items', validateToken, budgetItemRouter())
   app.use('/transactions', validateToken, transactionRouter())
+
+  app.use('/settings', systemSettingRouter())
 
   // Error handling
   app.use(catchNotFound)
