@@ -14,7 +14,7 @@ import {User} from './User'
 export class Payee {
   @PrimaryGeneratedColumn('uuid') uuid = undefined
 
-  @ManyToOne(() => User, user => user.accounts, {nullable: false})
+  @ManyToOne(() => User, user => user.payees, {nullable: false})
   user = undefined
 
   @OneToMany(() => Location, location => location.payee, {cascade: true, eager: true})

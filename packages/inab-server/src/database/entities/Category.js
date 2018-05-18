@@ -14,7 +14,7 @@ import {User} from './User'
 export class Category {
   @PrimaryGeneratedColumn('uuid') uuid = undefined
 
-  @ManyToOne(() => User, user => user.accounts, {nullable: false})
+  @ManyToOne(() => User, user => user.categories, {nullable: false})
   user = undefined
 
   @Column('uuid') category_group_uuid = undefined
