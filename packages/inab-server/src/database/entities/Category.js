@@ -10,6 +10,7 @@ import {
 } from 'typeorm'
 import {BudgetItem} from './BudgetItem'
 import {CategoryGroup} from './CategoryGroup'
+import {Transaction} from './Transaction'
 import {User} from './User'
 
 @Entity()
@@ -29,6 +30,9 @@ export class Category {
 
   @OneToMany(() => BudgetItem, budget_item => budget_item.category)
   budget_items = undefined
+
+  @OneToMany(() => Transaction, transaction => transaction.category)
+  transactions = undefined
 
   @Column('varchar') name = undefined
 

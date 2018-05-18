@@ -12,6 +12,7 @@ import {BudgetItem} from './BudgetItem'
 import {Category} from './Category'
 import {CategoryGroup} from './CategoryGroup'
 import {Payee} from './Payee'
+import {Transaction} from './Transaction'
 
 @Entity()
 export class User {
@@ -39,6 +40,9 @@ export class User {
 
   @OneToMany(() => BudgetItem, budgetItem => budgetItem.user)
   budget_items = undefined
+
+  @OneToMany(() => Transaction, transaction => transaction.user)
+  transactions = undefined
 
   @CreateDateColumn() created_at = undefined
 

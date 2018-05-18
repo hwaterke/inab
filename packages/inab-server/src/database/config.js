@@ -1,9 +1,12 @@
 import {Account} from './entities/Account'
-import {BudgetItem} from "./entities/BudgetItem";
+import {BudgetItem} from './entities/BudgetItem'
 import {Category} from './entities/Category'
 import {CategoryGroup} from './entities/CategoryGroup'
 import {Location} from './entities/Location'
 import {Payee} from './entities/Payee'
+import {Subtransaction} from './entities/Subtransaction'
+import {Transaction} from './entities/Transaction'
+import {TransactionTag} from './entities/TransactionTag'
 import {User} from './entities/User'
 
 const entities = [
@@ -14,6 +17,9 @@ const entities = [
   Location,
   Payee,
   User,
+  Subtransaction,
+  Transaction,
+  TransactionTag,
 ]
 
 const configs = {

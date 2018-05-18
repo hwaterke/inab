@@ -10,7 +10,7 @@ export const categorySchema = {
   category_group_uuid: JoiUuid.required(),
 
   // Goal
-  goal_type: JoiString.valid('tb', 'tbd', 'mf', null),
+  goal_type: Joi.valid('tb', 'tbd', 'mf', null),
   goal_creation_month: Joi.date()
     .iso()
     .allow(null),
