@@ -1,9 +1,11 @@
 import {Account} from './entities/Account'
 import {Category} from './entities/Category'
 import {CategoryGroup} from './entities/CategoryGroup'
+import {Location} from './entities/Location'
+import {Payee} from './entities/Payee'
 import {User} from './entities/User'
 
-const entities = [Account, Category, CategoryGroup, User]
+const entities = [Account, Category, CategoryGroup, Location, Payee, User]
 
 const configs = {
   development: {

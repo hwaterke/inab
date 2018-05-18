@@ -9,6 +9,7 @@ import {authRouter} from './routes/auth'
 import {categoryRouter} from './routes/categories'
 import {categoryGroupRouter} from './routes/categoryGroups'
 import {healthRouter} from './routes/health'
+import {payeeRouter} from "./routes/payees";
 
 export const createExpressApp = () => {
   const app = express()
@@ -31,6 +32,7 @@ export const createExpressApp = () => {
   app.use('/accounts', validateToken, accountRouter())
   app.use('/category-groups', validateToken, categoryGroupRouter())
   app.use('/categories', validateToken, categoryRouter())
+  app.use('/payees', validateToken, payeeRouter())
 
   // Error handling
   app.use(catchNotFound)

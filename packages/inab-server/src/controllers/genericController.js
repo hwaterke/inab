@@ -21,7 +21,8 @@ export const genericController = model => {
       })
       const result = await repository.save(entity)
 
-      res.status(201).json(result)
+      const createdEntity = await repository.findOne(result.uuid)
+      res.status(201).json(createdEntity)
     },
 
     update: async (req, res) => {
@@ -35,7 +36,6 @@ export const genericController = model => {
       await repository.save(entityToSave)
 
       const updatedEntity = await repository.findOne(req.value.params.uuid)
-
       return res.json(updatedEntity)
     },
 
