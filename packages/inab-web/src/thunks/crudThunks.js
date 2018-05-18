@@ -17,8 +17,6 @@ export const crudThunks = createCrudThunks({
     return {}
   },
 
-  fetchAllDataToRecords: data => data.data,
-
   onError: (resource, operation, error, dispatch) => {
     if (path(['response', 'status'], error) === 401) {
       return dispatch(clearToken())

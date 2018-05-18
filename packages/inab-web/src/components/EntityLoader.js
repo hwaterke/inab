@@ -35,22 +35,22 @@ export class EntityLoader extends React.Component {
   componentDidMount() {
     this.props
       .fetchAll({resource: AccountResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
     this.props
       .fetchAll({resource: CategoryGroupResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
     this.props
       .fetchAll({resource: CategoryResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
     this.props
       .fetchAll({resource: BudgetItemResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
     this.props
       .fetchAll({resource: PayeeResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
     this.props
       .fetchAll({resource: TransactionResource, replace: true})
-      .then(() => this.decrementFetch())
+      .finally(() => this.decrementFetch())
   }
 
   render() {

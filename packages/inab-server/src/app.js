@@ -6,6 +6,8 @@ import {catchNotFound, errorHandler, tokenErrorHandler} from './errorhandling'
 import {validateToken} from './middlewares/validateToken'
 import {accountRouter} from './routes/accounts'
 import {authRouter} from './routes/auth'
+import {categoryRouter} from './routes/categories'
+import {categoryGroupRouter} from './routes/categoryGroups'
 import {healthRouter} from './routes/health'
 
 export const createExpressApp = () => {
@@ -27,6 +29,8 @@ export const createExpressApp = () => {
   app.use('/auth', authRouter())
 
   app.use('/accounts', validateToken, accountRouter())
+  app.use('/category-groups', validateToken, categoryGroupRouter())
+  app.use('/categories', validateToken, categoryRouter())
 
   // Error handling
   app.use(catchNotFound)
