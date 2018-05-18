@@ -39,8 +39,6 @@ export class BudgetItemFormContainer extends React.Component {
       onSubmit(data)
     }
     this.props.postSubmit()
-
-    this.props.postSubmit()
   }
 
   render() {

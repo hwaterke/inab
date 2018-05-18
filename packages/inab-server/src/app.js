@@ -6,10 +6,11 @@ import {catchNotFound, errorHandler, tokenErrorHandler} from './errorhandling'
 import {validateToken} from './middlewares/validateToken'
 import {accountRouter} from './routes/accounts'
 import {authRouter} from './routes/auth'
+import {budgetItemRouter} from './routes/budgetItems'
 import {categoryRouter} from './routes/categories'
 import {categoryGroupRouter} from './routes/categoryGroups'
 import {healthRouter} from './routes/health'
-import {payeeRouter} from "./routes/payees";
+import {payeeRouter} from './routes/payees'
 
 export const createExpressApp = () => {
   const app = express()
@@ -33,6 +34,7 @@ export const createExpressApp = () => {
   app.use('/category-groups', validateToken, categoryGroupRouter())
   app.use('/categories', validateToken, categoryRouter())
   app.use('/payees', validateToken, payeeRouter())
+  app.use('/budget-items', validateToken, budgetItemRouter())
 
   // Error handling
   app.use(catchNotFound)

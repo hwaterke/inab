@@ -4,9 +4,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import {BudgetItem} from './BudgetItem'
 import {CategoryGroup} from './CategoryGroup'
 import {User} from './User'
 
@@ -24,6 +26,9 @@ export class Category {
   })
   @JoinColumn({name: 'category_group_uuid'})
   category_group = undefined
+
+  @OneToMany(() => BudgetItem, budget_item => budget_item.category)
+  budget_items = undefined
 
   @Column('varchar') name = undefined
 

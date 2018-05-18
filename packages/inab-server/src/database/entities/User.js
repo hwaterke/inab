@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import {Account} from './Account'
+import {BudgetItem} from './BudgetItem'
 import {Category} from './Category'
 import {CategoryGroup} from './CategoryGroup'
 import {Payee} from './Payee'
@@ -35,6 +36,9 @@ export class User {
 
   @OneToMany(() => Payee, payee => payee.user)
   payees = undefined
+
+  @OneToMany(() => BudgetItem, budgetItem => budgetItem.user)
+  budget_items = undefined
 
   @CreateDateColumn() created_at = undefined
 
