@@ -17,3 +17,7 @@ script:
 
   - cd ../inab-web
   - yarn build
+
+  - yarn start&
+  - yarn wait-on http://localhost:3000
+  - yarn run test:e2e
