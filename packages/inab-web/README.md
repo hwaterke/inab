@@ -11,3 +11,4 @@ This app was created with `create-react-app`
 * [ ] Replace moment by luxon
 * [ ] Add eslint to sort imports
 * [ ] Remove default exports
+* [ ] Add loading indicators on Providers

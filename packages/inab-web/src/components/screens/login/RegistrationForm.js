@@ -41,7 +41,7 @@ export class RegistrationForm extends React.Component {
 
   onSubmit = ({backend, email, password}) => {
     axios
-      .post(`${backend}/register`, {
+      .post(`${backend}/auth/register`, {
         email,
         password,
       })

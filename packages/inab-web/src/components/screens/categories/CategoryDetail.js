@@ -44,22 +44,30 @@ export class CategoryDetail extends React.Component {
     selectedMonth: PropTypes.object.isRequired,
   }
 
-  formToResource = data => ({
-    ...data,
-    priority: parseInt(data.priority, 10),
-    goal_type: data.goal_type === 'none' ? null : data.goal_type,
-    goal_creation_month:
-      data.goal_type === 'none'
-        ? null
-        : this.props.selectedMonth.format('YYYY-MM-DD'),
-    target_balance: ['tb', 'tbd'].includes(data.goal_type)
-      ? amountToCents(data.target_balance)
-      : null,
-    target_balance_month:
-      data.goal_type === 'tbd' ? data.target_balance_month : null,
-    monthly_funding:
-      data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : null,
-  })
+  formToResource = data => {
+    const hasGoal = data.goal_type && data.goal_type !== 'none'
+
+    return {
+      ...data,
+      priority: parseInt(data.priority, 10),
+
+      goal_type: hasGoal ? data.goal_type : null,
+
+      goal_creation_month: hasGoal
+        ? this.props.selectedMonth.format('YYYY-MM-DD')
+        : null,
+
+      target_balance: ['tb', 'tbd'].includes(data.goal_type)
+        ? amountToCents(data.target_balance)
+        : 0,
+
+      target_balance_month:
+        data.goal_type === 'tbd' ? data.target_balance_month : null,
+
+      monthly_funding:
+        data.goal_type === 'mf' ? amountToCents(data.monthly_funding) : 0,
+    }
+  }
 
   render() {
     const {match, history} = this.props

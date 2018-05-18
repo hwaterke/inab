@@ -10,6 +10,7 @@ This is a monorepo that contains different packages
 * [packages/inab-web](packages/inab-web) contains the web app
 * [packages/inab-native](packages/inab-native) contains the mobile app
 * [packages/inab-shared](packages/inab-shared) contains common file for web and native apps
+* [packages/inab-server](packages/inab-server) contains the server
 
 # Use
 
@@ -59,27 +60,24 @@ This will migrate all the data in the old database to the new database that you 
 
 If you want to contribute and help developing INAB, you can use the development configuration.
 
-The `docker-compose.yml` file at the root of the project starts the server in development mode.
-
-With the following command `docker-compose up`, you will get the following:
-
-* No need to install ruby (server)
-* Server (API) listens on port 8080
-* Any change to the server code restarts it
-
-Once the server is up and running, you need to bootstrap the repo and compile the shared code:
+You first need to bootstrap the repo and compile the shared code:
 
 ```
-yarn lerna bootstrap
+yarn
 cd packages/inab-shared
 yarn build
 yarn build:flow
 ```
 
-You can then start the client in dev mode by issuing the following commands in the `packages/inab-web` folder:
+You can then start the server in dev mode by issuing the following commands in the `packages/inab-server` folder:
 
 ```
-yarn
+yarn start
+```
+
+Once the server is up and running, you can then start the client in dev mode by issuing the following commands in the `packages/inab-web` folder:
+
+```
 yarn start
 ```
 

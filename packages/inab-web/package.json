@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "description": "INAB Web",
-  "proxy": "http://localhost:8080",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

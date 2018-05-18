@@ -31,7 +31,7 @@ export class LoginForm extends React.Component {
 
   onSubmit = ({backend, email, password}) => {
     axios
-      .post(`${backend}/login`, {
+      .post(`${backend}/auth/login`, {
         email,
         password,
       })

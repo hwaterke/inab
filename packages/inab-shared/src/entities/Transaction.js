@@ -11,7 +11,7 @@ const subtransactionPropType: ReactPropsCheckType = PropTypes.shape({
   uuid: PropTypes.string,
   description: PropTypes.string,
   amount: PropTypes.number.isRequired,
-  category_uuid: PropTypes.string.isRequired,
+  category_uuid: PropTypes.string,
 })
 
 export const TransactionResource: ResourceDefinition = {
