@@ -1,3 +1,4 @@
+import {NODE_ENV} from "../constants/version";
 import {Account} from './entities/Account'
 import {BudgetItem} from './entities/BudgetItem'
 import {Category} from './entities/Category'
@@ -48,5 +49,4 @@ const configs = {
   },
 }
 
-const env = process.env.NODE_ENV || 'development'
-export const databaseConfig = configs[env]
+export const databaseConfig = configs[NODE_ENV]
