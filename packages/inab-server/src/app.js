@@ -2,6 +2,7 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
+import {NODE_ENV} from './constants/version'
 import {catchNotFound, errorHandler, tokenErrorHandler} from './errorhandling'
 import {validateToken} from './middlewares/validateToken'
 import {accountRouter} from './routes/accounts'
@@ -12,6 +13,7 @@ import {categoryGroupRouter} from './routes/categoryGroups'
 import {healthRouter} from './routes/health'
 import {payeeRouter} from './routes/payees'
 import {systemSettingRouter} from './routes/settings'
+import {testingRouter} from './routes/testing'
 import {transactionRouter} from './routes/transactions'
 
 export const createExpressApp = () => {
@@ -40,6 +42,10 @@ export const createExpressApp = () => {
   app.use('/transactions', validateToken, transactionRouter())
 
   app.use('/settings', systemSettingRouter())
+
+  if (NODE_ENV !== 'production') {
+    app.use('/testing', testingRouter())
+  }
 
   // Error handling
   app.use(catchNotFound)

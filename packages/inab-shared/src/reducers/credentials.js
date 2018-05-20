@@ -14,10 +14,7 @@ export const setCredentials = (payload: Credentials) => ({
 
 export const clearToken = () => setCredentials({token: null})
 
-export const credentialsReducer = (
-  state: Credentials = {backend: '/api'},
-  action
-) => {
+export const credentialsReducer = (state: Credentials = {}, action) => {
   if (action.type === 'SET_CREDENTIALS') {
     return {...state, ...action.payload}
   }

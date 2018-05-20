@@ -1,8 +1,10 @@
 import React from 'react'
+import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import {colors} from '../../../constants/colors'
 import bg from '../../../images/land_slim.jpg'
 import ErrorList from '../../ErrorList'
+import {LoginDispatcher} from '../../LoginDispatcher'
 import {LoginForm} from './LoginForm'
 import {RegistrationForm} from './RegistrationForm'
 
@@ -28,55 +30,47 @@ const Container = styled.div`
 `
 
 export class LoginPage extends React.Component {
-  state = {
-    showLogin: true,
-  }
-
-  toggle = () => {
-    this.setState({showLogin: !this.state.showLogin})
-  }
-
   render() {
     return (
-      <Page>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6" />
+      <LoginDispatcher away>
+        <Page>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6" />
 
-            <div className="col-md-6">
-              <Container>
-                <ErrorList />
+              <div className="col-md-6">
+                <Container>
+                  <ErrorList />
 
-                {this.state.showLogin ? <LoginForm /> : <RegistrationForm />}
+                  <Route exact path="/login" component={LoginForm} />
+                  <Route exact path="/register" component={RegistrationForm} />
 
-                {this.state.showLogin ? (
-                  <p className="text-secondary mt-3">
-                    No account?
-                    <button
-                      type="button"
-                      className="btn btn-link"
-                      onClick={this.toggle}
-                    >
-                      Register here
-                    </button>
-                  </p>
-                ) : (
-                  <p className="text-secondary mt-3">
-                    Already have an account?
-                    <button
-                      type="button"
-                      className="btn btn-link"
-                      onClick={this.toggle}
-                    >
-                      Login here
-                    </button>
-                  </p>
-                )}
-              </Container>
+                  <Route
+                    exact
+                    path="/login"
+                    render={() => (
+                      <p className="text-secondary mt-3">
+                        No account? <Link to="/register">Register here</Link>
+                      </p>
+                    )}
+                  />
+
+                  <Route
+                    exact
+                    path="/register"
+                    render={() => (
+                      <p className="text-secondary mt-3">
+                        Already have an account?{' '}
+                        <Link to="/login">Login here</Link>
+                      </p>
+                    )}
+                  />
+                </Container>
+              </div>
             </div>
           </div>
-        </div>
-      </Page>
+        </Page>
+      </LoginDispatcher>
     )
   }
 }

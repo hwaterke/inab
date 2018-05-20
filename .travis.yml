@@ -28,7 +28,7 @@ script:
   - yarn build
 
   - yarn start&
-  - docker run -d -p 127.0.0.1:3003:3003 hwaterke/inab-api
+  - docker run -d -p 127.0.0.1:3003:3003 -e "NODE_ENV=test" hwaterke/inab-api
   - yarn wait-on -t 300000 http-get://localhost:3000 http-get://localhost:3003/health/ping
   - yarn run test:e2e
 
