@@ -28,7 +28,7 @@ script:
   - yarn build
 
   - yarn start&
-  - docker run -d -p 3003:3003 hwaterke/inab-api
+  - docker run -d -p 127.0.0.1:3003:3003 hwaterke/inab-api
   - yarn wait-on http://localhost:3000 http://localhost:3003
   - yarn run test:e2e
 
