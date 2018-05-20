@@ -2,10 +2,15 @@ language: node_js
 node_js:
   - "9"
 
+sudo: required
+services:
+  - docker
+
 cache:
   directories:
     - node_modules
     - packages/inab-native/node_modules
+    - packages/inab-server/node_modules
     - packages/inab-shared/node_modules
     - packages/inab-web/node_modules
 
@@ -15,9 +20,20 @@ script:
   - yarn build
   - yarn build:flow
 
+  - cd ../inab-server
+  - yarn test
+  - bash ./docker_build.sh
+
   - cd ../inab-web
   - yarn build
 
   - yarn start&
-  - yarn wait-on http://localhost:3000
+  - docker run -d -p 3003:3003 hwaterke/inab-api
+  - yarn wait-on http://localhost:3000 http://localhost:3003
   - yarn run test:e2e
+
+deploy:
+  provider: script
+  script: bash packages/inab-server/docker_push.sh
+  on:
+    branch: master
