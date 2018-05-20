@@ -16,7 +16,7 @@ describe('settings', () => {
 
   it('should write and read setting', async () => {
     await request()
-      .post('/settings/foo')
+      .put('/settings/foo')
       .set('Authorization', token.getToken())
       .send({value: 'Hello'})
       .expect(200)

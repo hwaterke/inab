@@ -41,7 +41,7 @@ const configs = {
   },
   production: {
     type: 'sqlite',
-    database: process.env.DATABASE_FILE,
+    database: process.env.DATABASE_FILE || '/db/budget.sqlite3',
     entities: entities,
     logging: false,
     synchronize: true,

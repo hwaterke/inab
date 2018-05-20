@@ -14,18 +14,21 @@ This is a monorepo that contains different packages
 
 # Use
 
+INAB consists of two parts. A backend that exposes an API and a frontend (web or native).
 There are several ways of deploying and using INAB.  
-The simplest solution that works out of the box is to use the existing docker image.
+The simplest solution that works out of the box is to use the existing docker image for the backend
 
 ```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab:api
+docker run -d -p 3003:3003 -v $(pwd)/database:/db hwaterke/inab-api
 ```
 
-This starts the server. You then need to build and serve the frontend code yourself.
-You can then access INAB api at http://localhost:8080/api
+This starts the server.
+You can then access the INAB api at http://localhost:3003
+
+You then need to build and serve the frontend code yourself or use the latest version deployed at https://inab.accountant/
 
 When running the docker image, it is recommended to add another environment variable.
-`-e "JWT_SECRET=some_secret"`.
+`-e "TOKEN_SECRET=some_secret"`.
 This is optional, a random secret will be used if none is provided.
 But providing one will allow your users to stay connected after a container restart.
 
@@ -33,28 +36,14 @@ But providing one will allow your users to stay connected after a container rest
 
 If you want to create the docker image yourself, execute the following steps.
 
-* Navigate to the `server` folder.
-* Execute `./build-docker.sh`
+* Navigate to the `packages/inab-server` folder.
+* Execute `./docker_build.sh`
 
 You can then run inab by using:
 
 ```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab:api
+docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab-api
 ```
-
-### Migrate database
-
-If you've been using a previous version of INAB, you will need t migrate your database.
-Make a copy of your existing database e.g. old_database.db.
-Start the new version of INAB and let it create a new (empty) database.
-
-Run the following:
-
-```
-docker run --rm -v $(pwd):/app/migration/dbs hwaterke/inab-migration dbs/old_database.db dbs/new_database.db
-```
-
-This will migrate all the data in the old database to the new database that you can then use with the latest version of INAB.
 
 ### Development
 
