@@ -46,7 +46,7 @@ export class LoginScreen extends React.Component {
 
   performLogin = (backend, email, password) => {
     axios({
-      url: `${backend}/login`,
+      url: `${backend}/auth/login`,
       method: 'POST',
       data: {
         email,
