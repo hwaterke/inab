@@ -3,7 +3,7 @@ describe('Registration', () => {
     cy.request('GET', 'http://localhost:3003/testing/reset-db')
   })
 
-  it('Has a correct title', () => {
+  it('Can register', () => {
     cy.visit('/register')
     cy
       .get('input[name="backend"]')
