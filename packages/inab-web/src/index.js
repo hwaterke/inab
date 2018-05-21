@@ -1,3 +1,6 @@
+// Polyfills need to be the first import
+import './polyfills'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.css'
 import React from 'react'
