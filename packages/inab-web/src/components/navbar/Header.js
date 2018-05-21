@@ -139,6 +139,7 @@ export class Header extends React.Component {
             <button
               className="btn btn-outline-secondary"
               type="button"
+              data-testid="logout"
               onClick={this.logout}
             >
               Logout
