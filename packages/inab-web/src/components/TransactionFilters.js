@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import ButtonIcon from './ButtonIcon'
 import {deleteFilter} from '../reducers/filters'
 import {getTransactionColumns} from '../selectors/transactionsRendering'
 import {Filter} from '../entities/Filter'
+import ButtonIcon from './ButtonIcon'
 import {TransactionToolbarRow} from './TransactionToolbar'
 
 const mapStateToProps = state => ({

@@ -13,9 +13,9 @@ import {Field, reduxForm} from 'redux-form'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {selectBackend, selectEmail, setCredentials} from 'inab-shared'
-import {TextInputField} from './fields/TextInputField'
 // eslint-disable-next-line import/named
 import {LinearGradient} from 'expo'
+import {TextInputField} from './fields/TextInputField'
 
 const mapStateToProps = state => ({
   initialValues: {

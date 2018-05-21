@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Field, FieldArray, reduxForm} from 'redux-form'
+import {PayeeResource} from 'inab-shared'
 import {FormActionBar} from '../../forms/FormActionBar'
 import ButtonCheck from '../../ButtonCheck'
 import ButtonDelete from '../../ButtonDelete'
 import {required} from '../../forms/validations'
 import {InputField} from '../../forms/fields/InputField'
-import {PayeeResource} from 'inab-shared'
 
 const renderLocations = ({fields}) => (
   <div>

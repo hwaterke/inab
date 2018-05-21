@@ -1,10 +1,10 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {TransactionResource} from 'inab-shared'
-import {AmountField} from './AmountField'
 import {Keyboard, TouchableWithoutFeedback, View} from 'react-native'
 import {globalStyles} from '../../../constants/styles'
 import {Banner} from '../../Banner'
+import {AmountField} from './AmountField'
 
 @reduxForm({form: TransactionResource.name})
 export class TransactionForm extends React.Component {

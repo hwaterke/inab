@@ -8,9 +8,9 @@ import {
   goalToBudgetByCategoryForSelectedMonth,
 } from 'inab-shared'
 import {connect} from 'react-redux'
-import {Amount} from '../../Amount'
 import {VictoryPie} from 'victory'
 import moment from 'moment'
+import {Amount} from '../../Amount'
 import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({

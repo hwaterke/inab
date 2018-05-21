@@ -1,10 +1,10 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {store} from '../store/index'
-import {LoginDispatcher} from './LoginDispatcher'
 import {persistStore} from 'redux-persist'
-import {AsyncStorage, View, StatusBar} from 'react-native'
+import {AsyncStorage, StatusBar, View} from 'react-native'
+import {store} from '../store/index'
 import {globalStyles} from '../constants/styles'
+import {LoginDispatcher} from './LoginDispatcher'
 
 export class App extends React.Component {
   componentDidMount() {

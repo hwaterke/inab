@@ -7,11 +7,11 @@ import {
   getBudgetBalance,
   selectBalanceByAccountId,
 } from 'inab-shared'
+import {ResourceListProvider, select} from 'redux-crud-provider'
 import {globalStyles} from '../../../constants/styles'
 import {uuidExtractor} from '../../../utils'
-import {AccountRow} from './AccountRow'
 import {crudThunks} from '../../../thunks/crudThunks'
-import {ResourceListProvider, select} from 'redux-crud-provider'
+import {AccountRow} from './AccountRow'
 
 const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),

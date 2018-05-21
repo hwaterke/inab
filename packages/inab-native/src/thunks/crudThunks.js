@@ -1,10 +1,6 @@
-import {
-  clearToken,
-  selectBackend,
-  selectToken,
-} from '../../../inab-shared/lib/index'
 import {path} from 'ramda'
 import {createCrudThunks} from 'redux-crud-provider'
+import {clearToken, selectBackend, selectToken} from 'inab-shared/lib/index'
 
 // Manually generating uuid for now as 'react-native-uuid' has problems
 // https://github.com/eugenehp/react-native-uuid/issues/6

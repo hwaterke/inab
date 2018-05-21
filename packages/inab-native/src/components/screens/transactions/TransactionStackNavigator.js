@@ -1,8 +1,8 @@
 import {StackNavigator} from 'react-navigation'
-import {TransactionListScreen} from './TransactionListScreen'
-import {TransactionAccountListScreen} from './TransactionAccountListScreen'
 import {globalStyles} from '../../../constants/styles'
 import {colors} from '../../../constants/colors'
+import {TransactionListScreen} from './TransactionListScreen'
+import {TransactionAccountListScreen} from './TransactionAccountListScreen'
 
 TransactionAccountListScreen.navigationOptions = {
   title: 'Accounts',

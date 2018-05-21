@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Amount} from './Amount'
 import styled from 'styled-components'
 import {paddingHorizontal, paddingVertical} from '../styles/styleUtils'
+import {Amount} from './Amount'
 
 const Container = styled.div`
   ${paddingHorizontal} ${paddingVertical}

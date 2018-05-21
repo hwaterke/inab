@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Field, reduxForm} from 'redux-form'
-import {FormActionBar} from '../../forms/FormActionBar'
 import {AccountResource} from 'inab-shared'
+import {FormActionBar} from '../../forms/FormActionBar'
 import {required} from '../../forms/validations'
 import {InputField} from '../../forms/fields/InputField'
 
