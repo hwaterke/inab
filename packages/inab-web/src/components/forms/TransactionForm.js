@@ -15,11 +15,11 @@ import {colors} from '../../constants/colors'
 import Button from '../Button'
 import ButtonDelete from '../ButtonDelete'
 import ButtonIcon from '../ButtonIcon'
+import {BoxContainer} from '../presentational/atoms/BoxContainer'
 import DatePickerField from './fields/DatePickerField'
 import {InputField} from './fields/InputField'
 import {SimpleSelectField} from './fields/SimpleSelectField'
 import {FormActionBar} from './FormActionBar'
-import {BoxContainer} from '../presentational/atoms/BoxContainer'
 
 const FormRow = styled.div`
   display: flex;

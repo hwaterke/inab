@@ -1,15 +1,15 @@
 // @flow
 import {ascend, descend, prop, reduceBy, sortWith} from 'ramda'
+import {select} from 'redux-crud-provider'
+import {createSelector} from 'reselect'
+import type {Transaction} from '../entities/Transaction'
+import {TransactionResource} from '../entities/Transaction'
 import {
   beginningOfMonth,
   createInMonthSelectors,
   createUpToMonthSelectors,
   sumOfAmounts,
 } from './utils'
-import {select} from 'redux-crud-provider'
-import type {Transaction} from '../entities/Transaction'
-import {TransactionResource} from '../entities/Transaction'
-import {createSelector} from 'reselect'
 
 const dateAmountSort = sortWith([descend(prop('date')), ascend(prop('amount'))])
 

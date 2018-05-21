@@ -9,8 +9,8 @@ import {
   selectMonth,
 } from 'inab-shared'
 import {Ionicons} from '@expo/vector-icons'
-import {colors} from '../../../constants/colors'
 import moment from 'moment'
+import {colors} from '../../../constants/colors'
 
 const mapStateToProps = state => ({
   selectedMonthMoment: getSelectedMonthMoment(state),

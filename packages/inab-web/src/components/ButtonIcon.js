@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from './Button'
 import FontAwesome from 'react-fontawesome'
+import Button from './Button'
 
 const ButtonIcon = ({className, onClick, children, icon, disabled}) => (
   <Button className={className} onClick={onClick} disabled={!!disabled}>

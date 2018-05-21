@@ -5,11 +5,11 @@ import {connect} from 'react-redux'
 import {TransactionResource} from 'inab-shared'
 import moment from 'moment'
 import {groupBy} from 'ramda'
+import {ResourceListProvider} from 'redux-crud-provider'
 import {globalStyles} from '../../../constants/styles'
 import {getTransactionForRendering} from '../../../selectors/transactions'
-import {TransactionRow} from './TransactionRow'
-import {ResourceListProvider} from 'redux-crud-provider'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {TransactionRow} from './TransactionRow'
 
 const mapStateToProps = state => ({
   transactions: getTransactionForRendering(state),

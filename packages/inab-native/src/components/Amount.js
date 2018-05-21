@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {StyleSheet, Text, View} from 'react-native'
-import {colors} from '../constants/colors'
 import {amountFromCents} from 'inab-shared'
+import {colors} from '../constants/colors'
 import {globalStyles} from '../constants/styles'
 
 export class Amount extends React.Component {
   static propTypes = {
-    value: PropTypes.number.isRequired,
-    color: PropTypes.bool.isRequired,
+    value: PropTypes.number,
+    color: PropTypes.bool,
   }
 
   static defaultProps = {
