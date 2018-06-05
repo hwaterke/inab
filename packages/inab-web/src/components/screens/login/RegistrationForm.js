@@ -1,17 +1,17 @@
 import axios from 'axios'
+import {selectBackend, selectEmail, setCredentials} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
 import {addError} from '../../../actions/error'
-import {setCredentials} from '../../../reducers/credentials'
 import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
 
 const mapStateToProps = state => ({
   initialValues: {
-    backend: state.credentials.backend,
-    email: state.credentials.email,
+    backend: selectBackend(state),
+    email: selectEmail(state),
   },
 })
 
@@ -41,7 +41,7 @@ export class RegistrationForm extends React.Component {
 
   onSubmit = ({backend, email, password}) => {
     axios
-      .post(`${backend}/register`, {
+      .post(`${backend}/auth/register`, {
         email,
         password,
       })

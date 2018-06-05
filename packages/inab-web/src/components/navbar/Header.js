@@ -1,23 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Link from '../Link'
-import Amount from '../Amount'
-import {connect} from 'react-redux'
-import FontAwesome from 'react-fontawesome'
-import {Link as RouterLink} from 'react-router-dom'
 import {
   AccountResource,
-  selectBalanceByAccountId,
+  clearToken,
   getBudgetBalance,
+  selectBalanceByAccountId,
+  selectIsAdmin,
 } from 'inab-shared'
+import PropTypes from 'prop-types'
+import React from 'react'
+import FontAwesome from 'react-fontawesome'
+import {connect} from 'react-redux'
+import {Link as RouterLink} from 'react-router-dom'
 import {select} from 'redux-crud-provider'
-import {clearToken} from '../../reducers/credentials'
+import styled from 'styled-components'
+import {Amount} from '../Amount'
+import Link from '../Link'
+
+const AccountLink = styled(RouterLink).attrs({className: 'dropdown-item'})`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
 
 const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),
-  isAdmin: state.credentials.is_admin,
+  isAdmin: selectIsAdmin(state),
 })
 
 @connect(mapStateToProps, {clearToken})
@@ -83,10 +91,10 @@ export class Header extends React.Component {
                   className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
-                  <RouterLink className="apart dropdown-item" to="/account">
+                  <AccountLink to="/account">
                     <span>All&nbsp;</span>
-                    <Amount amount={this.props.budgetBalance} color />
-                  </RouterLink>
+                    <Amount amount={this.props.budgetBalance} hasBackground />
+                  </AccountLink>
 
                   {this.props.accounts.map(
                     account =>
@@ -96,17 +104,16 @@ export class Header extends React.Component {
                           {account.name}
                         </Link>
                       ) : (
-                        <RouterLink
-                          className="apart dropdown-item"
+                        <AccountLink
                           key={account.uuid}
                           to={`/account/${account.uuid}`}
                         >
                           <span>{account.name}&nbsp;</span>
                           <Amount
                             amount={this.props.balanceByAccountId[account.uuid]}
-                            color
+                            hasBackground
                           />
-                        </RouterLink>
+                        </AccountLink>
                       )
                   )}
 
@@ -132,6 +139,7 @@ export class Header extends React.Component {
             <button
               className="btn btn-outline-secondary"
               type="button"
+              data-testid="logout"
               onClick={this.logout}
             >
               Logout

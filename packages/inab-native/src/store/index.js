@@ -1,5 +1,12 @@
-import {createStore} from 'redux'
-import {rootReducer} from '../reducers/index'
+import {applyMiddleware, compose, createStore} from 'redux'
 import {autoRehydrate} from 'redux-persist'
+import thunkMiddleware from 'redux-thunk'
+import {rootReducer} from '../reducers/index'
 
-export const store = createStore(rootReducer, autoRehydrate())
+const middlewares = [thunkMiddleware]
+
+export const store = createStore(
+  rootReducer,
+  undefined,
+  compose(applyMiddleware(...middlewares), autoRehydrate())
+)

@@ -1,7 +1,8 @@
-import {CategoryGroupResource} from 'inab-shared'
+import {CategoryGroupResource, ResourceFormProvider} from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {ResourceFormProvider} from '../../../providers/ResourceFormProvider'
+import {crudThunks} from '../../../thunks/crudThunks'
+import {Box} from '../../presentational/atoms/Box'
 import {CategoryGroupForm} from './CategoryGroupForm'
 
 const formToResource = data => {
@@ -12,10 +13,11 @@ export const CategoryGroupDetail = ({match, history}) => (
   <div className="container">
     <div className="row">
       <div className="col">
-        <div className="mt-4 p-4 box">
+        <Box>
           <h4>Category Group</h4>
 
           <ResourceFormProvider
+            crudThunks={crudThunks}
             uuid={match.params.uuid}
             resource={CategoryGroupResource}
             formToResource={formToResource}
@@ -23,7 +25,7 @@ export const CategoryGroupDetail = ({match, history}) => (
           >
             {props => <CategoryGroupForm {...props} />}
           </ResourceFormProvider>
-        </div>
+        </Box>
       </div>
     </div>
   </div>

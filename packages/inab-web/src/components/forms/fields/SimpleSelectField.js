@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {SimpleSelect} from 'react-selectize'
-import './SimpleSelect.scss'
+import './SimpleSelect.css'
 
 export const SimpleSelectField = ({
   placeholder,

@@ -10,15 +10,23 @@
   },
   "homepage": "https://github.com/hwaterke/inab#readme",
   "scripts": {
-    "precommit": "lint-staged && lerna run --concurrency 1 --stream precommit"
+    "postinstall": "lerna bootstrap",
+    "precommit": "lint-staged && lerna run --concurrency 1 precommit"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.12.0",
     "husky": "^0.14.3",
-    "lerna": "^2.10.2",
-    "lint-staged": "^7.0.4",
+    "lerna": "^2.11.0",
+    "lint-staged": "^7.1.0",
     "prettier": "^1.12.1"
   },
   "lint-staged": {
-    "*.{js,css,scss,json,md}": ["prettier --write", "git add"]
+    "*.{js,css,scss,json,md}": ["prettier --write", "git add"],
+    "*.js": [
+      "eslint --no-eslintrc -c .eslintrc-import-order.json --fix",
+      "git add"
+    ]
   }
 }

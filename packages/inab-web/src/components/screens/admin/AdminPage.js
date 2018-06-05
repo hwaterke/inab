@@ -1,11 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
+import {selectBackend, selectToken} from 'inab-shared'
+import PropTypes from 'prop-types'
+import {path} from 'ramda'
+import React from 'react'
 import {connect} from 'react-redux'
+import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
-  backend: state.credentials.backend,
-  token: state.credentials.token,
+  backend: selectBackend(state),
+  token: selectToken(state),
 })
 
 @connect(mapStateToProps)
@@ -27,7 +30,10 @@ export class AdminPage extends React.Component {
       method: 'get',
       headers: {Authorization: this.props.token},
     }).then(response => {
-      this.setState({loading: false, registration: response.data.value === '1'})
+      this.setState({
+        loading: false,
+        registration: path(['data', 'value'], response) === '1',
+      })
     })
   }
 
@@ -35,12 +41,20 @@ export class AdminPage extends React.Component {
     this.setState({loading: true})
     axios({
       url: `${this.props.backend}/settings/registration`,
-      method: 'patch',
+      method: 'put',
       headers: {Authorization: this.props.token},
       data: {value: this.state.registration ? '0' : '1'},
-    }).then(response => {
-      this.setState({loading: false, registration: response.data.value === '1'})
     })
+      .then(response => {
+        this.setState({
+          registration: path(['data', 'value'], response) === '1',
+        })
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+        })
+      })
   }
 
   render() {
@@ -49,7 +63,7 @@ export class AdminPage extends React.Component {
         <div className="row">
           <div className="col-sm-2" />
           <div className="col-sm-8">
-            <div className="mt-4 p-4 box">
+            <Box>
               <h4>Administration</h4>
 
               {this.state.loading ? (
@@ -74,7 +88,7 @@ export class AdminPage extends React.Component {
                   Toggle registration
                 </button>
               )}
-            </div>
+            </Box>
           </div>
           <div className="col-sm-2" />
         </div>

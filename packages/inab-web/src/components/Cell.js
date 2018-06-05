@@ -1,19 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-// Presentational component of a table cell.
-export default class Cell extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-    onClick: PropTypes.func,
-    className: PropTypes.string,
-  }
+export const Cell = styled.td`
+  text-align: ${props => (props.alignRight ? 'right' : 'left')};
+`
 
-  render() {
-    return (
-      <td className={this.props.className} onClick={this.props.onClick}>
-        {this.props.children}
-      </td>
-    )
-  }
+Cell.propTypes = {
+  alignRight: PropTypes.bool,
 }

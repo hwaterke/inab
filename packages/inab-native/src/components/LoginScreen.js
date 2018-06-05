@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
   Image,
-  TouchableWithoutFeedback,
   Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native'
-import {reduxForm, Field} from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {selectBackend, selectEmail} from '../selectors/credentials'
-import {setCredentials} from '../reducers/credentials'
-import {TextInputField} from './fields/TextInputField'
+import {selectBackend, selectEmail, setCredentials} from 'inab-shared'
+// eslint-disable-next-line import/named
 import {LinearGradient} from 'expo'
+import {TextInputField} from './fields/TextInputField'
 
 const mapStateToProps = state => ({
   initialValues: {
@@ -46,7 +46,7 @@ export class LoginScreen extends React.Component {
 
   performLogin = (backend, email, password) => {
     axios({
-      url: `${backend}/api/login`,
+      url: `${backend}/auth/login`,
       method: 'POST',
       data: {
         email,

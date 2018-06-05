@@ -9,15 +9,16 @@ import {
 } from 'ramda'
 import moment from 'moment'
 import {createSelector} from 'reselect'
+import {select} from 'redux-crud-provider'
 import type {Transaction} from '../entities/Transaction'
 import {TransactionResource} from '../entities/Transaction'
-import {beginningOfMonth, sumOfAmounts} from './utils'
 import type {Account} from '../entities/Account'
 import {AccountResource} from '../entities/Account'
 import type {Category} from '../entities/Category'
 import {CategoryResource} from '../entities/Category'
 import type {BudgetItem} from '../entities/BudgetItem'
 import {BudgetItemResource} from '../entities/BudgetItem'
+import {beginningOfMonth, sumOfAmounts} from './utils'
 import {getPreviousMonthMoment, getSelectedMonthMoment} from './month'
 import {
   budgetItemsInMonth,
@@ -30,7 +31,6 @@ import {
   getToBeBudgetedSumUpToSelectedMonth,
   transactionsUpToMonth,
 } from './transactions'
-import {select} from 'redux-crud-provider'
 
 /**
  * Returns the balance of the budget i.e. the total amount of money across accounts.

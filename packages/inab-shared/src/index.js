@@ -21,12 +21,26 @@ export {
   selectPreviousMonth,
 } from './reducers/month'
 
+export {
+  setCredentials,
+  clearToken,
+  credentialsReducer,
+} from './reducers/credentials'
+
 export {resourcesActivityReducer, resourcesReducer} from './reducers/resources'
 
 // Utils
 export {amountFromCents, amountToCents} from './utils/amount'
 
 // Selectors
+
+export {
+  selectBackend,
+  selectEmail,
+  selectIsAdmin,
+  selectToken,
+} from './selectors/credentials'
+
 export {
   budgetItemsInMonth,
   budgetItemsUpToMonth,
@@ -61,3 +75,8 @@ export {
   selectBalanceByAccountId,
 } from './selectors/budget'
 export {getSortedPayees} from './selectors/payees'
+
+// Providers
+
+export {ResourceCreator} from './providers/ResourceCreator'
+export {ResourceFormProvider} from './providers/ResourceFormProvider'

@@ -1,10 +1,11 @@
-import React from 'react'
+import {getSortedPayees, PayeeResource} from 'inab-shared'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {connect} from 'react-redux'
-import {PayeeResource, getSortedPayees} from 'inab-shared'
 import {Link} from 'react-router-dom'
 import {ResourceListProvider} from 'redux-crud-provider'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
   payees: getSortedPayees(state),
@@ -27,7 +28,7 @@ export class PayeeList extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-sm-8">
-                <div className="mt-4 p-4 box">
+                <Box>
                   <h4>Payees</h4>
 
                   <div className="my-3">
@@ -50,11 +51,11 @@ export class PayeeList extends React.Component {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </Box>
               </div>
 
               <div className="col-sm-4">
-                <div className="mt-4 p-4 box">
+                <Box>
                   <h4>Statistics</h4>
                   <h5>{this.props.payees.length} payees</h5>
                   <h5>
@@ -64,7 +65,7 @@ export class PayeeList extends React.Component {
                     )}{' '}
                     locations
                   </h5>
-                </div>
+                </Box>
               </div>
             </div>
           </div>

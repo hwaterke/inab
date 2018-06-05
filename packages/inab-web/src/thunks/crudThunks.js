@@ -1,22 +1,21 @@
 import cuid from 'cuid'
+import {clearToken, selectBackend, selectToken} from 'inab-shared'
 import {path} from 'ramda'
 import {createCrudThunks} from 'redux-crud-provider'
 import {addError} from '../actions/error'
-import {clearToken} from '../reducers/credentials'
 
 export const crudThunks = createCrudThunks({
-  backendSelector: state => state.credentials.backend,
+  backendSelector: state => selectBackend(state),
 
   cuid: () => cuid(),
 
-  headersSelector: ({credentials}) => {
-    if (credentials.token) {
-      return {Authorization: credentials.token}
+  headersSelector: state => {
+    const token = selectToken(state)
+    if (token) {
+      return {Authorization: token}
     }
     return {}
   },
-
-  fetchAllDataToRecords: data => data.data,
 
   onError: (resource, operation, error, dispatch) => {
     if (path(['response', 'status'], error) === 401) {

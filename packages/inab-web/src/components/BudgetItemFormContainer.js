@@ -2,11 +2,12 @@ import {
   amountToCents,
   BudgetItemResource,
   getSelectedMonthMoment,
+  ResourceFormProvider,
 } from 'inab-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import {ResourceFormProvider} from '../providers/ResourceFormProvider'
+import {crudThunks} from '../thunks/crudThunks'
 import {BudgetItemForm} from './BudgetItemForm'
 
 const mapStateToProps = state => ({
@@ -38,8 +39,6 @@ export class BudgetItemFormContainer extends React.Component {
       onSubmit(data)
     }
     this.props.postSubmit()
-
-    this.props.postSubmit()
   }
 
   render() {
@@ -47,6 +46,7 @@ export class BudgetItemFormContainer extends React.Component {
 
     return (
       <ResourceFormProvider
+        crudThunks={crudThunks}
         uuid={uuid}
         resource={BudgetItemResource}
         formToResource={this.formToResource}

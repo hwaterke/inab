@@ -1,14 +1,14 @@
 // @flow
 import {groupBy, head, map, prop} from 'ramda'
 import {createSelector} from 'reselect'
+import {select} from 'redux-crud-provider'
+import type {BudgetItem} from '../entities/BudgetItem'
+import {BudgetItemResource} from '../entities/BudgetItem'
 import {
   createInMonthSelectors,
   createUpToMonthSelectors,
   sumOfAmounts,
 } from './utils'
-import type {BudgetItem} from '../entities/BudgetItem'
-import {BudgetItemResource} from '../entities/BudgetItem'
-import {select} from 'redux-crud-provider'
 
 export const budgetItemsInMonth = createInMonthSelectors(
   select(BudgetItemResource).asArray,

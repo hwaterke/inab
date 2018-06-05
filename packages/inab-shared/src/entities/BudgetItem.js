@@ -6,7 +6,7 @@ import type {ResourceDefinition} from 'redux-crud-provider'
 export const BudgetItemResource: ResourceDefinition = {
   name: 'budget_items',
   key: 'uuid',
-  defaultPath: 'budget_items',
+  defaultPath: 'budget-items',
   propTypes: PropTypes.shape({
     uuid: PropTypes.string,
     month: PropTypes.string.isRequired,

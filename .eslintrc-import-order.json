@@ -1,0 +1,19 @@
+{
+  "parser": "babel-eslint",
+
+  "plugins": ["import"],
+
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "generators": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+
+  "rules": {
+    "import/order": ["error", {"newlines-between": "never"}]
+  }
+}

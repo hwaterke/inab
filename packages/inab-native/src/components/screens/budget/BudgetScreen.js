@@ -1,8 +1,8 @@
 import React from 'react'
 import {View} from 'react-native'
-import {MonthSelector} from './MonthSelector'
 import {globalStyles} from '../../../constants/styles'
 import {Banner} from '../../Banner'
+import {MonthSelector} from './MonthSelector'
 import {BudgetList} from './BudgetList'
 import {BudgetHeader} from './BudgetHeader'
 

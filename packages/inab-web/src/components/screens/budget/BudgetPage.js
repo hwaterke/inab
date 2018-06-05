@@ -1,11 +1,19 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import FontAwesome from 'react-fontawesome'
+import {Link} from 'react-router-dom'
 import ui from 'redux-ui'
-import {BudgetTable} from './BudgetTable'
+import {Box} from '../../presentational/atoms/Box'
 import {BudgetHeader} from './BudgetHeader'
 import {BudgetSidebar} from './BudgetSidebar'
-import './BudgetPage.scss'
+import {BudgetTable} from './BudgetTable'
+
+const Container = Box.extend`
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0;
+`
 
 @ui({
   state: {
@@ -23,7 +31,7 @@ export class BudgetPage extends React.Component {
 
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-8 budget-page-table-container">
+            <Container className="col-md-8">
               <div className="mt-4 pb-4">
                 <div className="my-4">
                   <Link to="/category_groups/new">
@@ -35,7 +43,7 @@ export class BudgetPage extends React.Component {
                 </div>
                 <BudgetTable />
               </div>
-            </div>
+            </Container>
 
             <div className="col-md-4">
               <BudgetSidebar />

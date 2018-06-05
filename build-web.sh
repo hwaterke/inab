@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 
-yarn lerna bootstrap
-
 cd packages/inab-shared
-yarn compile
-yarn compile:flow
+yarn build
 cd ../..
 
 cd packages/inab-web

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {selectToken} from 'inab-shared'
 import {LoginScreen} from './LoginScreen'
-import {selectToken} from '../selectors/credentials'
 import {MainTabNavigator} from './MainTabNavigator'
 
 const mapStateToProps = state => ({
