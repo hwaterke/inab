@@ -32,6 +32,8 @@ script:
   - yarn wait-on -t 300000 http-get://localhost:3000 http-get://localhost:3003/health/ping
   - yarn run test:e2e
 
+  - cd ../..
+
 deploy:
   provider: script
   script: bash packages/inab-server/docker_push.sh
