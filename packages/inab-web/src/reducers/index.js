@@ -4,13 +4,12 @@ import {
   resourcesReducer,
   selectedMonthReducer,
 } from 'inab-shared'
-import {combineReducers} from 'redux'
 import {reducer as formReducer} from 'redux-form'
 import {reducer as uiReducer} from 'redux-ui'
 import errorsReducer from './errors'
 import {transactionFiltersReducer} from './filters'
 
-export default combineReducers({
+export const reducers = {
   resources: resourcesReducer,
   resourcesActivity: resourcesActivityReducer,
   selectedMonth: selectedMonthReducer,
@@ -19,4 +18,4 @@ export default combineReducers({
   errors: errorsReducer,
   transactionFilters: transactionFiltersReducer,
   credentials: credentialsReducer,
-})
+}

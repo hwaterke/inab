@@ -35,7 +35,7 @@
     "redux-crud": "^3.2.0",
     "redux-crud-provider": "^0.0.1-alpha.3",
     "redux-form": "^7.3.0",
-    "redux-persist": "^4.9.1",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.2.0",
     "redux-ui": "0.1.1",
     "reselect": "^3.0.1",
