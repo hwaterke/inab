@@ -65,14 +65,14 @@ export class AccountPage extends React.Component {
     this.applyFilter(this.props.match.params)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
+    const prevParams = prevProps.match.params
     const currentParams = this.props.match.params
-    const nextParams = nextProps.match.params
     if (
-      currentParams.date !== nextParams.date ||
-      currentParams.category_uuid !== nextParams.category_uuid
+      currentParams.date !== prevParams.date ||
+      currentParams.category_uuid !== prevParams.category_uuid
     ) {
-      this.applyFilter(nextParams)
+      this.applyFilter(prevParams)
     }
   }
 
