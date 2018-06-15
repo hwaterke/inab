@@ -1,4 +1,4 @@
-# inab-web
+# @inab/web
 
 This app was created with `create-react-app`
 

@@ -7,10 +7,10 @@ INAB is a budgeting tool.
 This is a monorepo that contains different packages
 
 * [server](server) contains the server files (Ruby)
-* [packages/inab-web](packages/inab-web) contains the web app
-* [packages/inab-native](packages/inab-native) contains the mobile app
-* [packages/inab-shared](packages/inab-shared) contains common file for web and native apps
-* [packages/inab-server](packages/inab-server) contains the server
+* [packages/web](packages/web) contains the web app
+* [packages/native](packages/native) contains the mobile app
+* [packages/shared](packages/shared) contains common file for web and native apps
+* [packages/server](packages/server) contains the server
 
 # Use
 
@@ -36,7 +36,7 @@ But providing one will allow your users to stay connected after a container rest
 
 If you want to create the docker image yourself, execute the following steps.
 
-* Navigate to the `packages/inab-server` folder.
+* Navigate to the `packages/server` folder.
 * Execute `./docker_build.sh`
 
 You can then run inab by using:
@@ -53,18 +53,18 @@ You first need to bootstrap the repo and compile the shared code:
 
 ```
 yarn
-cd packages/inab-shared
+cd packages/shared
 yarn build
 yarn build:flow
 ```
 
-You can then start the server in dev mode by issuing the following commands in the `packages/inab-server` folder:
+You can then start the server in dev mode by issuing the following commands in the `packages/server` folder:
 
 ```
 yarn start
 ```
 
-Once the server is up and running, you can then start the client in dev mode by issuing the following commands in the `packages/inab-web` folder:
+Once the server is up and running, you can then start the client in dev mode by issuing the following commands in the `packages/web` folder:
 
 ```
 yarn start

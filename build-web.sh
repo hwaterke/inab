@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -ex
 
-cd packages/inab-shared
+cd packages/shared
 yarn build
 cd ../..
 
-cd packages/inab-web
+cd packages/web
 yarn build
 cd ../..
