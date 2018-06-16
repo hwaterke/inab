@@ -18,8 +18,9 @@ import ButtonIcon from '../ButtonIcon'
 import {BoxContainer} from '../presentational/atoms/BoxContainer'
 import DatePickerField from './fields/DatePickerField'
 import {InputField} from './fields/InputField'
-import {SimpleSelectField} from './fields/SimpleSelectField'
+import {SelectField} from './fields/SelectField'
 import {FormActionBar} from './FormActionBar'
+import {required} from './validations'
 
 const FormRow = styled.div`
   display: flex;
@@ -53,7 +54,7 @@ const renderSubtransactions = ({fields, categories}) => (
         <div>
           <Field
             name={`${subtransaction}.category`}
-            component={SimpleSelectField}
+            component={SelectField}
             placeholder="Category"
             options={categories}
           />
@@ -174,8 +175,9 @@ export class TransactionForm extends Component {
               <label>Account</label>
               <Field
                 name="account_uuid"
-                component={SimpleSelectField}
+                component={SelectField}
                 placeholder="Account"
+                validate={[required]}
                 options={this.props.accounts.map(cg => ({
                   label: cg.name,
                   value: cg.uuid,
@@ -194,7 +196,7 @@ export class TransactionForm extends Component {
               <label>Payee</label>
               <Field
                 name="payee"
-                component={SimpleSelectField}
+                component={SelectField}
                 placeholder="Payee"
                 options={payeeOptions}
               />
@@ -204,7 +206,7 @@ export class TransactionForm extends Component {
               <label>Category</label>
               <Field
                 name="category"
-                component={SimpleSelectField}
+                component={SelectField}
                 placeholder={
                   this.props.payeeValue &&
                   this.props.payeeValue.startsWith('transfer:')

@@ -9,7 +9,7 @@ import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import {Field, formValueSelector, reduxForm} from 'redux-form'
 import {InputField} from '../../forms/fields/InputField'
-import {SimpleSelectField} from '../../forms/fields/SimpleSelectField'
+import {SelectField} from '../../forms/fields/SelectField'
 import {FormActionBar} from '../../forms/FormActionBar'
 import {required} from '../../forms/validations'
 
@@ -67,19 +67,17 @@ export class CategoryForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div className="form-group">
-          <label>Category group</label>
-          <Field
-            name="category_group_uuid"
-            component={SimpleSelectField}
-            placeholder="Category group"
-            validate={[required]}
-            options={this.props.categoryGroups.map(cg => ({
-              label: cg.name,
-              value: cg.uuid,
-            }))}
-          />
-        </div>
+        <Field
+          name="category_group_uuid"
+          component={SelectField}
+          label="Category group"
+          placeholder="Category group"
+          validate={[required]}
+          options={this.props.categoryGroups.map(cg => ({
+            label: cg.name,
+            value: cg.uuid,
+          }))}
+        />
 
         <Field
           name="name"

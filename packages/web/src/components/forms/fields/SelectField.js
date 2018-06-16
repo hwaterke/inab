@@ -1,29 +1,38 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import {SimpleSelect} from 'react-selectize'
-import './SimpleSelect.css'
+import {path} from 'ramda'
+import React from 'react'
+import Select from 'react-select'
+import styled from 'styled-components'
 
-export const SimpleSelectField = ({
-  placeholder,
+const Error = styled.div`
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+`
+
+export const SelectField = ({
   disabled,
   options,
+  label,
   input,
   meta: {touched, error},
+  ...rest
 }) => (
   <div className="form-group">
-    <SimpleSelect
-      className={touched && error && 'is-invalid'}
-      placeholder={placeholder}
-      disabled={disabled}
+    {label && <label>{label}</label>}
+    <Select
+      isDisabled={disabled}
       options={options}
-      value={options.find(i => i.value === input.value)}
-      onValueChange={item => input.onChange(item ? item.value : null)}
+      value={options.find(i => i.value === input.value) || null}
+      onChange={item => input.onChange(path(['value'], item) || null)}
+      {...rest}
     />
-    {touched && error && <div className="invalid-feedback">{error}</div>}
+    {touched && error && <Error>{error}</Error>}
   </div>
 )
 
-SimpleSelectField.propTypes = {
+SelectField.propTypes = {
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   options: PropTypes.arrayOf(
@@ -40,4 +49,5 @@ SimpleSelectField.propTypes = {
     touched: PropTypes.bool.isRequired,
     error: PropTypes.string,
   }).isRequired,
+  label: PropTypes.string,
 }
