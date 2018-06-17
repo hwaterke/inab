@@ -166,20 +166,21 @@ export class TransactionForm extends Component {
     payeeValue: PropTypes.string,
     categoryValue: PropTypes.string,
     onCancel: PropTypes.func,
-    categorySuggestion: PropTypes.string,
+    categorySuggestion: PropTypes.object,
     change: PropTypes.func.isRequired,
   }
 
   render() {
+    const {categories, payees, categorySuggestion, change} = this.props
     const categoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
       {label: 'Split', value: 'split'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.uuid})),
+      ...categories.map(c => ({label: c.name, value: c.uuid})),
     ]
 
     const subtransactionCategoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.uuid})),
+      ...categories.map(c => ({label: c.name, value: c.uuid})),
     ]
 
     const payeeOptions = [
@@ -187,9 +188,8 @@ export class TransactionForm extends Component {
         label: 'Transfer to ' + a.name,
         value: 'transfer:' + a.uuid,
       })),
-      ...this.props.payees.map(c => ({label: c.name, value: c.uuid})),
+      ...payees.map(c => ({label: c.name, value: c.uuid})),
     ]
-    const {categorySuggestion} = this.props
 
     return (
       <BoxContainer>
@@ -245,9 +245,7 @@ export class TransactionForm extends Component {
               />
               {categorySuggestion && (
                 <ButtonLink
-                  onClick={() =>
-                    this.props.change('category', categorySuggestion.uuid)
-                  }
+                  onClick={() => change('category', categorySuggestion.uuid)}
                 >
                   {categorySuggestion.name}
                 </ButtonLink>
