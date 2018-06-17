@@ -9,22 +9,22 @@ services:
 cache:
   directories:
     - node_modules
-    - packages/inab-native/node_modules
-    - packages/inab-server/node_modules
-    - packages/inab-shared/node_modules
-    - packages/inab-web/node_modules
+    - packages/native/node_modules
+    - packages/server/node_modules
+    - packages/shared/node_modules
+    - packages/web/node_modules
 
 script:
-  - cd packages/inab-shared
+  - cd packages/shared
   - yarn test
   - yarn build
   - yarn build:flow
 
-  - cd ../inab-server
+  - cd ../server
   - yarn test
   - bash ./docker_build.sh
 
-  - cd ../inab-web
+  - cd ../web
   - yarn build
 
   - yarn start&
@@ -36,6 +36,6 @@ script:
 
 deploy:
   provider: script
-  script: bash packages/inab-server/docker_push.sh
+  script: bash packages/server/docker_push.sh
   on:
     branch: master
