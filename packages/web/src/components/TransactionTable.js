@@ -5,8 +5,6 @@ import FontAwesome from 'react-fontawesome'
 import * as Table from 'reactabular-table'
 import styled from 'styled-components'
 import {Amount} from './Amount'
-import Link from './Link'
-import './TransactionTable.css'
 
 const Tags = styled.div`
   display: flex;
@@ -169,14 +167,9 @@ class TransactionTable extends React.Component {
             (a, e) => {
               if (!e.rowData.subtransaction) {
                 return (
-                  <Link
-                    onClick={event => {
-                      event.stopPropagation()
-                      this.props.onPencilClick(e.rowData.uuid)
-                    }}
-                  >
+                  <a onClick={() => this.props.onPencilClick(e.rowData.uuid)}>
                     <FontAwesome name="pencil" />
-                  </Link>
+                  </a>
                 )
               }
               return null
@@ -195,9 +188,8 @@ class TransactionTable extends React.Component {
             (a, e) => {
               if (!e.rowData.subtransaction) {
                 return (
-                  <Link
-                    onClick={event => {
-                      event.stopPropagation()
+                  <a
+                    onClick={() => {
                       this.props.onClearClick(e.rowData.uuid)
                     }}
                   >
@@ -207,7 +199,7 @@ class TransactionTable extends React.Component {
                         e.rowData.cleared_at ? 'check-circle-o' : 'circle-o'
                       }
                     />
-                  </Link>
+                  </a>
                 )
               }
               return null
@@ -230,7 +222,7 @@ class TransactionTable extends React.Component {
 
     return (
       <Table.Provider
-        className="table table-sm table-hover transaction-table"
+        className="table is-narrow is-fullwidth"
         columns={this.getColumns()}
       >
         <Table.Header />

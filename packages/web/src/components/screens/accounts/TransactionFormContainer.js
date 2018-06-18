@@ -7,7 +7,7 @@ import {
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {crudThunks} from '../../thunks/crudThunks'
+import {crudThunks} from '../../../thunks/crudThunks'
 import {TransactionForm} from './TransactionForm'
 
 const formToResource = data => {

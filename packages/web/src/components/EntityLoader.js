@@ -1,5 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import {
   AccountResource,
   BudgetItemResource,
@@ -8,8 +6,11 @@ import {
   PayeeResource,
   TransactionResource,
 } from '@inab/shared'
+import PropTypes from 'prop-types'
+import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {crudThunks} from '../thunks/crudThunks'
+import {CenteredSpinner} from './presentational/atoms/CenteredSpinner'
 
 const mapDispatchToProps = {
   fetchAll: crudThunks.fetchAll,
@@ -55,7 +56,9 @@ export class EntityLoader extends React.Component {
 
   render() {
     return (
-      <div>{this.state.fetching > 0 ? 'Loading...' : this.props.children}</div>
+      <Fragment>
+        {this.state.fetching > 0 ? <CenteredSpinner /> : this.props.children}
+      </Fragment>
     )
   }
 }

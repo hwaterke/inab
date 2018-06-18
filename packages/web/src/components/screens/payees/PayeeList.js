@@ -6,6 +6,17 @@ import {Link} from 'react-router-dom'
 import {ResourceListProvider} from 'redux-crud-provider'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
+import {LinkList} from '../../presentational/atoms/LinkList'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
+
+const PayeeListContainer = LinkList.extend`
+  > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`
 
 const mapStateToProps = state => ({
   payees: getSortedPayees(state),
@@ -25,38 +36,31 @@ export class PayeeList extends React.Component {
         autoFetch
       >
         {() => (
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-8">
+          <Section>
+            <div className="columns">
+              <div className="column">
                 <Box>
-                  <h4>Payees</h4>
+                  <Title>Payees</Title>
 
-                  <div className="my-3">
-                    <Link to="/payees/new" className="btn btn-primary">
-                      New payee
-                    </Link>
-                  </div>
+                  <Link to="/payees/new">New payee</Link>
 
-                  <div className="list-group">
+                  <PayeeListContainer>
                     {this.props.payees.map(payee => (
-                      <Link
-                        key={payee.uuid}
-                        to={`/payees/edit/${payee.uuid}`}
-                        className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                      >
+                      <Link key={payee.uuid} to={`/payees/edit/${payee.uuid}`}>
                         <span>{payee.name}</span>
-                        <span className="badge badge-secondary badge-pill">
+                        <span className="tag is-rounded">
                           {payee.locations.length}
                         </span>
                       </Link>
                     ))}
-                  </div>
+                  </PayeeListContainer>
                 </Box>
               </div>
 
-              <div className="col-sm-4">
+              <div className="column is-4">
                 <Box>
-                  <h4>Statistics</h4>
+                  <Title>Statistics</Title>
+
                   <h5>{this.props.payees.length} payees</h5>
                   <h5>
                     {this.props.payees.reduce(
@@ -68,7 +72,7 @@ export class PayeeList extends React.Component {
                 </Box>
               </div>
             </div>
-          </div>
+          </Section>
         )}
       </ResourceListProvider>
     )

@@ -9,6 +9,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 import {CategoryForm} from './CategoryForm'
 
@@ -73,26 +75,22 @@ export class CategoryDetail extends React.Component {
     const {match, history} = this.props
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Box>
-              <h4>Category</h4>
+      <Section>
+        <Box>
+          <Title>Category</Title>
 
-              <ResourceFormProvider
-                crudThunks={crudThunks}
-                uuid={match.params.uuid}
-                resource={CategoryResource}
-                formToResource={this.formToResource}
-                resourceToForm={resourceToForm}
-                postAction={history.goBack}
-              >
-                {props => <CategoryForm {...props} />}
-              </ResourceFormProvider>
-            </Box>
-          </div>
-        </div>
-      </div>
+          <ResourceFormProvider
+            crudThunks={crudThunks}
+            uuid={match.params.uuid}
+            resource={CategoryResource}
+            formToResource={this.formToResource}
+            resourceToForm={resourceToForm}
+            postAction={history.goBack}
+          >
+            {props => <CategoryForm {...props} />}
+          </ResourceFormProvider>
+        </Box>
+      </Section>
     )
   }
 }

@@ -3,6 +3,7 @@ import {path} from 'ramda'
 import React from 'react'
 import Select from 'react-select'
 import styled from 'styled-components'
+import {Label} from '../../presentational/atoms/Label'
 
 const Error = styled.div`
   width: 100%;
@@ -19,8 +20,8 @@ export const SelectField = ({
   meta: {touched, error},
   ...rest
 }) => (
-  <div className="form-group">
-    {label && <label>{label}</label>}
+  <div className="field">
+    {label && <Label>{label}</Label>}
     <Select
       isDisabled={disabled}
       options={options}

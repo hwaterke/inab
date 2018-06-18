@@ -2,6 +2,8 @@ import {CategoryGroupResource, ResourceFormProvider} from '@inab/shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 import {CategoryGroupForm} from './CategoryGroupForm'
 
@@ -10,25 +12,21 @@ const formToResource = data => {
 }
 
 export const CategoryGroupDetail = ({match, history}) => (
-  <div className="container">
-    <div className="row">
-      <div className="col">
-        <Box>
-          <h4>Category Group</h4>
+  <Section>
+    <Box>
+      <Title>Category Group</Title>
 
-          <ResourceFormProvider
-            crudThunks={crudThunks}
-            uuid={match.params.uuid}
-            resource={CategoryGroupResource}
-            formToResource={formToResource}
-            postAction={history.goBack}
-          >
-            {props => <CategoryGroupForm {...props} />}
-          </ResourceFormProvider>
-        </Box>
-      </div>
-    </div>
-  </div>
+      <ResourceFormProvider
+        crudThunks={crudThunks}
+        uuid={match.params.uuid}
+        resource={CategoryGroupResource}
+        formToResource={formToResource}
+        postAction={history.goBack}
+      >
+        {props => <CategoryGroupForm {...props} />}
+      </ResourceFormProvider>
+    </Box>
+  </Section>
 )
 
 CategoryGroupDetail.propTypes = {

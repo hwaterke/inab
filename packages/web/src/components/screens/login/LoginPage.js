@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
-import {colors} from '../../../constants/colors'
 import bg from '../../../images/land_slim.jpg'
 import ErrorList from '../../ErrorList'
 import {LoginDispatcher} from '../../LoginDispatcher'
+import {Box} from '../../presentational/atoms/Box'
 import {LoginForm} from './LoginForm'
 import {RegistrationForm} from './RegistrationForm'
 
@@ -21,25 +21,15 @@ const Page = styled.div`
   background-color: #cccccc;
 `
 
-const Container = styled.div`
-  margin: 1rem;
-  padding: 3rem;
-  background-color: ${colors.frontBackground};
-  border: 1px solid ${colors.border};
-  border-radius: 6px;
-`
-
 export class LoginPage extends React.Component {
   render() {
     return (
       <LoginDispatcher away>
         <Page>
           <div className="container">
-            <div className="row">
-              <div className="col-md-6" />
-
-              <div className="col-md-6">
-                <Container>
+            <div className="columns is-centered">
+              <div className="column is-half">
+                <Box>
                   <ErrorList />
 
                   <Route exact path="/login" component={LoginForm} />
@@ -49,7 +39,7 @@ export class LoginPage extends React.Component {
                     exact
                     path="/login"
                     render={() => (
-                      <p className="text-secondary mt-3">
+                      <p>
                         No account? <Link to="/register">Register here</Link>
                       </p>
                     )}
@@ -59,13 +49,13 @@ export class LoginPage extends React.Component {
                     exact
                     path="/register"
                     render={() => (
-                      <p className="text-secondary mt-3">
+                      <p>
                         Already have an account?{' '}
                         <Link to="/login">Login here</Link>
                       </p>
                     )}
                   />
-                </Container>
+                </Box>
               </div>
             </div>
           </div>

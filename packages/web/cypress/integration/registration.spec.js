@@ -23,6 +23,8 @@ describe('Registration', () => {
       .type('12345678')
     cy.get('button[type="submit"]').click()
 
-    cy.get('[data-testid="logout"]').should('be.visible')
+    cy.get('.navbar-brand').should('be.visible')
+    cy.get('a[href="/category-groups/new"]').should('be.visible')
+    cy.get('a[href="/categories/new"]').should('be.visible')
   })
 })

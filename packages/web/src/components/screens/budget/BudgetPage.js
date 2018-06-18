@@ -1,18 +1,21 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router-dom'
 import ui from 'redux-ui'
+import styled from 'styled-components'
 import {Box} from '../../presentational/atoms/Box'
+import {Section} from '../../presentational/atoms/Section'
 import {BudgetHeader} from './BudgetHeader'
 import {BudgetSidebar} from './BudgetSidebar'
 import {BudgetTable} from './BudgetTable'
 
-const Container = Box.extend`
-  margin: 0;
-  padding: 0;
-  border-top: 0;
-  border-left: 0;
-  border-radius: 0;
+const LinksHeader = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+
+  a:not(:last-child) {
+    margin-right: 1rem;
+  }
 `
 
 @ui({
@@ -26,31 +29,31 @@ const Container = Box.extend`
 export class BudgetPage extends React.Component {
   render() {
     return (
-      <div>
+      <Fragment>
         <BudgetHeader />
 
-        <div className="container-fluid">
-          <div className="row">
-            <Container className="col-md-8">
-              <div className="mt-4 pb-4">
-                <div className="my-4">
-                  <Link to="/category_groups/new">
-                    <FontAwesome name="plus" fixedWidth /> Category Group
+        <Section>
+          <div className="columns">
+            <div className="column">
+              <Box>
+                <LinksHeader>
+                  <Link to="/category-groups/new">
+                    <FontAwesome name="plus" /> Category Group
                   </Link>
                   <Link to="/categories/new">
-                    <FontAwesome name="plus" fixedWidth /> Category
+                    <FontAwesome name="plus" /> Category
                   </Link>
-                </div>
+                </LinksHeader>
                 <BudgetTable />
-              </div>
-            </Container>
+              </Box>
+            </div>
 
-            <div className="col-md-4">
+            <div className="column is-3">
               <BudgetSidebar />
             </div>
           </div>
-        </div>
-      </div>
+        </Section>
+      </Fragment>
     )
   }
 }

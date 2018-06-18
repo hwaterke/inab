@@ -1,5 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import {
   BudgetItemResource,
   CategoryResource,
@@ -7,11 +5,28 @@ import {
   getSelectedMonthBudgetItemByCategoryId,
   goalToBudgetByCategoryForSelectedMonth,
 } from '@inab/shared'
-import {connect} from 'react-redux'
-import {VictoryPie} from 'victory'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import {connect} from 'react-redux'
+import styled from 'styled-components'
+import {VictoryPie} from 'victory'
 import {Amount} from '../../Amount'
 import {Box} from '../../presentational/atoms/Box'
+import {Row} from '../../presentational/atoms/Row'
+import {Subtitle} from '../../presentational/atoms/Subtitle'
+import {Title} from '../../presentational/atoms/Title'
+
+const GoalDetails = styled.div`
+  margin: 1rem 0;
+  padding .5rem 0;
+    border-top:1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+`
+
+const ChartContainer = styled.div`
+  width: 40%;
+`
 
 const mapStateToProps = state => ({
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
@@ -52,57 +67,51 @@ export class BudgetSidebarGoal extends React.Component {
 
     return (
       <Box>
-        <h5>Goal</h5>
+        <Title>Goal</Title>
 
-        <b>
+        <Subtitle>
           {category.goal_type === 'tb' && 'Target category balance'}
           {category.goal_type === 'tbd' && 'Target category balance by date'}
           {category.goal_type === 'mf' && 'Monthly funding goal'}
-        </b>
+        </Subtitle>
 
-        <div
-          className="py-2 my-3"
-          style={{
-            borderTop: '1px solid #e6e6e6',
-            borderBottom: '1px solid #e6e6e6',
-          }}
-        >
-          <div className="d-flex justify-content-between">
+        <GoalDetails>
+          <Row>
             <span>Creation month</span>
             <span>
               {moment(category.goal_creation_month).format('MMMM YYYY')}
             </span>
-          </div>
+          </Row>
 
           {category.target_balance > 0 && (
-            <div className="d-flex justify-content-between">
+            <Row>
               <span>Target balance</span>
               <span>
                 <Amount amount={category.target_balance} />
               </span>
-            </div>
+            </Row>
           )}
 
           {category.target_balance_month && (
-            <div className="d-flex justify-content-between">
+            <Row>
               <span>Target balance month</span>
               <span>
                 {moment(category.target_balance_month).format('MMMM YYYY')}
               </span>
-            </div>
+            </Row>
           )}
 
           {category.monthly_funding > 0 && (
-            <div className="d-flex justify-content-between">
+            <Row>
               <span>Monthly funding</span>
               <span>
                 <Amount amount={category.monthly_funding} />
               </span>
-            </div>
+            </Row>
           )}
 
           {this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid] && (
-            <div className="d-flex justify-content-between">
+            <Row>
               <span>To budget</span>
               <span>
                 <Amount
@@ -113,12 +122,12 @@ export class BudgetSidebarGoal extends React.Component {
                   }
                 />
               </span>
-            </div>
+            </Row>
           )}
-        </div>
+        </GoalDetails>
 
-        <div className="d-flex justify-content-center">
-          <div className="w-25">
+        <Row justifyContent="center">
+          <ChartContainer>
             <VictoryPie
               animate={{duration: 500}}
               colorScale={['#85c9e6', '#e6e6e6']}
@@ -129,8 +138,8 @@ export class BudgetSidebarGoal extends React.Component {
                 {x: 'To budget', y: 1 - goalPercentage},
               ]}
             />
-          </div>
-        </div>
+          </ChartContainer>
+        </Row>
 
         <div>
           You budgeted <Amount amount={currentGoalValue} /> out of{' '}

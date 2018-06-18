@@ -2,28 +2,26 @@ import {AccountResource, ResourceFormProvider} from '@inab/shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 import {AccountForm} from './AccountForm'
 
 export const AccountDetail = ({match, history}) => (
-  <div className="container">
-    <div className="row">
-      <div className="col">
-        <Box>
-          <h4>Account</h4>
+  <Section>
+    <Box>
+      <Title>Account</Title>
 
-          <ResourceFormProvider
-            crudThunks={crudThunks}
-            uuid={match.params.uuid}
-            resource={AccountResource}
-            postAction={history.goBack}
-          >
-            {props => <AccountForm {...props} />}
-          </ResourceFormProvider>
-        </Box>
-      </div>
-    </div>
-  </div>
+      <ResourceFormProvider
+        crudThunks={crudThunks}
+        uuid={match.params.uuid}
+        resource={AccountResource}
+        postAction={history.goBack}
+      >
+        {props => <AccountForm {...props} />}
+      </ResourceFormProvider>
+    </Box>
+  </Section>
 )
 
 AccountDetail.propTypes = {

@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router-dom'
 import {EntityLoader} from './EntityLoader'
 import ErrorList from './ErrorList'
 import {LoginDispatcher} from './LoginDispatcher'
-import {Header} from './navbar/Header'
+import {NavBar} from './navbar/NavBar'
 import {AccountDetail} from './screens/accounts/AccountDetail'
 import {AccountList} from './screens/accounts/AccountList'
 import {AccountPage} from './screens/accounts/AccountPage'
@@ -18,7 +18,7 @@ export class Main extends React.Component {
   render() {
     return (
       <LoginDispatcher>
-        <Header />
+        <NavBar />
         <ErrorList />
         <EntityLoader>
           <Switch>
@@ -47,12 +47,12 @@ export class Main extends React.Component {
 
             <Route
               exact
-              path="/category_groups/new"
+              path="/category-groups/new"
               component={CategoryGroupDetail}
             />
             <Route
               exact
-              path="/category_groups/edit/:uuid"
+              path="/category-groups/edit/:uuid"
               component={CategoryGroupDetail}
             />
 

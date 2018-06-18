@@ -1,9 +1,14 @@
-import axios from 'axios'
 import {selectBackend, selectToken} from '@inab/shared'
+import axios from 'axios'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import {path} from 'ramda'
 import React from 'react'
 import {connect} from 'react-redux'
+import {Button} from '../../presentational/atoms/Button'
+import {CenteredSpinner} from '../../presentational/atoms/CenteredSpinner'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
@@ -59,20 +64,21 @@ export class AdminPage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-2" />
-          <div className="col-sm-8">
+      <Section>
+        <div className="columns is-centered">
+          <div className="column is-half">
             <Box>
-              <h4>Administration</h4>
+              <Title>Administration</Title>
 
               {this.state.loading ? (
-                <div className="alert alert-secondary">Loading</div>
+                <CenteredSpinner />
               ) : (
                 <div
-                  className={`alert ${
-                    this.state.registration ? 'alert-success' : 'alert-danger'
-                  }`}
+                  className={classNames(
+                    'notification',
+                    {'is-success': this.state.registration},
+                    {'is-danger': !this.state.registration}
+                  )}
                 >
                   {this.state.registration
                     ? 'Registrations are open'
@@ -81,18 +87,14 @@ export class AdminPage extends React.Component {
               )}
 
               {!this.state.loading && (
-                <button
-                  onClick={this.toggleRegistration}
-                  className="btn btn-primary"
-                >
+                <Button onClick={this.toggleRegistration}>
                   Toggle registration
-                </button>
+                </Button>
               )}
             </Box>
           </div>
-          <div className="col-sm-2" />
         </div>
-      </div>
+      </Section>
     )
   }
 }

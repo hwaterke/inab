@@ -11,7 +11,7 @@ const Header = styled.div`
   align-items: center;
   justify-content: center;
 
-  > h1 {
+  > h2 {
     margin-right: 2rem;
   }
 
@@ -22,17 +22,13 @@ const Header = styled.div`
 
 export const AccountHeader = ({name, balance}) => (
   <HeaderContainer>
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <Header>
-            <h1>{name}</h1>
-            <div>
-              <Amount amount={balance} hasBackground />
-            </div>
-          </Header>
+    <div className="container is-fluid">
+      <Header>
+        <h2>{name}</h2>
+        <div>
+          <Amount amount={balance} hasBackground />
         </div>
-      </div>
+      </Header>
     </div>
   </HeaderContainer>
 )

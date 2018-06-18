@@ -1,5 +1,7 @@
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import {Label} from '../../presentational/atoms/Label'
 
 export class InputField extends React.Component {
   static propTypes = {
@@ -26,21 +28,20 @@ export class InputField extends React.Component {
       ...rest
     } = this.props
 
-    const classname = ['form-control']
-    if (touched && error) {
-      classname.push('is-invalid')
-    }
-
     return (
-      <div className="form-group">
-        {label && <label>{label}</label>}
-        <input
-          {...input}
-          {...rest}
-          placeholder={placeholder || label}
-          className={classname.join(' ')}
-        />
-        {touched && error && <div className="invalid-feedback">{error}</div>}
+      <div className="field">
+        {label && <Label>{label}</Label>}
+
+        <div className="control">
+          <input
+            {...input}
+            {...rest}
+            placeholder={placeholder || label}
+            className={classNames('input', {'is-danger': touched && error})}
+          />
+
+          {touched && error && <p className="help is-danger">{error}</p>}
+        </div>
       </div>
     )
   }
