@@ -1,49 +1,58 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {Field, FieldArray, reduxForm} from 'redux-form'
 import {PayeeResource} from '@inab/shared'
-import {FormActionBar} from '../../forms/FormActionBar'
-import ButtonCheck from '../../ButtonCheck'
-import ButtonDelete from '../../ButtonDelete'
-import {required} from '../../forms/validations'
+import PropTypes from 'prop-types'
+import React, {Fragment} from 'react'
+import {Field, FieldArray, reduxForm} from 'redux-form'
+import styled from 'styled-components'
+import {Box} from '../../presentational/atoms/Box'
+import {ButtonIcon} from '../../presentational/atoms/ButtonIcon'
+import {Label} from '../../presentational/atoms/Label'
 import {InputField} from '../../forms/fields/InputField'
+import {FormActionBar} from '../../forms/FormActionBar'
+import {required} from '../../forms/validations'
+
+const LocationContainer = styled.div`
+  margin: 1rem;
+  max-width: 20rem;
+`
 
 const renderLocations = ({fields}) => (
-  <div>
-    <ButtonCheck onClick={() => fields.push()}>Add location</ButtonCheck>
+  <Fragment>
+    <ButtonIcon onClick={() => fields.push()} icon="plus">
+      Add location
+    </ButtonIcon>
 
-    <div className="d-flex flex-wrap">
+    <div className="is-flex">
       {fields.map((location, index) => (
-        <div className="card m-3" key={index} style={{maxWidth: '20rem'}}>
-          <div className="card-body">
-            <div className="form-group">
-              <label>Latitude</label>
-              <Field
-                name={`${location}.latitude`}
-                component={InputField}
-                type="number"
-                placeholder="Latitude"
-                validate={[required]}
-              />
-            </div>
+        <LocationContainer key={index}>
+          <Box>
+            <Field
+              name={`${location}.latitude`}
+              component={InputField}
+              label="Latitude"
+              type="number"
+              placeholder="Latitude"
+              validate={[required]}
+            />
 
-            <div className="form-group">
-              <label>Longitude</label>
-              <Field
-                name={`${location}.longitude`}
-                component={InputField}
-                type="number"
-                placeholder="Longitude"
-                validate={[required]}
-              />
-            </div>
+            <Field
+              name={`${location}.longitude`}
+              component={InputField}
+              label="Longitude"
+              type="number"
+              placeholder="Longitude"
+              validate={[required]}
+            />
 
-            <ButtonDelete onClick={() => fields.remove(index)} />
-          </div>
-        </div>
+            <ButtonIcon
+              color="danger"
+              onClick={() => fields.remove(index)}
+              icon="trash"
+            />
+          </Box>
+        </LocationContainer>
       ))}
     </div>
-  </div>
+  </Fragment>
 )
 
 renderLocations.propTypes = {
@@ -74,8 +83,8 @@ export class PayeeForm extends React.Component {
           required
         />
 
-        <div className="form-group">
-          <label>Locations</label>
+        <div className="field">
+          <Label>Locations</Label>
           <FieldArray name="locations" component={renderLocations} />
         </div>
 

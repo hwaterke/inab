@@ -19,17 +19,11 @@ import {media} from '../../../styles/styleUtils'
 import CategoryGroupRow from '../../CategoryGroupRow'
 import {CategoryRow} from '../../CategoryRow'
 
-const Table = styled.table.attrs({className: 'table table-sm table-hover'})`
+const Table = styled.table.attrs({className: 'table is-narrow is-fullwidth'})`
   input {
     padding-top: 1px;
     padding-bottom: 1px;
     text-align: right;
-  }
-
-  thead {
-    th {
-      border-top: 0;
-    }
   }
 
   ${media.tablet`
@@ -112,7 +106,7 @@ export class BudgetTable extends React.Component {
           key={'cg' + cg.uuid}
           categoryGroup={cg}
           onClick={() =>
-            this.props.history.push(`/category_groups/edit/${cg.uuid}`)
+            this.props.history.push(`/category-groups/edit/${cg.uuid}`)
           }
         />
       )
@@ -140,9 +134,9 @@ export class BudgetTable extends React.Component {
         <thead>
           <tr>
             <th>Category</th>
-            <BudgetedColumn className="text-right">Budgeted</BudgetedColumn>
-            <th className="text-right">Activity</th>
-            <th className="text-right">Available</th>
+            <BudgetedColumn className="has-text-right">Budgeted</BudgetedColumn>
+            <th className="has-text-right">Activity</th>
+            <th className="has-text-right">Available</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

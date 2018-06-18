@@ -2,6 +2,8 @@ import {PayeeResource, ResourceFormProvider} from '@inab/shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {crudThunks} from '../../../thunks/crudThunks'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 import {PayeeForm} from './PayeeForm'
 
@@ -19,25 +21,21 @@ function formToResource(formData) {
 }
 
 export const PayeeDetail = ({match, history}) => (
-  <div className="container">
-    <div className="row">
-      <div className="col">
-        <Box>
-          <h4>Payee</h4>
+  <Section>
+    <Box>
+      <Title>Payee</Title>
 
-          <ResourceFormProvider
-            crudThunks={crudThunks}
-            uuid={match.params.uuid}
-            resource={PayeeResource}
-            formToResource={formToResource}
-            postAction={history.goBack}
-          >
-            {props => <PayeeForm {...props} />}
-          </ResourceFormProvider>
-        </Box>
-      </div>
-    </div>
-  </div>
+      <ResourceFormProvider
+        crudThunks={crudThunks}
+        uuid={match.params.uuid}
+        resource={PayeeResource}
+        formToResource={formToResource}
+        postAction={history.goBack}
+      >
+        {props => <PayeeForm {...props} />}
+      </ResourceFormProvider>
+    </Box>
+  </Section>
 )
 
 PayeeDetail.propTypes = {

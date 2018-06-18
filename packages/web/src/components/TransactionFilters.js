@@ -1,10 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {connect} from 'react-redux'
+import {Filter} from '../entities/Filter'
 import {deleteFilter} from '../reducers/filters'
 import {getTransactionColumns} from '../selectors/transactionsRendering'
-import {Filter} from '../entities/Filter'
-import ButtonIcon from './ButtonIcon'
+import {ButtonIcon} from './presentational/atoms/ButtonIcon'
 import {TransactionToolbarRow} from './TransactionToolbar'
 
 const mapStateToProps = state => ({
@@ -43,12 +43,14 @@ class TransactionFilters extends React.Component {
   render() {
     return (
       <TransactionToolbarRow>
-        <div className="btn-group">
+        <div className="buttons has-addons">
           {this.props.filters.map((filter, index) => (
             <ButtonIcon
               key={index}
-              className="btn btn-outline-info btn-sm"
+              color="link"
+              size="small"
               icon="ban"
+              outlined
               onClick={() => this.props.onClickDelete(index)}
             >
               {this.getAttributeLabel(filter.attribute)} {filter.operator}{' '}
@@ -60,4 +62,5 @@ class TransactionFilters extends React.Component {
     )
   }
 }
+
 export default TransactionFilters

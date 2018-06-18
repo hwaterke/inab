@@ -48,6 +48,13 @@ function validateMonthlyFunding(value, data) {
   return undefined
 }
 
+const goalOptions = [
+  {label: 'None', value: 'none'},
+  {label: 'Target balance', value: 'tb'},
+  {label: 'Target balance by date', value: 'tbd'},
+  {label: 'Monthly funding', value: 'mf'},
+]
+
 @connect(mapStateToProps)
 @reduxForm({form: CategoryResource.name})
 export class CategoryForm extends React.Component {
@@ -95,15 +102,13 @@ export class CategoryForm extends React.Component {
           label="Priority"
         />
 
-        <div className="form-group">
-          <label>Goal type</label>
-          <Field name="goal_type" component="select" className="form-control">
-            <option value="none">None</option>
-            <option value="tb">Target balance</option>
-            <option value="tbd">Target balance by date</option>
-            <option value="mf">Monthly funding</option>
-          </Field>
-        </div>
+        <Field
+          name="goal_type"
+          component={SelectField}
+          label="Goal type"
+          placeholder="Goal"
+          options={goalOptions}
+        />
 
         {['tb', 'tbd'].includes(this.props.goalTypeValue) && (
           <Field

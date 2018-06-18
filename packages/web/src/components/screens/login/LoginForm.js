@@ -7,6 +7,7 @@ import {Field, reduxForm} from 'redux-form'
 import {addError} from '../../../actions/error'
 import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
+import {Button} from '../../presentational/atoms/Button'
 
 const mapStateToProps = state => ({
   initialValues: {
@@ -89,9 +90,9 @@ export class LoginForm extends React.Component {
           validate={requiredField}
         />
 
-        <button type="submit" className="btn btn-secondary">
+        <Button type="submit" color="info">
           Login
-        </button>
+        </Button>
       </form>
     )
   }

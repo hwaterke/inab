@@ -1,7 +1,7 @@
-import * as Immutable from 'immutable'
 import {TransactionResource} from '@inab/shared'
+import * as Immutable from 'immutable'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import ui from 'redux-ui'
@@ -10,12 +10,13 @@ import {getTransactionsForRendering} from '../selectors/transactionsRendering'
 import {sumOfAmounts} from '../selectors/utils'
 import {TransactionSearchService} from '../services/TransactionSearchService'
 import {crudThunks} from '../thunks/crudThunks'
-import {TransactionFormContainer} from './forms/TransactionFormContainer'
+import {Section} from './presentational/atoms/Section'
+import {TransactionFormContainer} from './screens/accounts/TransactionFormContainer'
+import {Box} from './presentational/atoms/Box'
 import TransactionFilters from './TransactionFilters'
 import TransactionTable from './TransactionTable'
 import TransactionToolbar from './TransactionToolbar'
 import {TransactionTotalAmount} from './TransactionTotalAmount'
-import {BoxContainer} from './presentational/atoms/BoxContainer'
 
 const mapStateToProps = state => ({
   transactionsById: select(TransactionResource).byId(state),
@@ -156,7 +157,7 @@ class TransactionContainer extends React.Component {
     )
 
     return (
-      <div>
+      <Fragment>
         {(this.props.ui.addingTransaction ||
           this.props.ui.editingTransactionId) && (
           <TransactionFormContainer
@@ -167,32 +168,34 @@ class TransactionContainer extends React.Component {
           />
         )}
 
-        <BoxContainer>
-          <TransactionToolbar
-            selectedRows={this.props.ui.selected}
-            clearSelection={this.clearSelection}
-            deleteSelection={this.deleteSelection}
-            onNewClick={this.displayNew}
-            hiddenColumns={this.props.ui.hideColumn}
-            toggleColumn={this.toggleColumn}
-            searchValue={this.props.ui.searchValue}
-            onSearchChange={this.onSearchChange}
-          />
+        <Section>
+          <Box>
+            <TransactionToolbar
+              selectedRows={this.props.ui.selected}
+              clearSelection={this.clearSelection}
+              deleteSelection={this.deleteSelection}
+              onNewClick={this.displayNew}
+              hiddenColumns={this.props.ui.hideColumn}
+              toggleColumn={this.toggleColumn}
+              searchValue={this.props.ui.searchValue}
+              onSearchChange={this.onSearchChange}
+            />
 
-          <TransactionFilters />
+            <TransactionFilters />
 
-          <TransactionTable
-            transactions={transactionsToRender}
-            selectedRows={this.props.ui.selected}
-            onSelectRow={this.selectTransaction}
-            onPencilClick={this.displayUpdate}
-            onClearClick={this.toggleClearingTransactionStatus}
-            hiddenColumns={this.props.ui.hideColumn}
-          />
+            <TransactionTable
+              transactions={transactionsToRender}
+              selectedRows={this.props.ui.selected}
+              onSelectRow={this.selectTransaction}
+              onPencilClick={this.displayUpdate}
+              onClearClick={this.toggleClearingTransactionStatus}
+              hiddenColumns={this.props.ui.hideColumn}
+            />
 
-          <TransactionTotalAmount amount={total} />
-        </BoxContainer>
-      </div>
+            <TransactionTotalAmount amount={total} />
+          </Box>
+        </Section>
+      </Fragment>
     )
   }
 }

@@ -11,22 +11,24 @@ import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
 import styled from 'styled-components'
-import {colors} from '../../constants/colors'
-import Button from '../Button'
-import ButtonDelete from '../ButtonDelete'
-import ButtonIcon from '../ButtonIcon'
-import {BoxContainer} from '../presentational/atoms/BoxContainer'
-import DatePickerField from './fields/DatePickerField'
-import {InputField} from './fields/InputField'
-import {SelectField} from './fields/SelectField'
-import {FormActionBar} from './FormActionBar'
-import {required} from './validations'
+import {Box} from '../../presentational/atoms/Box'
+import {Button} from '../../presentational/atoms/Button'
+import {ButtonIcon} from '../../presentational/atoms/ButtonIcon'
+import {Section} from '../../presentational/atoms/Section'
+import {DatePickerField} from '../../forms/fields/DatePickerField'
+import {InputField} from '../../forms/fields/InputField'
+import {SelectField} from '../../forms/fields/SelectField'
+import {FormActionBar} from '../../forms/FormActionBar'
+import {required} from '../../forms/validations'
 
 const FormRow = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  border-bottom: 1px solid ${colors.border};
+
+  &:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
 
   > div {
     flex: 1 1 150px;
@@ -45,20 +47,23 @@ const renderSubtransactions = ({fields, categories}) => (
         <div />
 
         <div>
-          <div className="btn-group btn-group-sm">
-            <Button>{index + 1}</Button>
-            <ButtonDelete onClick={() => fields.remove(index)} />
+          <div className="buttons has-addons">
+            <Button type="button">{index + 1}</Button>
+            <ButtonIcon
+              type="button"
+              onClick={() => fields.remove(index)}
+              icon="trash"
+              color="danger"
+            />
           </div>
         </div>
 
-        <div>
-          <Field
-            name={`${subtransaction}.category`}
-            component={SelectField}
-            placeholder="Category"
-            options={categories}
-          />
-        </div>
+        <Field
+          name={`${subtransaction}.category`}
+          component={SelectField}
+          placeholder="Category"
+          options={categories}
+        />
 
         <Field
           name={`${subtransaction}.description`}
@@ -81,7 +86,8 @@ const renderSubtransactions = ({fields, categories}) => (
       <div />
       <div>
         <ButtonIcon
-          className="btn btn-info"
+          type="button"
+          color="info"
           onClick={() => fields.push({})}
           icon="plus"
         >
@@ -168,14 +174,14 @@ export class TransactionForm extends Component {
     ]
 
     return (
-      <BoxContainer>
-        <form>
-          <FormRow>
-            <div>
-              <label>Account</label>
+      <Section>
+        <Box>
+          <form>
+            <FormRow>
               <Field
                 name="account_uuid"
                 component={SelectField}
+                label="Account"
                 placeholder="Account"
                 validate={[required]}
                 options={this.props.accounts.map(cg => ({
@@ -183,30 +189,21 @@ export class TransactionForm extends Component {
                   value: cg.uuid,
                 }))}
               />
-            </div>
 
-            <div>
-              <label>Date</label>
-              <div>
-                <Field name="date" component={DatePickerField} />
-              </div>
-            </div>
+              <Field name="date" component={DatePickerField} label="Date" />
 
-            <div>
-              <label>Payee</label>
               <Field
                 name="payee"
                 component={SelectField}
+                label="Payee"
                 placeholder="Payee"
                 options={payeeOptions}
               />
-            </div>
 
-            <div>
-              <label>Category</label>
               <Field
                 name="category"
                 component={SelectField}
+                label="Category"
                 placeholder={
                   this.props.payeeValue &&
                   this.props.payeeValue.startsWith('transfer:')
@@ -219,44 +216,44 @@ export class TransactionForm extends Component {
                 }
                 options={categoryOptions}
               />
-            </div>
 
-            <Field
-              name="description"
-              component={InputField}
-              type="text"
-              label="Description"
+              <Field
+                name="description"
+                component={InputField}
+                type="text"
+                label="Description"
+              />
+
+              <Field
+                name="amount"
+                component={InputField}
+                type="number"
+                step="0.01"
+                label="Amount"
+                validate={[validateAmount]}
+              />
+            </FormRow>
+
+            {this.props.categoryValue === 'split' && (
+              <FieldArray
+                name="subtransactions"
+                categories={subtransactionCategoryOptions}
+                component={renderSubtransactions}
+              />
+            )}
+
+            <FormActionBar
+              handleSubmit={this.props.handleSubmit}
+              isCreate={this.props.isCreate}
+              isUpdate={this.props.isUpdate}
+              disableReset={this.props.pristine || this.props.submitting}
+              reset={this.props.reset}
+              remove={this.props.deleteResource}
+              cancel={this.props.onCancel}
             />
-
-            <Field
-              name="amount"
-              component={InputField}
-              type="number"
-              step="0.01"
-              label="Amount"
-              validate={[validateAmount]}
-            />
-          </FormRow>
-
-          {this.props.categoryValue === 'split' && (
-            <FieldArray
-              name="subtransactions"
-              categories={subtransactionCategoryOptions}
-              component={renderSubtransactions}
-            />
-          )}
-
-          <FormActionBar
-            handleSubmit={this.props.handleSubmit}
-            isCreate={this.props.isCreate}
-            isUpdate={this.props.isUpdate}
-            disableReset={this.props.pristine || this.props.submitting}
-            reset={this.props.reset}
-            remove={this.props.deleteResource}
-            cancel={this.props.onCancel}
-          />
-        </form>
-      </BoxContainer>
+          </form>
+        </Box>
+      </Section>
     )
   }
 }

@@ -4,6 +4,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {select} from 'redux-crud-provider'
+import {LinkList} from '../../presentational/atoms/LinkList'
+import {Section} from '../../presentational/atoms/Section'
+import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 
 const mapStateToProps = state => ({
@@ -18,40 +21,35 @@ export class AccountList extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-8">
+      <Section>
+        <div className="columns">
+          <div className="column">
             <Box>
-              <h4>Accounts</h4>
+              <Title>Accounts</Title>
 
-              <div className="my-3">
-                <Link to="/accounts/new" className="btn btn-primary">
-                  New account
-                </Link>
-              </div>
+              <Link to="/accounts/new">New account</Link>
 
-              <div className="list-group">
+              <LinkList>
                 {this.props.accounts.map(account => (
                   <Link
                     key={account.uuid}
                     to={`/accounts/edit/${account.uuid}`}
-                    className="list-group-item list-group-item-action"
                   >
                     {account.name}
                   </Link>
                 ))}
-              </div>
+              </LinkList>
             </Box>
           </div>
 
-          <div className="col-sm-4">
+          <div className="column is-4">
             <Box>
-              <h4>Statistics</h4>
+              <Title>Statistics</Title>
               <h5>{this.props.accounts.length} accounts</h5>
             </Box>
           </div>
         </div>
-      </div>
+      </Section>
     )
   }
 }

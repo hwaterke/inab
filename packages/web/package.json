@@ -14,7 +14,8 @@
   "dependencies": {
     "@inab/shared": "^0.0.0",
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.1",
+    "bulma": "^0.7.1",
+    "classnames": "^2.2.6",
     "core-js": "^2.5.7",
     "cuid": "^2.1.1",
     "font-awesome": "^4.7.0",
@@ -22,7 +23,7 @@
     "moment": "^2.22.2",
     "ramda": "^0.25.0",
     "react": "^16.4.0",
-    "react-datepicker": "^1.4.1",
+    "react-datepicker": "^1.5.0",
     "react-dom": "^16.4.0",
     "react-fontawesome": "^1.2.0",
     "react-redux": "^5.0.7",
