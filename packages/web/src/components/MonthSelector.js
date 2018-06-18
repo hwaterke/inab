@@ -8,8 +8,8 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import Button from './Button'
-import ButtonIcon from './ButtonIcon'
+import {Button} from './presentational/atoms/Button'
+import {ButtonIcon} from './presentational/atoms/ButtonIcon'
 
 @connect(state => ({selectedMonth: getSelectedMonthMoment(state)}))
 class MonthSelector extends React.Component {
@@ -33,11 +33,13 @@ class MonthSelector extends React.Component {
 
   render() {
     return (
-      <div className="btn-group" role="group">
+      <div className="buttons has-addons">
         <ButtonIcon onClick={this.previous} icon="arrow-left" />
+
         <Button onClick={this.current}>
           {this.props.selectedMonth.format('MMMM-YYYY')}
         </Button>
+
         <ButtonIcon onClick={this.next} icon="arrow-right" />
       </div>
     )

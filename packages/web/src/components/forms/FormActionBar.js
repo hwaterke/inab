@@ -1,8 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonCheck from '../ButtonCheck'
-import ButtonIcon from '../ButtonIcon'
-import ButtonDelete from '../ButtonDelete'
+import React from 'react'
+import {ButtonIcon} from '../presentational/atoms/ButtonIcon'
 
 export class FormActionBar extends React.Component {
   static propTypes = {
@@ -16,12 +14,17 @@ export class FormActionBar extends React.Component {
 
   render() {
     return (
-      <div className="btn-group">
-        <ButtonCheck onClick={this.props.handleSubmit}>
+      <div className="buttons has-addons">
+        <ButtonIcon
+          color="primary"
+          onClick={this.props.handleSubmit}
+          icon="check"
+        >
           {this.props.isUpdate ? 'Update' : 'Create'}
-        </ButtonCheck>
+        </ButtonIcon>
 
         <ButtonIcon
+          type="button"
           onClick={this.props.reset}
           icon="undo"
           disabled={this.props.disableReset}
@@ -30,14 +33,21 @@ export class FormActionBar extends React.Component {
         </ButtonIcon>
 
         {this.props.cancel && (
-          <ButtonIcon onClick={this.props.cancel} icon="close">
+          <ButtonIcon type="button" onClick={this.props.cancel} icon="close">
             Cancel
           </ButtonIcon>
         )}
 
         {this.props.isUpdate &&
           this.props.remove && (
-            <ButtonDelete onClick={this.props.remove}>Delete</ButtonDelete>
+            <ButtonIcon
+              type="button"
+              onClick={this.props.remove}
+              color="danger"
+              icon="trash"
+            >
+              Delete
+            </ButtonIcon>
           )}
       </div>
     )

@@ -1282,10 +1282,6 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
-
 boxen@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/boxen/-/boxen-1.3.0.tgz#55c6c39a8ba58d9c61ad22cd877532deb665a20b"
@@ -1454,6 +1450,10 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
+
+bulma@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
 
 bytes@3.0.0:
   version "3.0.0"
@@ -1654,7 +1654,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
@@ -6488,7 +6488,7 @@ react-app-rewired@^1.5.2:
     cross-spawn "^5.1.0"
     dotenv "^4.0.0"
 
-react-datepicker@^1.4.1:
+react-datepicker@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-1.5.0.tgz#7eacd9609313189c84a21bb7421486054939a4b2"
   dependencies:

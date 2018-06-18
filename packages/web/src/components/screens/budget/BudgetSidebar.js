@@ -16,9 +16,9 @@ import {select} from 'redux-crud-provider'
 import ui from 'redux-ui'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Amount} from '../../Amount'
+import {Button} from '../../presentational/atoms/Button'
 import {Box} from '../../presentational/atoms/Box'
-import {LargeButton} from '../../presentational/atoms/LargeButton'
-import {ValueHighlight} from '../../ValueHighlight'
+import {ValueHighlight} from '../../presentational/atoms/ValueHighlight'
 import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
 const mapStateToProps = state => ({
@@ -157,17 +157,20 @@ export class BudgetSidebar extends React.Component {
           <Amount amount={this.props.inflowInCurrentMonth} />
         </ValueHighlight>
 
-        {!this.state.budgeting && (
-          <LargeButton onClick={this.quickBudgetUnderfunded}>
-            Quick budget underfunded
-          </LargeButton>
-        )}
-
-        {!this.state.budgeting && (
-          <LargeButton onClick={this.quickBudgetGoals}>
-            Quick budget goals
-          </LargeButton>
-        )}
+        <div className="field">
+          {!this.state.budgeting && (
+            <Button onClick={this.quickBudgetUnderfunded} isWide>
+              Quick budget underfunded
+            </Button>
+          )}
+        </div>
+        <div className="field">
+          {!this.state.budgeting && (
+            <Button onClick={this.quickBudgetGoals} isWide>
+              Quick budget goals
+            </Button>
+          )}
+        </div>
       </Box>
     )
   }

@@ -1,9 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {connect} from 'react-redux'
 import {dismissErrors} from '../actions/error.js'
-import ButtonCheck from './ButtonCheck'
-import {BoxContainer} from './presentational/atoms/BoxContainer.js'
+import {Section} from './presentational/atoms/Section'
 
 class ErrorDialog extends React.Component {
   static propTypes = {
@@ -17,16 +16,17 @@ class ErrorDialog extends React.Component {
     }
 
     return (
-      <BoxContainer>
-        <ul className="list-group">
-          {this.props.errors.map((err, i) => (
-            <li key={i} className="list-group-item list-group-item-danger">
-              {err}
-            </li>
-          ))}
-        </ul>
-        <ButtonCheck onClick={this.props.dismissErrors} />
-      </BoxContainer>
+      <Section>
+        <div className="notification is-danger content">
+          <ul>{this.props.errors.map((err, i) => <li key={i}>{err}</li>)}</ul>
+
+          <button
+            type="button"
+            className="delete"
+            onClick={this.props.dismissErrors}
+          />
+        </div>
+      </Section>
     )
   }
 }

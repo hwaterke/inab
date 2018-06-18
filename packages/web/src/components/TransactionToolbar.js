@@ -1,12 +1,11 @@
 import * as Immutable from 'immutable'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, {Fragment} from 'react'
 import FontAwesome from 'react-fontawesome'
 import ui from 'redux-ui'
 import styled from 'styled-components'
-import Button from './Button'
-import ButtonDelete from './ButtonDelete'
-import ButtonIcon from './ButtonIcon'
+import {Button} from './presentational/atoms/Button'
+import {ButtonIcon} from './presentational/atoms/ButtonIcon'
 
 export const TransactionToolbarRow = styled.div`
   margin: 0.5rem;
@@ -42,15 +41,11 @@ class TransactionToolbar extends React.Component {
   }
 
   renderColumnToggle(label, columnName, icon) {
-    const classes = ['btn', 'btn-success']
-    if (this.props.hiddenColumns[columnName]) {
-      classes.push('active')
-    }
-
     if (icon) {
       return (
         <ButtonIcon
-          className={classes.join(' ')}
+          color="info"
+          inverted={this.props.hiddenColumns[columnName]}
           icon={icon}
           onClick={() => this.props.toggleColumn(columnName)}
         >
@@ -60,7 +55,8 @@ class TransactionToolbar extends React.Component {
     }
     return (
       <Button
-        className={classes.join(' ')}
+        color="info"
+        inverted={this.props.hiddenColumns[columnName]}
         onClick={() => this.props.toggleColumn(columnName)}
       >
         {label}
@@ -70,11 +66,11 @@ class TransactionToolbar extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <TransactionToolbarRow>
-          <div className="btn-group">
+          <div className="buttons has-addons">
             <ButtonIcon
-              className="btn btn-info"
+              color="info"
               onClick={() => this.props.onNewClick()}
               icon="plus"
             >
@@ -83,7 +79,7 @@ class TransactionToolbar extends React.Component {
 
             {this.props.selectedRows.size > 0 && (
               <ButtonIcon
-                className="btn btn-warning"
+                color="warning"
                 onClick={() => this.props.clearSelection()}
                 icon="ban"
               >
@@ -92,13 +88,17 @@ class TransactionToolbar extends React.Component {
             )}
 
             {this.props.selectedRows.size > 0 && (
-              <ButtonDelete onClick={this.props.deleteSelection}>
+              <ButtonIcon
+                color="danger"
+                onClick={this.props.deleteSelection}
+                icon="trash"
+              >
                 Delete ({this.props.selectedRows.size})
-              </ButtonDelete>
+              </ButtonIcon>
             )}
 
             <ButtonIcon
-              className="btn btn-info"
+              color="info"
               onClick={() =>
                 this.props.updateUI(
                   'filtersVisible',
@@ -110,24 +110,26 @@ class TransactionToolbar extends React.Component {
           </div>
 
           <div>
-            <div className="input-group">
-              <span className="input-group-addon" id="basic-addon1">
-                <FontAwesome name="search" fixedWidth />
-              </span>
-              <input
-                type="text"
-                value={this.props.searchValue}
-                onChange={this.props.onSearchChange}
-                className="form-control"
-                placeholder="Search"
-              />
+            <div className="field">
+              <p className="control has-icons-left">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Search"
+                  value={this.props.searchValue}
+                  onChange={this.props.onSearchChange}
+                />
+                <span className="icon is-small is-left">
+                  <FontAwesome name="search" />
+                </span>
+              </p>
             </div>
           </div>
         </TransactionToolbarRow>
 
         {this.props.ui.filtersVisible && (
           <TransactionToolbarRow>
-            <div className="btn-group">
+            <div className="buttons has-addons">
               {this.renderColumnToggle('Account', 'account', 'bank')}
               {this.renderColumnToggle('Date', 'display_date', 'calendar')}
               {this.renderColumnToggle('Time', 'time', 'clock-o')}
@@ -139,7 +141,7 @@ class TransactionToolbar extends React.Component {
             </div>
           </TransactionToolbarRow>
         )}
-      </div>
+      </Fragment>
     )
   }
 }
