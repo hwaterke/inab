@@ -4,7 +4,7 @@ import {
   getSortedPayees,
   PayeeResource,
   TransactionResource,
-  getSortedTransactions,
+  getCategorySuggestion,
 } from '@inab/shared'
 import PropTypes from 'prop-types'
 import React, {Component, Fragment} from 'react'
@@ -12,7 +12,6 @@ import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
 import styled from 'styled-components'
-import {head, sort, prop} from 'ramda'
 import {Box} from '../../presentational/atoms/Box'
 import {Button} from '../../presentational/atoms/Button'
 import {ButtonIcon} from '../../presentational/atoms/ButtonIcon'
@@ -115,30 +114,16 @@ renderSubtransactions.propTypes = {
 
 const selector = formValueSelector(TransactionResource.name)
 
-const getCategorySuggestion = state => {
-  const payee = selector(state, 'payee')
-  const transactions = getSortedTransactions(state)
-  const categories = select(CategoryResource).asArray(state)
-  const selectedCategory = selector(state, 'category')
-  if (payee && !payee.startsWith('transfer:') && !selectedCategory) {
-    return head(
-      sort(
-        prop('date'),
-        transactions.filter(({payee_uuid}) => payee_uuid === payee)
-      ).map(({category_uuid}) =>
-        categories.find(cat => cat.uuid === category_uuid)
-      )
-    )
-  }
-}
-
 const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
   categories: select(CategoryResource).asArray(state),
   payees: getSortedPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category'),
-  categorySuggestion: getCategorySuggestion(state),
+  categorySuggestion: getCategorySuggestion(
+    selector(state, 'payee'),
+    selector(state, 'category')
+  )(state),
 })
 
 function validateAmount(value, data) {

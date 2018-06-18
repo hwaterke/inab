@@ -47,7 +47,10 @@ export {
   getBudgetItemsSumUpToPreviousMonth,
   getSelectedMonthBudgetItemByCategoryId,
 } from './selectors/budgetItems'
-export {selectCategoriesByGroupId} from './selectors/categories'
+export {
+  selectCategoriesByGroupId,
+  getCategorySuggestion,
+} from './selectors/categories'
 export {getSortedCategoryGroups} from './selectors/categoryGroups'
 export {
   getNextMonthMoment,
