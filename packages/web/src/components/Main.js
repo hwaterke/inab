@@ -47,12 +47,12 @@ export class Main extends React.Component {
 
             <Route
               exact
-              path="/category_groups/new"
+              path="/category-groups/new"
               component={CategoryGroupDetail}
             />
             <Route
               exact
-              path="/category_groups/edit/:uuid"
+              path="/category-groups/edit/:uuid"
               component={CategoryGroupDetail}
             />
 

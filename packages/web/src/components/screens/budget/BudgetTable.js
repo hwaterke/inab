@@ -106,7 +106,7 @@ export class BudgetTable extends React.Component {
           key={'cg' + cg.uuid}
           categoryGroup={cg}
           onClick={() =>
-            this.props.history.push(`/category_groups/edit/${cg.uuid}`)
+            this.props.history.push(`/category-groups/edit/${cg.uuid}`)
           }
         />
       )

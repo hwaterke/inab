@@ -37,7 +37,7 @@ export class BudgetPage extends React.Component {
             <div className="column">
               <Box>
                 <LinksHeader>
-                  <Link to="/category_groups/new">
+                  <Link to="/category-groups/new">
                     <FontAwesome name="plus" /> Category Group
                   </Link>
                   <Link to="/categories/new">
