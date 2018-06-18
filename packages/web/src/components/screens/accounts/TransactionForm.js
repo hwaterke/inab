@@ -4,6 +4,7 @@ import {
   getSortedPayees,
   PayeeResource,
   TransactionResource,
+  getCategorySuggestion,
 } from '@inab/shared'
 import PropTypes from 'prop-types'
 import React, {Component, Fragment} from 'react'
@@ -119,6 +120,10 @@ const mapStateToProps = state => ({
   payees: getSortedPayees(state),
   payeeValue: selector(state, 'payee'),
   categoryValue: selector(state, 'category'),
+  categorySuggestion: getCategorySuggestion(
+    selector(state, 'payee'),
+    selector(state, 'category')
+  )(state),
 })
 
 function validateAmount(value, data) {
@@ -151,18 +156,21 @@ export class TransactionForm extends Component {
     payeeValue: PropTypes.string,
     categoryValue: PropTypes.string,
     onCancel: PropTypes.func,
+    categorySuggestion: PropTypes.object,
+    change: PropTypes.func.isRequired,
   }
 
   render() {
+    const {categories, payees, categorySuggestion, change} = this.props
     const categoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
       {label: 'Split', value: 'split'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.uuid})),
+      ...categories.map(c => ({label: c.name, value: c.uuid})),
     ]
 
     const subtransactionCategoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
-      ...this.props.categories.map(c => ({label: c.name, value: c.uuid})),
+      ...categories.map(c => ({label: c.name, value: c.uuid})),
     ]
 
     const payeeOptions = [
@@ -170,7 +178,7 @@ export class TransactionForm extends Component {
         label: 'Transfer to ' + a.name,
         value: 'transfer:' + a.uuid,
       })),
-      ...this.props.payees.map(c => ({label: c.name, value: c.uuid})),
+      ...payees.map(c => ({label: c.name, value: c.uuid})),
     ]
 
     return (
@@ -199,24 +207,33 @@ export class TransactionForm extends Component {
                 placeholder="Payee"
                 options={payeeOptions}
               />
+              <div>
+                <Field
+                  name="category"
+                  component={SelectField}
+                  label="Category"
+                  placeholder={
+                    this.props.payeeValue &&
+                    this.props.payeeValue.startsWith('transfer:')
+                      ? 'No category for transfers'
+                      : 'Category'
+                  }
+                  disabled={
+                    this.props.payeeValue &&
+                    this.props.payeeValue.startsWith('transfer:')
+                  }
+                  options={categoryOptions}
+                />
 
-              <Field
-                name="category"
-                component={SelectField}
-                label="Category"
-                placeholder={
-                  this.props.payeeValue &&
-                  this.props.payeeValue.startsWith('transfer:')
-                    ? 'No category for transfers'
-                    : 'Category'
-                }
-                disabled={
-                  this.props.payeeValue &&
-                  this.props.payeeValue.startsWith('transfer:')
-                }
-                options={categoryOptions}
-              />
-
+                {categorySuggestion && (
+                  <a
+                    role="button"
+                    onClick={() => change('category', categorySuggestion.uuid)}
+                  >
+                    {categorySuggestion.name} ?
+                  </a>
+                )}
+              </div>
               <Field
                 name="description"
                 component={InputField}
