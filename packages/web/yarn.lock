@@ -3241,6 +3241,10 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form-arrays@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/final-form-arrays/-/final-form-arrays-1.0.4.tgz#74330cb4d64ce07bb1c4a9084d0b65afdac6bf72"
+
 final-form@^4.8.2:
   version "4.8.2"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.8.2.tgz#905de0a5107f889b1eb86dbbdea96f2d40fcb20d"
@@ -6541,6 +6545,12 @@ react-fast-compare@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.0.tgz#ce40774719a900a127334c4af59973f619e8e216"
 
+react-final-form-arrays@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-final-form-arrays/-/react-final-form-arrays-1.0.6.tgz#cf845f99965cbf8200f28ccb4cba471f25655691"
+  dependencies:
+    react-lifecycles-compat "^3.0.4"
+
 react-final-form@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.2.tgz#fc61b5abfc8e4afb0fd4dea1a4b70cca07aa3e05"
@@ -6560,6 +6570,10 @@ react-input-autosize@^2.2.1:
 react-is@^16.3.1:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.0.tgz#cc9fdc855ac34d2e7d9d2eb7059bbc240d35ffcf"
+
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
 react-onclickoutside@^6.7.1:
   version "6.7.1"
