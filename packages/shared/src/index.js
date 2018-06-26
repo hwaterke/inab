@@ -49,7 +49,7 @@ export {
 } from './selectors/budgetItems'
 export {
   selectCategoriesByGroupId,
-  getCategorySuggestion,
+  getCategorySuggestions,
 } from './selectors/categories'
 export {getSortedCategoryGroups} from './selectors/categoryGroups'
 export {
