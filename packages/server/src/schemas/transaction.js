@@ -30,7 +30,7 @@ export const transactionSchema = {
     .integer()
     .required(),
 
-  type: Joi.valid('regular', 'to_be_budgeted', 'split'),
+  type: Joi.valid('regular', 'to_be_budgeted', 'split').required(),
 
   // TODO Must be null if transfer_account_uuid is not null
   // TODO Must be null if type is to_be_budgeted or split
