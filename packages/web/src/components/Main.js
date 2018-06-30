@@ -11,6 +11,7 @@ import {AdminPage} from './screens/admin/AdminPage'
 import {BudgetPage} from './screens/budget/BudgetPage'
 import {CategoryDetail} from './screens/categories/CategoryDetail'
 import {CategoryGroupDetail} from './screens/category_groups/CategoryGroupDetail'
+import {ImportScreen} from './screens/import/ImportScreen'
 import {PayeeDetail} from './screens/payees/PayeeDetail'
 import {PayeeList} from './screens/payees/PayeeList'
 
@@ -61,6 +62,8 @@ export class Main extends React.Component {
               path="/account/:date/:category_uuid"
               component={AccountPage}
             />
+
+            <Route exact path="/import" component={ImportScreen} />
           </Switch>
         </EntityLoader>
       </LoginDispatcher>

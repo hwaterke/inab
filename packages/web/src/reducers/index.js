@@ -7,6 +7,7 @@ import {
 import {reducer as uiReducer} from 'redux-ui'
 import errorsReducer from './errors'
 import {transactionFiltersReducer} from './filters'
+import {importReducer} from './import'
 
 export const reducers = {
   resources: resourcesReducer,
@@ -16,4 +17,5 @@ export const reducers = {
   errors: errorsReducer,
   transactionFilters: transactionFiltersReducer,
   credentials: credentialsReducer,
+  imported: importReducer,
 }
