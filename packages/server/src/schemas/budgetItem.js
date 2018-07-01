@@ -1,11 +1,8 @@
 import Joi from 'joi'
-import {JoiUuid} from '../utils/joi'
+import {JoiMonthString, JoiUuid} from '../utils/joi'
 
 export const budgetItemSchema = {
-  // TODO Must be the first of the month
-  month: Joi.date()
-    .iso()
-    .required(),
+  month: JoiMonthString.required(),
 
   category_uuid: JoiUuid.required(),
 

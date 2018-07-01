@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import {JoiString, JoiUuid} from '../utils/joi'
+import {JoiDateString, JoiString, JoiUuid} from '../utils/joi'
 
 const subtransactionSchema = {
   description: JoiString,
@@ -14,9 +14,7 @@ const tagSchema = {
 }
 
 export const transactionSchema = {
-  date: Joi.date()
-    .iso()
-    .required(),
+  date: JoiDateString.required(),
 
   time: JoiString,
 
