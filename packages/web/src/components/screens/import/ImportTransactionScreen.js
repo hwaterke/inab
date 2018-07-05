@@ -1,9 +1,12 @@
-import {ResourceCreator, TransactionResource} from '@inab/shared'
+import {TransactionResource} from '@inab/shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
-import {selectCleanedImportedTransactions} from '../../../selectors/importSelectors'
+import {
+  selectExistingTransactionsForImportAccount,
+  selectTransactionPairs,
+} from '../../../selectors/importSelectors'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {ImportTransactionTable} from './ImportTransactionTable'
@@ -13,10 +16,17 @@ const Intro = styled.p`
 `
 
 const mapStateToProps = state => ({
-  transactions: selectCleanedImportedTransactions(state),
+  transactions: selectExistingTransactionsForImportAccount(state),
+  pairs: selectTransactionPairs(state),
 })
 
-@connect(mapStateToProps)
+const mapDispatchToProps = {
+  createResource: crudThunks.createResource,
+  updateResource: crudThunks.updateResource,
+  deleteResource: crudThunks.deleteResource,
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export class ImportTransactionScreen extends React.Component {
   static propTypes = {
     account: PropTypes.shape({
@@ -25,7 +35,30 @@ export class ImportTransactionScreen extends React.Component {
     clearImportAccountUuid: PropTypes.func.isRequired,
     clearImportTransactions: PropTypes.func.isRequired,
     transactions: PropTypes.array.isRequired,
+    pairs: PropTypes.object.isRequired,
+
+    createResource: PropTypes.func.isRequired,
+    updateResource: PropTypes.func.isRequired,
+    deleteResource: PropTypes.func.isRequired,
   }
+
+  createTransaction = transaction =>
+    this.props.createResource({
+      resource: TransactionResource,
+      entity: transaction,
+    })
+
+  updateTransaction = transaction =>
+    this.props.updateResource({
+      resource: TransactionResource,
+      entity: transaction,
+    })
+
+  deleteTransaction = transaction =>
+    this.props.deleteResource({
+      resource: TransactionResource,
+      entity: transaction,
+    })
 
   render() {
     const {
@@ -33,6 +66,7 @@ export class ImportTransactionScreen extends React.Component {
       clearImportAccountUuid,
       clearImportTransactions,
       transactions,
+      pairs,
     } = this.props
 
     return (
@@ -48,14 +82,13 @@ export class ImportTransactionScreen extends React.Component {
           </a>
         </Intro>
 
-        <ResourceCreator crudThunks={crudThunks} resource={TransactionResource}>
-          {({createEntity}) => (
-            <ImportTransactionTable
-              transactions={transactions}
-              createTransaction={createEntity}
-            />
-          )}
-        </ResourceCreator>
+        <ImportTransactionTable
+          transactions={transactions}
+          createTransaction={this.createTransaction}
+          updateTransaction={this.updateTransaction}
+          deleteTransaction={this.deleteTransaction}
+          pairs={pairs}
+        />
       </Box>
     )
   }

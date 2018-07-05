@@ -1,3 +1,4 @@
+import cuid from 'cuid'
 import Papa from 'papaparse'
 import PropTypes from 'prop-types'
 import {head} from 'ramda'
@@ -48,6 +49,10 @@ export class ImportFileDropzone extends React.Component {
     return result
   }
 
+  transformResults(transactions) {
+    return transactions.map(transaction => ({...transaction, importId: cuid()}))
+  }
+
   onDrop = files => {
     if (files.length !== 1) {
       this.setState({errors: ['Please provide exactly one CSV file']})
@@ -65,7 +70,7 @@ export class ImportFileDropzone extends React.Component {
           }
 
           this.setState({loading: false})
-          this.props.setImportTransactions(results.data)
+          this.props.setImportTransactions(this.transformResults(results.data))
         },
       })
     })
