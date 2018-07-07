@@ -742,6 +742,13 @@ action-names@^0.3.2:
     lodash.snakecase "^3.0.1"
     lodash.trim "^3.0.1"
 
+action-names@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/action-names/-/action-names-0.4.0.tgz#d8dbb58d24e281c379203e8f330b1f7321a416a2"
+  dependencies:
+    lodash.snakecase "^3.0.1"
+    lodash.trim "^3.0.1"
+
 ajv-keywords@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
@@ -4091,6 +4098,10 @@ ramda@^0.23.0:
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
 
+ramda@^0.24.1:
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
+
 ramda@^0.25.0:
   version "0.25.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
@@ -4189,12 +4200,12 @@ realpath-native@^1.0.0:
   dependencies:
     util.promisify "^1.0.0"
 
-redux-crud-provider@^0.0.1-alpha.3:
-  version "0.0.1-alpha.3"
-  resolved "https://registry.yarnpkg.com/redux-crud-provider/-/redux-crud-provider-0.0.1-alpha.3.tgz#43586111ab4a3dd56d41b5f4347370d185051182"
+redux-crud-provider@^0.0.1-alpha.4:
+  version "0.0.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/redux-crud-provider/-/redux-crud-provider-0.0.1-alpha.4.tgz#c7fdd20ad44ee321e00ee9deff45d548b50d7b7f"
   dependencies:
     ramda "^0.25.0"
-    redux-crud "^3.2.0"
+    redux-crud "^3.3.0"
 
 redux-crud@^3.2.0:
   version "3.2.0"
@@ -4203,6 +4214,14 @@ redux-crud@^3.2.0:
     action-names "^0.3.2"
     invariant "^2.1.0"
     ramda "^0.23.0"
+
+redux-crud@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/redux-crud/-/redux-crud-3.3.0.tgz#26dfd656c6149fec8a07db48a5ce929d16750c3c"
+  dependencies:
+    action-names "^0.4.0"
+    invariant "^2.1.0"
+    ramda "^0.24.1"
 
 redux@^4.0.0:
   version "4.0.0"

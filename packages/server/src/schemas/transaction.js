@@ -49,3 +49,14 @@ export const transactionSchema = {
 
   cleared_at: Joi.date().iso(),
 }
+
+export const transactionUpdateSchema = {
+  ...transactionSchema,
+
+  date: JoiDateString,
+  amount: Joi.number().integer(),
+  type: Joi.valid('regular', 'to_be_budgeted', 'split'),
+  account_uuid: JoiUuid,
+  subtransactions: Joi.array().items(subtransactionSchema),
+  tags: Joi.array().items(tagSchema),
+}
