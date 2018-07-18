@@ -6820,14 +6820,14 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-crud-provider@^0.0.1-alpha.3:
-  version "0.0.1-alpha.3"
-  resolved "https://registry.yarnpkg.com/redux-crud-provider/-/redux-crud-provider-0.0.1-alpha.3.tgz#43586111ab4a3dd56d41b5f4347370d185051182"
+redux-crud-provider@^0.0.1-alpha.4:
+  version "0.0.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/redux-crud-provider/-/redux-crud-provider-0.0.1-alpha.4.tgz#c7fdd20ad44ee321e00ee9deff45d548b50d7b7f"
   dependencies:
     ramda "^0.25.0"
-    redux-crud "^3.2.0"
+    redux-crud "^3.3.0"
 
-redux-crud@^3.2.0, redux-crud@^3.3.0:
+redux-crud@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/redux-crud/-/redux-crud-3.3.0.tgz#26dfd656c6149fec8a07db48a5ce929d16750c3c"
   dependencies:

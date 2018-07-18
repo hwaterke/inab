@@ -1,23 +1,38 @@
-import {TransactionResource} from '@inab/shared'
-import {ascend, comparator, descend, prop, sortWith} from 'ramda'
+import {PayeeResource, TransactionResource} from '@inab/shared'
+import {ascend, comparator, descend, indexBy, path, prop, sortWith} from 'ramda'
 import {select} from 'redux-crud-provider'
 import {createSelector} from 'reselect'
 import {createTransactionSelectorForRendering} from './transactionsRendering'
 
-const selectImportedTransactions = state => state.imported.transactions
-const selectImportedAccountUuid = state => state.imported.account_uuid
+const selectRawImportedTransactions = state => state.imported.transactions
+const selectRawImportedAccountUuid = state => state.imported.account_uuid
 
 export const selectCleanedImportedTransactions = createSelector(
-  selectImportedAccountUuid,
-  selectImportedTransactions,
-  (account_uuid, transactions) =>
+  selectRawImportedAccountUuid,
+  selectRawImportedTransactions,
+  select(PayeeResource).asArray,
+  (account_uuid, transactions, payees) =>
     transactions.map(tr => ({
       account_uuid,
+      payee_uuid:
+        path(
+          ['uuid'],
+          payees.find(
+            payee =>
+              payee.name.toUpperCase() === (tr.payee && tr.payee.toUpperCase())
+          )
+        ) || null,
       subtransactions: [],
       tags: [],
       type: 'regular',
       ...tr,
+      payee: undefined,
     }))
+)
+
+export const selectImportedTransactionsById = createSelector(
+  selectCleanedImportedTransactions,
+  indexBy(prop('importId'))
 )
 
 const booleanComparator = comparator((a, b) => !a.importId && b.importId)
@@ -40,7 +55,7 @@ const getTransactionsForImportRendering = createTransactionSelectorForRendering(
 )
 
 export const selectExistingTransactionsForImportAccount = createSelector(
-  selectImportedAccountUuid,
+  selectRawImportedAccountUuid,
   getTransactionsForImportRendering,
   (account_uuid, transactions) =>
     transactions.filter(tr => tr.account_uuid === account_uuid)

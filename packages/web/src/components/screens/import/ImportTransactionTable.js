@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {path} from 'ramda'
+import {equals, path, pick} from 'ramda'
 import React, {Fragment} from 'react'
 import FontAwesome from 'react-fontawesome'
 import styled from 'styled-components'
@@ -10,18 +10,20 @@ import {Tags} from '../../TransactionTable'
 const statusIcons = {
   exist0: 'times',
   exist1: 'edit',
+  exists: 'check',
   existn: 'question',
   import0: 'plus',
-  import1: 'edit',
+  import1: 'check',
   importn: 'question',
 }
 
 const statusColor = {
   exist0: colors.red,
   exist1: colors.yellow,
+  exists: 'white',
   existn: 'grey',
   import0: colors.green,
-  import1: colors.yellow,
+  import1: 'white',
   importn: 'grey',
 }
 
@@ -35,7 +37,18 @@ const ImportStatus = styled.td`
   background-color: ${({status}) => statusColor[status]};
 `
 
-const getStatus = (transaction, pairs) => {
+export const updatableFields = ['payee_uuid']
+
+export const getUpdatableFields = pick(updatableFields)
+
+function needsUpdate(transaction, importedTransaction) {
+  return !equals(
+    getUpdatableFields(transaction),
+    getUpdatableFields(importedTransaction)
+  )
+}
+
+const getStatus = (transaction, pairs, importedTransactionsById) => {
   if (transaction.importId) {
     const numberOfPairs = path([transaction.importId, 'length'], pairs) || 0
 
@@ -50,12 +63,27 @@ const getStatus = (transaction, pairs) => {
   if (numberOfPairs > 1) {
     return 'existn'
   }
+
+  if (numberOfPairs === 1) {
+    if (
+      needsUpdate(
+        transaction,
+        importedTransactionsById[pairs[transaction.uuid][0]]
+      )
+    ) {
+      return 'exist1'
+    }
+    return 'exists'
+  }
+
   return `exist${numberOfPairs}`
 }
 
 export const ImportTransactionTable = ({
   transactions,
+  importedTransactionsById,
   createTransaction,
+  updateTransaction,
   deleteTransaction,
   pairs,
 }) => (
@@ -76,8 +104,10 @@ export const ImportTransactionTable = ({
     <tbody>
       {transactions.map(tr => (
         <TransactionRow key={tr.uuid || tr.importId} imported={!!tr.importId}>
-          <ImportStatus status={getStatus(tr, pairs)}>
-            <FontAwesome name={statusIcons[getStatus(tr, pairs)]} />
+          <ImportStatus status={getStatus(tr, pairs, importedTransactionsById)}>
+            <FontAwesome
+              name={statusIcons[getStatus(tr, pairs, importedTransactionsById)]}
+            />
           </ImportStatus>
           <td>{tr.display_date}</td>
           <td>{tr.time}</td>
@@ -109,6 +139,21 @@ export const ImportTransactionTable = ({
                 Delete
               </a>
             )}
+
+            {tr.uuid &&
+              getStatus(tr, pairs, importedTransactionsById) === 'exist1' && (
+                <a
+                  onClick={() =>
+                    updateTransaction(
+                      tr.uuid,
+                      importedTransactionsById[pairs[tr.uuid][0]]
+                    )
+                  }
+                  role="button"
+                >
+                  Update
+                </a>
+              )}
           </td>
         </TransactionRow>
       ))}
@@ -118,8 +163,8 @@ export const ImportTransactionTable = ({
 
 ImportTransactionTable.propTypes = {
   transactions: PropTypes.array.isRequired,
+  importedTransactionsById: PropTypes.object.isRequired,
   createTransaction: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
   updateTransaction: PropTypes.func.isRequired,
   deleteTransaction: PropTypes.func.isRequired,
   pairs: PropTypes.object.isRequired,

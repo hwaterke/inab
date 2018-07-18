@@ -5,11 +5,13 @@ import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {
   selectExistingTransactionsForImportAccount,
+  selectImportedTransactionsById,
   selectTransactionPairs,
 } from '../../../selectors/importSelectors'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {ImportTransactionTable} from './ImportTransactionTable'
+import {TransactionUpdateModal} from './TransactionUpdateModal'
 
 const Intro = styled.p`
   margin-bottom: 1rem;
@@ -17,6 +19,7 @@ const Intro = styled.p`
 
 const mapStateToProps = state => ({
   transactions: selectExistingTransactionsForImportAccount(state),
+  importedTransactionsById: selectImportedTransactionsById(state),
   pairs: selectTransactionPairs(state),
 })
 
@@ -35,21 +38,27 @@ export class ImportTransactionScreen extends React.Component {
     clearImportAccountUuid: PropTypes.func.isRequired,
     clearImportTransactions: PropTypes.func.isRequired,
     transactions: PropTypes.array.isRequired,
+    importedTransactionsById: PropTypes.object.isRequired,
     pairs: PropTypes.object.isRequired,
 
     createResource: PropTypes.func.isRequired,
-    updateResource: PropTypes.func.isRequired,
     deleteResource: PropTypes.func.isRequired,
+  }
+
+  state = {
+    transactionUuidForUpdate: null,
+    transactionDataForUpdate: null,
+  }
+
+  updateTransaction = (uuid, newData) => {
+    this.setState({
+      transactionUuidForUpdate: uuid,
+      transactionDataForUpdate: newData,
+    })
   }
 
   createTransaction = transaction =>
     this.props.createResource({
-      resource: TransactionResource,
-      entity: transaction,
-    })
-
-  updateTransaction = transaction =>
-    this.props.updateResource({
       resource: TransactionResource,
       entity: transaction,
     })
@@ -66,8 +75,11 @@ export class ImportTransactionScreen extends React.Component {
       clearImportAccountUuid,
       clearImportTransactions,
       transactions,
+      importedTransactionsById,
       pairs,
     } = this.props
+
+    const {transactionUuidForUpdate, transactionDataForUpdate} = this.state
 
     return (
       <Box>
@@ -84,11 +96,20 @@ export class ImportTransactionScreen extends React.Component {
 
         <ImportTransactionTable
           transactions={transactions}
+          importedTransactionsById={importedTransactionsById}
           createTransaction={this.createTransaction}
           updateTransaction={this.updateTransaction}
           deleteTransaction={this.deleteTransaction}
           pairs={pairs}
         />
+
+        {transactionUuidForUpdate && (
+          <TransactionUpdateModal
+            uuid={transactionUuidForUpdate}
+            newData={transactionDataForUpdate}
+            onCloseRequested={() => this.updateTransaction(null, null)}
+          />
+        )}
       </Box>
     )
   }

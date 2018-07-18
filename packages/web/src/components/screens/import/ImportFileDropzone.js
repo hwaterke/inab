@@ -89,7 +89,13 @@ export class ImportFileDropzone extends React.Component {
         <div className="column">
           <Box>
             <div className="content">
-              {errors && <div className="notification is-danger">{errors}</div>}
+              {errors && (
+                <div className="notification is-danger">
+                  <ul>
+                    {errors.map((error, i) => <li key={i}>{error.message}</li>)}
+                  </ul>
+                </div>
+              )}
 
               <p>
                 Importing transactions for account: <b>{account.name}</b>
@@ -111,6 +117,13 @@ export class ImportFileDropzone extends React.Component {
                 </li>
                 <li>
                   One line needs to be <b>date</b>
+                </li>
+                <li>
+                  You can have a <b>payee_uuid</b> line
+                </li>
+                <li>
+                  You can have a <b>payee</b> line that will be used to match
+                  payees by name
                 </li>
               </ul>
             </div>
