@@ -1,5 +1,16 @@
 import PropTypes from 'prop-types'
-import {equals, path, pick} from 'ramda'
+import {
+  equals,
+  identity,
+  map,
+  path,
+  pick,
+  pickBy,
+  pipe,
+  isEmpty,
+  prop,
+  sortBy,
+} from 'ramda'
 import React, {Fragment} from 'react'
 import FontAwesome from 'react-fontawesome'
 import styled from 'styled-components'
@@ -37,15 +48,50 @@ const ImportStatus = styled.td`
   background-color: ${({status}) => statusColor[status]};
 `
 
-export const updatableFields = ['payee_uuid']
+// List of properties that are considered to decide if we need to update an existing transaction
+const updatableFields = [
+  'date',
+  'time',
+  'description',
+  'payee_uuid',
+  'category_uuid',
+  'amount',
+  'category_uuid',
+  'account_uuid',
+  'transfer_account_uuid',
+  'type',
+  'tags',
+]
 
-export const getUpdatableFields = pick(updatableFields)
+// Picks only the properties of the transaction worth looking at for updating
+export const getUpdatableFields = transaction => {
+  const fields = pick(updatableFields, transaction)
+
+  const tagNames = pipe(
+    map(prop('name')),
+    sortBy(identity),
+    map(name => ({name}))
+  )
+
+  return {
+    ...fields,
+    tags: tagNames(fields.tags),
+  }
+}
+
+// Returns only the properties of the imported transaction that should be updated on the existing one.
+export function fieldDifferenceForUpdate(transaction, importedTransaction) {
+  const existing = getUpdatableFields(transaction)
+  const imported = getUpdatableFields(importedTransaction)
+
+  return pickBy(
+    (val, key) => imported[key] && !equals(existing[key], imported[key]),
+    imported
+  )
+}
 
 function needsUpdate(transaction, importedTransaction) {
-  return !equals(
-    getUpdatableFields(transaction),
-    getUpdatableFields(importedTransaction)
-  )
+  return !isEmpty(fieldDifferenceForUpdate(transaction, importedTransaction))
 }
 
 const getStatus = (transaction, pairs, importedTransactionsById) => {

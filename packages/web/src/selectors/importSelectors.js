@@ -23,9 +23,10 @@ export const selectCleanedImportedTransactions = createSelector(
           )
         ) || null,
       subtransactions: [],
-      tags: [],
       type: 'regular',
       ...tr,
+      tags: tr.tags ? tr.tags.split(',').map(tag => ({name: tag})) : [],
+      time: tr.time || undefined,
       payee: undefined,
     }))
 )

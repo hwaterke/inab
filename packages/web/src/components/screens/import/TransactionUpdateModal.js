@@ -7,7 +7,7 @@ import {Modal} from '../../modal/Modal'
 import {Box} from '../../presentational/atoms/Box'
 import {Button} from '../../presentational/atoms/Button'
 import {CenteredSpinner} from '../../presentational/atoms/CenteredSpinner'
-import {getUpdatableFields} from './ImportTransactionTable'
+import {fieldDifferenceForUpdate} from './ImportTransactionTable'
 
 export const TransactionUpdateModal = ({uuid, newData, onCloseRequested}) => (
   <Modal onCloseRequested={onCloseRequested}>
@@ -23,13 +23,21 @@ export const TransactionUpdateModal = ({uuid, newData, onCloseRequested}) => (
             <CenteredSpinner />
           ) : (
             <Fragment>
-              <code>{JSON.stringify(getUpdatableFields(entity), null, 2)}</code>
+              <pre>
+                <code>
+                  {JSON.stringify(
+                    fieldDifferenceForUpdate(entity, newData),
+                    null,
+                    2
+                  )}
+                </code>
+              </pre>
 
-              <code>
-                {JSON.stringify(getUpdatableFields(newData), null, 2)}
-              </code>
-
-              <Button onClick={() => updateEntity(getUpdatableFields(newData))}>
+              <Button
+                onClick={() =>
+                  updateEntity(fieldDifferenceForUpdate(entity, newData))
+                }
+              >
                 Update
               </Button>
 
