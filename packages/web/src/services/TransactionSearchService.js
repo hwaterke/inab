@@ -63,7 +63,7 @@ export class TransactionSearchService {
   }
 
   tranformForSearch(value) {
-    if (value === undefined) {
+    if (!value) {
       return ''
     }
     return value.toString().toLowerCase()
