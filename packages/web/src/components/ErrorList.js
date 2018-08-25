@@ -18,7 +18,11 @@ class ErrorDialog extends React.Component {
     return (
       <Section>
         <div className="notification is-danger content">
-          <ul>{this.props.errors.map((err, i) => <li key={i}>{err}</li>)}</ul>
+          <ul>
+            {this.props.errors.map((err, i) => (
+              <li key={i}>{err}</li>
+            ))}
+          </ul>
 
           <button
             type="button"
@@ -35,4 +39,7 @@ const mapStateToProps = state => ({errors: state.errors})
 const mapDispatchToProps = dispatch => ({
   dismissErrors: () => dispatch(dismissErrors()),
 })
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorDialog)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ErrorDialog)

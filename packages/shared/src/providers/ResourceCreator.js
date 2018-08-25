@@ -66,9 +66,10 @@ class _ResourceCreator extends React.Component {
   }
 }
 
-export const ResourceCreator = connect(undefined, mapDispatchToProps)(
-  _ResourceCreator
-)
+export const ResourceCreator = connect(
+  undefined,
+  mapDispatchToProps
+)(_ResourceCreator)
 
 ResourceCreator.propTypes = {
   crudThunks: PropTypes.shape({

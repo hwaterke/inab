@@ -6,10 +6,10 @@ INAB is a budgeting tool.
 
 This is a monorepo that contains different packages
 
-* [packages/web](packages/web) contains the web app
-* [packages/native](packages/native) contains the mobile app
-* [packages/shared](packages/shared) contains common file for web and native apps
-* [packages/server](packages/server) contains the server
+- [packages/web](packages/web) contains the web app
+- [packages/native](packages/native) contains the mobile app
+- [packages/shared](packages/shared) contains common file for web and native apps
+- [packages/server](packages/server) contains the server
 
 # Use
 
@@ -35,8 +35,8 @@ But providing one will allow your users to stay connected after a container rest
 
 If you want to create the docker image yourself, execute the following steps.
 
-* Navigate to the `packages/server` folder.
-* Execute `./docker_build.sh`
+- Navigate to the `packages/server` folder.
+- Execute `./docker_build.sh`
 
 You can then run inab by using:
 
@@ -73,16 +73,16 @@ Note that in development, the server uses an in-memory database.
 
 # Some todos
 
-* Aggregate stats per budget category
-* Use bootstrap via npm (css only, avoid javascript by using reactstrap)
-* Fix onBlur on the inputs in the budget table
-* Fix the select with add new value
-* Create a design identity (palette etc.)
-* Disallow transfers between an account and itself
-* Reorder categories by drag and drop
-* Category goals
-* Native Mobile App
-* Form validation with redux-form
-  * Create a generic input Field with label and errors handling
-* Remove arrow function creation in render methods (performance)
-* Add a button of type submit to the forms to allow ENTER
+- Aggregate stats per budget category
+- Use bootstrap via npm (css only, avoid javascript by using reactstrap)
+- Fix onBlur on the inputs in the budget table
+- Fix the select with add new value
+- Create a design identity (palette etc.)
+- Disallow transfers between an account and itself
+- Reorder categories by drag and drop
+- Category goals
+- Native Mobile App
+- Form validation with redux-form
+  - Create a generic input Field with label and errors handling
+- Remove arrow function creation in render methods (performance)
+- Add a button of type submit to the forms to allow ENTER

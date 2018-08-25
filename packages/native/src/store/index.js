@@ -8,5 +8,8 @@ const middlewares = [thunkMiddleware]
 export const store = createStore(
   rootReducer,
   undefined,
-  compose(applyMiddleware(...middlewares), autoRehydrate())
+  compose(
+    applyMiddleware(...middlewares),
+    autoRehydrate()
+  )
 )

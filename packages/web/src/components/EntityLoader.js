@@ -17,7 +17,10 @@ const mapDispatchToProps = {
 }
 
 // Until we have a better solution, this component silently loads the entities on startup.
-@connect(undefined, mapDispatchToProps)
+@connect(
+  undefined,
+  mapDispatchToProps
+)
 export class EntityLoader extends React.Component {
   static propTypes = {
     fetchAll: PropTypes.func.isRequired,

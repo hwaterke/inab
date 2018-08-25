@@ -12,7 +12,8 @@ import {User} from './User'
 
 @Entity()
 export class Account {
-  @PrimaryGeneratedColumn('uuid') uuid = undefined
+  @PrimaryGeneratedColumn('uuid')
+  uuid = undefined
 
   @ManyToOne(() => User, user => user.accounts, {nullable: false})
   user = undefined
@@ -20,9 +21,12 @@ export class Account {
   @OneToMany(() => Transaction, transaction => transaction.account)
   transactions = undefined
 
-  @Column('varchar') name = undefined
+  @Column('varchar')
+  name = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
+  @UpdateDateColumn()
+  updated_at = undefined
 }

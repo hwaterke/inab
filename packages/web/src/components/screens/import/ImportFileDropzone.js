@@ -92,7 +92,9 @@ export class ImportFileDropzone extends React.Component {
               {errors && (
                 <div className="notification is-danger">
                   <ul>
-                    {errors.map((error, i) => <li key={i}>{error.message}</li>)}
+                    {errors.map((error, i) => (
+                      <li key={i}>{error.message}</li>
+                    ))}
                   </ul>
                 </div>
               )}

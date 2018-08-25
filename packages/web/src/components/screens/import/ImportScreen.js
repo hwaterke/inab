@@ -26,7 +26,10 @@ const mapDispatchToProps = {
   clearImportTransactions,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class ImportScreen extends React.Component {
   static propTypes = {
     imported: PropTypes.shape({

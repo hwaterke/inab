@@ -42,7 +42,10 @@ const mapDispatchToProps = {
     searchValue: '',
   },
 })
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 class TransactionContainer extends React.Component {
   static propTypes = {
     transactionsById: PropTypes.objectOf(TransactionResource.propTypes)

@@ -29,7 +29,10 @@ const mapDispatchToProps = {
   deleteResource: crudThunks.deleteResource,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class ImportTransactionScreen extends React.Component {
   static propTypes = {
     account: PropTypes.shape({

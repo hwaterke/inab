@@ -167,7 +167,11 @@ export const ImportTransactionTable = ({
           <td>{tr.description}</td>
 
           <td>
-            <Tags>{tr.tags.map(t => <span key={t.name}>{t.name}</span>)}</Tags>
+            <Tags>
+              {tr.tags.map(t => (
+                <span key={t.name}>{t.name}</span>
+              ))}
+            </Tags>
           </td>
 
           <td className="has-text-right">

@@ -43,7 +43,10 @@ const mapDispatchToProps = {
 }
 
 @ui()
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class BudgetSidebar extends React.Component {
   static propTypes = {
     categories: PropTypes.arrayOf(CategoryResource.propTypes).isRequired,

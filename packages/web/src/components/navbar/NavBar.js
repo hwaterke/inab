@@ -28,7 +28,10 @@ const mapStateToProps = state => ({
   isAdmin: selectIsAdmin(state),
 })
 
-@connect(mapStateToProps, {clearToken})
+@connect(
+  mapStateToProps,
+  {clearToken}
+)
 export class NavBar extends React.Component {
   static propTypes = {
     accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
@@ -109,7 +112,10 @@ export class NavBar extends React.Component {
                           key={account.uuid}
                           to={`/account/${account.uuid}`}
                         >
-                          <span>{account.name}&nbsp;</span>
+                          <span>
+                            {account.name}
+                            &nbsp;
+                          </span>
                           <Amount
                             amount={this.props.balanceByAccountId[account.uuid]}
                             hasBackground

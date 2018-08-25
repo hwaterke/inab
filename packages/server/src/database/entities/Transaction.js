@@ -17,12 +17,14 @@ import {User} from './User'
 
 @Entity()
 export class Transaction {
-  @PrimaryGeneratedColumn('uuid') uuid = undefined
+  @PrimaryGeneratedColumn('uuid')
+  uuid = undefined
 
   @ManyToOne(() => User, user => user.transactions, {nullable: false})
   user = undefined
 
-  @Column('date') date = undefined
+  @Column('date')
+  date = undefined
 
   @Column('varchar', {nullable: true})
   time = undefined
@@ -36,7 +38,8 @@ export class Transaction {
   @Column('varchar', {nullable: true})
   description = undefined
 
-  @Column('integer') amount = undefined
+  @Column('integer')
+  amount = undefined
 
   @Column('varchar', {nullable: true})
   type = undefined
@@ -47,7 +50,8 @@ export class Transaction {
   @JoinColumn({name: 'category_uuid'})
   category = undefined
 
-  @Column('uuid') account_uuid = undefined
+  @Column('uuid')
+  account_uuid = undefined
   @ManyToOne(() => Account, account => account.transactions)
   @JoinColumn({name: 'account_uuid'})
   account = undefined
@@ -74,7 +78,9 @@ export class Transaction {
   @Column('datetime', {nullable: true})
   cleared_at = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
+  @UpdateDateColumn()
+  updated_at = undefined
 }

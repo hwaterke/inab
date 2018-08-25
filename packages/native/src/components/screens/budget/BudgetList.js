@@ -33,7 +33,10 @@ const mapDispatchToProps = {
   fetchAll: crudThunks.fetchAll,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class BudgetList extends React.Component {
   static propTypes = {
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)

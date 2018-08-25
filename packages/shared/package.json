@@ -45,6 +45,9 @@
     "react-redux": "^5.0.7"
   },
   "lint-staged": {
-    "{src,tests}/**/*.js": ["eslint --max-warnings 0", "git add"]
+    "{src,tests}/**/*.js": [
+      "eslint --max-warnings 0",
+      "git add"
+    ]
   }
 }
