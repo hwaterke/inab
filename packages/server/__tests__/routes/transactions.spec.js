@@ -37,6 +37,7 @@ describe('transactions', () => {
         ...TRANSACTION,
         account_uuid: account.body.uuid,
       })
+      .expect(201)
       .expect(({body}) => {
         expect(body.uuid).toMatch(UUID_REGEX)
       })

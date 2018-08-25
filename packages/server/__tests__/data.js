@@ -13,4 +13,5 @@ export const TRANSACTION = {
   amount: 500,
   subtransactions: [],
   tags: [],
+  type: 'regular',
 }
