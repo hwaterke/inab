@@ -26,6 +26,7 @@ export const getCategorySuggestions = createSelector(
           3,
           pipe(
             filter(({payee_uuid}) => payee_uuid === payee),
+            filter(prop('category_uuid')),
             map(({category_uuid}) => categories[category_uuid]),
             uniqBy(prop('uuid'))
           )(transactions)

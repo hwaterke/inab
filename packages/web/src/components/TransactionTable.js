@@ -6,7 +6,7 @@ import * as Table from 'reactabular-table'
 import styled from 'styled-components'
 import {Amount} from './Amount'
 
-const Tags = styled.div`
+export const Tags = styled.div`
   display: flex;
 
   span {

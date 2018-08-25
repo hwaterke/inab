@@ -4,7 +4,10 @@ import {transactionController} from '../controllers/transactionController'
 import {Transaction} from '../database/entities/Transaction'
 import {validateBody} from '../middlewares/validateBody'
 import {validateEntityByUuidAndUser} from '../middlewares/validateEntityByUuidAndUser'
-import {transactionSchema} from '../schemas/transaction'
+import {
+  transactionSchema,
+  transactionUpdateSchema,
+} from '../schemas/transaction'
 
 export const transactionRouter = () => {
   const controller = genericController(Transaction)
@@ -23,7 +26,7 @@ export const transactionRouter = () => {
 
   router.patch(
     '/:uuid',
-    validateBody(transactionSchema),
+    validateBody(transactionUpdateSchema),
     validateEntityByUuidAndUser(Transaction),
     transactionController.update
   )

@@ -126,6 +126,10 @@ export class NavBar extends React.Component {
                 </div>
               </div>
 
+              <Link className="navbar-item" to="/import">
+                Import
+              </Link>
+
               {this.props.isAdmin && (
                 <Link className="navbar-item" to="/admin">
                   Admin
