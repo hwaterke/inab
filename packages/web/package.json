@@ -58,6 +58,9 @@
     "wait-on": "^2.1.0"
   },
   "lint-staged": {
-    "*.js": ["eslint --max-warnings 0", "git add"]
+    "*.js": [
+      "eslint --max-warnings 0",
+      "git add"
+    ]
   }
 }

@@ -15,7 +15,10 @@ const mapDispatchToProps = {
   clearToken,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class SettingsLogin extends React.Component {
   static propTypes = {
     backend: PropTypes.string.isRequired,

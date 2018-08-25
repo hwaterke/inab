@@ -137,7 +137,11 @@ class TransactionTable extends React.Component {
         cell: {
           formatters: [
             tags => (
-              <Tags>{tags.map(t => <span key={t.name}>{t.name}</span>)}</Tags>
+              <Tags>
+                {tags.map(t => (
+                  <span key={t.name}>{t.name}</span>
+                ))}
+              </Tags>
             ),
           ],
         },

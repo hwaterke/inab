@@ -5,9 +5,12 @@ export class SystemSetting {
   @Column('varchar', {primary: true})
   name = undefined
 
-  @Column('varchar') value = undefined
+  @Column('varchar')
+  value = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
+  @UpdateDateColumn()
+  updated_at = undefined
 }

@@ -31,7 +31,10 @@ const validate = data => {
   return errors
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class RegistrationForm extends React.Component {
   static propTypes = {
     setCredentials: PropTypes.func.isRequired,

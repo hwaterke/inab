@@ -21,7 +21,10 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class LoginForm extends React.Component {
   static propTypes = {
     setCredentials: PropTypes.func.isRequired,

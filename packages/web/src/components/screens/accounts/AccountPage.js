@@ -37,7 +37,10 @@ const mapDispatchToProps = {
   setFilter,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class AccountPage extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,

@@ -14,12 +14,14 @@ import {User} from './User'
 @Entity()
 @Index(['month', 'category'], {unique: true})
 export class BudgetItem {
-  @PrimaryGeneratedColumn('uuid') uuid = undefined
+  @PrimaryGeneratedColumn('uuid')
+  uuid = undefined
 
   @ManyToOne(() => User, user => user.budget_items, {nullable: false})
   user = undefined
 
-  @Column('uuid') category_uuid = undefined
+  @Column('uuid')
+  category_uuid = undefined
 
   @ManyToOne(() => Category, category => category.budget_items, {
     nullable: false,
@@ -30,9 +32,12 @@ export class BudgetItem {
   @Column('date', {nullable: true})
   month = undefined
 
-  @Column('integer') amount = undefined
+  @Column('integer')
+  amount = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
+  @UpdateDateColumn()
+  updated_at = undefined
 }
