@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt'
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +21,7 @@ export class User {
   @Column('varchar', {unique: true})
   email = undefined
 
-  @Column('varchar')
+  @Column('varchar', {select: false})
   password = undefined
 
   @Column('boolean', {default: false})
@@ -51,8 +50,4 @@ export class User {
 
   @UpdateDateColumn()
   updated_at = undefined
-
-  validatePassword(plainTextPassword) {
-    return bcrypt.compare(plainTextPassword, this.password)
-  }
 }
