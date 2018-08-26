@@ -352,6 +352,18 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-rc.3"
 
+"@babel/plugin-syntax-dynamic-import@^7.0.0-rc.3":
+  version "7.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.0.0-rc.3.tgz#fe501ed192b50683467465df62eb212e750e71b4"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-rc.3"
+
+"@babel/plugin-syntax-import-meta@^7.0.0-rc.3":
+  version "7.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-import-meta/-/plugin-syntax-import-meta-7.0.0-rc.3.tgz#54690d85e3e2e7efab7a119bdd7f556f7a755470"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-rc.3"
+
 "@babel/plugin-syntax-json-strings@7.0.0-rc.3":
   version "7.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-json-strings/-/plugin-syntax-json-strings-7.0.0-rc.3.tgz#5dc7b1f713de140451446a6c36739c15de857a95"
@@ -610,10 +622,6 @@
     invariant "^2.2.2"
     js-levenshtein "^1.1.3"
     semver "^5.3.0"
-
-"@babel/preset-stage-3@7.0.0-rc.3":
-  version "7.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@babel/preset-stage-3/-/preset-stage-3-7.0.0-rc.3.tgz#a0230855f49443038a16604888ea1805c32b7c34"
 
 "@babel/register@7.0.0-rc.3":
   version "7.0.0-rc.3"
