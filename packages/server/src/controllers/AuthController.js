@@ -7,9 +7,18 @@ import {SystemSetting} from '../database/entities/SystemSetting'
 import {User} from '../database/entities/User'
 import {createToken} from '../utils/jwt'
 
-function userPresenter(user) {
-  // Make sure password does not leak out
-  return {...user, password: undefined}
+async function validatePassword({uuid, plainTextPassword}) {
+  const user = await getRepository(User)
+    .createQueryBuilder('user')
+    .addSelect('user.password')
+    .where('user.uuid = :uuid', {uuid})
+    .getOne()
+
+  if (!user || !user.password) {
+    return false
+  }
+
+  return bcrypt.compare(plainTextPassword, user.password)
 }
 
 export const AuthController = {
@@ -48,24 +57,24 @@ export const AuthController = {
     })
     const result = await repository.save(entity)
 
+    const user = await repository.findOne(result.uuid)
+
     res
       .append('Authorization', `Bearer ${createToken(result.uuid)}`)
       .status(201)
-      .json(userPresenter(result))
+      .json(user)
   },
 
   login: async (req, res) => {
     const repository = getRepository(User)
 
-    const user = await repository.findOne({
-      where: {email: req.value.body.email},
-    })
+    const user = await repository.findOne({email: req.value.body.email})
 
-    if (user && (await user.validatePassword(req.value.body.password))) {
+    if (user && (await validatePassword(user.uuid, req.value.body.password))) {
       return res
         .append('Authorization', `Bearer ${createToken(user.uuid)}`)
         .status(200)
-        .json(userPresenter(user))
+        .json(user)
     }
 
     const boomed = boom.unauthorized()
