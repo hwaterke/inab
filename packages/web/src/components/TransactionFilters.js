@@ -18,7 +18,10 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 class TransactionFilters extends React.Component {
   static propTypes = {
     filters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)).isRequired,

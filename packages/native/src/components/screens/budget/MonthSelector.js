@@ -22,7 +22,10 @@ const mapDispatchToProps = {
   selectMonth,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class MonthSelector extends React.Component {
   static propTypes = {
     selectedMonthMoment: PropTypes.object.isRequired,

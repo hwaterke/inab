@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt'
 import {
   Column,
   CreateDateColumn,
@@ -16,12 +15,14 @@ import {Transaction} from './Transaction'
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid') uuid = undefined
+  @PrimaryGeneratedColumn('uuid')
+  uuid = undefined
 
   @Column('varchar', {unique: true})
   email = undefined
 
-  @Column('varchar') password = undefined
+  @Column('varchar', {select: false})
+  password = undefined
 
   @Column('boolean', {default: false})
   is_admin = false
@@ -44,11 +45,9 @@ export class User {
   @OneToMany(() => Transaction, transaction => transaction.user)
   transactions = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
-
-  validatePassword(plainTextPassword) {
-    return bcrypt.compare(plainTextPassword, this.password)
-  }
+  @UpdateDateColumn()
+  updated_at = undefined
 }

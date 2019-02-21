@@ -1,9 +1,9 @@
-import axios from 'axios'
 import {selectBackend, selectEmail, setCredentials} from '@inab/shared'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 import React from 'react'
+import {Field, Form} from 'react-final-form'
 import {connect} from 'react-redux'
-import {Field, reduxForm} from 'redux-form'
 import {addError} from '../../../actions/error'
 import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
@@ -21,13 +21,18 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
-@reduxForm({form: 'login', enableReinitialize: true})
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class LoginForm extends React.Component {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
     setCredentials: PropTypes.func.isRequired,
     addError: PropTypes.func.isRequired,
+    initialValues: PropTypes.shape({
+      backend: PropTypes.string,
+      email: PropTypes.string,
+    }).isRequired,
   }
 
   onSubmit = ({backend, email, password}) => {
@@ -60,40 +65,46 @@ export class LoginForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-        <Field
-          name="backend"
-          component={InputField}
-          type="text"
-          label="Backend"
-          required
-          validate={requiredField}
-        />
+      <Form
+        onSubmit={this.onSubmit}
+        initialValues={this.props.initialValues}
+        render={({handleSubmit}) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="backend"
+              component={InputField}
+              type="text"
+              label="Backend"
+              required
+              validate={requiredField}
+            />
 
-        <Field
-          name="email"
-          component={InputField}
-          type="email"
-          label="Email"
-          autoComplete="email"
-          required
-          validate={requiredField}
-        />
+            <Field
+              name="email"
+              component={InputField}
+              type="email"
+              label="Email"
+              autoComplete="email"
+              required
+              validate={requiredField}
+            />
 
-        <Field
-          name="password"
-          component={InputField}
-          type="password"
-          label="Password"
-          autoComplete="current-password"
-          required
-          validate={requiredField}
-        />
+            <Field
+              name="password"
+              component={InputField}
+              type="password"
+              label="Password"
+              autoComplete="current-password"
+              required
+              validate={requiredField}
+            />
 
-        <Button type="submit" color="info">
-          Login
-        </Button>
-      </form>
+            <Button type="submit" color="info">
+              Login
+            </Button>
+          </form>
+        )}
+      />
     )
   }
 }

@@ -20,7 +20,11 @@ export const createExpressApp = () => {
   const app = express()
 
   app.use(helmet())
-  app.use(logger('dev'))
+
+  if (process.env.NODE_ENV !== 'test') {
+    app.use(logger('dev'))
+  }
+
   app.use(
     cors({
       credentials: true,

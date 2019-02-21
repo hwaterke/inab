@@ -1,26 +1,28 @@
 import {
   AccountResource,
   CategoryResource,
+  getCategorySuggestions,
   getSortedPayees,
   PayeeResource,
-  TransactionResource,
-  getCategorySuggestion,
 } from '@inab/shared'
+import arrayMutators from 'final-form-arrays'
 import PropTypes from 'prop-types'
-import React, {Component, Fragment} from 'react'
+import React, {Fragment} from 'react'
+import {Field, Form} from 'react-final-form'
+import {FieldArray} from 'react-final-form-arrays'
 import {connect} from 'react-redux'
 import {select} from 'redux-crud-provider'
-import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form'
 import styled from 'styled-components'
+import {DatePickerField} from '../../forms/fields/DatePickerField'
+import {InputField} from '../../forms/fields/InputField'
+import {SelectField} from '../../forms/fields/SelectField'
+import {FieldValue} from '../../forms/FieldValue'
+import {FormActionBar} from '../../forms/FormActionBar'
+import {required} from '../../forms/validations'
 import {Box} from '../../presentational/atoms/Box'
 import {Button} from '../../presentational/atoms/Button'
 import {ButtonIcon} from '../../presentational/atoms/ButtonIcon'
 import {Section} from '../../presentational/atoms/Section'
-import {DatePickerField} from '../../forms/fields/DatePickerField'
-import {InputField} from '../../forms/fields/InputField'
-import {SelectField} from '../../forms/fields/SelectField'
-import {FormActionBar} from '../../forms/FormActionBar'
-import {required} from '../../forms/validations'
 
 const FormRow = styled.div`
   display: flex;
@@ -112,20 +114,6 @@ renderSubtransactions.propTypes = {
   ).isRequired,
 }
 
-const selector = formValueSelector(TransactionResource.name)
-
-const mapStateToProps = state => ({
-  accounts: select(AccountResource).asArray(state),
-  categories: select(CategoryResource).asArray(state),
-  payees: getSortedPayees(state),
-  payeeValue: selector(state, 'payee'),
-  categoryValue: selector(state, 'category'),
-  categorySuggestion: getCategorySuggestion(
-    selector(state, 'payee'),
-    selector(state, 'category')
-  )(state),
-})
-
 function validateAmount(value, data) {
   if (data.subtransactions && data.subtransactions.length > 0) {
     const sum = data.subtransactions
@@ -138,30 +126,59 @@ function validateAmount(value, data) {
   return undefined
 }
 
+const mapStateToProps = state => ({
+  accounts: select(AccountResource).asArray(state),
+  categories: select(CategoryResource).asArray(state),
+  payees: getSortedPayees(state),
+  getCategorySuggestions: getCategorySuggestions(state),
+})
+
 @connect(mapStateToProps)
-@reduxForm({form: TransactionResource.name})
-export class TransactionForm extends Component {
+export class TransactionForm extends React.Component {
   static propTypes = {
     isCreate: PropTypes.bool.isRequired,
     isUpdate: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
     deleteResource: PropTypes.func,
-    // Reference data
+    onSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.object,
+    onCancel: PropTypes.func,
+
     accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
     categories: PropTypes.arrayOf(CategoryResource.propTypes).isRequired,
     payees: PropTypes.arrayOf(PayeeResource.propTypes).isRequired,
-    payeeValue: PropTypes.string,
-    categoryValue: PropTypes.string,
-    onCancel: PropTypes.func,
-    categorySuggestion: PropTypes.object,
-    change: PropTypes.func.isRequired,
+    getCategorySuggestions: PropTypes.func.isRequired,
+  }
+
+  renderCategorySuggestion(categories, form) {
+    if (categories) {
+      return (
+        <ul>
+          {categories.map(category => (
+            <li key={category.uuid}>
+              <a
+                role="button"
+                onClick={() => form.change('category', category.uuid)}
+              >
+                {category.name} ?
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   }
 
   render() {
-    const {categories, payees, categorySuggestion, change} = this.props
+    const {accounts, categories, payees, getCategorySuggestions} = this.props
+
+    const payeeOptions = [
+      ...this.props.accounts.map(a => ({
+        label: 'Transfer to ' + a.name,
+        value: 'transfer:' + a.uuid,
+      })),
+      ...payees.map(c => ({label: c.name, value: c.uuid})),
+    ]
+
     const categoryOptions = [
       {label: 'To be budgeted', value: 'tbb'},
       {label: 'Split', value: 'split'},
@@ -173,104 +190,111 @@ export class TransactionForm extends Component {
       ...categories.map(c => ({label: c.name, value: c.uuid})),
     ]
 
-    const payeeOptions = [
-      ...this.props.accounts.map(a => ({
-        label: 'Transfer to ' + a.name,
-        value: 'transfer:' + a.uuid,
-      })),
-      ...payees.map(c => ({label: c.name, value: c.uuid})),
-    ]
-
     return (
-      <Section>
-        <Box>
-          <form>
-            <FormRow>
-              <Field
-                name="account_uuid"
-                component={SelectField}
-                label="Account"
-                placeholder="Account"
-                validate={[required]}
-                options={this.props.accounts.map(cg => ({
-                  label: cg.name,
-                  value: cg.uuid,
-                }))}
-              />
+      <Form
+        onSubmit={this.props.onSubmit}
+        initialValues={this.props.initialValues}
+        mutators={arrayMutators}
+      >
+        {({handleSubmit, form, pristine, submitting}) => (
+          <Section>
+            <Box>
+              <form>
+                <FormRow>
+                  <Field
+                    name="account_uuid"
+                    component={SelectField}
+                    label="Account"
+                    placeholder="Account"
+                    validate={required}
+                    options={accounts.map(cg => ({
+                      label: cg.name,
+                      value: cg.uuid,
+                    }))}
+                  />
 
-              <Field name="date" component={DatePickerField} label="Date" />
+                  <Field name="date" component={DatePickerField} label="Date" />
 
-              <Field
-                name="payee"
-                component={SelectField}
-                label="Payee"
-                placeholder="Payee"
-                options={payeeOptions}
-              />
-              <div>
-                <Field
-                  name="category"
-                  component={SelectField}
-                  label="Category"
-                  placeholder={
-                    this.props.payeeValue &&
-                    this.props.payeeValue.startsWith('transfer:')
-                      ? 'No category for transfers'
-                      : 'Category'
+                  <Field
+                    name="payee"
+                    component={SelectField}
+                    label="Payee"
+                    placeholder="Payee"
+                    options={payeeOptions}
+                  />
+
+                  <FieldValue name="payee">
+                    {payee => (
+                      <div>
+                        <Field
+                          name="category"
+                          component={SelectField}
+                          label="Category"
+                          placeholder={
+                            !!payee && payee.startsWith('transfer:')
+                              ? 'No category for transfers'
+                              : 'Category'
+                          }
+                          disabled={!!payee && payee.startsWith('transfer:')}
+                          options={categoryOptions}
+                        />
+
+                        <FieldValue name="category">
+                          {category =>
+                            !category &&
+                            this.renderCategorySuggestion(
+                              getCategorySuggestions(payee),
+                              form
+                            )
+                          }
+                        </FieldValue>
+                      </div>
+                    )}
+                  </FieldValue>
+
+                  <Field
+                    name="description"
+                    component={InputField}
+                    type="text"
+                    label="Description"
+                  />
+
+                  <Field
+                    name="amount"
+                    component={InputField}
+                    type="number"
+                    step="0.01"
+                    label="Amount"
+                    validate={validateAmount}
+                  />
+                </FormRow>
+
+                <FieldValue name="category">
+                  {category =>
+                    category === 'split' && (
+                      <FieldArray
+                        name="subtransactions"
+                        categories={subtransactionCategoryOptions}
+                        component={renderSubtransactions}
+                      />
+                    )
                   }
-                  disabled={
-                    this.props.payeeValue &&
-                    this.props.payeeValue.startsWith('transfer:')
-                  }
-                  options={categoryOptions}
+                </FieldValue>
+
+                <FormActionBar
+                  handleSubmit={handleSubmit}
+                  isCreate={this.props.isCreate}
+                  isUpdate={this.props.isUpdate}
+                  disableReset={pristine || submitting}
+                  reset={() => form.reset()}
+                  remove={this.props.deleteResource}
+                  cancel={this.props.onCancel}
                 />
-
-                {categorySuggestion && (
-                  <a
-                    role="button"
-                    onClick={() => change('category', categorySuggestion.uuid)}
-                  >
-                    {categorySuggestion.name} ?
-                  </a>
-                )}
-              </div>
-              <Field
-                name="description"
-                component={InputField}
-                type="text"
-                label="Description"
-              />
-
-              <Field
-                name="amount"
-                component={InputField}
-                type="number"
-                step="0.01"
-                label="Amount"
-                validate={[validateAmount]}
-              />
-            </FormRow>
-
-            {this.props.categoryValue === 'split' && (
-              <FieldArray
-                name="subtransactions"
-                categories={subtransactionCategoryOptions}
-                component={renderSubtransactions}
-              />
-            )}
-
-            <FormActionBar
-              handleSubmit={this.props.handleSubmit}
-              isCreate={this.props.isCreate}
-              isUpdate={this.props.isUpdate}
-              disableReset={this.props.pristine || this.props.submitting}
-              reset={this.props.reset}
-              remove={this.props.deleteResource}
-              cancel={this.props.onCancel}
-            />
-          </form>
-        </Box>
-      </Section>
+              </form>
+            </Box>
+          </Section>
+        )}
+      </Form>
     )
   }
 }

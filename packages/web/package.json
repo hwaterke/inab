@@ -18,13 +18,19 @@
     "classnames": "^2.2.6",
     "core-js": "^2.5.7",
     "cuid": "^2.1.1",
+    "final-form": "^4.8.2",
+    "final-form-arrays": "^1.0.4",
     "font-awesome": "^4.7.0",
     "immutable": "^3.8.2",
     "moment": "^2.22.2",
+    "papaparse": "^4.5.0",
     "ramda": "^0.25.0",
     "react": "^16.4.0",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.4.0",
+    "react-dropzone": "^4.2.12",
+    "react-final-form": "^3.6.2",
+    "react-final-form-arrays": "^1.0.6",
     "react-fontawesome": "^1.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
@@ -32,8 +38,7 @@
     "reactabular-table": "^8.14.0",
     "redux": "^4.0.0",
     "redux-crud": "^3.3.0",
-    "redux-crud-provider": "^0.0.1-alpha.3",
-    "redux-form": "^7.4.0",
+    "redux-crud-provider": "^0.0.1-alpha.4",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "redux-ui": "0.1.1",
@@ -53,6 +58,9 @@
     "wait-on": "^2.1.0"
   },
   "lint-staged": {
-    "*.js": ["eslint --max-warnings 0", "git add"]
+    "*.js": [
+      "eslint --max-warnings 0",
+      "git add"
+    ]
   }
 }

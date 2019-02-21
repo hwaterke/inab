@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import {JoiString, JoiUuid} from '../utils/joi'
+import {JoiDateString, JoiString, JoiUuid} from '../utils/joi'
 
 export const categorySchema = {
   name: JoiString.required(),
@@ -14,9 +14,7 @@ export const categorySchema = {
 
   // TODO Must be there if goal_creation_month if present
   // TODO Must be the first of the month
-  goal_creation_month: Joi.date()
-    .iso()
-    .allow(null),
+  goal_creation_month: JoiDateString.allow(null),
 
   // TODO Must be > 0 if goal_type is tb or tbd
   // TODO Must be 0 if goal_type is mf
@@ -25,9 +23,7 @@ export const categorySchema = {
     .min(0),
 
   // TODO Must be there if goal_type is tbd and null otherwise
-  target_balance_month: Joi.date()
-    .iso()
-    .allow(null),
+  target_balance_month: JoiDateString.allow(null),
 
   // TODO Must be > 0 if goal_type is mf and 0 otherwise
   monthly_funding: Joi.number()

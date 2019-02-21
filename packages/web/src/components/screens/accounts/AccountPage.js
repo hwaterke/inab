@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {
@@ -37,7 +37,10 @@ const mapDispatchToProps = {
   setFilter,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class AccountPage extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -80,13 +83,13 @@ export class AccountPage extends React.Component {
     const selectedAccountId = this.props.match.params.uuid
 
     return (
-      <div>
+      <Fragment>
         <AccountHeader name={this.props.title} balance={this.props.balance} />
         <TransactionContainer
           accountId={selectedAccountId}
           hideAccount={!!selectedAccountId}
         />
-      </div>
+      </Fragment>
     )
   }
 }

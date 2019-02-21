@@ -21,7 +21,10 @@ const mapDispatchToProps = {
   fetchAll: crudThunks.fetchAll,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export class SettingsResources extends React.Component {
   static propTypes = {
     resources: PropTypes.object.isRequired,

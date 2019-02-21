@@ -17,7 +17,7 @@
     "ramda": "^0.25.0",
     "redux": "^4.0.0",
     "redux-crud": "^3.2.0",
-    "redux-crud-provider": "^0.0.1-alpha.3",
+    "redux-crud-provider": "^0.0.1-alpha.4",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
@@ -45,6 +45,9 @@
     "react-redux": "^5.0.7"
   },
   "lint-staged": {
-    "{src,tests}/**/*.js": ["eslint --max-warnings 0", "git add"]
+    "{src,tests}/**/*.js": [
+      "eslint --max-warnings 0",
+      "git add"
+    ]
   }
 }

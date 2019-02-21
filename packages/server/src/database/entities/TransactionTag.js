@@ -18,7 +18,9 @@ export class TransactionTag {
   @Column('varchar', {primary: true})
   name = undefined
 
-  @CreateDateColumn() created_at = undefined
+  @CreateDateColumn()
+  created_at = undefined
 
-  @UpdateDateColumn() updated_at = undefined
+  @UpdateDateColumn()
+  updated_at = undefined
 }

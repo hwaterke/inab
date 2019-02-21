@@ -6,7 +6,7 @@ import * as Table from 'reactabular-table'
 import styled from 'styled-components'
 import {Amount} from './Amount'
 
-const Tags = styled.div`
+export const Tags = styled.div`
   display: flex;
 
   span {
@@ -137,7 +137,11 @@ class TransactionTable extends React.Component {
         cell: {
           formatters: [
             tags => (
-              <Tags>{tags.map(t => <span key={t.name}>{t.name}</span>)}</Tags>
+              <Tags>
+                {tags.map(t => (
+                  <span key={t.name}>{t.name}</span>
+                ))}
+              </Tags>
             ),
           ],
         },

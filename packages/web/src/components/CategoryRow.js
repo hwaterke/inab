@@ -11,7 +11,7 @@ import {connect} from 'react-redux'
 import {Link as RouterLink} from 'react-router-dom'
 import ui from 'redux-ui'
 import {Amount} from './Amount'
-import {BudgetItemFormContainer} from './BudgetItemFormContainer'
+import {BudgetItemForm} from './BudgetItemForm'
 import {Cell} from './Cell'
 
 const mapStateToProps = state => ({
@@ -50,7 +50,7 @@ export class CategoryRow extends React.Component {
     if (this.props.ui.editingCategoryId === this.props.category.uuid) {
       budgetCell = (
         <Cell alignRight>
-          <BudgetItemFormContainer
+          <BudgetItemForm
             uuid={path(['uuid'], budgetItem)}
             category_uuid={this.props.category.uuid}
             postSubmit={this.clearBudgetItemForm}

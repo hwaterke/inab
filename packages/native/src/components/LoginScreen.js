@@ -28,7 +28,10 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 @reduxForm({form: 'login', enableReinitialize: true})
 export class LoginScreen extends React.Component {
   static propTypes = {

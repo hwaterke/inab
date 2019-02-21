@@ -4,13 +4,14 @@
       "@babel/preset-env",
       {
         "targets": {
-          "node": "current"
+          "node": "9"
         }
       }
-    ],
-    "@babel/preset-stage-3"
+    ]
   ],
   "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
     ["@babel/plugin-proposal-decorators", {"legacy": true}],
     ["@babel/plugin-proposal-class-properties", {"loose": true}]
   ]
