@@ -19,6 +19,7 @@
     "react/no-will-update-set-state": "error",
     "react/prop-types": "error",
     "react/void-dom-elements-no-children": "error",
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "react/forbid-foreign-prop-types": "off"
   }
 }
