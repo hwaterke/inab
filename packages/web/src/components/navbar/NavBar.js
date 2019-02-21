@@ -100,28 +100,27 @@ export class NavBar extends React.Component {
                     <Amount amount={this.props.budgetBalance} hasBackground />
                   </AccountLink>
 
-                  {this.props.accounts.map(
-                    account =>
-                      account.busy ? (
-                        <a className="dropdown-item" key={account.uuid}>
-                          <FontAwesome name="refresh" spin fixedWidth />
+                  {this.props.accounts.map(account =>
+                    account.busy ? (
+                      <a className="dropdown-item" key={account.uuid}>
+                        <FontAwesome name="refresh" spin fixedWidth />
+                        {account.name}
+                      </a>
+                    ) : (
+                      <AccountLink
+                        key={account.uuid}
+                        to={`/account/${account.uuid}`}
+                      >
+                        <span>
                           {account.name}
-                        </a>
-                      ) : (
-                        <AccountLink
-                          key={account.uuid}
-                          to={`/account/${account.uuid}`}
-                        >
-                          <span>
-                            {account.name}
-                            &nbsp;
-                          </span>
-                          <Amount
-                            amount={this.props.balanceByAccountId[account.uuid]}
-                            hasBackground
-                          />
-                        </AccountLink>
-                      )
+                          &nbsp;
+                        </span>
+                        <Amount
+                          amount={this.props.balanceByAccountId[account.uuid]}
+                          hasBackground
+                        />
+                      </AccountLink>
+                    )
                   )}
 
                   <hr className="navbar-divider" />

@@ -61,10 +61,9 @@ export class CategoryRow extends React.Component {
     } else {
       budgetCell = (
         <Cell alignRight onClick={this.editBudgetItem}>
-          {this.props.budgetItem &&
-            this.props.budgetItem.busy && (
-              <FontAwesome name="refresh" spin fixedWidth />
-            )}
+          {this.props.budgetItem && this.props.budgetItem.busy && (
+            <FontAwesome name="refresh" spin fixedWidth />
+          )}
           <Amount
             amount={this.props.budgetItem && this.props.budgetItem.amount}
           />

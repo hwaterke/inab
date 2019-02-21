@@ -38,17 +38,16 @@ export class FormActionBar extends React.Component {
           </ButtonIcon>
         )}
 
-        {this.props.isUpdate &&
-          this.props.remove && (
-            <ButtonIcon
-              type="button"
-              onClick={this.props.remove}
-              color="danger"
-              icon="trash"
-            >
-              Delete
-            </ButtonIcon>
-          )}
+        {this.props.isUpdate && this.props.remove && (
+          <ButtonIcon
+            type="button"
+            onClick={this.props.remove}
+            color="danger"
+            icon="trash"
+          >
+            Delete
+          </ButtonIcon>
+        )}
       </div>
     )
   }

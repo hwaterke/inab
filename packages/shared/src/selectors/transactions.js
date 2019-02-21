@@ -53,11 +53,13 @@ export const flattenTransactions = (transactions: Transaction[]) =>
     }))
     .concat(
       ...transactions.map(t =>
-        t.subtransactions.filter(st => st.category_uuid).map(st => ({
-          date: t.date,
-          category_uuid: st.category_uuid,
-          amount: st.amount || 0,
-        }))
+        t.subtransactions
+          .filter(st => st.category_uuid)
+          .map(st => ({
+            date: t.date,
+            category_uuid: st.category_uuid,
+            amount: st.amount || 0,
+          }))
       )
     )
 

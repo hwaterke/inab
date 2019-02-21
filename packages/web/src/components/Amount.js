@@ -9,8 +9,8 @@ const AmountSpan = styled.span`
     props.hasBackground
       ? 'white'
       : props.amount === 0
-        ? colors.lightText
-        : colors.text};
+      ? colors.lightText
+      : colors.text};
 
   ${props =>
     props.hasBackground &&
@@ -22,10 +22,10 @@ const AmountSpan = styled.span`
       background-color: ${props.isGoal
         ? colors.yellow
         : props.amount === 0
-          ? colors.lightText
-          : props.amount > 0
-            ? colors.green
-            : colors.red};
+        ? colors.lightText
+        : props.amount > 0
+        ? colors.green
+        : colors.red};
     `};
 `
 

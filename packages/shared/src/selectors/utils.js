@@ -21,8 +21,11 @@ export const beginningOfMonth = (dateString: string): string =>
 
 // Creates a selector that filters a list of items for a selected month
 const createInMonthSelector = (itemSelector, itemMonthMapper, monthSelector) =>
-  createSelector(itemSelector, monthSelector, (items, month) =>
-    items.filter(i => moment(itemMonthMapper(i)).isSame(month))
+  createSelector(
+    itemSelector,
+    monthSelector,
+    (items, month) =>
+      items.filter(i => moment(itemMonthMapper(i)).isSame(month))
   )
 
 // Creates a selector that filters a list of items up to a selected month
@@ -31,8 +34,11 @@ const createUpToMonthSelector = (
   itemMonthMapper,
   monthSelector
 ) =>
-  createSelector(itemSelector, monthSelector, (items, month) =>
-    items.filter(i => moment(itemMonthMapper(i)).isSameOrBefore(month))
+  createSelector(
+    itemSelector,
+    monthSelector,
+    (items, month) =>
+      items.filter(i => moment(itemMonthMapper(i)).isSameOrBefore(month))
   )
 
 export const createInMonthSelectors = (

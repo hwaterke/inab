@@ -59,23 +59,21 @@ export class ImportScreen extends React.Component {
           <ImportAccountSelector onSelect={setImportAccountUuid} />
         )}
 
-        {account_uuid &&
-          !transactions && (
-            <ImportFileDropzone
-              account={accountsById[account_uuid]}
-              clearImportAccountUuid={clearImportAccountUuid}
-              setImportTransactions={setImportTransactions}
-            />
-          )}
+        {account_uuid && !transactions && (
+          <ImportFileDropzone
+            account={accountsById[account_uuid]}
+            clearImportAccountUuid={clearImportAccountUuid}
+            setImportTransactions={setImportTransactions}
+          />
+        )}
 
-        {account_uuid &&
-          transactions && (
-            <ImportTransactionScreen
-              account={accountsById[account_uuid]}
-              clearImportAccountUuid={clearImportAccountUuid}
-              clearImportTransactions={clearImportTransactions}
-            />
-          )}
+        {account_uuid && transactions && (
+          <ImportTransactionScreen
+            account={accountsById[account_uuid]}
+            clearImportAccountUuid={clearImportAccountUuid}
+            clearImportTransactions={clearImportTransactions}
+          />
+        )}
       </Section>
     )
   }
