@@ -29,91 +29,100 @@ const mapDispatchToProps = {
   deleteResource: crudThunks.deleteResource,
 }
 
-@connect(
+export const ImportTransactionScreen = connect(
   mapStateToProps,
   mapDispatchToProps
-)
-export class ImportTransactionScreen extends React.Component {
-  static propTypes = {
-    account: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-    clearImportAccountUuid: PropTypes.func.isRequired,
-    clearImportTransactions: PropTypes.func.isRequired,
-    transactions: PropTypes.array.isRequired,
-    importedTransactionsById: PropTypes.object.isRequired,
-    pairs: PropTypes.object.isRequired,
+)(
+  class ImportTransactionScreen extends React.Component {
+    static propTypes = {
+      account: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+      clearImportAccountUuid: PropTypes.func.isRequired,
+      clearImportTransactions: PropTypes.func.isRequired,
+      transactions: PropTypes.array.isRequired,
+      importedTransactionsById: PropTypes.object.isRequired,
+      pairs: PropTypes.object.isRequired,
 
-    createResource: PropTypes.func.isRequired,
-    deleteResource: PropTypes.func.isRequired,
-  }
+      createResource: PropTypes.func.isRequired,
+      deleteResource: PropTypes.func.isRequired,
+    }
 
-  state = {
-    transactionUuidForUpdate: null,
-    transactionDataForUpdate: null,
-  }
+    state = {
+      transactionUuidForUpdate: null,
+      transactionDataForUpdate: null,
+    }
 
-  updateTransaction = (uuid, newData) => {
-    this.setState({
-      transactionUuidForUpdate: uuid,
-      transactionDataForUpdate: newData,
-    })
-  }
+    updateTransaction = (uuid, newData) => {
+      this.setState({
+        transactionUuidForUpdate: uuid,
+        transactionDataForUpdate: newData,
+      })
+    }
 
-  createTransaction = transaction =>
-    this.props.createResource({
-      resource: TransactionResource,
-      entity: transaction,
-    })
+    createTransaction = transaction =>
+      this.props.createResource({
+        resource: TransactionResource,
+        entity: transaction,
+      })
 
-  deleteTransaction = transaction =>
-    this.props.deleteResource({
-      resource: TransactionResource,
-      entity: transaction,
-    })
+    deleteTransaction = transaction =>
+      this.props.deleteResource({
+        resource: TransactionResource,
+        entity: transaction,
+      })
 
-  render() {
-    const {
-      account,
-      clearImportAccountUuid,
-      clearImportTransactions,
-      transactions,
-      importedTransactionsById,
-      pairs,
-    } = this.props
+    render() {
+      const {
+        account,
+        clearImportAccountUuid,
+        clearImportTransactions,
+        transactions,
+        importedTransactionsById,
+        pairs,
+      } = this.props
 
-    const {transactionUuidForUpdate, transactionDataForUpdate} = this.state
+      const {transactionUuidForUpdate, transactionDataForUpdate} = this.state
 
-    return (
-      <Box>
-        <Intro>
-          Importing <b>transactions</b>
-          <a role="button" className="delete" onClick={clearImportTransactions}>
-            Clear transactions
-          </a>{' '}
-          for account: <b>{account.name}</b>
-          <a role="button" className="delete" onClick={clearImportAccountUuid}>
-            Clear account
-          </a>
-        </Intro>
+      return (
+        <Box>
+          <Intro>
+            Importing <b>transactions</b>
+            <a
+              role="button"
+              className="delete"
+              onClick={clearImportTransactions}
+            >
+              Clear transactions
+            </a>{' '}
+            for account: <b>{account.name}</b>
+            <a
+              role="button"
+              className="delete"
+              onClick={clearImportAccountUuid}
+            >
+              Clear account
+            </a>
+          </Intro>
 
-        <ImportTransactionTable
-          transactions={transactions}
-          importedTransactionsById={importedTransactionsById}
-          createTransaction={this.createTransaction}
-          updateTransaction={this.updateTransaction}
-          deleteTransaction={this.deleteTransaction}
-          pairs={pairs}
-        />
-
-        {transactionUuidForUpdate && (
-          <TransactionUpdateModal
-            uuid={transactionUuidForUpdate}
-            newData={transactionDataForUpdate}
-            onCloseRequested={() => this.updateTransaction(null, null)}
+          <ImportTransactionTable
+            transactions={transactions}
+            importedTransactionsById={importedTransactionsById}
+            createTransaction={this.createTransaction}
+            updateTransaction={this.updateTransaction}
+            deleteTransaction={this.deleteTransaction}
+            pairs={pairs}
           />
-        )}
-      </Box>
-    )
+
+          {transactionUuidForUpdate && (
+            <TransactionUpdateModal
+              uuid={transactionUuidForUpdate}
+              newData={transactionDataForUpdate}
+              onCloseRequested={() => this.updateTransaction(null, null)}
+            />
+          )}
+        </Box>
+      )
+    }
   }
-}
+)

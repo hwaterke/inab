@@ -16,85 +16,86 @@ const mapStateToProps = state => ({
   token: selectToken(state),
 })
 
-@connect(mapStateToProps)
-export class AdminPage extends React.Component {
-  static propTypes = {
-    backend: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired,
-  }
+export const AdminPage = connect(mapStateToProps)(
+  class AdminPage extends React.Component {
+    static propTypes = {
+      backend: PropTypes.string.isRequired,
+      token: PropTypes.string.isRequired,
+    }
 
-  state = {
-    loading: true,
-    registration: false,
-  }
+    state = {
+      loading: true,
+      registration: false,
+    }
 
-  componentDidMount() {
-    this.setState({loading: true})
-    axios({
-      url: `${this.props.backend}/settings/registration`,
-      method: 'get',
-      headers: {Authorization: this.props.token},
-    }).then(response => {
-      this.setState({
-        loading: false,
-        registration: path(['data', 'value'], response) === '1',
-      })
-    })
-  }
-
-  toggleRegistration = () => {
-    this.setState({loading: true})
-    axios({
-      url: `${this.props.backend}/settings/registration`,
-      method: 'put',
-      headers: {Authorization: this.props.token},
-      data: {value: this.state.registration ? '0' : '1'},
-    })
-      .then(response => {
+    componentDidMount() {
+      this.setState({loading: true})
+      axios({
+        url: `${this.props.backend}/settings/registration`,
+        method: 'get',
+        headers: {Authorization: this.props.token},
+      }).then(response => {
         this.setState({
+          loading: false,
           registration: path(['data', 'value'], response) === '1',
         })
       })
-      .finally(() => {
-        this.setState({
-          loading: false,
-        })
+    }
+
+    toggleRegistration = () => {
+      this.setState({loading: true})
+      axios({
+        url: `${this.props.backend}/settings/registration`,
+        method: 'put',
+        headers: {Authorization: this.props.token},
+        data: {value: this.state.registration ? '0' : '1'},
       })
-  }
+        .then(response => {
+          this.setState({
+            registration: path(['data', 'value'], response) === '1',
+          })
+        })
+        .finally(() => {
+          this.setState({
+            loading: false,
+          })
+        })
+    }
 
-  render() {
-    return (
-      <Section>
-        <div className="columns is-centered">
-          <div className="column is-half">
-            <Box>
-              <Title>Administration</Title>
+    render() {
+      return (
+        <Section>
+          <div className="columns is-centered">
+            <div className="column is-half">
+              <Box>
+                <Title>Administration</Title>
 
-              {this.state.loading ? (
-                <CenteredSpinner />
-              ) : (
-                <div
-                  className={classNames(
-                    'notification',
-                    {'is-success': this.state.registration},
-                    {'is-danger': !this.state.registration}
-                  )}
-                >
-                  {this.state.registration
-                    ? 'Registrations are open'
-                    : 'Registrations are closed'}
-                </div>
-              )}
+                {this.state.loading ? (
+                  <CenteredSpinner />
+                ) : (
+                  <div
+                    className={classNames(
+                      'notification',
+                      {'is-success': this.state.registration},
+                      {'is-danger': !this.state.registration}
+                    )}
+                  >
+                    {this.state.registration
+                      ? 'Registrations are open'
+                      : 'Registrations are closed'}
+                  </div>
+                )}
 
-              {!this.state.loading && (
-                <Button onClick={this.toggleRegistration}>
-                  Toggle registration
-                </Button>
-              )}
-            </Box>
+                {!this.state.loading && (
+                  <Button onClick={this.toggleRegistration}>
+                    Toggle registration
+                  </Button>
+                )}
+              </Box>
+            </div>
           </div>
-        </div>
-      </Section>
-    )
+        </Section>
+      )
+    }
   }
-}
+)

@@ -13,43 +13,44 @@ const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
 })
 
-@connect(mapStateToProps)
-export class AccountList extends React.Component {
-  static propTypes = {
-    accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
-  }
+export const AccountList = connect(mapStateToProps)(
+  class AccountList extends React.Component {
+    static propTypes = {
+      accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
+    }
 
-  render() {
-    return (
-      <Section>
-        <div className="columns">
-          <div className="column">
-            <Box>
-              <Title>Accounts</Title>
+    render() {
+      return (
+        <Section>
+          <div className="columns">
+            <div className="column">
+              <Box>
+                <Title>Accounts</Title>
 
-              <Link to="/accounts/new">New account</Link>
+                <Link to="/accounts/new">New account</Link>
 
-              <LinkList>
-                {this.props.accounts.map(account => (
-                  <Link
-                    key={account.uuid}
-                    to={`/accounts/edit/${account.uuid}`}
-                  >
-                    {account.name}
-                  </Link>
-                ))}
-              </LinkList>
-            </Box>
+                <LinkList>
+                  {this.props.accounts.map(account => (
+                    <Link
+                      key={account.uuid}
+                      to={`/accounts/edit/${account.uuid}`}
+                    >
+                      {account.name}
+                    </Link>
+                  ))}
+                </LinkList>
+              </Box>
+            </div>
+
+            <div className="column is-4">
+              <Box>
+                <Title>Statistics</Title>
+                <h5>{this.props.accounts.length} accounts</h5>
+              </Box>
+            </div>
           </div>
-
-          <div className="column is-4">
-            <Box>
-              <Title>Statistics</Title>
-              <h5>{this.props.accounts.length} accounts</h5>
-            </Box>
-          </div>
-        </div>
-      </Section>
-    )
+        </Section>
+      )
+    }
   }
-}
+)

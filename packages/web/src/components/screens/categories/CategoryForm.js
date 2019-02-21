@@ -50,109 +50,110 @@ const goalOptions = [
   {label: 'Monthly funding', value: 'mf'},
 ]
 
-@connect(mapStateToProps)
-export class CategoryForm extends React.Component {
-  static propTypes = {
-    isCreate: PropTypes.bool.isRequired,
-    isUpdate: PropTypes.bool.isRequired,
-    deleteResource: PropTypes.func,
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
-      .isRequired,
+export const CategoryForm = connect(mapStateToProps)(
+  class CategoryForm extends React.Component {
+    static propTypes = {
+      isCreate: PropTypes.bool.isRequired,
+      isUpdate: PropTypes.bool.isRequired,
+      deleteResource: PropTypes.func,
+      categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
+        .isRequired,
 
-    onSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.object,
-  }
+      onSubmit: PropTypes.func.isRequired,
+      initialValues: PropTypes.object,
+    }
 
-  render() {
-    return (
-      <Form
-        onSubmit={this.props.onSubmit}
-        initialValues={this.props.initialValues}
-        render={({handleSubmit, form, pristine, submitting}) => (
-          <form onSubmit={handleSubmit}>
-            <Field
-              name="category_group_uuid"
-              component={SelectField}
-              label="Category group"
-              placeholder="Category group"
-              validate={required}
-              options={this.props.categoryGroups.map(cg => ({
-                label: cg.name,
-                value: cg.uuid,
-              }))}
-            />
-
-            <Field
-              name="name"
-              component={InputField}
-              type="text"
-              label="Name"
-              validate={required}
-              required
-            />
-
-            <Field
-              name="priority"
-              component={InputField}
-              type="number"
-              label="Priority"
-            />
-
-            <Field
-              name="goal_type"
-              component={SelectField}
-              label="Goal type"
-              placeholder="Goal"
-              options={goalOptions}
-            />
-
-            <FieldValue name="goal_type">
-              {goal_type =>
-                ['tb', 'tbd'].includes(goal_type) && (
-                  <Field
-                    name="target_balance"
-                    component={InputField}
-                    type="number"
-                    step="0.01"
-                    label="Target Balance"
-                    validate={validateTargetBalance}
-                  />
-                )
-              }
-            </FieldValue>
-
-            <FieldCondition when="goal_type" is="tbd">
+    render() {
+      return (
+        <Form
+          onSubmit={this.props.onSubmit}
+          initialValues={this.props.initialValues}
+          render={({handleSubmit, form, pristine, submitting}) => (
+            <form onSubmit={handleSubmit}>
               <Field
-                name="target_balance_month"
+                name="category_group_uuid"
+                component={SelectField}
+                label="Category group"
+                placeholder="Category group"
+                validate={required}
+                options={this.props.categoryGroups.map(cg => ({
+                  label: cg.name,
+                  value: cg.uuid,
+                }))}
+              />
+
+              <Field
+                name="name"
                 component={InputField}
                 type="text"
-                label="Target Balance Month"
-                validate={validateTargetBalanceMonth}
+                label="Name"
+                validate={required}
+                required
               />
-            </FieldCondition>
 
-            <FieldCondition when="goal_type" is="mf">
               <Field
-                name="monthly_funding"
+                name="priority"
                 component={InputField}
                 type="number"
-                step="0.01"
-                label="Monthly Funding"
-                validate={validateMonthlyFunding}
+                label="Priority"
               />
-            </FieldCondition>
 
-            <FormActionBar
-              handleSubmit={handleSubmit}
-              isCreate={this.props.isCreate}
-              isUpdate={this.props.isUpdate}
-              disableReset={pristine || submitting}
-              reset={() => form.reset()}
-              remove={this.props.deleteResource}
-            />
-          </form>
-        )}
-      />
-    )
+              <Field
+                name="goal_type"
+                component={SelectField}
+                label="Goal type"
+                placeholder="Goal"
+                options={goalOptions}
+              />
+
+              <FieldValue name="goal_type">
+                {goal_type =>
+                  ['tb', 'tbd'].includes(goal_type) && (
+                    <Field
+                      name="target_balance"
+                      component={InputField}
+                      type="number"
+                      step="0.01"
+                      label="Target Balance"
+                      validate={validateTargetBalance}
+                    />
+                  )
+                }
+              </FieldValue>
+
+              <FieldCondition when="goal_type" is="tbd">
+                <Field
+                  name="target_balance_month"
+                  component={InputField}
+                  type="text"
+                  label="Target Balance Month"
+                  validate={validateTargetBalanceMonth}
+                />
+              </FieldCondition>
+
+              <FieldCondition when="goal_type" is="mf">
+                <Field
+                  name="monthly_funding"
+                  component={InputField}
+                  type="number"
+                  step="0.01"
+                  label="Monthly Funding"
+                  validate={validateMonthlyFunding}
+                />
+              </FieldCondition>
+
+              <FormActionBar
+                handleSubmit={handleSubmit}
+                isCreate={this.props.isCreate}
+                isUpdate={this.props.isUpdate}
+                disableReset={pristine || submitting}
+                reset={() => form.reset()}
+                remove={this.props.deleteResource}
+              />
+            </form>
+          )}
+        />
+      )
+    }
   }
-}
+)

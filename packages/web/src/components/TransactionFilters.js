@@ -18,52 +18,53 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-@connect(
+const TransactionFilters = connect(
   mapStateToProps,
   mapDispatchToProps
-)
-class TransactionFilters extends React.Component {
-  static propTypes = {
-    filters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)).isRequired,
-    columns: PropTypes.object.isRequired,
-    onClickDelete: PropTypes.func.isRequired,
-  }
-
-  getAttributeLabel(name) {
-    return this.props.columns[name].label
-  }
-
-  getValueLabel(filter) {
-    const options = this.props.columns[filter.attribute].options
-    if (options) {
-      if (options instanceof Map) {
-        return options.get(filter.value)
-      }
+)(
+  class TransactionFilters extends React.Component {
+    static propTypes = {
+      filters: PropTypes.arrayOf(PropTypes.instanceOf(Filter)).isRequired,
+      columns: PropTypes.object.isRequired,
+      onClickDelete: PropTypes.func.isRequired,
     }
-    return filter.value
-  }
 
-  render() {
-    return (
-      <TransactionToolbarRow>
-        <div className="buttons has-addons">
-          {this.props.filters.map((filter, index) => (
-            <ButtonIcon
-              key={index}
-              color="link"
-              size="small"
-              icon="ban"
-              outlined
-              onClick={() => this.props.onClickDelete(index)}
-            >
-              {this.getAttributeLabel(filter.attribute)} {filter.operator}{' '}
-              {this.getValueLabel(filter)}
-            </ButtonIcon>
-          ))}
-        </div>
-      </TransactionToolbarRow>
-    )
+    getAttributeLabel(name) {
+      return this.props.columns[name].label
+    }
+
+    getValueLabel(filter) {
+      const options = this.props.columns[filter.attribute].options
+      if (options) {
+        if (options instanceof Map) {
+          return options.get(filter.value)
+        }
+      }
+      return filter.value
+    }
+
+    render() {
+      return (
+        <TransactionToolbarRow>
+          <div className="buttons has-addons">
+            {this.props.filters.map((filter, index) => (
+              <ButtonIcon
+                key={index}
+                color="link"
+                size="small"
+                icon="ban"
+                outlined
+                onClick={() => this.props.onClickDelete(index)}
+              >
+                {this.getAttributeLabel(filter.attribute)} {filter.operator}{' '}
+                {this.getValueLabel(filter)}
+              </ButtonIcon>
+            ))}
+          </div>
+        </TransactionToolbarRow>
+      )
+    }
   }
-}
+)
 
 export default TransactionFilters

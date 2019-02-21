@@ -58,89 +58,101 @@ const mapStateToProps = state => ({
   ),
 })
 
-@ui({
+export const BudgetTable = ui({
   state: {
     editingCategoryId: undefined,
   },
-})
-@connect(mapStateToProps)
-@withRouter
-export class BudgetTable extends React.Component {
-  static propTypes = {
-    categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
-      .isRequired,
-    categoriesByGroupId: PropTypes.objectOf(
-      PropTypes.arrayOf(CategoryResource.propTypes).isRequired
-    ).isRequired,
-    selectedMonthActivityByCategoryId: PropTypes.objectOf(
-      PropTypes.number.isRequired
-    ).isRequired,
-    selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
-      BudgetItemResource.propTypes
-    ).isRequired,
-    availableByCategory: PropTypes.instanceOf(Map).isRequired,
-    goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(PropTypes.number)
-      .isRequired,
-    ui: PropTypes.shape({
-      categorySelected: PropTypes.string,
-    }).isRequired,
-    updateUI: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  }
+})(
+  connect(mapStateToProps)(
+    withRouter(
+      class BudgetTable extends React.Component {
+        static propTypes = {
+          categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
+            .isRequired,
+          categoriesByGroupId: PropTypes.objectOf(
+            PropTypes.arrayOf(CategoryResource.propTypes).isRequired
+          ).isRequired,
+          selectedMonthActivityByCategoryId: PropTypes.objectOf(
+            PropTypes.number.isRequired
+          ).isRequired,
+          selectedMonthBudgetItemByCategoryId: PropTypes.objectOf(
+            BudgetItemResource.propTypes
+          ).isRequired,
+          availableByCategory: PropTypes.instanceOf(Map).isRequired,
+          goalToBudgetByCategoryForSelectedMonth: PropTypes.objectOf(
+            PropTypes.number
+          ).isRequired,
+          ui: PropTypes.shape({
+            categorySelected: PropTypes.string,
+          }).isRequired,
+          updateUI: PropTypes.func.isRequired,
+          history: PropTypes.shape({
+            push: PropTypes.func.isRequired,
+          }).isRequired,
+        }
 
-  categoryNameClick = categoryUuid => () => {
-    if (this.props.ui.categorySelected === categoryUuid) {
-      this.props.updateUI({categorySelected: null})
-    } else {
-      this.props.updateUI({categorySelected: categoryUuid})
-    }
-  }
-
-  render() {
-    const rows = []
-    this.props.categoryGroups.forEach(cg => {
-      rows.push(
-        <CategoryGroupRow
-          key={'cg' + cg.uuid}
-          categoryGroup={cg}
-          onClick={() =>
-            this.props.history.push(`/category-groups/edit/${cg.uuid}`)
+        categoryNameClick = categoryUuid => () => {
+          if (this.props.ui.categorySelected === categoryUuid) {
+            this.props.updateUI({categorySelected: null})
+          } else {
+            this.props.updateUI({categorySelected: categoryUuid})
           }
-        />
-      )
-      if (this.props.categoriesByGroupId[cg.uuid]) {
-        this.props.categoriesByGroupId[cg.uuid].forEach(c => {
-          rows.push(
-            <CategoryRow
-              key={'c' + c.uuid}
-              category={c}
-              onNameClick={this.categoryNameClick(c.uuid)}
-              budgetItem={
-                this.props.selectedMonthBudgetItemByCategoryId[c.uuid]
-              }
-              activity={this.props.selectedMonthActivityByCategoryId[c.uuid]}
-              available={this.props.availableByCategory.get(c.uuid)}
-              goal={!!this.props.goalToBudgetByCategoryForSelectedMonth[c.uuid]}
-            />
-          )
-        })
-      }
-    })
+        }
 
-    return (
-      <Table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <BudgetedColumn className="has-text-right">Budgeted</BudgetedColumn>
-            <th className="has-text-right">Activity</th>
-            <th className="has-text-right">Available</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+        render() {
+          const rows = []
+          this.props.categoryGroups.forEach(cg => {
+            rows.push(
+              <CategoryGroupRow
+                key={'cg' + cg.uuid}
+                categoryGroup={cg}
+                onClick={() =>
+                  this.props.history.push(`/category-groups/edit/${cg.uuid}`)
+                }
+              />
+            )
+            if (this.props.categoriesByGroupId[cg.uuid]) {
+              this.props.categoriesByGroupId[cg.uuid].forEach(c => {
+                rows.push(
+                  <CategoryRow
+                    key={'c' + c.uuid}
+                    category={c}
+                    onNameClick={this.categoryNameClick(c.uuid)}
+                    budgetItem={
+                      this.props.selectedMonthBudgetItemByCategoryId[c.uuid]
+                    }
+                    activity={
+                      this.props.selectedMonthActivityByCategoryId[c.uuid]
+                    }
+                    available={this.props.availableByCategory.get(c.uuid)}
+                    goal={
+                      !!this.props.goalToBudgetByCategoryForSelectedMonth[
+                        c.uuid
+                      ]
+                    }
+                  />
+                )
+              })
+            }
+          })
+
+          return (
+            <Table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <BudgetedColumn className="has-text-right">
+                    Budgeted
+                  </BudgetedColumn>
+                  <th className="has-text-right">Activity</th>
+                  <th className="has-text-right">Available</th>
+                </tr>
+              </thead>
+              <tbody>{rows}</tbody>
+            </Table>
+          )
+        }
+      }
     )
-  }
-}
+  )
+)

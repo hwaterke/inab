@@ -22,59 +22,63 @@ const mapStateToProps = state => ({
   payees: getSortedPayees(state),
 })
 
-@connect(mapStateToProps)
-export class PayeeList extends React.Component {
-  static propTypes = {
-    payees: PropTypes.arrayOf(PayeeResource.propTypes).isRequired,
-  }
+export const PayeeList = connect(mapStateToProps)(
+  class PayeeList extends React.Component {
+    static propTypes = {
+      payees: PropTypes.arrayOf(PayeeResource.propTypes).isRequired,
+    }
 
-  render() {
-    return (
-      <ResourceListProvider
-        crudThunks={crudThunks}
-        resource={PayeeResource}
-        autoFetch
-      >
-        {() => (
-          <Section>
-            <div className="columns">
-              <div className="column">
-                <Box>
-                  <Title>Payees</Title>
+    render() {
+      return (
+        <ResourceListProvider
+          crudThunks={crudThunks}
+          resource={PayeeResource}
+          autoFetch
+        >
+          {() => (
+            <Section>
+              <div className="columns">
+                <div className="column">
+                  <Box>
+                    <Title>Payees</Title>
 
-                  <Link to="/payees/new">New payee</Link>
+                    <Link to="/payees/new">New payee</Link>
 
-                  <PayeeListContainer>
-                    {this.props.payees.map(payee => (
-                      <Link key={payee.uuid} to={`/payees/edit/${payee.uuid}`}>
-                        <span>{payee.name}</span>
-                        <span className="tag is-rounded">
-                          {payee.locations.length}
-                        </span>
-                      </Link>
-                    ))}
-                  </PayeeListContainer>
-                </Box>
+                    <PayeeListContainer>
+                      {this.props.payees.map(payee => (
+                        <Link
+                          key={payee.uuid}
+                          to={`/payees/edit/${payee.uuid}`}
+                        >
+                          <span>{payee.name}</span>
+                          <span className="tag is-rounded">
+                            {payee.locations.length}
+                          </span>
+                        </Link>
+                      ))}
+                    </PayeeListContainer>
+                  </Box>
+                </div>
+
+                <div className="column is-4">
+                  <Box>
+                    <Title>Statistics</Title>
+
+                    <h5>{this.props.payees.length} payees</h5>
+                    <h5>
+                      {this.props.payees.reduce(
+                        (acc, v) => acc + v.locations.length,
+                        0
+                      )}{' '}
+                      locations
+                    </h5>
+                  </Box>
+                </div>
               </div>
-
-              <div className="column is-4">
-                <Box>
-                  <Title>Statistics</Title>
-
-                  <h5>{this.props.payees.length} payees</h5>
-                  <h5>
-                    {this.props.payees.reduce(
-                      (acc, v) => acc + v.locations.length,
-                      0
-                    )}{' '}
-                    locations
-                  </h5>
-                </Box>
-              </div>
-            </div>
-          </Section>
-        )}
-      </ResourceListProvider>
-    )
+            </Section>
+          )}
+        </ResourceListProvider>
+      )
+    }
   }
-}
+)

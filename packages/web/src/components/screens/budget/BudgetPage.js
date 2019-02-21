@@ -18,42 +18,43 @@ const LinksHeader = styled.div`
   }
 `
 
-@ui({
+export const BudgetPage = ui({
   state: {
     categoryGroupFormOpen: false,
     categoryGroupSelected: null,
     categoryFormOpen: false,
     categorySelected: null,
   },
-})
-export class BudgetPage extends React.Component {
-  render() {
-    return (
-      <Fragment>
-        <BudgetHeader />
+})(
+  class BudgetPage extends React.Component {
+    render() {
+      return (
+        <Fragment>
+          <BudgetHeader />
 
-        <Section>
-          <div className="columns">
-            <div className="column">
-              <Box>
-                <LinksHeader>
-                  <Link to="/category-groups/new">
-                    <FontAwesome name="plus" /> Category Group
-                  </Link>
-                  <Link to="/categories/new">
-                    <FontAwesome name="plus" /> Category
-                  </Link>
-                </LinksHeader>
-                <BudgetTable />
-              </Box>
-            </div>
+          <Section>
+            <div className="columns">
+              <div className="column">
+                <Box>
+                  <LinksHeader>
+                    <Link to="/category-groups/new">
+                      <FontAwesome name="plus" /> Category Group
+                    </Link>
+                    <Link to="/categories/new">
+                      <FontAwesome name="plus" /> Category
+                    </Link>
+                  </LinksHeader>
+                  <BudgetTable />
+                </Box>
+              </div>
 
-            <div className="column is-3">
-              <BudgetSidebar />
+              <div className="column is-3">
+                <BudgetSidebar />
+              </div>
             </div>
-          </div>
-        </Section>
-      </Fragment>
-    )
+          </Section>
+        </Fragment>
+      )
+    }
   }
-}
+)

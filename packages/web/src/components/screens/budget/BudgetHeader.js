@@ -51,54 +51,55 @@ const mapStateToProps = state => ({
   budgetedInFuture: getBudgetedInFuture(state),
 })
 
-@connect(mapStateToProps)
-export class BudgetHeader extends React.Component {
-  static propTypes = {
-    availableToBudget: PropTypes.number.isRequired,
-    fundsAvailable: PropTypes.number.isRequired,
-    overspentLastMonth: PropTypes.number.isRequired,
-    budgetedThisMonth: PropTypes.number.isRequired,
-    budgetedInFuture: PropTypes.number.isRequired,
-  }
+export const BudgetHeader = connect(mapStateToProps)(
+  class BudgetHeader extends React.Component {
+    static propTypes = {
+      availableToBudget: PropTypes.number.isRequired,
+      fundsAvailable: PropTypes.number.isRequired,
+      overspentLastMonth: PropTypes.number.isRequired,
+      budgetedThisMonth: PropTypes.number.isRequired,
+      budgetedInFuture: PropTypes.number.isRequired,
+    }
 
-  render() {
-    return (
-      <HeaderContainer>
-        <div className="container is-fluid">
-          <Header>
-            <MonthSelector />
+    render() {
+      return (
+        <HeaderContainer>
+          <div className="container is-fluid">
             <Header>
-              <Available>
-                <Amount amount={this.props.availableToBudget} hasBackground />
-                <div>Available to budget</div>
-              </Available>
+              <MonthSelector />
+              <Header>
+                <Available>
+                  <Amount amount={this.props.availableToBudget} hasBackground />
+                  <div>Available to budget</div>
+                </Available>
 
-              <Details>
-                <Right>
-                  <div>
-                    <Amount amount={this.props.fundsAvailable} />
-                  </div>
-                  <div>
-                    <Amount amount={this.props.overspentLastMonth} />
-                  </div>
-                  <div>
-                    <Amount amount={this.props.budgetedThisMonth} />
-                  </div>
-                  <div>
-                    <Amount amount={this.props.budgetedInFuture} />
-                  </div>
-                </Right>
-                <Names>
-                  <div>Funds</div>
-                  <div>Overspent last month</div>
-                  <div>Budgeted this month</div>
-                  <div>Budgeted in the future</div>
-                </Names>
-              </Details>
+                <Details>
+                  <Right>
+                    <div>
+                      <Amount amount={this.props.fundsAvailable} />
+                    </div>
+                    <div>
+                      <Amount amount={this.props.overspentLastMonth} />
+                    </div>
+                    <div>
+                      <Amount amount={this.props.budgetedThisMonth} />
+                    </div>
+                    <div>
+                      <Amount amount={this.props.budgetedInFuture} />
+                    </div>
+                  </Right>
+                  <Names>
+                    <div>Funds</div>
+                    <div>Overspent last month</div>
+                    <div>Budgeted this month</div>
+                    <div>Budgeted in the future</div>
+                  </Names>
+                </Details>
+              </Header>
             </Header>
-          </Header>
-        </div>
-      </HeaderContainer>
-    )
+          </div>
+        </HeaderContainer>
+      )
+    }
   }
-}
+)
