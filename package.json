@@ -10,6 +10,7 @@
   },
   "homepage": "https://github.com/hwaterke/inab#readme",
   "scripts": {
+    "preinstall": "./netlify.sh",
     "postinstall": "lerna bootstrap",
     "precommit": "lint-staged && lerna run --concurrency 1 precommit"
   },
