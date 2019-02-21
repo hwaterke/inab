@@ -70,7 +70,13 @@ export const AuthController = {
 
     const user = await repository.findOne({email: req.value.body.email})
 
-    if (user && (await validatePassword(user.uuid, req.value.body.password))) {
+    if (
+      user &&
+      (await validatePassword({
+        uuid: user.uuid,
+        plainTextPassword: req.value.body.password,
+      }))
+    ) {
       return res
         .append('Authorization', `Bearer ${createToken(user.uuid)}`)
         .status(200)
