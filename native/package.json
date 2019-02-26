@@ -5,16 +5,17 @@
   "description": "INAB Native",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "start": "expo start",
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@inab/shared": "^0.0.0",
+    "@inab/shared": "file:./inab-shared.tgz",
     "axios": "^0.18.0",
-    "expo": "^27.0.1",
+    "expo": "^32.0.6",
     "moment": "^2.22.1",
     "ramda": "^0.25.0",
-    "react": "16.3.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-navigation": "^1.5.12",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "babel-preset-expo": "^5.0.0",
     "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-react": "^7.7.0",

@@ -7,9 +7,9 @@ INAB is a budgeting tool.
 This is a monorepo that contains different packages
 
 - [packages/web](packages/web) contains the web app
-- [packages/native](packages/native) contains the mobile app
 - [packages/shared](packages/shared) contains common files for web and native apps
 - [packages/server](packages/server) contains the server
+- [native](packages/native) contains the mobile app
 
 # Use
 
