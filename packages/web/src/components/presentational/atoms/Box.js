@@ -1,3 +1,3 @@
 import styled from 'styled-components'
 
-export const Box = styled.div.attrs({className: 'box'})``
+export const Box = styled.div.attrs(() => ({className: 'box'}))``

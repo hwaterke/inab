@@ -15,11 +15,15 @@ import {select} from 'redux-crud-provider'
 import styled from 'styled-components'
 import {Amount} from '../Amount'
 
-const AccountLink = styled(Link).attrs({className: 'navbar-item'})`
+const AccountLink = styled(Link).attrs(() => ({className: 'navbar-item'}))`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `
+
+// This is a hack to be able to keep a <a /> as the dropdown link
+// bulma won't work with a button
+const Button = styled.a``
 
 const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
@@ -62,8 +66,7 @@ export const NavBar = connect(
                 INAB
               </Link>
 
-              <a
-                role="button"
+              <button
                 className={classNames('navbar-burger', {
                   'is-active': this.state.isOpen,
                 })}
@@ -74,7 +77,7 @@ export const NavBar = connect(
                 <span aria-hidden="true" />
                 <span aria-hidden="true" />
                 <span aria-hidden="true" />
-              </a>
+              </button>
             </div>
 
             <div
@@ -92,7 +95,7 @@ export const NavBar = connect(
                 </Link>
 
                 <div className="navbar-item has-dropdown is-hoverable">
-                  <a className="navbar-link">Accounts</a>
+                  <Button className="navbar-link">Accounts</Button>
 
                   <div className="navbar-dropdown">
                     <AccountLink to="/account">
@@ -102,10 +105,10 @@ export const NavBar = connect(
 
                     {this.props.accounts.map(account =>
                       account.busy ? (
-                        <a className="dropdown-item" key={account.uuid}>
+                        <button className="dropdown-item" key={account.uuid}>
                           <FontAwesome name="refresh" spin fixedWidth />
                           {account.name}
-                        </a>
+                        </button>
                       ) : (
                         <AccountLink
                           key={account.uuid}
@@ -143,14 +146,13 @@ export const NavBar = connect(
               </div>
 
               <div className="navbar-end">
-                <a
-                  role="button"
-                  className="navbar-item"
+                <button
+                  className="navbar-item button is-text"
                   data-testid="logout"
                   onClick={this.logout}
                 >
                   Logout
-                </a>
+                </button>
               </div>
             </div>
           </div>

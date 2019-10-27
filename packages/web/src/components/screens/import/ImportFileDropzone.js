@@ -101,13 +101,12 @@ export class ImportFileDropzone extends React.Component {
 
               <p>
                 Importing transactions for account: <b>{account.name}</b>
-                <a
-                  role="button"
-                  className="delete"
+                <button
+                  className="delete button is-text"
                   onClick={clearImportAccountUuid}
                 >
                   Clear account
-                </a>
+                </button>
               </p>
 
               <ul>
