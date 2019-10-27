@@ -62,10 +62,7 @@ export const selectExistingTransactionsForImportAccount = createSelector(
     transactions.filter(tr => tr.account_uuid === account_uuid)
 )
 
-const pairTransactionWithImport = (
-  transactions: [],
-  importedTransactions: []
-) => {
+const pairTransactionWithImport = (transactions, importedTransactions) => {
   const result = {}
 
   transactions.forEach(transaction => {
