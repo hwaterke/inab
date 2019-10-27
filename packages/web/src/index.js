@@ -7,24 +7,32 @@ import React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {ThemeProvider} from 'styled-components'
 import {Main} from './components/Main'
 import {LoginPage} from './components/screens/login/LoginPage'
 import {persistor, store} from './store/store'
-import {PersistGate} from 'redux-persist/integration/react'
-import './styles/index.css'
 import './styles/modal.css'
+import {ligthTheme} from './styles/themes'
+import {GlobalStyles} from './styles/globalStyles'
+import {PersistGate} from 'redux-persist/integration/react'
 
-render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor} loading="Loading...">
-      <Router>
-        <Switch>
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/register" component={LoginPage} />
-          <Route component={Main} />
-        </Switch>
-      </Router>
-    </PersistGate>
-  </Provider>,
-  document.getElementById('root')
-)
+const Index = () => {
+  return (
+    <ThemeProvider theme={ligthTheme}>
+      <GlobalStyles />
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading="Loading...">
+          <Router>
+            <Switch>
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/register" component={LoginPage} />
+              <Route component={Main} />
+            </Switch>
+          </Router>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
+  )
+}
+
+render(<Index />, document.getElementById('root'))
