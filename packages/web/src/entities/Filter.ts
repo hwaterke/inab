@@ -1,5 +1,3 @@
-// @flow
-
 export class Filter {
   attribute: string
   operator: string

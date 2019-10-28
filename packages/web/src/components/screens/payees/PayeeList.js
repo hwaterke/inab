@@ -4,13 +4,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {ResourceListProvider} from 'redux-crud-provider'
+import styled from 'styled-components'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {Box} from '../../presentational/atoms/Box'
 import {LinkList} from '../../presentational/atoms/LinkList'
 import {Section} from '../../presentational/atoms/Section'
 import {Title} from '../../presentational/atoms/Title'
 
-const PayeeListContainer = LinkList.extend`
+const PayeeListContainer = styled(LinkList)`
   > a {
     display: flex;
     justify-content: space-between;

@@ -1,3 +1,3 @@
 import styled from 'styled-components'
 
-export const Title = styled.h1.attrs({className: 'title'})``
+export const Title = styled.h1.attrs(() => ({className: 'title'}))``

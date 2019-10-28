@@ -19,7 +19,9 @@ import {media} from '../../../styles/styleUtils'
 import CategoryGroupRow from '../../CategoryGroupRow'
 import {CategoryRow} from '../../CategoryRow'
 
-const Table = styled.table.attrs({className: 'table is-narrow is-fullwidth'})`
+const Table = styled.table.attrs(() => ({
+  className: 'table is-narrow is-fullwidth',
+}))`
   input {
     padding-top: 1px;
     padding-bottom: 1px;

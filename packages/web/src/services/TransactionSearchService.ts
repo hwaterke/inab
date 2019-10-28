@@ -1,35 +1,37 @@
-// @flow
 import {Filter} from '../entities/Filter'
 
 export class TransactionSearchService {
-  applyFiltersToTransactions(transactions, filters: Filter[]) {
+  applyFiltersToTransactions(transactions: any[], filters: Filter[]) {
     return transactions.filter(tr =>
       this.applyFiltersToTransaction(tr, filters)
     )
   }
 
-  applyFiltersToTransaction(transaction, filters: Filter[]) {
-    for (let filter: Filter of filters) {
+  applyFiltersToTransaction(transaction: any, filters: Filter[]) {
+    for (let filter of filters) {
       const value = transaction[filter.attribute]
       const searchValue = filter.value
-      if (filter.operator === '=' && !this.matchExact(value, searchValue)) {
+      if (
+        filter.operator === '=' &&
+        !this.matchExact(value, searchValue as string)
+      ) {
         return false
       }
-      if (!this.matchContain(value, searchValue)) {
+      if (!this.matchContain(value, searchValue as string)) {
         return false
       }
     }
     return true
   }
 
-  filter(transactions, searchText) {
+  filter(transactions: any[], searchText: string) {
     if (!searchText) {
       return transactions
     }
     return transactions.filter(tr => this.transactionContains(tr, searchText))
   }
 
-  transactionContains(transaction, searchText) {
+  transactionContains(transaction: any, searchText: string) {
     const searchColumns = [
       'date',
       'time',
@@ -48,21 +50,21 @@ export class TransactionSearchService {
       )
   }
 
-  matchExact(value, searchText) {
+  matchExact(value: any, searchText: string) {
     return this.tranformForSearch(value) === this.tranformForSearch(searchText)
   }
 
-  matchContain(value, searchText) {
+  matchContain(value: any, searchText: string) {
     return this.indexOf(searchText, value) !== -1
   }
 
-  indexOf(searchText, value) {
+  indexOf(searchText: string, value: any) {
     return this.tranformForSearch(value).indexOf(
       this.tranformForSearch(searchText)
     )
   }
 
-  tranformForSearch(value) {
+  tranformForSearch(value: string) {
     if (!value) {
       return ''
     }
