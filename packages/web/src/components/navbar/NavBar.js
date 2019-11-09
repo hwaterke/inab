@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom'
 import {select} from 'redux-crud-provider'
 import styled from 'styled-components'
 import {Amount} from '../Amount'
+import {ThemeSwitcher} from '../../styles/themes'
 
 const AccountLink = styled(Link).attrs(() => ({className: 'navbar-item'}))`
   display: flex;
@@ -24,6 +25,10 @@ const AccountLink = styled(Link).attrs(() => ({className: 'navbar-item'}))`
 // This is a hack to be able to keep a <a /> as the dropdown link
 // bulma won't work with a button
 const Button = styled.a``
+
+const Nav = styled.nav.attrs(props => ({
+  className: `navbar ${props.theme.elements.navbar.className}`,
+}))``
 
 const mapStateToProps = state => ({
   accounts: select(AccountResource).asArray(state),
@@ -59,104 +64,120 @@ export const NavBar = connect(
 
     render() {
       return (
-        <nav className="navbar" aria-label="main navigation">
-          <div className="container is-fluid">
-            <div className="navbar-brand">
-              <Link className="navbar-item" to="/">
-                INAB
-              </Link>
+        <ThemeSwitcher.Consumer>
+          {switchTheme => (
+            <Nav aria-label="main navigation">
+              <div className="container is-fluid">
+                <div className="navbar-brand">
+                  <Link className="navbar-item" to="/">
+                    INAB
+                  </Link>
 
-              <button
-                className={classNames('navbar-burger', {
-                  'is-active': this.state.isOpen,
-                })}
-                aria-label="menu"
-                aria-expanded="false"
-                onClick={this.toggle}
-              >
-                <span aria-hidden="true" />
-                <span aria-hidden="true" />
-                <span aria-hidden="true" />
-              </button>
-            </div>
+                  <button
+                    className={classNames('navbar-burger', {
+                      'is-active': this.state.isOpen,
+                    })}
+                    aria-label="menu"
+                    aria-expanded="false"
+                    onClick={this.toggle}
+                  >
+                    <span aria-hidden="true" />
+                    <span aria-hidden="true" />
+                    <span aria-hidden="true" />
+                  </button>
+                </div>
 
-            <div
-              className={classNames('navbar-menu', {
-                'is-active': this.state.isOpen,
-              })}
-            >
-              <div className="navbar-start">
-                <Link className="navbar-item" to="/">
-                  Budget
-                </Link>
+                <div
+                  className={classNames('navbar-menu', {
+                    'is-active': this.state.isOpen,
+                  })}
+                >
+                  <div className="navbar-start">
+                    <Link className="navbar-item" to="/">
+                      Budget
+                    </Link>
 
-                <Link className="navbar-item" to="/payees">
-                  Payees
-                </Link>
+                    <Link className="navbar-item" to="/payees">
+                      Payees
+                    </Link>
 
-                <div className="navbar-item has-dropdown is-hoverable">
-                  <Button className="navbar-link">Accounts</Button>
+                    <div className="navbar-item has-dropdown is-hoverable">
+                      <Button className="navbar-link">Accounts</Button>
 
-                  <div className="navbar-dropdown">
-                    <AccountLink to="/account">
-                      <span>All&nbsp;</span>
-                      <Amount amount={this.props.budgetBalance} hasBackground />
-                    </AccountLink>
-
-                    {this.props.accounts.map(account =>
-                      account.busy ? (
-                        <button className="dropdown-item" key={account.uuid}>
-                          <FontAwesome name="refresh" spin fixedWidth />
-                          {account.name}
-                        </button>
-                      ) : (
-                        <AccountLink
-                          key={account.uuid}
-                          to={`/account/${account.uuid}`}
-                        >
-                          <span>
-                            {account.name}
-                            &nbsp;
-                          </span>
+                      <div className="navbar-dropdown">
+                        <AccountLink to="/account">
+                          <span>All&nbsp;</span>
                           <Amount
-                            amount={this.props.balanceByAccountId[account.uuid]}
+                            amount={this.props.budgetBalance}
                             hasBackground
                           />
                         </AccountLink>
-                      )
-                    )}
 
-                    <hr className="navbar-divider" />
+                        {this.props.accounts.map(account =>
+                          account.busy ? (
+                            <button
+                              className="dropdown-item"
+                              key={account.uuid}
+                            >
+                              <FontAwesome name="refresh" spin fixedWidth />
+                              {account.name}
+                            </button>
+                          ) : (
+                            <AccountLink
+                              key={account.uuid}
+                              to={`/account/${account.uuid}`}
+                            >
+                              <span>
+                                {account.name}
+                                &nbsp;
+                              </span>
+                              <Amount
+                                amount={
+                                  this.props.balanceByAccountId[account.uuid]
+                                }
+                                hasBackground
+                              />
+                            </AccountLink>
+                          )
+                        )}
 
-                    <Link className="navbar-item" to="/accounts">
-                      Manage accounts
+                        <hr className="navbar-divider" />
+
+                        <Link className="navbar-item" to="/accounts">
+                          Manage accounts
+                        </Link>
+                      </div>
+                    </div>
+
+                    <Button className="navbar-item" onClick={switchTheme}>
+                      Switch theme
+                    </Button>
+
+                    <Link className="navbar-item" to="/import">
+                      Import
                     </Link>
+
+                    {this.props.isAdmin && (
+                      <Link className="navbar-item" to="/admin">
+                        Admin
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className="navbar-end">
+                    <button
+                      className="navbar-item button is-text"
+                      data-testid="logout"
+                      onClick={this.logout}
+                    >
+                      Logout
+                    </button>
                   </div>
                 </div>
-
-                <Link className="navbar-item" to="/import">
-                  Import
-                </Link>
-
-                {this.props.isAdmin && (
-                  <Link className="navbar-item" to="/admin">
-                    Admin
-                  </Link>
-                )}
               </div>
-
-              <div className="navbar-end">
-                <button
-                  className="navbar-item button is-text"
-                  data-testid="logout"
-                  onClick={this.logout}
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+            </Nav>
+          )}
+        </ThemeSwitcher.Consumer>
       )
     }
   }

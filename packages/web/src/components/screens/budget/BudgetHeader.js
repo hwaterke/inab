@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import {Amount} from '../../Amount'
 import MonthSelector from '../../MonthSelector'
 import {HeaderContainer} from '../../presentational/atoms/HeaderContainer'
+import {Text} from '../../presentational/atoms/Text'
 
 const Header = styled.div`
   display: flex;
@@ -70,7 +71,9 @@ export const BudgetHeader = connect(mapStateToProps)(
               <Header>
                 <Available>
                   <Amount amount={this.props.availableToBudget} hasBackground />
-                  <div>Available to budget</div>
+                  <div>
+                    <Text>Available to budget</Text>
+                  </div>
                 </Available>
 
                 <Details>
@@ -89,10 +92,18 @@ export const BudgetHeader = connect(mapStateToProps)(
                     </div>
                   </Right>
                   <Names>
-                    <div>Funds</div>
-                    <div>Overspent last month</div>
-                    <div>Budgeted this month</div>
-                    <div>Budgeted in the future</div>
+                    <div>
+                      <Text>Funds</Text>
+                    </div>
+                    <div>
+                      <Text>Overspent last month</Text>
+                    </div>
+                    <div>
+                      <Text>Budgeted this month</Text>
+                    </div>
+                    <div>
+                      <Text>Budgeted in the future</Text>
+                    </div>
                   </Names>
                 </Details>
               </Header>

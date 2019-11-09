@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import {colors} from '../../../constants/colors'
+import {Text} from './Text'
 
 const Container = styled.div`
   display: flex;
@@ -31,8 +32,12 @@ export class ValueHighlight extends React.Component {
   render() {
     return (
       <Container>
-        <Small>{this.props.name}</Small>
-        <Value>{this.props.children}</Value>
+        <Small>
+          <Text>{this.props.name}</Text>
+        </Small>
+        <Value>
+          <Text>{this.props.children}</Text>
+        </Value>
       </Container>
     )
   }
