@@ -24,6 +24,9 @@ export class SettingsLogin extends React.Component {
     backend: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     clearToken: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   render() {
@@ -43,7 +46,13 @@ export class SettingsLogin extends React.Component {
           <Text style={styles.lightText}>{this.props.email}</Text>
         </View>
 
-        <Button title="Sign out" onPress={() => this.props.clearToken()} />
+        <Button
+          title="Sign out"
+          onPress={() => {
+            this.props.clearToken()
+            this.props.navigation.navigate('Auth')
+          }}
+        />
       </View>
     )
   }

@@ -6,7 +6,7 @@ export const Banner = () => <View style={styles.status} />
 
 const styles = StyleSheet.create({
   status: {
-    height: Platform.OS === 'ios' ? 20 : 0,
+    height: Platform.OS === 'ios' ? 50 : 0,
     backgroundColor: colors.banner,
   },
 })

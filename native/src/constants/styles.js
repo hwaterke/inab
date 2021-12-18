@@ -32,6 +32,10 @@ export const globalStyles = StyleSheet.create({
 
   header: {
     backgroundColor: colors.banner,
+    // iOS
+    borderBottomWidth: 0,
+    // Android
+    elevation: 0,
   },
 
   headerTitle: {

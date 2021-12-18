@@ -30,6 +30,8 @@ export const crudThunks = createCrudThunks({
       return dispatch(clearToken())
     }
 
+    console.log({error: path(['response', 'data'], error)})
+
     alert(`Error: ${operation}:${resource.name} - ${error}`)
   },
 })

@@ -1,5 +1,3 @@
-import {combineReducers} from 'redux'
-import {reducer as formReducer} from 'redux-form'
 import {
   credentialsReducer,
   resourcesActivityReducer,
@@ -7,10 +5,9 @@ import {
   selectedMonthReducer,
 } from '@inab/shared'
 
-export const rootReducer = combineReducers({
+export const reducers = {
   resources: resourcesReducer,
   resourcesActivity: resourcesActivityReducer,
   credentials: credentialsReducer,
   selectedMonth: selectedMonthReducer,
-  form: formReducer,
-})
+}

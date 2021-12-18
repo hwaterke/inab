@@ -1,4 +1,4 @@
-import {StackNavigator} from 'react-navigation'
+import {createStackNavigator} from 'react-navigation'
 import {globalStyles} from '../../../constants/styles'
 import {colors} from '../../../constants/colors'
 import {TransactionListScreen} from './TransactionListScreen'
@@ -18,7 +18,7 @@ TransactionListScreen.navigationOptions = ({navigation}) => ({
   headerTintColor: colors.bannerText,
 })
 
-export const TransactionStackNavigator = StackNavigator({
+export const TransactionStackNavigator = createStackNavigator({
   AccountList: {
     screen: TransactionAccountListScreen,
   },

@@ -1,27 +1,28 @@
 import React from 'react'
-import {StyleSheet, ScrollView, View} from 'react-native'
 import {colors} from '../../../constants/colors'
-import {Banner} from '../../Banner'
 import {SettingsLogin} from './SettingsLogin'
 import {SettingsResources} from './SettingsResources'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const Screen = styled.ScrollView`
+  flex: 1;
+  background-color: ${colors.background};
+`
 
 export class SettingsScreen extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Banner />
-        <ScrollView>
-          <SettingsLogin />
-          <SettingsResources />
-        </ScrollView>
-      </View>
+      <Screen>
+        <SettingsLogin navigation={this.props.navigation} />
+        <SettingsResources />
+      </Screen>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-})

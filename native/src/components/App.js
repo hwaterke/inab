@@ -1,26 +1,20 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {Provider} from 'react-redux'
-import {persistStore} from 'redux-persist'
-import {AsyncStorage, StatusBar, View} from 'react-native'
-import {store} from '../store/index'
-import {globalStyles} from '../constants/styles'
-import {LoginDispatcher} from './LoginDispatcher'
+import {StatusBar} from 'react-native'
+import {persistor, store} from '../store/index'
+import {PersistGate} from 'redux-persist/es/integration/react'
+import {AppContainer} from './AppContainer'
 
 export class App extends React.Component {
-  componentDidMount() {
-    persistStore(store, {
-      storage: AsyncStorage,
-      whitelist: ['credentials', 'resources'],
-    })
-  }
-
   render() {
     return (
       <Provider store={store}>
-        <View style={globalStyles.flex}>
-          <StatusBar barStyle="light-content" />
-          <LoginDispatcher />
-        </View>
+        <PersistGate persistor={persistor}>
+          <Fragment>
+            <StatusBar barStyle="light-content" />
+            <AppContainer />
+          </Fragment>
+        </PersistGate>
       </Provider>
     )
   }

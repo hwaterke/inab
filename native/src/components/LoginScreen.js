@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 import {
   Image,
@@ -9,13 +9,13 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import {Field, reduxForm} from 'redux-form'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {selectBackend, selectEmail, setCredentials} from '@inab/shared'
 // eslint-disable-next-line import/named
 import {LinearGradient} from 'expo'
 import {TextInputField} from './fields/TextInputField'
+import {Field, Form} from 'react-final-form'
 
 const mapStateToProps = state => ({
   initialValues: {
@@ -32,11 +32,16 @@ const mapDispatchToProps = {
   mapStateToProps,
   mapDispatchToProps
 )
-@reduxForm({form: 'login', enableReinitialize: true})
 export class LoginScreen extends React.Component {
   static propTypes = {
     setCredentials: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+    initialValues: PropTypes.shape({
+      backend: PropTypes.string,
+      email: PropTypes.string,
+    }).isRequired,
   }
 
   onSubmit = data => {
@@ -58,8 +63,8 @@ export class LoginScreen extends React.Component {
     })
       .then(response => {
         if (response.headers.authorization) {
-          // Dispatch save token
           this.props.setCredentials({token: response.headers.authorization})
+          this.props.navigation.navigate('App')
         } else {
           alert('Login error')
         }
@@ -80,46 +85,52 @@ export class LoginScreen extends React.Component {
             <Image source={require('../assets/icons/login.png')} />
           </View>
 
-          <View style={styles.fieldWrapper}>
-            <Field
-              name="backend"
-              component={TextInputField}
-              placeholder="Server"
-              autoCapitalize="none"
-              placeholderTextColor="rgba(255,255,255,0.6)"
-              style={styles.field}
-            />
-          </View>
-
-          <View style={styles.fieldWrapper}>
-            <Field
-              name="email"
-              component={TextInputField}
-              placeholder="Email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              placeholderTextColor="rgba(255,255,255,0.6)"
-              style={styles.field}
-            />
-          </View>
-
-          <View style={styles.fieldWrapper}>
-            <Field
-              name="password"
-              component={TextInputField}
-              placeholder="Password"
-              secureTextEntry
-              placeholderTextColor="rgba(255,255,255,0.6)"
-              style={styles.field}
-            />
-          </View>
-
-          <TouchableOpacity
-            onPress={this.props.handleSubmit(this.onSubmit)}
-            style={styles.button}
+          <Form
+            onSubmit={this.onSubmit}
+            initialValues={this.props.initialValues}
           >
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+            {({handleSubmit}) => (
+              <Fragment>
+                <View style={styles.fieldWrapper}>
+                  <Field
+                    name="backend"
+                    component={TextInputField}
+                    placeholder="Server"
+                    autoCapitalize="none"
+                    placeholderTextColor="rgba(255,255,255,0.6)"
+                    style={styles.field}
+                  />
+                </View>
+
+                <View style={styles.fieldWrapper}>
+                  <Field
+                    name="email"
+                    component={TextInputField}
+                    placeholder="Email"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    placeholderTextColor="rgba(255,255,255,0.6)"
+                    style={styles.field}
+                  />
+                </View>
+
+                <View style={styles.fieldWrapper}>
+                  <Field
+                    name="password"
+                    component={TextInputField}
+                    placeholder="Password"
+                    secureTextEntry
+                    placeholderTextColor="rgba(255,255,255,0.6)"
+                    style={styles.field}
+                  />
+                </View>
+
+                <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                  <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+              </Fragment>
+            )}
+          </Form>
         </LinearGradient>
       </TouchableWithoutFeedback>
     )
