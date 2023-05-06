@@ -1,6 +1,6 @@
 import * as types from './types'
 
-export const addError = content => ({
+export const addError = (content) => ({
   type: types.ADD_ERROR,
   data: content,
 })

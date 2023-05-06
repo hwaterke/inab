@@ -45,19 +45,16 @@ const BudgetedColumn = styled.th`
   width: 15%;
 `
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: selectCategoriesByGroupId(state),
-  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(
-    state
-  ),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
-    state
-  ),
+  selectedMonthActivityByCategoryId:
+    selectSelectedMonthActivityByCategoryId(state),
+  selectedMonthBudgetItemByCategoryId:
+    getSelectedMonthBudgetItemByCategoryId(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
-  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
-    state
-  ),
+  goalToBudgetByCategoryForSelectedMonth:
+    goalToBudgetByCategoryForSelectedMonth(state),
 })
 
 export const BudgetTable = ui({
@@ -93,7 +90,7 @@ export const BudgetTable = ui({
           }).isRequired,
         }
 
-        categoryNameClick = categoryUuid => () => {
+        categoryNameClick = (categoryUuid) => () => {
           if (this.props.ui.categorySelected === categoryUuid) {
             this.props.updateUI({categorySelected: null})
           } else {
@@ -103,7 +100,7 @@ export const BudgetTable = ui({
 
         render() {
           const rows = []
-          this.props.categoryGroups.forEach(cg => {
+          this.props.categoryGroups.forEach((cg) => {
             rows.push(
               <CategoryGroupRow
                 key={'cg' + cg.uuid}
@@ -114,7 +111,7 @@ export const BudgetTable = ui({
               />
             )
             if (this.props.categoriesByGroupId[cg.uuid]) {
-              this.props.categoriesByGroupId[cg.uuid].forEach(c => {
+              this.props.categoriesByGroupId[cg.uuid].forEach((c) => {
                 rows.push(
                   <CategoryRow
                     key={'c' + c.uuid}

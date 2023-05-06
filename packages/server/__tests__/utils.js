@@ -4,7 +4,8 @@ import {createExpressApp} from '../src/app'
 import {databaseConfig} from '../src/database/config'
 import {USER} from './data'
 
-export const UUID_REGEX = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
+export const UUID_REGEX =
+  /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
 
 /**
  * Resets the database before each test
@@ -38,7 +39,7 @@ export const initializeDatabaseBeforeEach = (resetBeforeEach = true) => {
 /**
  * Creates a user in the database before each test
  */
-export const initializeUsersBeforeEach = appRequest => {
+export const initializeUsersBeforeEach = (appRequest) => {
   let token
 
   beforeEach(async () => {

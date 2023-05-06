@@ -1,1 +1,1 @@
-export const requiredField = value => (value ? undefined : 'Required')
+export const requiredField = (value) => (value ? undefined : 'Required')

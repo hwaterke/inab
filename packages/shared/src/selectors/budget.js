@@ -38,7 +38,7 @@ import {
 export const getBudgetBalance = createSelector(
   select(TransactionResource).asArray,
   (transactions: Transaction[]) =>
-    sumOfAmounts(transactions.filter(t => !t.transfer_account_uuid))
+    sumOfAmounts(transactions.filter((t) => !t.transfer_account_uuid))
 )
 
 /**
@@ -80,9 +80,9 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
     const result = new Map()
 
     // Initialize the result for each existing category.
-    categories.forEach(c => result.set(c.uuid, new Map()))
+    categories.forEach((c) => result.set(c.uuid, new Map()))
 
-    budgetItems.forEach(bi => {
+    budgetItems.forEach((bi) => {
       const categoryResult = result.get(bi.category_uuid) || new Map()
       categoryResult.set(
         bi.month,
@@ -90,7 +90,7 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
       )
     })
 
-    flattenTransactions(transactions).forEach(ft => {
+    flattenTransactions(transactions).forEach((ft) => {
       const month = beginningOfMonth(ft.date)
       const categoryResult = result.get(ft.category_uuid) || new Map()
       categoryResult.set(month, (categoryResult.get(month) || 0) + ft.amount)
@@ -102,7 +102,7 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
       const sortedMonth = new Map()
       Array.from(g.keys())
         .sort()
-        .forEach(m => sortedMonth.set(m, g.get(m)))
+        .forEach((m) => sortedMonth.set(m, g.get(m)))
       sortedResult.set(category_uuid, sortedMonth)
     })
 
@@ -115,7 +115,7 @@ const sumOfBudgetItemsAndTransactionsByCategoryByMonth = createSelector(
  */
 const getOverspendingByCategoryIdByMonth = createSelector(
   sumOfBudgetItemsAndTransactionsByCategoryByMonth,
-  input => {
+  (input) => {
     const overspendings = new Map()
     input.forEach((g, category_uuid) => {
       let sumAccrossMonths = 0
@@ -155,14 +155,14 @@ export const getAvailableByCategoryIdForSelectedMonth = createSelector(
     const result = new Map()
 
     // Initialize the result for each existing category.
-    categories.forEach(c => result.set(c.uuid, 0))
+    categories.forEach((c) => result.set(c.uuid, 0))
 
     const groupedBudgetItems = groupBy(prop('category_uuid'), budgetItems)
     forEachObjIndexed((v, category_uuid) => {
       result.set(category_uuid, result.get(category_uuid) + sumOfAmounts(v))
     }, groupedBudgetItems)
 
-    flattenTransactions(transactions).forEach(ft => {
+    flattenTransactions(transactions).forEach((ft) => {
       result.set(ft.category_uuid, result.get(ft.category_uuid) + ft.amount)
     })
 
@@ -205,7 +205,7 @@ export const getFundsForSelectedMonth = createSelector(
 
     // Add all the overspendings from previous months (coupel of months old)
     const twoMonthsBack = currentMonth.clone().subtract(2, 'months')
-    overspendings.forEach(v => {
+    overspendings.forEach((v) => {
       v.forEach((overspending, month) => {
         // Only for overspending at least 2 month old.
         if (twoMonthsBack.isSameOrAfter(month)) {
@@ -224,7 +224,7 @@ export const getOverspentLastMonth = createSelector(
   getOverspendingByCategoryIdByMonth,
   (previousMonth, overspendings) => {
     let total = 0
-    overspendings.forEach(v => {
+    overspendings.forEach((v) => {
       v.forEach((overspending, month) => {
         // Only for last month
         if (previousMonth.isSame(month)) {
@@ -239,7 +239,7 @@ export const getOverspentLastMonth = createSelector(
 // Budgeted this month
 export const getBudgetedThisMonth = createSelector(
   budgetItemsInMonth.selected,
-  items => 0 - sumOfAmounts(items)
+  (items) => 0 - sumOfAmounts(items)
 )
 
 // Budgeted in the future
@@ -252,7 +252,7 @@ export const getBudgetedInFuture = createSelector(
   (funds, overspent: number, budgeted, currentMonth, allBudgetItems) => {
     const maximum = funds + overspent + budgeted
     const futureBudgeting = sumOfAmounts(
-      allBudgetItems.filter(i => currentMonth.isBefore(i.month))
+      allBudgetItems.filter((i) => currentMonth.isBefore(i.month))
     )
     return Math.min(0, 0 - Math.min(maximum, futureBudgeting))
   }
@@ -283,8 +283,8 @@ export const goalToBudgetByCategoryForSelectedMonth = createSelector(
     const result = {}
 
     categories
-      .filter(category => category.goal_type === 'mf')
-      .forEach(category => {
+      .filter((category) => category.goal_type === 'mf')
+      .forEach((category) => {
         const budgeted = budgetItemsByCategoryId[category.uuid]
           ? budgetItemsByCategoryId[category.uuid].amount
           : 0
@@ -297,8 +297,8 @@ export const goalToBudgetByCategoryForSelectedMonth = createSelector(
       })
 
     categories
-      .filter(category => category.goal_type === 'tbd')
-      .forEach(category => {
+      .filter((category) => category.goal_type === 'tbd')
+      .forEach((category) => {
         // How many month left?
         const monthsLeft = moment(category.target_balance_month).diff(
           currentMonth,

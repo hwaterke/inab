@@ -10,7 +10,7 @@ import React from 'react'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {TransactionForm} from './TransactionForm'
 
-const formToResource = data => {
+const formToResource = (data) => {
   const transaction = {...data}
 
   // Compute the type of transaction
@@ -37,7 +37,7 @@ const formToResource = data => {
 
   // Update the subtransactions
   if (data.category === 'split' && data.subtransactions) {
-    transaction.subtransactions = data.subtransactions.map(str => ({
+    transaction.subtransactions = data.subtransactions.map((str) => ({
       amount: amountToCents(str.amount),
       category_uuid: str.category,
       description: str.description,
@@ -58,7 +58,7 @@ export class TransactionFormContainer extends React.Component {
     onCancel: PropTypes.func,
   }
 
-  resourceToForm = transaction => {
+  resourceToForm = (transaction) => {
     const formData = {
       account_uuid: this.props.selectedAccountId,
       date: moment().format('YYYY-MM-DD'),
@@ -84,7 +84,7 @@ export class TransactionFormContainer extends React.Component {
         formData.category = transaction.category_uuid
       }
 
-      formData.subtransactions = transaction.subtransactions.map(str => ({
+      formData.subtransactions = transaction.subtransactions.map((str) => ({
         amount: amountFromCents(str.amount),
         description: str.description,
         category: str.category_uuid,
@@ -105,7 +105,7 @@ export class TransactionFormContainer extends React.Component {
         resourceToForm={this.resourceToForm}
         postAction={postSubmit}
       >
-        {props => <TransactionForm {...props} onCancel={onCancel} />}
+        {(props) => <TransactionForm {...props} onCancel={onCancel} />}
       </ResourceFormProvider>
     )
   }

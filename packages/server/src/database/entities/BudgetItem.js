@@ -17,13 +17,13 @@ export class BudgetItem {
   @PrimaryGeneratedColumn('uuid')
   uuid = undefined
 
-  @ManyToOne(() => User, user => user.budget_items, {nullable: false})
+  @ManyToOne(() => User, (user) => user.budget_items, {nullable: false})
   user = undefined
 
   @Column('uuid')
   category_uuid = undefined
 
-  @ManyToOne(() => Category, category => category.budget_items, {
+  @ManyToOne(() => Category, (category) => category.budget_items, {
     nullable: false,
   })
   @JoinColumn({name: 'category_uuid'})

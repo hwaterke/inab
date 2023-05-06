@@ -28,14 +28,12 @@ const ChartContainer = styled.div`
   width: 40%;
 `
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
-    state
-  ),
-  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
-    state
-  ),
+  selectedMonthBudgetItemByCategoryId:
+    getSelectedMonthBudgetItemByCategoryId(state),
+  goalToBudgetByCategoryForSelectedMonth:
+    goalToBudgetByCategoryForSelectedMonth(state),
 })
 
 export const BudgetSidebarGoal = connect(mapStateToProps)(

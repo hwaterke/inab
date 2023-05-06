@@ -17,7 +17,7 @@ const Intro = styled.p`
   margin-bottom: 1rem;
 `
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   transactions: selectExistingTransactionsForImportAccount(state),
   importedTransactionsById: selectImportedTransactionsById(state),
   pairs: selectTransactionPairs(state),
@@ -60,13 +60,13 @@ export const ImportTransactionScreen = connect(
       })
     }
 
-    createTransaction = transaction =>
+    createTransaction = (transaction) =>
       this.props.createResource({
         resource: TransactionResource,
         entity: transaction,
       })
 
-    deleteTransaction = transaction =>
+    deleteTransaction = (transaction) =>
       this.props.deleteResource({
         resource: TransactionResource,
         entity: transaction,

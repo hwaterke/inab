@@ -5,7 +5,7 @@ import {TransactionTag} from '../database/entities/TransactionTag'
 
 export const transactionController = {
   update: async (req, res) => {
-    await getManager().transaction(async transactionalEntityManager => {
+    await getManager().transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.delete(Subtransaction, {
         transaction: {uuid: req.value.params.uuid},
       })
@@ -27,7 +27,7 @@ export const transactionController = {
   },
 
   remove: async (req, res) => {
-    await getManager().transaction(async transactionalEntityManager => {
+    await getManager().transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.delete(Subtransaction, {
         transaction: {uuid: req.value.params.uuid},
       })

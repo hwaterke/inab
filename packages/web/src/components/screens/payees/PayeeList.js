@@ -19,7 +19,7 @@ const PayeeListContainer = styled(LinkList)`
   }
 `
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   payees: getSortedPayees(state),
 })
 
@@ -46,7 +46,7 @@ export const PayeeList = connect(mapStateToProps)(
                     <Link to="/payees/new">New payee</Link>
 
                     <PayeeListContainer>
-                      {this.props.payees.map(payee => (
+                      {this.props.payees.map((payee) => (
                         <Link
                           key={payee.uuid}
                           to={`/payees/edit/${payee.uuid}`}

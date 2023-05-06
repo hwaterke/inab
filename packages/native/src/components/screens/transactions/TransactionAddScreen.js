@@ -21,7 +21,7 @@ export class TransactionAddScreen extends React.Component {
         resource={TransactionResource}
         resourceToForm={resourceToForm}
       >
-        {props => <TransactionForm {...props} />}
+        {(props) => <TransactionForm {...props} />}
       </ResourceFormProvider>
     )
   }

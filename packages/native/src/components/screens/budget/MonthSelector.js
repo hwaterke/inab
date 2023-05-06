@@ -12,7 +12,7 @@ import {Ionicons} from '@expo/vector-icons'
 import moment from 'moment'
 import {colors} from '../../../constants/colors'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedMonthMoment: getSelectedMonthMoment(state),
 })
 
@@ -22,10 +22,7 @@ const mapDispatchToProps = {
   selectMonth,
 }
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+@connect(mapStateToProps, mapDispatchToProps)
 export class MonthSelector extends React.Component {
   static propTypes = {
     selectedMonthMoment: PropTypes.object.isRequired,

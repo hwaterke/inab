@@ -21,20 +21,18 @@ import {Box} from '../../presentational/atoms/Box'
 import {ValueHighlight} from '../../presentational/atoms/ValueHighlight'
 import {BudgetSidebarCategory} from './BudgetSidebarCategory'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categories: select(CategoryResource).asArray(state),
   categoriesById: select(CategoryResource).byId(state),
   availableToBudget: getAvailableToBudget(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
   selectedMonth: getSelectedMonthMoment(state),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
-    state
-  ),
+  selectedMonthBudgetItemByCategoryId:
+    getSelectedMonthBudgetItemByCategoryId(state),
   budgetedThisMonth: getBudgetedThisMonth(state),
   inflowInCurrentMonth: getToBeBudgetedSumInSelectedMonth(state),
-  goalToBudgetByCategoryForSelectedMonth: goalToBudgetByCategoryForSelectedMonth(
-    state
-  ),
+  goalToBudgetByCategoryForSelectedMonth:
+    goalToBudgetByCategoryForSelectedMonth(state),
 })
 
 const mapDispatchToProps = {
@@ -78,8 +76,8 @@ export const BudgetSidebar = ui()(
        * Adds the specified amount to the category
        */
       budgetCategoryAdd = (categoryUuid, amount) => {
-        const existingBudgetItem = this.props
-          .selectedMonthBudgetItemByCategoryId[categoryUuid]
+        const existingBudgetItem =
+          this.props.selectedMonthBudgetItemByCategoryId[categoryUuid]
 
         if (existingBudgetItem) {
           // Update
@@ -125,8 +123,8 @@ export const BudgetSidebar = ui()(
         let availableToBudget = this.props.availableToBudget
 
         for (let category of this.props.categories) {
-          const missingForGoal = this.props
-            .goalToBudgetByCategoryForSelectedMonth[category.uuid]
+          const missingForGoal =
+            this.props.goalToBudgetByCategoryForSelectedMonth[category.uuid]
           if (missingForGoal > 0) {
             const adding = Math.min(missingForGoal, availableToBudget)
             if (adding > 0) {

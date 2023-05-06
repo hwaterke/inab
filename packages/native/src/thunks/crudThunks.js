@@ -5,7 +5,7 @@ import {clearToken, selectBackend, selectToken} from '@inab/shared'
 // Manually generating uuid for now as 'react-native-uuid' has problems
 // https://github.com/eugenehp/react-native-uuid/issues/6
 function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,
       v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
@@ -13,11 +13,11 @@ function uuidv4(): string {
 }
 
 export const crudThunks = createCrudThunks({
-  backendSelector: state => selectBackend(state),
+  backendSelector: (state) => selectBackend(state),
 
   cuid: () => uuidv4(),
 
-  headersSelector: state => {
+  headersSelector: (state) => {
     const token = selectToken(state)
     if (token) {
       return {Authorization: token}

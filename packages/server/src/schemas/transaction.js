@@ -3,9 +3,7 @@ import {JoiDateString, JoiString, JoiUuid} from '../utils/joi'
 
 const subtransactionSchema = {
   description: JoiString,
-  amount: Joi.number()
-    .integer()
-    .required(),
+  amount: Joi.number().integer().required(),
   category_uuid: JoiUuid.allow(null),
 }
 
@@ -24,9 +22,7 @@ export const transactionSchema = {
   description: JoiString.allow(null),
 
   // TODO Must be > 0 if type is to_be_budgeted
-  amount: Joi.number()
-    .integer()
-    .required(),
+  amount: Joi.number().integer().required(),
 
   type: Joi.valid('regular', 'to_be_budgeted', 'split').required(),
 
@@ -39,13 +35,9 @@ export const transactionSchema = {
   // TODO Must be different than account_uuid
   transfer_account_uuid: JoiUuid.allow(null),
 
-  subtransactions: Joi.array()
-    .items(subtransactionSchema)
-    .required(),
+  subtransactions: Joi.array().items(subtransactionSchema).required(),
 
-  tags: Joi.array()
-    .items(tagSchema)
-    .required(),
+  tags: Joi.array().items(tagSchema).required(),
 
   cleared_at: Joi.date().iso(),
 }

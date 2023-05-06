@@ -1,6 +1,6 @@
 import {getRepository} from 'typeorm'
 
-export const genericController = model => {
+export const genericController = (model) => {
   const repository = getRepository(model)
 
   return {

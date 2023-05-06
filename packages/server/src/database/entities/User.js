@@ -27,22 +27,22 @@ export class User {
   @Column('boolean', {default: false})
   is_admin = false
 
-  @OneToMany(() => Account, account => account.user)
+  @OneToMany(() => Account, (account) => account.user)
   accounts = undefined
 
-  @OneToMany(() => CategoryGroup, categoryGroup => categoryGroup.user)
+  @OneToMany(() => CategoryGroup, (categoryGroup) => categoryGroup.user)
   category_groups = undefined
 
-  @OneToMany(() => Category, category => category.user)
+  @OneToMany(() => Category, (category) => category.user)
   categories = undefined
 
-  @OneToMany(() => Payee, payee => payee.user)
+  @OneToMany(() => Payee, (payee) => payee.user)
   payees = undefined
 
-  @OneToMany(() => BudgetItem, budgetItem => budgetItem.user)
+  @OneToMany(() => BudgetItem, (budgetItem) => budgetItem.user)
   budget_items = undefined
 
-  @OneToMany(() => Transaction, transaction => transaction.user)
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions = undefined
 
   @CreateDateColumn()

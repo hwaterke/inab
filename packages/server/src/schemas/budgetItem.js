@@ -6,8 +6,5 @@ export const budgetItemSchema = {
 
   category_uuid: JoiUuid.required(),
 
-  amount: Joi.number()
-    .integer()
-    .invalid(0)
-    .required(),
+  amount: Joi.number().integer().invalid(0).required(),
 }

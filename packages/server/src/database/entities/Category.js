@@ -18,22 +18,22 @@ export class Category {
   @PrimaryGeneratedColumn('uuid')
   uuid = undefined
 
-  @ManyToOne(() => User, user => user.categories, {nullable: false})
+  @ManyToOne(() => User, (user) => user.categories, {nullable: false})
   user = undefined
 
   @Column('uuid')
   category_group_uuid = undefined
 
-  @ManyToOne(() => CategoryGroup, categoryGroup => categoryGroup.categories, {
+  @ManyToOne(() => CategoryGroup, (categoryGroup) => categoryGroup.categories, {
     nullable: false,
   })
   @JoinColumn({name: 'category_group_uuid'})
   category_group = undefined
 
-  @OneToMany(() => BudgetItem, budget_item => budget_item.category)
+  @OneToMany(() => BudgetItem, (budget_item) => budget_item.category)
   budget_items = undefined
 
-  @OneToMany(() => Transaction, transaction => transaction.category)
+  @OneToMany(() => Transaction, (transaction) => transaction.category)
   transactions = undefined
 
   @Column('varchar')

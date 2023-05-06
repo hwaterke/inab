@@ -14,7 +14,7 @@ import {Amount} from './Amount'
 import {BudgetItemForm} from './BudgetItemForm'
 import {Cell} from './Cell'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedMonth: getSelectedMonthMoment(state),
 })
 

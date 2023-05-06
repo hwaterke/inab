@@ -11,7 +11,7 @@ import {getTransactionForRendering} from '../../../selectors/transactions'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {TransactionRow} from './TransactionRow'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   transactions: getTransactionForRendering(state),
 })
 
@@ -32,17 +32,17 @@ export class TransactionListScreen extends React.Component {
     filteredTransactions: [],
   }
 
-  filterTransactions = transactions => {
+  filterTransactions = (transactions) => {
     const {accountUuid} = this.props.navigation.state.params
 
     const sections = Object.entries(
       groupBy(
-        tr => moment(tr.date, 'YYYY-MM-DD').format('D MMMM YYYY'),
+        (tr) => moment(tr.date, 'YYYY-MM-DD').format('D MMMM YYYY'),
         transactions.filter(
-          tr => !accountUuid || tr.account_uuid === accountUuid
+          (tr) => !accountUuid || tr.account_uuid === accountUuid
         )
       )
-    ).map(en => ({title: en[0], data: en[1]}))
+    ).map((en) => ({title: en[0], data: en[1]}))
 
     this.setState({
       filteredTransactions: sections,

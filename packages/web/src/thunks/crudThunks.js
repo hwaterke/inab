@@ -5,11 +5,11 @@ import {createCrudThunks} from 'redux-crud-provider'
 import {addError} from '../actions/error'
 
 export const crudThunks = createCrudThunks({
-  backendSelector: state => selectBackend(state),
+  backendSelector: (state) => selectBackend(state),
 
   cuid: () => cuid(),
 
-  headersSelector: state => {
+  headersSelector: (state) => {
     const token = selectToken(state)
     if (token) {
       return {Authorization: token}

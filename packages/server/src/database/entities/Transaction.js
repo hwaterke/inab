@@ -20,7 +20,7 @@ export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   uuid = undefined
 
-  @ManyToOne(() => User, user => user.transactions, {nullable: false})
+  @ManyToOne(() => User, (user) => user.transactions, {nullable: false})
   user = undefined
 
   @Column('date')
@@ -31,7 +31,7 @@ export class Transaction {
 
   @Column('uuid', {nullable: true})
   payee_uuid = undefined
-  @ManyToOne(() => Payee, payee => payee.transactions)
+  @ManyToOne(() => Payee, (payee) => payee.transactions)
   @JoinColumn({name: 'payee_uuid'})
   payee = undefined
 
@@ -46,13 +46,13 @@ export class Transaction {
 
   @Column('uuid', {nullable: true})
   category_uuid = undefined
-  @ManyToOne(() => Category, category => category.transactions)
+  @ManyToOne(() => Category, (category) => category.transactions)
   @JoinColumn({name: 'category_uuid'})
   category = undefined
 
   @Column('uuid')
   account_uuid = undefined
-  @ManyToOne(() => Account, account => account.transactions)
+  @ManyToOne(() => Account, (account) => account.transactions)
   @JoinColumn({name: 'account_uuid'})
   account = undefined
 
@@ -64,12 +64,12 @@ export class Transaction {
 
   @OneToMany(
     () => Subtransaction,
-    subtransaction => subtransaction.transaction,
+    (subtransaction) => subtransaction.transaction,
     {cascade: true, eager: true}
   )
   subtransactions = undefined
 
-  @OneToMany(() => TransactionTag, tag => tag.transaction, {
+  @OneToMany(() => TransactionTag, (tag) => tag.transaction, {
     cascade: true,
     eager: true,
   })

@@ -5,7 +5,7 @@ import {selectToken} from '@inab/shared'
 import {LoginScreen} from './LoginScreen'
 import {MainTabNavigator} from './MainTabNavigator'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: selectToken(state),
 })
 

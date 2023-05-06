@@ -31,13 +31,13 @@ export const transactionsUpToMonth = createUpToMonthSelectors(
 export const getToBeBudgetedSumInSelectedMonth = createSelector(
   transactionsInMonth.selected,
   (transactions: Transaction[]) =>
-    sumOfAmounts(transactions.filter(t => t.type === 'to_be_budgeted'))
+    sumOfAmounts(transactions.filter((t) => t.type === 'to_be_budgeted'))
 )
 
 export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
   transactionsUpToMonth.selected,
   (transactions: Transaction[]) =>
-    sumOfAmounts(transactions.filter(t => t.type === 'to_be_budgeted'))
+    sumOfAmounts(transactions.filter((t) => t.type === 'to_be_budgeted'))
 )
 
 /**
@@ -45,17 +45,17 @@ export const getToBeBudgetedSumUpToSelectedMonth = createSelector(
  */
 export const flattenTransactions = (transactions: Transaction[]) =>
   transactions
-    .filter(t => t.category_uuid)
-    .map(t => ({
+    .filter((t) => t.category_uuid)
+    .map((t) => ({
       date: t.date,
       category_uuid: t.category_uuid,
       amount: t.amount || 0,
     }))
     .concat(
-      ...transactions.map(t =>
+      ...transactions.map((t) =>
         t.subtransactions
-          .filter(st => st.category_uuid)
-          .map(st => ({
+          .filter((st) => st.category_uuid)
+          .map((st) => ({
             date: t.date,
             category_uuid: st.category_uuid,
             amount: st.amount || 0,

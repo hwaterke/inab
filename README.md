@@ -8,28 +8,31 @@ This is a monorepo that contains different packages
 
 - [packages/web](packages/web) contains the web app
 - [packages/native](packages/native) contains the mobile app
-- [packages/shared](packages/shared) contains common files for web and native apps
+- [packages/shared](packages/shared) contains common files for web and native
+  apps
 - [packages/server](packages/server) contains the server
 
 # Use
 
-INAB consists of two parts. A backend that exposes an API and a frontend (web or native).
-There are several ways of deploying and using INAB.  
-The simplest solution that works out of the box is to use the existing docker image for the backend
+INAB consists of two parts. A backend that exposes an API and a frontend (web or
+native). There are several ways of deploying and using INAB.  
+The simplest solution that works out of the box is to use the existing docker
+image for the backend
 
 ```
 docker run -d -p 3003:3003 -v $(pwd)/database:/db hwaterke/inab-api
 ```
 
-This starts the server.
-You can then access the INAB api at http://localhost:3003
+This starts the server. You can then access the INAB api at
+http://localhost:3003
 
-You then need to build and serve the frontend code yourself or use the latest version deployed at https://inab.accountant/
+You then need to build and serve the frontend code yourself or use the latest
+version deployed at https://inab.accountant/
 
-When running the docker image, it is recommended to add another environment variable.
-`-e "TOKEN_SECRET=some_secret"`.
-This is optional, a random secret will be used if none is provided.
-But providing one will allow your users to stay connected after a container restart.
+When running the docker image, it is recommended to add another environment
+variable. `-e "TOKEN_SECRET=some_secret"`. This is optional, a random secret
+will be used if none is provided. But providing one will allow your users to
+stay connected after a container restart.
 
 ### Production build
 
@@ -46,7 +49,8 @@ docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab-api
 
 ### Development
 
-If you want to contribute and help developing INAB, you can use the development configuration.
+If you want to contribute and help developing INAB, you can use the development
+configuration.
 
 You first need to bootstrap the repo and compile the shared code:
 
@@ -57,13 +61,15 @@ yarn build
 yarn build:flow
 ```
 
-You can then start the server in dev mode by issuing the following commands in the `packages/server` folder:
+You can then start the server in dev mode by issuing the following commands in
+the `packages/server` folder:
 
 ```
 yarn start
 ```
 
-Once the server is up and running, you can then start the client in dev mode by issuing the following commands in the `packages/web` folder:
+Once the server is up and running, you can then start the client in dev mode by
+issuing the following commands in the `packages/web` folder:
 
 ```
 yarn start

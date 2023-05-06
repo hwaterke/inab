@@ -27,7 +27,7 @@ export class Subtransaction {
   @JoinColumn({name: 'category_uuid'})
   category = undefined
 
-  @ManyToOne(() => Transaction, transaction => transaction.subtransactions, {
+  @ManyToOne(() => Transaction, (transaction) => transaction.subtransactions, {
     nullable: false,
   })
   transaction = undefined

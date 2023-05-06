@@ -5,5 +5,5 @@ import {PayeeResource} from '../entities/Payee'
 
 export const getSortedPayees = createSelector(
   select(PayeeResource).asArray,
-  payees => sortBy(prop('name'), payees)
+  (payees) => sortBy(prop('name'), payees)
 )

@@ -9,7 +9,7 @@ import {Transaction} from './Transaction'
 
 @Entity()
 export class TransactionTag {
-  @ManyToOne(() => Transaction, transaction => transaction.tags, {
+  @ManyToOne(() => Transaction, (transaction) => transaction.tags, {
     nullable: false,
     primary: true,
   })

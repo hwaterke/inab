@@ -4,7 +4,7 @@ import {Payee} from '../database/entities/Payee'
 
 export const payeeController = {
   update: async (req, res) => {
-    await getManager().transaction(async transactionalEntityManager => {
+    await getManager().transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.delete(Location, {
         payee: {uuid: req.value.params.uuid},
       })
@@ -22,7 +22,7 @@ export const payeeController = {
   },
 
   remove: async (req, res) => {
-    await getManager().transaction(async transactionalEntityManager => {
+    await getManager().transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.delete(Location, {
         payee: {uuid: req.value.params.uuid},
       })

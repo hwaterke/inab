@@ -15,10 +15,10 @@ export class Account {
   @PrimaryGeneratedColumn('uuid')
   uuid = undefined
 
-  @ManyToOne(() => User, user => user.accounts, {nullable: false})
+  @ManyToOne(() => User, (user) => user.accounts, {nullable: false})
   user = undefined
 
-  @OneToMany(() => Transaction, transaction => transaction.account)
+  @OneToMany(() => Transaction, (transaction) => transaction.account)
   transactions = undefined
 
   @Column('varchar')

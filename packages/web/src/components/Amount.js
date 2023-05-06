@@ -5,14 +5,14 @@ import styled, {css} from 'styled-components'
 import {colors} from '../constants/colors'
 
 const AmountSpan = styled.span`
-  color: ${props =>
+  color: ${(props) =>
     props.hasBackground
       ? 'white'
       : props.amount === 0
       ? colors.lightText
       : colors.text};
 
-  ${props =>
+  ${(props) =>
     props.hasBackground &&
     css`
       padding: 0.14rem 0.5rem;

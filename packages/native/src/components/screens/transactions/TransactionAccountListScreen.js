@@ -13,7 +13,7 @@ import {uuidExtractor} from '../../../utils'
 import {crudThunks} from '../../../thunks/crudThunks'
 import {AccountRow} from './AccountRow'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: select(AccountResource).asArray(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),

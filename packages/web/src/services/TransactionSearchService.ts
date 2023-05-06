@@ -2,7 +2,7 @@ import {Filter} from '../entities/Filter'
 
 export class TransactionSearchService {
   applyFiltersToTransactions(transactions: any[], filters: Filter[]) {
-    return transactions.filter(tr =>
+    return transactions.filter((tr) =>
       this.applyFiltersToTransaction(tr, filters)
     )
   }
@@ -28,7 +28,7 @@ export class TransactionSearchService {
     if (!searchText) {
       return transactions
     }
-    return transactions.filter(tr => this.transactionContains(tr, searchText))
+    return transactions.filter((tr) => this.transactionContains(tr, searchText))
   }
 
   transactionContains(transaction: any, searchText: string) {
@@ -45,8 +45,8 @@ export class TransactionSearchService {
 
     return searchText
       .split(/\s+/)
-      .every(st =>
-        searchColumns.some(col => this.matchContain(transaction[col], st))
+      .every((st) =>
+        searchColumns.some((col) => this.matchContain(transaction[col], st))
       )
   }
 

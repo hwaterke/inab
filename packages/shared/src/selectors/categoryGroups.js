@@ -5,5 +5,5 @@ import {CategoryGroupResource} from '../entities/CategoryGroup'
 
 export const getSortedCategoryGroups = createSelector(
   select(CategoryGroupResource).asArray,
-  cgs => sortBy(prop('priority'), cgs)
+  (cgs) => sortBy(prop('priority'), cgs)
 )

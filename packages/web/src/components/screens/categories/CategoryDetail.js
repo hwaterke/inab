@@ -26,7 +26,7 @@ function resourceToForm(category) {
   return {}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedMonth: getSelectedMonthMoment(state),
 })
 
@@ -46,7 +46,7 @@ export const CategoryDetail = connect(mapStateToProps)(
       selectedMonth: PropTypes.object.isRequired,
     }
 
-    formToResource = data => {
+    formToResource = (data) => {
       const hasGoal = data.goal_type && data.goal_type !== 'none'
 
       return {
@@ -87,7 +87,7 @@ export const CategoryDetail = connect(mapStateToProps)(
               resourceToForm={resourceToForm}
               postAction={history.goBack}
             >
-              {props => <CategoryForm {...props} />}
+              {(props) => <CategoryForm {...props} />}
             </ResourceFormProvider>
           </Box>
         </Section>

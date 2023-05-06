@@ -9,7 +9,7 @@ import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
 import {Button} from '../../presentational/atoms/Button'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   initialValues: {
     backend: selectBackend(state),
     email: selectEmail(state),
@@ -41,7 +41,7 @@ export const LoginForm = connect(
           email,
           password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.headers.authorization) {
             const token = response.headers.authorization
             const {is_admin} = response.data
@@ -50,7 +50,7 @@ export const LoginForm = connect(
             this.props.addError('Authentication failed.')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (
             error.response &&
             error.response.data &&

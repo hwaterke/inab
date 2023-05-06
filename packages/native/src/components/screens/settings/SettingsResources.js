@@ -13,7 +13,7 @@ import {connect} from 'react-redux'
 import {globalStyles} from '../../../constants/styles'
 import {crudThunks} from '../../../thunks/crudThunks'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   resources: state.resources,
 })
 
@@ -21,10 +21,7 @@ const mapDispatchToProps = {
   fetchAll: crudThunks.fetchAll,
 }
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+@connect(mapStateToProps, mapDispatchToProps)
 export class SettingsResources extends React.Component {
   static propTypes = {
     resources: PropTypes.object.isRequired,
@@ -49,7 +46,7 @@ export class SettingsResources extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {Object.keys(this.props.resources).map(k => (
+        {Object.keys(this.props.resources).map((k) => (
           <View key={k} style={styles.row}>
             <Text style={globalStyles.text}>{k}</Text>
             <Text>{Object.keys(this.props.resources[k]).length}</Text>

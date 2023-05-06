@@ -18,7 +18,7 @@ export const AccountDetail = ({match, history}) => (
         resource={AccountResource}
         postAction={history.goBack}
       >
-        {props => <AccountForm {...props} />}
+        {(props) => <AccountForm {...props} />}
       </ResourceFormProvider>
     </Box>
   </Section>

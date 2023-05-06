@@ -9,7 +9,7 @@ import {Section} from '../../presentational/atoms/Section'
 import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: select(AccountResource).asArray(state),
 })
 
@@ -30,7 +30,7 @@ export const AccountList = connect(mapStateToProps)(
                 <Link to="/accounts/new">New account</Link>
 
                 <LinkList>
-                  {this.props.accounts.map(account => (
+                  {this.props.accounts.map((account) => (
                     <Link
                       key={account.uuid}
                       to={`/accounts/edit/${account.uuid}`}

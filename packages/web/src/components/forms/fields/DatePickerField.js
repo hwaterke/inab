@@ -12,7 +12,7 @@ export const DatePickerField = ({input, label}) => (
       dateFormat="DD/MM/YYYY"
       className="input"
       selected={moment(input.value)}
-      onChange={param => input.onChange(param.format('YYYY-MM-DD'))}
+      onChange={(param) => input.onChange(param.format('YYYY-MM-DD'))}
     />
   </div>
 )

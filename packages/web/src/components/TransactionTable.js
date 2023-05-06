@@ -35,7 +35,7 @@ class TransactionTable extends React.Component {
     hiddenColumns: PropTypes.object.isRequired,
   }
 
-  onRow = row => {
+  onRow = (row) => {
     if (row.subtransaction) {
       return {
         className: row.selected ? 'table-active' : null,
@@ -136,9 +136,9 @@ class TransactionTable extends React.Component {
         },
         cell: {
           formatters: [
-            tags => (
+            (tags) => (
               <Tags>
-                {tags.map(t => (
+                {tags.map((t) => (
                   <span key={t.name}>{t.name}</span>
                 ))}
               </Tags>
@@ -157,7 +157,7 @@ class TransactionTable extends React.Component {
           },
         },
         cell: {
-          formatters: [amount => <Amount amount={amount} hasBackground />],
+          formatters: [(amount) => <Amount amount={amount} hasBackground />],
         },
       },
       {
@@ -213,11 +213,11 @@ class TransactionTable extends React.Component {
       },
     ]
 
-    return columns.filter(c => !this.props.hiddenColumns[c.property])
+    return columns.filter((c) => !this.props.hiddenColumns[c.property])
   }
 
   render() {
-    const selectedTransactions = this.props.transactions.map(tr => ({
+    const selectedTransactions = this.props.transactions.map((tr) => ({
       ...tr,
       selected: tr.subtransaction
         ? this.props.selectedRows.has(tr.parent_transaction)

@@ -9,7 +9,7 @@ import {
 } from '@inab/shared'
 import {select} from 'redux-crud-provider'
 
-const getMirrorTransfer = transaction => {
+const getMirrorTransfer = (transaction) => {
   const mirror = {...transaction}
   mirror.key = mirror.uuid + 'r'
   mirror.account_uuid = transaction.transfer_account_uuid
@@ -33,7 +33,7 @@ export const getTransactionForRendering = createSelector(
   ) => {
     const result = []
 
-    transactions.forEach(tr => {
+    transactions.forEach((tr) => {
       const trResult = {...tr, key: tr.uuid}
 
       if (tr.type === 'to_be_budgeted') {

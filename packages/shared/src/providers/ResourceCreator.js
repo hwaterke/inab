@@ -29,7 +29,7 @@ class _ResourceCreator extends React.Component {
   }
 
   static defaultProps = {
-    formToResource: data => data,
+    formToResource: (data) => data,
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ class _ResourceCreator extends React.Component {
     this._isMounted = false
   }
 
-  createEntity = entity => {
+  createEntity = (entity) => {
     const {resource, path, postAction, formToResource} = this.props
 
     return this.props

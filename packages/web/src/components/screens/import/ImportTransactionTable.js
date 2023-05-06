@@ -39,7 +39,7 @@ const statusColor = {
 }
 
 const TransactionRow = styled.tr`
-  background-color: ${props => (props.imported ? '#F5F5F5' : 'white')};
+  background-color: ${(props) => (props.imported ? '#F5F5F5' : 'white')};
 `
 
 const ImportStatus = styled.td`
@@ -64,13 +64,13 @@ const updatableFields = [
 ]
 
 // Picks only the properties of the transaction worth looking at for updating
-export const getUpdatableFields = transaction => {
+export const getUpdatableFields = (transaction) => {
   const fields = pick(updatableFields, transaction)
 
   const tagNames = pipe(
     map(prop('name')),
     sortBy(identity),
-    map(name => ({name}))
+    map((name) => ({name}))
   )
 
   return {
@@ -148,7 +148,7 @@ export const ImportTransactionTable = ({
       </tr>
     </thead>
     <tbody>
-      {transactions.map(tr => (
+      {transactions.map((tr) => (
         <TransactionRow key={tr.uuid || tr.importId} imported={!!tr.importId}>
           <ImportStatus status={getStatus(tr, pairs, importedTransactionsById)}>
             <FontAwesome
@@ -168,7 +168,7 @@ export const ImportTransactionTable = ({
 
           <td>
             <Tags>
-              {tr.tags.map(t => (
+              {tr.tags.map((t) => (
                 <span key={t.name}>{t.name}</span>
               ))}
             </Tags>

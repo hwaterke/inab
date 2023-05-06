@@ -11,7 +11,7 @@ import {connect} from 'react-redux'
 import {Button} from './presentational/atoms/Button'
 import {ButtonIcon} from './presentational/atoms/ButtonIcon'
 
-const MonthSelector = connect(state => ({
+const MonthSelector = connect((state) => ({
   selectedMonth: getSelectedMonthMoment(state),
 }))(
   class MonthSelector extends React.Component {

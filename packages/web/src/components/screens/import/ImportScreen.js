@@ -14,7 +14,7 @@ import {ImportAccountSelector} from './ImportAccountSelector'
 import {ImportFileDropzone} from './ImportFileDropzone'
 import {ImportTransactionScreen} from './ImportTransactionScreen'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accountsById: select(AccountResource).byId(state),
   imported: state.imported,
 })

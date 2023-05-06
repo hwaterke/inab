@@ -16,7 +16,7 @@ export class AmountField extends React.Component {
 
   textInputValue = () => this.props.input.value.amount.toString()
 
-  setValue = value => {
+  setValue = (value) => {
     this.props.input.onChange({
       ...this.props.input.value,
       amount: Number(value),

@@ -9,7 +9,7 @@ import {Payee} from './Payee'
 
 @Entity()
 export class Location {
-  @ManyToOne(() => Payee, payee => payee.locations, {
+  @ManyToOne(() => Payee, (payee) => payee.locations, {
     nullable: false,
     primary: true,
   })

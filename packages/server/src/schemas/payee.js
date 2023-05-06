@@ -8,7 +8,5 @@ const locationSchema = {
 
 export const payeeSchema = {
   name: JoiString.required(),
-  locations: Joi.array()
-    .items(locationSchema)
-    .required(),
+  locations: Joi.array().items(locationSchema).required(),
 }

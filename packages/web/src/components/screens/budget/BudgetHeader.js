@@ -43,7 +43,7 @@ const Names = styled.div`
   margin-left: 0.3em;
 `
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   availableToBudget: getAvailableToBudget(state),
   fundsAvailable: getFundsForSelectedMonth(state),
   overspentLastMonth: getOverspentLastMonth(state),

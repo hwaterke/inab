@@ -7,7 +7,7 @@ createConnection(databaseConfig).then(() => {
   // Start express server
   const port = process.env.PORT || 3003
 
-  createExpressApp().listen(port, function() {
+  createExpressApp().listen(port, function () {
     //eslint-disable-next-line no-console
     console.log(`Server running in ${NODE_ENV}`)
     // eslint-disable-next-line no-console

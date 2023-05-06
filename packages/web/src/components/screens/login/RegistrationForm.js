@@ -9,7 +9,7 @@ import {requiredField} from '../../../utils/fieldValidation'
 import {InputField} from '../../forms/fields/InputField'
 import {Button} from '../../presentational/atoms/Button'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   initialValues: {
     backend: selectBackend(state),
     email: selectEmail(state),
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-const validate = data => {
+const validate = (data) => {
   const errors = {}
 
   if (data.password !== data['confirm-password']) {
@@ -51,7 +51,7 @@ export const RegistrationForm = connect(
           email,
           password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.headers.authorization) {
             const token = response.headers.authorization
             const {is_admin} = response.data
@@ -60,7 +60,7 @@ export const RegistrationForm = connect(
             this.props.addError('Registration failed.')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (
             error.response &&
             error.response.data &&

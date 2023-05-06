@@ -117,7 +117,7 @@ renderSubtransactions.propTypes = {
 function validateAmount(value, data) {
   if (data.subtransactions && data.subtransactions.length > 0) {
     const sum = data.subtransactions
-      .map(st => Number(st.amount) || 0)
+      .map((st) => Number(st.amount) || 0)
       .reduce((acc, value) => acc + value, 0)
     if (sum !== Number(value)) {
       return "Sum doesn't match subtransactions"
@@ -126,7 +126,7 @@ function validateAmount(value, data) {
   return undefined
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: select(AccountResource).asArray(state),
   categories: select(CategoryResource).asArray(state),
   payees: getSortedPayees(state),
@@ -153,7 +153,7 @@ export const TransactionForm = connect(mapStateToProps)(
       if (categories) {
         return (
           <ul>
-            {categories.map(category => (
+            {categories.map((category) => (
               <li key={category.uuid}>
                 <a
                   role="button"
@@ -172,22 +172,22 @@ export const TransactionForm = connect(mapStateToProps)(
       const {accounts, categories, payees, getCategorySuggestions} = this.props
 
       const payeeOptions = [
-        ...this.props.accounts.map(a => ({
+        ...this.props.accounts.map((a) => ({
           label: 'Transfer to ' + a.name,
           value: 'transfer:' + a.uuid,
         })),
-        ...payees.map(c => ({label: c.name, value: c.uuid})),
+        ...payees.map((c) => ({label: c.name, value: c.uuid})),
       ]
 
       const categoryOptions = [
         {label: 'To be budgeted', value: 'tbb'},
         {label: 'Split', value: 'split'},
-        ...categories.map(c => ({label: c.name, value: c.uuid})),
+        ...categories.map((c) => ({label: c.name, value: c.uuid})),
       ]
 
       const subtransactionCategoryOptions = [
         {label: 'To be budgeted', value: 'tbb'},
-        ...categories.map(c => ({label: c.name, value: c.uuid})),
+        ...categories.map((c) => ({label: c.name, value: c.uuid})),
       ]
 
       return (
@@ -207,7 +207,7 @@ export const TransactionForm = connect(mapStateToProps)(
                       label="Account"
                       placeholder="Account"
                       validate={required}
-                      options={accounts.map(cg => ({
+                      options={accounts.map((cg) => ({
                         label: cg.name,
                         value: cg.uuid,
                       }))}
@@ -228,7 +228,7 @@ export const TransactionForm = connect(mapStateToProps)(
                     />
 
                     <FieldValue name="payee">
-                      {payee => (
+                      {(payee) => (
                         <div>
                           <Field
                             name="category"
@@ -244,7 +244,7 @@ export const TransactionForm = connect(mapStateToProps)(
                           />
 
                           <FieldValue name="category">
-                            {category =>
+                            {(category) =>
                               !category &&
                               this.renderCategorySuggestion(
                                 getCategorySuggestions(payee),
@@ -274,7 +274,7 @@ export const TransactionForm = connect(mapStateToProps)(
                   </FormRow>
 
                   <FieldValue name="category">
-                    {category =>
+                    {(category) =>
                       category === 'split' && (
                         <FieldArray
                           name="subtransactions"

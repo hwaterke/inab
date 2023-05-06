@@ -17,7 +17,7 @@ import {selectBackend, selectEmail, setCredentials} from '@inab/shared'
 import {LinearGradient} from 'expo'
 import {TextInputField} from './fields/TextInputField'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   initialValues: {
     backend: selectBackend(state),
     email: selectEmail(state),
@@ -28,10 +28,7 @@ const mapDispatchToProps = {
   setCredentials,
 }
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+@connect(mapStateToProps, mapDispatchToProps)
 @reduxForm({form: 'login', enableReinitialize: true})
 export class LoginScreen extends React.Component {
   static propTypes = {
@@ -39,7 +36,7 @@ export class LoginScreen extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
   }
 
-  onSubmit = data => {
+  onSubmit = (data) => {
     this.props.setCredentials({
       backend: data.backend,
       email: data.email,
@@ -56,7 +53,7 @@ export class LoginScreen extends React.Component {
         password,
       },
     })
-      .then(response => {
+      .then((response) => {
         if (response.headers.authorization) {
           // Dispatch save token
           this.props.setCredentials({token: response.headers.authorization})
@@ -64,7 +61,7 @@ export class LoginScreen extends React.Component {
           alert('Login error')
         }
       })
-      .catch(err => alert('Login error: ' + err.toString()))
+      .catch((err) => alert('Login error: ' + err.toString()))
   }
 
   render() {

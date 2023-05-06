@@ -10,7 +10,7 @@ import {Field, Form} from 'react-final-form'
 import {connect} from 'react-redux'
 import {crudThunks} from '../thunks/crudThunks'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedMonth: getSelectedMonthMoment(state),
 })
 
@@ -24,22 +24,24 @@ export const BudgetItemForm = connect(mapStateToProps)(
       onBlur: PropTypes.func.isRequired,
     }
 
-    formToResource = data => ({
+    formToResource = (data) => ({
       month: this.props.selectedMonth.format('YYYY-MM-DD'),
       category_uuid: this.props.category_uuid,
       amount: amountToCents(data.amount),
     })
 
-    onSubmit = ({onSubmit, isUpdate, deleteResource}) => data => {
-      if (Number(data.amount) === 0) {
-        if (isUpdate) {
-          deleteResource()
+    onSubmit =
+      ({onSubmit, isUpdate, deleteResource}) =>
+      (data) => {
+        if (Number(data.amount) === 0) {
+          if (isUpdate) {
+            deleteResource()
+          }
+        } else {
+          onSubmit(data)
         }
-      } else {
-        onSubmit(data)
+        this.props.postSubmit()
       }
-      this.props.postSubmit()
-    }
 
     render() {
       const {uuid, onBlur} = this.props

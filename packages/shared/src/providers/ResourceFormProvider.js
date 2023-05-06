@@ -28,8 +28,8 @@ export class ResourceFormProvider extends React.Component {
   }
 
   static defaultProps = {
-    formToResource: data => data,
-    resourceToForm: data => data,
+    formToResource: (data) => data,
+    resourceToForm: (data) => data,
   }
 
   render() {
@@ -73,7 +73,7 @@ export class ResourceFormProvider extends React.Component {
       >
         {({entity, updateEntity, deleteEntity, isUpdating, isRemoving}) =>
           children({
-            onSubmit: data => updateEntity(formToResource(data)),
+            onSubmit: (data) => updateEntity(formToResource(data)),
             isCreate: false,
             isUpdate: true,
             deleteResource: deleteEntity,

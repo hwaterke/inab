@@ -8,7 +8,7 @@ import {map, prop} from 'ramda'
 import {select} from 'redux-crud-provider'
 import {createSelector} from 'reselect'
 
-const getMirrorTransfer = transaction => {
+const getMirrorTransfer = (transaction) => {
   const mirror = Object.assign({}, transaction)
   mirror.key = mirror.uuid + 'r'
   mirror.account_uuid = transaction.transfer_account_uuid
@@ -20,7 +20,7 @@ const getMirrorTransfer = transaction => {
 }
 
 // Converts the transactions to TransactionView
-export const createTransactionSelectorForRendering = transactionSelector =>
+export const createTransactionSelectorForRendering = (transactionSelector) =>
   createSelector(
     transactionSelector,
     select(AccountResource).byId,
@@ -29,13 +29,13 @@ export const createTransactionSelectorForRendering = transactionSelector =>
     (transactions, accountsById, categoriesById, payeeById) => {
       const result = []
 
-      transactions.forEach(tr => {
+      transactions.forEach((tr) => {
         const tr_result = {
           ...tr,
           key: tr.uuid,
           account: accountsById[tr.account_uuid].name,
           is_transfer: !!tr.transfer_account_uuid,
-          tagsForSearch: tr.tags.map(t => t.name).join(','),
+          tagsForSearch: tr.tags.map((t) => t.name).join(','),
         }
         tr_result.display_date = tr.date
 
@@ -84,9 +84,8 @@ export const createTransactionSelectorForRendering = transactionSelector =>
     }
   )
 
-export const getTransactionsForRendering = createTransactionSelectorForRendering(
-  getSortedTransactions
-)
+export const getTransactionsForRendering =
+  createTransactionSelectorForRendering(getSortedTransactions)
 
 export const getTransactionColumns = createSelector(
   select(AccountResource).byId,

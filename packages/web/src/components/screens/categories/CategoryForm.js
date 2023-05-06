@@ -11,7 +11,7 @@ import {FieldValue} from '../../forms/FieldValue'
 import {FormActionBar} from '../../forms/FormActionBar'
 import {required} from '../../forms/validations'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categoryGroups: select(CategoryGroupResource).asArray(state),
   selectedMonth: getSelectedMonthMoment(state),
 })
@@ -76,7 +76,7 @@ export const CategoryForm = connect(mapStateToProps)(
                 label="Category group"
                 placeholder="Category group"
                 validate={required}
-                options={this.props.categoryGroups.map(cg => ({
+                options={this.props.categoryGroups.map((cg) => ({
                   label: cg.name,
                   value: cg.uuid,
                 }))}
@@ -107,7 +107,7 @@ export const CategoryForm = connect(mapStateToProps)(
               />
 
               <FieldValue name="goal_type">
-                {goal_type =>
+                {(goal_type) =>
                   ['tb', 'tbd'].includes(goal_type) && (
                     <Field
                       name="target_balance"

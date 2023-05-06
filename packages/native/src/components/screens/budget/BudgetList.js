@@ -17,15 +17,13 @@ import {globalStyles} from '../../../constants/styles'
 import {Amount} from '../../Amount'
 import {crudThunks} from '../../../thunks/crudThunks'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   categoryGroups: getSortedCategoryGroups(state),
   categoriesByGroupId: selectCategoriesByGroupId(state),
-  selectedMonthActivityByCategoryId: selectSelectedMonthActivityByCategoryId(
-    state
-  ),
-  selectedMonthBudgetItemByCategoryId: getSelectedMonthBudgetItemByCategoryId(
-    state
-  ),
+  selectedMonthActivityByCategoryId:
+    selectSelectedMonthActivityByCategoryId(state),
+  selectedMonthBudgetItemByCategoryId:
+    getSelectedMonthBudgetItemByCategoryId(state),
   availableByCategory: getAvailableByCategoryIdForSelectedMonth(state),
 })
 
@@ -33,10 +31,7 @@ const mapDispatchToProps = {
   fetchAll: crudThunks.fetchAll,
 }
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+@connect(mapStateToProps, mapDispatchToProps)
 export class BudgetList extends React.Component {
   static propTypes = {
     categoryGroups: PropTypes.arrayOf(CategoryGroupResource.propTypes)
@@ -72,7 +67,7 @@ export class BudgetList extends React.Component {
   // TODO: create a selector for this
   groupCategories = (categoryGroups, categoriesByGroupId) => {
     this.setState({
-      sections: categoryGroups.map(cg => ({
+      sections: categoryGroups.map((cg) => ({
         title: cg.name,
         data: categoriesByGroupId[cg.uuid] || [],
       })),

@@ -20,7 +20,7 @@ export const getCategorySuggestions = createSelector(
   getSortedTransactions,
   select(CategoryResource).byId,
   (transactions, categories) => {
-    return payee => {
+    return (payee) => {
       if (payee && !payee.startsWith('transfer:')) {
         return take(
           3,

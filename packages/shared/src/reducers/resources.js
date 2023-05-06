@@ -20,6 +20,5 @@ const resources = [
 
 export const resourcesReducer = createReducersForResources(resources)
 
-export const resourcesActivityReducer = createActivityReducersForResources(
-  resources
-)
+export const resourcesActivityReducer =
+  createActivityReducersForResources(resources)

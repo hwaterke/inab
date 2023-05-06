@@ -20,7 +20,7 @@ export class TextInputField extends React.Component {
     return (
       <TextInput
         value={value}
-        onChangeText={value => onChange(value)}
+        onChangeText={(value) => onChange(value)}
         {...rest}
       />
     )

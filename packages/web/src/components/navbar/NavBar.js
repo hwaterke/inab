@@ -25,17 +25,14 @@ const AccountLink = styled(Link).attrs(() => ({className: 'navbar-item'}))`
 // bulma won't work with a button
 const Button = styled.a``
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: select(AccountResource).asArray(state),
   balanceByAccountId: selectBalanceByAccountId(state),
   budgetBalance: getBudgetBalance(state),
   isAdmin: selectIsAdmin(state),
 })
 
-export const NavBar = connect(
-  mapStateToProps,
-  {clearToken}
-)(
+export const NavBar = connect(mapStateToProps, {clearToken})(
   class NavBar extends React.Component {
     static propTypes = {
       accounts: PropTypes.arrayOf(AccountResource.propTypes).isRequired,
@@ -103,7 +100,7 @@ export const NavBar = connect(
                       <Amount amount={this.props.budgetBalance} hasBackground />
                     </AccountLink>
 
-                    {this.props.accounts.map(account =>
+                    {this.props.accounts.map((account) =>
                       account.busy ? (
                         <button className="dropdown-item" key={account.uuid}>
                           <FontAwesome name="refresh" spin fixedWidth />

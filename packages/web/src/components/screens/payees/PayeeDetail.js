@@ -11,7 +11,7 @@ function formToResource(formData) {
   if (formData.locations) {
     return {
       ...formData,
-      locations: formData.locations.map(location => ({
+      locations: formData.locations.map((location) => ({
         longitude: Number(location.longitude),
         latitude: Number(location.latitude),
       })),
@@ -32,7 +32,7 @@ export const PayeeDetail = ({match, history}) => (
         formToResource={formToResource}
         postAction={history.goBack}
       >
-        {props => <PayeeForm {...props} />}
+        {(props) => <PayeeForm {...props} />}
       </ResourceFormProvider>
     </Box>
   </Section>

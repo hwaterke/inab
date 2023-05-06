@@ -35,11 +35,8 @@ class ErrorDialog extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({errors: state.errors})
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = (state) => ({errors: state.errors})
+const mapDispatchToProps = (dispatch) => ({
   dismissErrors: () => dispatch(dismissErrors()),
 })
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ErrorDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorDialog)

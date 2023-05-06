@@ -25,8 +25,8 @@ export const SelectField = ({
     <Select
       isDisabled={disabled}
       options={options}
-      value={options.find(i => i.value === input.value) || null}
-      onChange={item => input.onChange(path(['value'], item) || null)}
+      value={options.find((i) => i.value === input.value) || null}
+      onChange={(item) => input.onChange(path(['value'], item) || null)}
       {...rest}
     />
     {touched && error && <Error>{error}</Error>}

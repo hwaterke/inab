@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export const Button = styled.button.attrs(props => ({
+export const Button = styled.button.attrs((props) => ({
   className: classNames(
     'button',
     {'is-primary': props.color === 'primary'},

@@ -18,7 +18,7 @@ import TransactionTable from './TransactionTable'
 import TransactionToolbar from './TransactionToolbar'
 import {TransactionTotalAmount} from './TransactionTotalAmount'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   transactionsById: select(TransactionResource).byId(state),
   transactionsForRendering: getTransactionsForRendering(state),
   transactionFilters: state.transactionFilters,
@@ -34,7 +34,7 @@ const TransactionContainer = ui({
     selected: Immutable.Set(),
     editingTransactionId: null,
     addingTransaction: false,
-    hideColumn: props => ({
+    hideColumn: (props) => ({
       time: true,
       tags: true,
       account: !!props.hideAccount,
@@ -64,7 +64,7 @@ const TransactionContainer = ui({
         this.searchService = new TransactionSearchService()
       }
 
-      selectTransaction = id => {
+      selectTransaction = (id) => {
         const current = this.props.ui.selected
         if (current.includes(id)) {
           this.props.updateUI('selected', current.delete(id))
@@ -73,7 +73,7 @@ const TransactionContainer = ui({
         }
       }
 
-      toggleClearingTransactionStatus = id => {
+      toggleClearingTransactionStatus = (id) => {
         const transaction = this.props.transactionsById[id]
         if (transaction.cleared_at) {
           this.props.updateResource({
@@ -100,10 +100,10 @@ const TransactionContainer = ui({
 
       deleteSelection = () => {
         const records = this.props.ui.selected.map(
-          id => this.props.transactionsById[id]
+          (id) => this.props.transactionsById[id]
         )
         this.clearSelection()
-        records.forEach(r =>
+        records.forEach((r) =>
           this.props.deleteResource({resource: TransactionResource, entity: r})
         )
       }
@@ -115,7 +115,7 @@ const TransactionContainer = ui({
         })
       }
 
-      displayUpdate = transaction_uuid => {
+      displayUpdate = (transaction_uuid) => {
         this.props.updateUI({
           addingTransaction: false,
           editingTransactionId: transaction_uuid,
@@ -129,14 +129,14 @@ const TransactionContainer = ui({
         })
       }
 
-      toggleColumn = name => {
+      toggleColumn = (name) => {
         this.props.updateUI('hideColumn', {
           ...this.props.ui.hideColumn,
           [name]: !this.props.ui.hideColumn[name],
         })
       }
 
-      onSearchChange = event => {
+      onSearchChange = (event) => {
         this.props.updateUI('searchValue', event.target.value)
       }
 
@@ -145,7 +145,7 @@ const TransactionContainer = ui({
         let transactions = this.props.transactionsForRendering
         if (this.props.accountId) {
           transactions = this.props.transactionsForRendering.filter(
-            tr => tr.account_uuid === this.props.accountId
+            (tr) => tr.account_uuid === this.props.accountId
           )
         }
 
@@ -165,7 +165,7 @@ const TransactionContainer = ui({
       render() {
         const transactionsToRender = this.getTransactionsToRender()
         const total = sumOfAmounts(
-          transactionsToRender.filter(tr => tr.type !== 'split')
+          transactionsToRender.filter((tr) => tr.type !== 'split')
         )
 
         return (

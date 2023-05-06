@@ -4,7 +4,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 
-export const LoginDispatcher = connect(state => ({token: selectToken(state)}))(
+export const LoginDispatcher = connect((state) => ({
+  token: selectToken(state),
+}))(
   class LoginDispatcher extends React.Component {
     static propTypes = {
       token: PropTypes.string,

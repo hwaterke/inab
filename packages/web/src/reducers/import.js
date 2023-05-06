@@ -2,14 +2,14 @@
 const SET_IMPORT_ACCOUNT_UUID = 'SET_IMPORT_ACCOUNT_UUID'
 const SET_IMPORT_TRANSACTIONS = 'SET_IMPORT_TRANSACTIONS'
 
-export const setImportAccountUuid = account_uuid => ({
+export const setImportAccountUuid = (account_uuid) => ({
   type: SET_IMPORT_ACCOUNT_UUID,
   account_uuid,
 })
 
 export const clearImportAccountUuid = () => setImportAccountUuid(null)
 
-export const setImportTransactions = transactions => ({
+export const setImportTransactions = (transactions) => ({
   type: SET_IMPORT_TRANSACTIONS,
   transactions,
 })

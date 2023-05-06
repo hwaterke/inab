@@ -28,11 +28,11 @@ export class ImportAccountSelector extends React.Component {
                 <Fragment>
                   <Title>Please select an account</Title>
                   <Select
-                    options={entities.map(account => ({
+                    options={entities.map((account) => ({
                       label: account.name,
                       value: account.uuid,
                     }))}
-                    onChange={item => this.props.onSelect(item.value)}
+                    onChange={(item) => this.props.onSelect(item.value)}
                   />
                 </Fragment>
               )}

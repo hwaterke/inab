@@ -7,12 +7,12 @@ import {getTransactionColumns} from '../selectors/transactionsRendering'
 import {ButtonIcon} from './presentational/atoms/ButtonIcon'
 import {TransactionToolbarRow} from './TransactionToolbar'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   filters: state.transactionFilters,
   columns: getTransactionColumns(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onClickDelete(index) {
     dispatch(deleteFilter(index))
   },

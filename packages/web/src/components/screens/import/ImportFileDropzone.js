@@ -50,10 +50,13 @@ export class ImportFileDropzone extends React.Component {
   }
 
   transformResults(transactions) {
-    return transactions.map(transaction => ({...transaction, importId: cuid()}))
+    return transactions.map((transaction) => ({
+      ...transaction,
+      importId: cuid(),
+    }))
   }
 
-  onDrop = files => {
+  onDrop = (files) => {
     if (files.length !== 1) {
       this.setState({errors: ['Please provide exactly one CSV file']})
     }
@@ -63,7 +66,7 @@ export class ImportFileDropzone extends React.Component {
         header: true,
         skipEmptyLines: true,
         transform: this.transformValue,
-        complete: results => {
+        complete: (results) => {
           if (results.errors.length > 0) {
             this.setState({loading: false, errors: results.errors})
             return

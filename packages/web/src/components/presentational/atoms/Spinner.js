@@ -26,11 +26,11 @@ const sizes = {
 
 export const Spinner = styled.div`
   display: inline-block;
-  width: ${props => sizes[props.size].size}px;
-  height: ${props => sizes[props.size].size}px;
+  width: ${(props) => sizes[props.size].size}px;
+  height: ${(props) => sizes[props.size].size}px;
   border-radius: 50%;
-  border: ${props => sizes[props.size].border}px solid #dfe1e0;
-  border-top-color: ${props => props.color};
+  border: ${(props) => sizes[props.size].border}px solid #dfe1e0;
+  border-top-color: ${(props) => props.color};
 
   animation: spCircRot 1s infinite linear;
 

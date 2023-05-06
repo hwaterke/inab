@@ -7,7 +7,7 @@ import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 import {CategoryGroupForm} from './CategoryGroupForm'
 
-const formToResource = data => {
+const formToResource = (data) => {
   return {...data, priority: parseInt(data.priority, 10)}
 }
 
@@ -23,7 +23,7 @@ export const CategoryGroupDetail = ({match, history}) => (
         formToResource={formToResource}
         postAction={history.goBack}
       >
-        {props => <CategoryGroupForm {...props} />}
+        {(props) => <CategoryGroupForm {...props} />}
       </ResourceFormProvider>
     </Box>
   </Section>

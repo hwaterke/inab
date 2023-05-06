@@ -11,7 +11,7 @@ import {Section} from '../../presentational/atoms/Section'
 import {Title} from '../../presentational/atoms/Title'
 import {Box} from '../../presentational/atoms/Box'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   backend: selectBackend(state),
   token: selectToken(state),
 })
@@ -34,7 +34,7 @@ export const AdminPage = connect(mapStateToProps)(
         url: `${this.props.backend}/settings/registration`,
         method: 'get',
         headers: {Authorization: this.props.token},
-      }).then(response => {
+      }).then((response) => {
         this.setState({
           loading: false,
           registration: path(['data', 'value'], response) === '1',
@@ -50,7 +50,7 @@ export const AdminPage = connect(mapStateToProps)(
         headers: {Authorization: this.props.token},
         data: {value: this.state.registration ? '0' : '1'},
       })
-        .then(response => {
+        .then((response) => {
           this.setState({
             registration: path(['data', 'value'], response) === '1',
           })

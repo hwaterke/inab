@@ -1,1 +1,1 @@
-export const uuidExtractor = item => item.uuid
+export const uuidExtractor = (item) => item.uuid

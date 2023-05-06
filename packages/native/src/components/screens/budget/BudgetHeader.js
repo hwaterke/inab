@@ -6,7 +6,7 @@ import {getAvailableToBudget} from '@inab/shared'
 import {Amount} from '../../Amount'
 import {colors} from '../../../constants/colors'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   availableToBudget: getAvailableToBudget(state),
 })
 

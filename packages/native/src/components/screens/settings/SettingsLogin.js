@@ -6,7 +6,7 @@ import {FontAwesome} from '@expo/vector-icons'
 import {clearToken, selectBackend, selectEmail} from '@inab/shared'
 import {globalStyles} from '../../../constants/styles'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   backend: selectBackend(state),
   email: selectEmail(state),
 })
@@ -15,10 +15,7 @@ const mapDispatchToProps = {
   clearToken,
 }
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+@connect(mapStateToProps, mapDispatchToProps)
 export class SettingsLogin extends React.Component {
   static propTypes = {
     backend: PropTypes.string.isRequired,
