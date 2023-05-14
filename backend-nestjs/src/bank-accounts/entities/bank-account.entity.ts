@@ -13,7 +13,7 @@ export class BankAccount {
   @PrimaryGeneratedColumn('uuid')
   uuid!: string
 
-  @Column('varchar')
+  @Column('varchar', {unique: true})
   name!: string
 
   @Column('varchar', {nullable: true})
