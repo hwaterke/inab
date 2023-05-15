@@ -10,11 +10,11 @@ export default class Add extends Command {
     name: Flags.string({
       required: true,
       char: 'n',
-      description: 'name of the bank acocunt',
+      description: 'name of the bank account',
     }),
     iban: Flags.string({
       required: true,
-      description: 'iban of the bank acocunt',
+      description: 'iban of the bank account',
     }),
   }
 
