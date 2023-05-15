@@ -49,6 +49,9 @@ docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab-api
 
 ### Development
 
+A new version is under development The backend is in backend-nestjs and the
+frontend in web-vite.
+
 If you want to contribute and help developing INAB, you can use the development
 configuration.
 
