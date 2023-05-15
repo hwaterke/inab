@@ -3,9 +3,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import {CategoryGroup} from './category-group.entity'
+import {BankTransaction} from '../../transactions/entities/bank-transaction.entities'
 
 @Entity()
 export class Category {
@@ -23,4 +25,7 @@ export class Category {
 
   @Column('uuid', {name: 'category_group_uuid'})
   categoryGroupUuid = undefined
+
+  @OneToMany(() => BankTransaction, (transaction) => transaction.category)
+  transactions!: BankTransaction[]
 }
