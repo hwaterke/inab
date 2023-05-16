@@ -27,6 +27,7 @@ export const DatabaseConfig: SqliteConnectionOptions = {
     AccountMigration1684178437639,
     TransactionMigration1684178903471,
   ],
+  migrationsRun: true,
   synchronize: false,
   logging: false,
 }
