@@ -12,7 +12,7 @@ import {BankTransaction} from '../../transactions/entities/bank-transaction.enti
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn('uuid')
-  uuid!: number
+  uuid!: string
 
   @Column()
   name!: string

@@ -55,6 +55,16 @@ export class BankTransactionService {
     private transactionRepository: Repository<BankTransaction>
   ) {}
 
+  async findAll() {
+    return await this.transactionRepository.find({
+      relations: {
+        bankAccount: true,
+        category: true,
+        payee: true,
+      },
+    })
+  }
+
   async import({
     bankAccountUuid,
     file,

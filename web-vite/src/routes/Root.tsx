@@ -6,6 +6,7 @@ import {Fragment, useState} from 'react'
 const navigation = [
   {name: 'Home', to: '/'},
   {name: 'Accounts', to: '/accounts'},
+  {name: 'Transactions', to: '/transactions'},
 ]
 
 export const Root = () => {

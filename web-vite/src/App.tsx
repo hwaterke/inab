@@ -3,6 +3,7 @@ import {Root} from './routes/Root.tsx'
 import {Accounts} from './routes/Accounts.tsx'
 import {Home} from './routes/Home.tsx'
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client'
+import {Transactions} from './routes/Transactions.tsx'
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: 'accounts',
         element: <Accounts />,
+      },
+      {
+        path: 'transactions',
+        element: <Transactions />,
       },
     ],
   },
