@@ -1,3 +1,8 @@
+# Databases
+*.sqlite
+*.sqlite3
+*.db
+
 # compiled output
 /dist
 /node_modules
