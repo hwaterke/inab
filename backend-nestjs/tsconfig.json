@@ -18,5 +18,6 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "strict": true
-  }
+  },
+  "include": ["src/**/*"]
 }
