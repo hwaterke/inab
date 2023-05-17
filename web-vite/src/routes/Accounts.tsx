@@ -1,6 +1,5 @@
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
-import {useTitle} from '../utils/useTitle.ts'
 import {AccountModalForm} from '../components/AccountModalForm.tsx'
 import {useState} from 'react'
 import {PrimaryButtonClassnames} from '../tailwind-utils.ts'
@@ -40,7 +39,6 @@ const deleteAccountMutationDocument = graphql(`
 `)
 
 export const Accounts = () => {
-  useTitle('Accounts')
   const [editingUuid, setEditingUuid] = useState<string | null>(null)
   const [confirmDeleteUuid, setConfirmDeleteUuid] = useState<string | null>(
     null
@@ -58,15 +56,7 @@ export const Accounts = () => {
   })
 
   return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setEditingUuid('new')}
-        className={PrimaryButtonClassnames}
-      >
-        Add account
-      </button>
-
+    <>
       {confirmDeleteUuid !== null && (
         <AlertModal
           isOpen
@@ -104,15 +94,36 @@ export const Accounts = () => {
         />
       )}
 
-      <div className="bg-white rounded-lg ring-1 ring-slate-900/10 px-4 py-12 sm:px-6 lg:px-8">
-        {data && (
-          <AccountList
-            accounts={data.accounts}
-            onEdit={(uuid) => setEditingUuid(uuid)}
-            onDelete={(uuid) => setConfirmDeleteUuid(uuid)}
-          />
-        )}
-      </div>
-    </div>
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="md:flex md:items-center md:justify-between">
+            <h1 className="text-2xl font-bold leading-7 text-gray-900">
+              Accounts
+            </h1>
+
+            <button
+              type="button"
+              onClick={() => setEditingUuid('new')}
+              className={PrimaryButtonClassnames}
+            >
+              Add account
+            </button>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg ring-1 ring-slate-900/10 px-4 py-12 sm:px-6 lg:px-8">
+            {data && (
+              <AccountList
+                accounts={data.accounts}
+                onEdit={(uuid) => setEditingUuid(uuid)}
+                onDelete={(uuid) => setConfirmDeleteUuid(uuid)}
+              />
+            )}
+          </div>
+        </div>
+      </main>
+    </>
   )
 }

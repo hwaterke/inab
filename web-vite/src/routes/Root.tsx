@@ -1,7 +1,7 @@
 import {Disclosure} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {NavLink, Outlet} from 'react-router-dom'
-import {Fragment, useState} from 'react'
+import {Fragment} from 'react'
 
 const navigation = [
   {name: 'Home', to: '/'},
@@ -10,8 +10,6 @@ const navigation = [
 ]
 
 export const Root = () => {
-  const [title, setTitle] = useState('')
-
   return (
     <>
       <div className="min-h-full">
@@ -89,18 +87,7 @@ export const Root = () => {
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              {title}
-            </h1>
-          </div>
-        </header>
-        <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <Outlet context={{setTitle}} />
-          </div>
-        </main>
+        <Outlet />
       </div>
     </>
   )
