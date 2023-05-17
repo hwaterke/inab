@@ -18,6 +18,8 @@ export class CategoryMigration1684178212867 implements MigrationInterface {
            "uuid"                varchar PRIMARY KEY NOT NULL,
            "name"                varchar             NOT NULL,
            "category_group_uuid" varchar             NOT NULL,
+           "created_at"          datetime            NOT NULL DEFAULT (datetime('now')),
+           "updated_at"          datetime            NOT NULL DEFAULT (datetime('now')),
            CONSTRAINT "FK_4651a2a527afd8fba887bcd2a2e" FOREIGN KEY ("category_group_uuid") REFERENCES "category_group" ("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION
        )`
     )

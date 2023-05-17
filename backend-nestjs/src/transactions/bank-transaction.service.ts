@@ -62,6 +62,9 @@ export class BankTransactionService {
         category: true,
         payee: true,
       },
+      order: {
+        date: 'DESC',
+      },
     })
   }
 

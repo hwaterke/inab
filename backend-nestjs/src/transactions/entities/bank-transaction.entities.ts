@@ -43,7 +43,7 @@ export class BankTransaction {
   transferBankAccountUuid!: string
 
   // Account number of the beneficiary of the transaction
-  @Column('varchar', {nullable: true})
+  @Column('varchar', {name: 'beneficiary_account_number', nullable: true})
   beneficiaryAccountNumber!: string | null
 
   @ManyToOne(() => Payee, (payee) => payee.transactions)
@@ -69,12 +69,12 @@ export class BankTransaction {
   @Column('varchar', {nullable: true})
   hash!: string | null
 
-  @Column('text', {nullable: true})
+  @Column('text', {name: 'import_details', nullable: true})
   importDetails!: string | null
 
-  @CreateDateColumn()
-  created_at!: Date
+  @CreateDateColumn({name: 'created_at'})
+  createdAt!: Date
 
-  @UpdateDateColumn()
-  updated_at!: Date
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt!: Date
 }

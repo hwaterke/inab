@@ -7,4 +7,7 @@ export class BankAccountObjectType {
 
   @Field()
   name!: string
+
+  @Field()
+  iban!: string
 }

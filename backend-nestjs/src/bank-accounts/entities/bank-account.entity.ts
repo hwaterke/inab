@@ -16,15 +16,15 @@ export class BankAccount {
   @Column('varchar', {unique: true})
   name!: string
 
-  @Column('varchar', {nullable: true})
-  iban!: string | null
+  @Column('varchar', {unique: true})
+  iban!: string
 
   @OneToMany(() => BankTransaction, (transaction) => transaction.bankAccount)
   transactions!: BankTransaction[]
 
-  @CreateDateColumn()
-  created_at!: Date
+  @CreateDateColumn({name: 'created_at'})
+  createdAt!: Date
 
-  @UpdateDateColumn()
-  updated_at!: Date
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt!: Date
 }

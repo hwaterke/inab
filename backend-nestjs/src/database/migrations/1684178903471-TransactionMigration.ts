@@ -13,11 +13,11 @@ export class TransactionMigration1684178903471 implements MigrationInterface {
            "amount"                     integer             NOT NULL,
            "bank_account_uuid"          varchar             NOT NULL,
            "transfer_bank_account_uuid" varchar,
-           "beneficiaryAccountNumber"   varchar,
+           "beneficiary_account_number" varchar,
            "payee_uuid"                 varchar,
            "category_uuid"              varchar,
            "hash"                       varchar,
-           "importDetails"              text,
+           "import_details"             text,
            "created_at"                 datetime            NOT NULL DEFAULT (datetime('now')),
            "updated_at"                 datetime            NOT NULL DEFAULT (datetime('now')),
            CONSTRAINT "CHK_a9e694978d881b4a497668656b" CHECK (time IS strftime('%H:%M:%S', time)),
@@ -35,6 +35,8 @@ export class TransactionMigration1684178903471 implements MigrationInterface {
            "amount"           integer             NOT NULL,
            "category_uuid"    varchar             NOT NULL,
            "transaction_uuid" varchar             NOT NULL,
+           "created_at"       datetime            NOT NULL DEFAULT (datetime('now')),
+           "updated_at"       datetime            NOT NULL DEFAULT (datetime('now')),
            CONSTRAINT "FK_a1d17f63ba13c983ca4421c871b" FOREIGN KEY ("category_uuid") REFERENCES "category" ("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION,
            CONSTRAINT "FK_0c7480b6a7be7f7aee3e9603b0c" FOREIGN KEY ("transaction_uuid") REFERENCES "category" ("uuid") ON DELETE NO ACTION ON UPDATE NO ACTION
        )`
