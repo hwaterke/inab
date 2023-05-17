@@ -19,14 +19,12 @@ export class Category {
   @Column()
   name!: string
 
-  @ManyToOne(() => CategoryGroup, (categoryGroup) => categoryGroup.categories, {
-    nullable: false,
-  })
+  @ManyToOne(() => CategoryGroup, (categoryGroup) => categoryGroup.categories)
   @JoinColumn({name: 'category_group_uuid'})
-  categoryGroup = undefined
+  categoryGroup!: CategoryGroup
 
   @Column('uuid', {name: 'category_group_uuid'})
-  categoryGroupUuid = undefined
+  categoryGroupUuid!: string
 
   @OneToMany(() => BankTransaction, (transaction) => transaction.category)
   transactions!: BankTransaction[]

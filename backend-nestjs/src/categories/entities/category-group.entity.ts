@@ -4,7 +4,7 @@ import {Category} from './category.entity'
 @Entity()
 export class CategoryGroup {
   @PrimaryGeneratedColumn('uuid')
-  uuid!: number
+  uuid!: string
 
   @Column()
   name!: string
