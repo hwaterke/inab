@@ -10,7 +10,7 @@ export class BankAccountService {
     private bankAccountRepository: Repository<BankAccount>
   ) {}
 
-  async create(payload: {name: string; iban: string | null}) {
+  async create(payload: {name: string; iban: string}) {
     return await this.bankAccountRepository.save(payload)
   }
 
@@ -22,7 +22,7 @@ export class BankAccountService {
     return await this.bankAccountRepository.findOneBy({uuid})
   }
 
-  async update(uuid: string, payload: {name: string; iban: string | null}) {
+  async update(uuid: string, payload: {name: string; iban: string}) {
     return await this.bankAccountRepository.update(uuid, payload)
   }
 
