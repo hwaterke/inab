@@ -3,11 +3,9 @@ import {useMutation, useQuery} from '@apollo/client'
 import {useTitle} from '../utils/useTitle.ts'
 import {AccountModalForm} from '../components/AccountModalForm.tsx'
 import {useState} from 'react'
-import {
-  PrimaryButtonClassnames,
-  SecondaryButtonClassnames,
-} from '../tailwind-utils.ts'
+import {PrimaryButtonClassnames} from '../tailwind-utils.ts'
 import {AlertModal} from '../components/AlertModal.tsx'
+import {AccountList} from '../components/AccountList.tsx'
 
 const allAccountsQueryDocument = graphql(`
   query accounts {
@@ -106,39 +104,15 @@ export const Accounts = () => {
         />
       )}
 
-      {data && (
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
-        >
-          {data.accounts.map((account) => (
-            <li
-              key={account.uuid}
-              className="overflow-hidden rounded-xl border border-gray-200"
-            >
-              <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-                <button
-                  type="button"
-                  className={SecondaryButtonClassnames}
-                  onClick={() => setEditingUuid(account.uuid)}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className={SecondaryButtonClassnames}
-                  onClick={() => setConfirmDeleteUuid(account.uuid)}
-                >
-                  Delete
-                </button>
-
-                {account.name}
-                {account.iban}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="bg-white rounded-lg ring-1 ring-slate-900/10 px-4 py-12 sm:px-6 lg:px-8">
+        {data && (
+          <AccountList
+            accounts={data.accounts}
+            onEdit={(uuid) => setEditingUuid(uuid)}
+            onDelete={(uuid) => setConfirmDeleteUuid(uuid)}
+          />
+        )}
+      </div>
     </div>
   )
 }
