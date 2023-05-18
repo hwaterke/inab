@@ -5,6 +5,7 @@ import {Home} from './routes/Home.tsx'
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client'
 import {Transactions} from './routes/Transactions.tsx'
 import {Payees} from './routes/Payees.tsx'
+import {Categories} from './routes/Categories.tsx'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: 'payees',
         element: <Payees />,
+      },
+      {
+        path: 'categories',
+        element: <Categories />,
       },
       {
         path: 'transactions',

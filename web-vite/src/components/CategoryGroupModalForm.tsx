@@ -15,7 +15,7 @@ type FormData = {
   name: string
 }
 
-export const PayeeModalForm = ({
+export const CategoryGroupModalForm = ({
   defaultValues,
   onSubmit,
   isOpen,
@@ -40,10 +40,10 @@ export const PayeeModalForm = ({
                 as="h3"
                 className="text-base text-center font-semibold leading-6 text-gray-900"
               >
-                Payee
+                Category group
               </Dialog.Title>
               <div className="mt-2 space-y-6">
-                <Input<FormData> label="Name" name="name" placeholder="Apple" />
+                <Input<FormData> label="Name" name="name" placeholder="Main" />
               </div>
             </div>
           </div>
