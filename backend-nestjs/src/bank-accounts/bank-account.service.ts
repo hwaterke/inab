@@ -15,7 +15,11 @@ export class BankAccountService {
   }
 
   async findAll() {
-    return await this.bankAccountRepository.find()
+    return await this.bankAccountRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    })
   }
 
   async findOne(uuid: string) {

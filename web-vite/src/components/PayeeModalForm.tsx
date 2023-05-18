@@ -12,10 +12,9 @@ type Props = {
 
 type FormData = {
   name: string
-  iban: string
 }
 
-export const AccountModalForm = ({
+export const PayeeModalForm = ({
   defaultValues,
   onSubmit,
   isOpen,
@@ -40,11 +39,10 @@ export const AccountModalForm = ({
                 as="h3"
                 className="text-base text-center font-semibold leading-6 text-gray-900"
               >
-                Account
+                Payee
               </Dialog.Title>
               <div className="mt-2 space-y-6">
-                <Input<FormData> label="Name" name="name" placeholder="ING" />
-                <Input<FormData> label="IBAN" name="iban" placeholder="BEXXX" />
+                <Input<FormData> label="Name" name="name" placeholder="Apple" />
               </div>
             </div>
           </div>

@@ -15,7 +15,11 @@ export class PayeeService {
   }
 
   async findAll() {
-    return await this.payeeRepository.find()
+    return await this.payeeRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    })
   }
 
   async findOne(uuid: string) {

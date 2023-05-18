@@ -6,6 +6,7 @@ import {Fragment} from 'react'
 const navigation = [
   {name: 'Home', to: '/'},
   {name: 'Accounts', to: '/accounts'},
+  {name: 'Payees', to: '/payees'},
   {name: 'Transactions', to: '/transactions'},
 ]
 
