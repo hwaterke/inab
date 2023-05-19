@@ -1,4 +1,5 @@
 import {CodegenConfig} from '@graphql-codegen/cli'
+import {ApolloClientHelpersConfig} from '@graphql-codegen/typescript-apollo-client-helpers/typings/config'
 
 const config: CodegenConfig = {
   schema: '../backend-nestjs/src/schema.gql',
@@ -7,6 +8,14 @@ const config: CodegenConfig = {
   generates: {
     './src/gql/': {
       preset: 'client',
+    },
+    './src/gql/typePolicies.codegen.ts': {
+      plugins: ['typescript-apollo-client-helpers'],
+      config: {
+        requireKeyFields: true,
+        requirePoliciesForAllTypes: true,
+        useTypeImports: true,
+      } as ApolloClientHelpersConfig,
     },
   },
 }

@@ -6,7 +6,7 @@ import {PayeeList} from '../components/PayeeList.tsx'
 import {AlertModal} from '../components/AlertModal.tsx'
 import {PayeeModalForm} from '../components/PayeeModalForm.tsx'
 
-const allPayeesQueryDocument = graphql(`
+export const allPayeesQueryDocument = graphql(`
   query payees {
     payees {
       uuid

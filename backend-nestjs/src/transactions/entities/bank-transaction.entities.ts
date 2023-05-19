@@ -48,9 +48,9 @@ export class BankTransaction {
 
   @ManyToOne(() => Payee, (payee) => payee.transactions)
   @JoinColumn({name: 'payee_uuid'})
-  payee!: Payee
+  payee!: Payee | null
   @Column('uuid', {name: 'payee_uuid', nullable: true})
-  payeeUuid!: string
+  payeeUuid!: string | null
 
   @ManyToOne(() => Category, (account) => account.transactions)
   @JoinColumn({name: 'category_uuid'})

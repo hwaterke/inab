@@ -68,6 +68,32 @@ export class BankTransactionService {
     })
   }
 
+  async findOne(uuid: string) {
+    return await this.transactionRepository.findOneOrFail({
+      where: {
+        uuid,
+      },
+      relations: {
+        bankAccount: true,
+        category: true,
+        payee: true,
+      },
+    })
+  }
+
+  setPayee({
+    bankTransactionUuid,
+    payeeUuid,
+  }: {
+    bankTransactionUuid: string
+    payeeUuid: string | null
+  }) {
+    return this.transactionRepository.update(
+      {uuid: bankTransactionUuid},
+      {payeeUuid}
+    )
+  }
+
   async import({
     bankAccountUuid,
     file,

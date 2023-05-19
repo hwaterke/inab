@@ -12,7 +12,7 @@ export class BankTransactionObjectType {
   date!: string
 
   @Field(() => String, {nullable: true})
-  time?: string | null
+  time!: string | null
 
   @Field(() => Int)
   amount!: number
@@ -21,8 +21,8 @@ export class BankTransactionObjectType {
   bankAccount!: BankAccountObjectType
 
   @Field(() => CategoryObjectType, {nullable: true})
-  category?: CategoryObjectType
+  category!: CategoryObjectType | null
 
   @Field(() => PayeeObjectType, {nullable: true})
-  payee!: PayeeObjectType
+  payee!: PayeeObjectType | null
 }

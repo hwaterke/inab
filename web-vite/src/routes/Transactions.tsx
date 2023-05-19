@@ -1,5 +1,8 @@
 import {graphql} from '../gql'
-import {useQuery} from '@apollo/client'
+import {useMutation, useQuery} from '@apollo/client'
+import {useMemo, useState} from 'react'
+import Select from 'react-select'
+import {allPayeesQueryDocument} from './Payees.tsx'
 
 const formater = new Intl.NumberFormat('fr-FR', {
   style: 'currency',
@@ -29,8 +32,45 @@ const allTransactionsQueryDocument = graphql(`
   }
 `)
 
+const setTransactionPayeeMutationDocument = graphql(`
+  mutation setBankTransactionPayee($uuid: ID!, $payeeUuid: ID) {
+    setBankTransactionPayee(bankTransactionUuid: $uuid, payeeUuid: $payeeUuid) {
+      uuid
+      date
+      time
+      amount
+      bankAccount {
+        uuid
+        name
+      }
+      category {
+        uuid
+        name
+      }
+      payee {
+        uuid
+        name
+      }
+    }
+  }
+`)
+
 export const Transactions = () => {
+  const [selectOpened, setSelectOpened] = useState<string | null>(null)
+
   const {data} = useQuery(allTransactionsQueryDocument)
+  const {data: payeeData} = useQuery(allPayeesQueryDocument)
+  const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
+
+  const payeeOptions = useMemo(
+    () =>
+      payeeData?.payees.map((payee) => ({
+        value: payee.uuid,
+        label: payee.name,
+      })) ?? [],
+
+    [payeeData]
+  )
 
   return (
     <>
@@ -109,7 +149,54 @@ export const Transactions = () => {
                           {transaction.time}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                          {transaction.payee?.name}
+                          {selectOpened === transaction.uuid ? (
+                            <Select
+                              autoFocus
+                              openMenuOnFocus
+                              options={payeeOptions}
+                              value={payeeOptions.find(
+                                (option) =>
+                                  option.value === transaction.payee?.uuid
+                              )}
+                              onChange={async (option) => {
+                                await setPayee({
+                                  variables: {
+                                    uuid: transaction.uuid,
+                                    payeeUuid: option?.value ?? null,
+                                  },
+                                })
+
+                                setSelectOpened(null)
+                              }}
+                              isClearable
+                              onBlur={() => setSelectOpened(null)}
+                              styles={{
+                                input: (provided) => ({
+                                  ...provided,
+                                  '& input': {
+                                    boxShadow: 'none!important',
+                                    outline: 'none!important',
+                                    fontSize: 14,
+                                  },
+                                }),
+                              }}
+                              classNames={{
+                                control: () => 'min-h-0 border-0 shadow-none',
+                                valueContainer: () => 'p-0',
+                                input: () => 'p-0 m-0 text-sm',
+                                indicatorsContainer: () =>
+                                  'p-0 border-red-900 border-1',
+                                dropdownIndicator: () => 'p-0',
+                                clearIndicator: () => 'p-0',
+                              }}
+                            />
+                          ) : (
+                            <button
+                              onClick={() => setSelectOpened(transaction.uuid)}
+                            >
+                              {transaction.payee?.name ?? 'No payee'}
+                            </button>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                           {transaction.category?.name}
