@@ -11,8 +11,7 @@ import {
 } from 'typeorm'
 import {BankAccount} from '../../bank-accounts/entities/bank-account.entity'
 import {Payee} from '../../payees/entities/payee.entity'
-import {Category} from '../../categories/entities/category.entity'
-import {BankSubTransaction} from './bank-subtransaction.entity'
+import {BankTransactionItem} from './bank-transaction-item.entity'
 
 @Entity()
 @Check(`date IS strftime('%Y-%m-%d', date)`)
@@ -52,18 +51,10 @@ export class BankTransaction {
   @Column('uuid', {name: 'payee_uuid', nullable: true})
   payeeUuid!: string | null
 
-  @ManyToOne(() => Category, (account) => account.transactions)
-  @JoinColumn({name: 'category_uuid'})
-  category!: Category
-  @Column('uuid', {name: 'category_uuid', nullable: true})
-  categoryUuid!: string
-
-  @OneToMany(
-    () => BankSubTransaction,
-    (subtransaction) => subtransaction.transaction,
-    {cascade: true}
-  )
-  subtransactions!: BankSubTransaction[]
+  @OneToMany(() => BankTransactionItem, (item) => item.transaction, {
+    onDelete: 'CASCADE',
+  })
+  items!: BankTransactionItem[]
 
   // Used with import to prevent creating duplicate transactions
   @Column('varchar', {nullable: true})

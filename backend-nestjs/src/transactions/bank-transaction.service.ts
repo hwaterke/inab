@@ -59,7 +59,6 @@ export class BankTransactionService {
     return await this.transactionRepository.find({
       relations: {
         bankAccount: true,
-        category: true,
         payee: true,
       },
       order: {
@@ -75,8 +74,8 @@ export class BankTransactionService {
       },
       relations: {
         bankAccount: true,
-        category: true,
         payee: true,
+        items: true,
       },
     })
   }

@@ -1,5 +1,5 @@
 import {PrimaryButtonClassnames} from '../tailwind-utils.ts'
-import {useState} from 'react'
+import {Fragment, useState} from 'react'
 import {graphql} from '../gql'
 import {AlertModal} from '../components/AlertModal.tsx'
 import {useMutation, useQuery} from '@apollo/client'
@@ -212,11 +212,8 @@ export const Categories = () => {
             {data && (
               <ul role="list" className="divide-y divide-gray-100">
                 {data.categoryGroups.map((group) => (
-                  <>
-                    <li
-                      key={group.uuid}
-                      className="flex justify-between px-4 py-2 bg-gray-100 hover:bg-gray-200"
-                    >
+                  <Fragment key={group.uuid}>
+                    <li className="flex justify-between px-4 py-2 bg-gray-100 hover:bg-gray-200">
                       {group.name}
 
                       <div className="flex items-center gap-x-6">
@@ -277,7 +274,7 @@ export const Categories = () => {
                         </div>
                       </li>
                     ))}
-                  </>
+                  </Fragment>
                 ))}
               </ul>
             )}

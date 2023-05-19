@@ -20,10 +20,6 @@ const allTransactionsQueryDocument = graphql(`
         uuid
         name
       }
-      category {
-        uuid
-        name
-      }
       payee {
         uuid
         name
@@ -40,10 +36,6 @@ const setTransactionPayeeMutationDocument = graphql(`
       time
       amount
       bankAccount {
-        uuid
-        name
-      }
-      category {
         uuid
         name
       }
@@ -198,9 +190,7 @@ export const Transactions = () => {
                             </button>
                           )}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                          {transaction.category?.name}
-                        </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500" />
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
                           {formater.format(transaction.amount / 100)}
                         </td>
