@@ -10,6 +10,7 @@ import {typePolicies} from './typePolicies.ts'
 import {PropsWithChildren, useMemo} from 'react'
 import createCache from '@emotion/cache'
 import {CacheProvider} from '@emotion/react'
+import {Transaction} from './routes/Transaction.tsx'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'transactions',
         element: <Transactions />,
+      },
+      {
+        path: 'transactions/:uuid',
+        element: <Transaction />,
       },
     ],
   },

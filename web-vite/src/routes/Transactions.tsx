@@ -3,6 +3,7 @@ import {useMutation, useQuery} from '@apollo/client'
 import {useMemo, useState} from 'react'
 import Select from 'react-select'
 import {allPayeesQueryDocument} from './Payees.tsx'
+import {Link} from 'react-router-dom'
 
 const formater = new Intl.NumberFormat('fr-FR', {
   style: 'currency',
@@ -195,15 +196,12 @@ export const Transactions = () => {
                           {formater.format(transaction.amount / 100)}
                         </td>
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          <a
-                            href="#"
+                          <Link
+                            to={`/transactions/${transaction.uuid}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
-                            <span className="sr-only">
-                              , {transaction.uuid}
-                            </span>
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}
