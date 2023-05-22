@@ -35,8 +35,11 @@ export class BankTransactionItemObjectType {
   @Field(() => Int)
   amount!: number
 
-  @Field(() => CategoryObjectType)
-  category!: CategoryObjectType
+  @Field(() => CategoryObjectType, {nullable: true})
+  category!: CategoryObjectType | null
+
+  @Field(() => Boolean)
+  isIncome!: boolean
 
   @Field(() => Boolean)
   isCredit!: boolean
@@ -53,11 +56,14 @@ export class BankTransactionItemObjectType {
 
 @InputType()
 export class BankTransactionItemInputType {
-  @Field(() => ID)
-  categoryUuid!: string
-
   @Field(() => Int)
   amount!: number
+
+  @Field(() => ID, {nullable: true})
+  categoryUuid!: string | null
+
+  @Field(() => Boolean)
+  isIncome!: boolean
 
   @Field(() => Boolean)
   isCredit!: boolean

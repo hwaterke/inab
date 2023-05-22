@@ -8,6 +8,9 @@ const config: CodegenConfig = {
   generates: {
     './src/gql/': {
       preset: 'client',
+      config: {
+        avoidOptionals: true,
+      },
     },
     './src/gql/typePolicies.codegen.ts': {
       plugins: ['typescript-apollo-client-helpers'],

@@ -26,20 +26,18 @@ const allBankTransactionItemsQueryDocument = graphql(`
 `)
 
 type Props = {
-  value?: string
-  onChange: (value?: string) => void
+  value: string | null
+  onChange: (value: string | null) => void
 }
 
 export const BankTransactionItemSelect = ({value, onChange}: Props) => {
   const {data} = useQuery(allBankTransactionItemsQueryDocument)
 
-  console.log({data})
-
   const itemOptions = useMemo(
     () =>
       data?.transactionItems.map((item) => ({
         value: item.uuid,
-        label: `${item.transaction.date} ${item.amount} ${item.category.name}`,
+        label: `${item.transaction.date} ${item.amount} ${item.category?.name}`,
       })) ?? [],
 
     [data]
@@ -49,7 +47,7 @@ export const BankTransactionItemSelect = ({value, onChange}: Props) => {
     <Select
       options={itemOptions}
       value={itemOptions.find((option) => option.value === value)}
-      onChange={(option) => onChange(option?.value)}
+      onChange={(option) => onChange(option?.value ?? null)}
     />
   )
 }

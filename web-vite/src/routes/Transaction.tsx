@@ -2,11 +2,16 @@ import {Link, useParams} from 'react-router-dom'
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
 import {amountFormatter} from '../utils/formatter.ts'
-import {TransactionItemForm} from '../components/TransactionItemForm.tsx'
+import {
+  formDataToResource,
+  resourceToFormData,
+  TransactionItemForm,
+} from '../components/TransactionItemForm.tsx'
 import {useState} from 'react'
 import {ChevronRightIcon} from '@heroicons/react/20/solid'
 import {MenuOptions} from '../components/MenuOptions.tsx'
 import {AlertModal} from '../components/AlertModal.tsx'
+import {CategoryTag} from '../components/CategoryTag.tsx'
 
 const transactionQueryDocument = graphql(`
   query transaction($uuid: ID!) {
@@ -22,10 +27,12 @@ const transactionQueryDocument = graphql(`
           name
         }
         amount
+        isIncome
         isCredit
         reimburse {
           uuid
           amount
+          isIncome
           category {
             uuid
             name
@@ -38,6 +45,7 @@ const transactionQueryDocument = graphql(`
         reimbursedBy {
           uuid
           amount
+          isIncome
           category {
             uuid
             name
@@ -178,9 +186,10 @@ const ItemListCardDetails = ({
   items: {
     uuid: string
     amount: number
+    isIncome: boolean
     category: {
       name: string
-    }
+    } | null
     transaction: {
       uuid: string
       date: string
@@ -197,7 +206,7 @@ const ItemListCardDetails = ({
         <Link
           key={item.uuid}
           to={`/transactions/${item.transaction.uuid}`}
-          className="block mt-1 flex justify-between"
+          className="mt-1 flex justify-between"
         >
           <div>
             <span className="text-gray-500 pr-3">{item.transaction.date}</span>
@@ -205,9 +214,7 @@ const ItemListCardDetails = ({
           </div>
 
           <div className="flex">
-            <div className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-              {item.category.name}
-            </div>
+            <CategoryTag {...item} />
             <ChevronRightIcon className="ml-2 h-6 w-5 text-gray-900" />
           </div>
         </Link>
@@ -217,37 +224,36 @@ const ItemListCardDetails = ({
 }
 
 const ItemCard = ({
-  amount,
-  category,
-  isCredit,
-  reimburse,
-  reimbursedBy,
+  item,
   onEdit,
   onDelete,
 }: {
-  uuid: string
-  transactionUuid: string
-  amount: number
-  category: string
-  isCredit: boolean
-  reimburse?: {
-    uuid: string
+  item: {
     amount: number
-    category: {name: string}
-    transaction: {
+    isIncome: boolean
+    isCredit: boolean
+    category: {name: string} | null
+    reimburse: {
       uuid: string
-      date: string
-    }
-  } | null
-  reimbursedBy: {
-    uuid: string
-    amount: number
-    category: {name: string}
-    transaction: {
+      amount: number
+      isIncome: boolean
+      category: {name: string} | null
+      transaction: {
+        uuid: string
+        date: string
+      }
+    } | null
+    reimbursedBy: {
       uuid: string
-      date: string
-    }
-  }[]
+      amount: number
+      isIncome: boolean
+      category: {name: string} | null
+      transaction: {
+        uuid: string
+        date: string
+      }
+    }[]
+  }
   onEdit: () => void
   onDelete: () => void
 }) => {
@@ -259,14 +265,12 @@ const ItemCard = ({
             Amount
           </dt>
           <dd className="mt-1 text-base font-semibold leading-6 text-gray-900">
-            {amountFormatter.format(amount / 100)}
+            {amountFormatter.format(item.amount / 100)}
           </dd>
         </div>
         <div className="flex-none self-end pl-6 pt-4">
-          <dt className="sr-only">Status</dt>
-          <dd className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-            {category}
-          </dd>
+          <dt className="sr-only">Category</dt>
+          <CategoryTag {...item} />
         </div>
         <div className="inline-flex items-center self-end">
           <MenuOptions
@@ -281,15 +285,15 @@ const ItemCard = ({
         </div>
       </dl>
 
-      {reimburse && (
-        <ItemListCardDetails title="Reimburses" items={[reimburse]} />
+      {item.reimburse && (
+        <ItemListCardDetails title="Reimburses" items={[item.reimburse]} />
       )}
 
-      {reimbursedBy.length > 0 && (
-        <ItemListCardDetails title="Reimbursed by" items={reimbursedBy} />
+      {item.reimbursedBy.length > 0 && (
+        <ItemListCardDetails title="Reimbursed by" items={item.reimbursedBy} />
       )}
 
-      {isCredit && (
+      {item.isCredit && (
         <div className="bg-yellow-50 border-t border-gray-900/5 p-6">
           <span className="text-yellow-700 text-sm font-semibold leading-6">
             This item should be reimbursed.
@@ -297,6 +301,40 @@ const ItemCard = ({
         </div>
       )}
     </li>
+  )
+}
+
+const MissingItemsCard = ({
+  amount,
+  onAdd,
+}: {
+  amount: number
+  onAdd: () => void
+}) => {
+  return (
+    <div className="rounded-md bg-yellow-50 p-4 mb-4">
+      <div className="ml-3">
+        <h3 className="text-sm font-medium text-yellow-800">Missing amount</h3>
+        <div className="mt-2 text-sm text-yellow-700">
+          <p>
+            {amountFormatter.format(amount / 100)} is missing from the items
+            defined below.
+          </p>
+        </div>
+
+        <div className="mt-4">
+          <div className="-mx-2 -my-1.5 flex">
+            <button
+              type="button"
+              onClick={onAdd}
+              className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
+            >
+              Add item
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -318,26 +356,21 @@ export const Transaction = () => {
     data?.transaction.items.find((item) => item.uuid === editingItemUuid) ??
     null
 
+  const missingAmount = data
+    ? data.transaction.amount -
+      data.transaction.items.reduce((acc, item) => acc + item.amount, 0)
+    : 0
+
   return (
     <>
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div className="md:flex md:items-center md:justify-between">
-            <h1 className="text-2xl font-bold leading-7 text-gray-900">
-              Transaction
-            </h1>
-          </div>
-        </div>
-      </header>
-
       <main className="mx-auto max-w-6xl">
-        <div className="bg-white shadow sm:rounded-lg">
+        <div className="bg-white shadow sm:rounded-lg my-4">
           <div className="px-4 py-6 sm:px-6">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
-              Applicant Information
+              Transaction Information
             </h3>
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-              Personal details and application.
+              Details and categorisation of the transaction.
             </p>
           </div>
           <div className="border-t border-gray-100">
@@ -374,12 +407,12 @@ export const Transaction = () => {
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-900">Items</dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  <button
-                    type="button"
-                    onClick={() => setEditingItemUuid('new')}
-                  >
-                    Add
-                  </button>
+                  {missingAmount !== 0 && (
+                    <MissingItemsCard
+                      amount={missingAmount}
+                      onAdd={() => setEditingItemUuid('new')}
+                    />
+                  )}
 
                   {confirmDeleteItemUuid !== null && (
                     <AlertModal
@@ -405,12 +438,7 @@ export const Transaction = () => {
                     <div className="mb-4">
                       <TransactionItemForm
                         onSubmit={async (data) => {
-                          const itemData = {
-                            amount: parseInt(data.amount, 10),
-                            isCredit: data.isCredit,
-                            categoryUuid: data.categoryUuid,
-                            reimburseUuid: data.reimburseUuid,
-                          }
+                          const itemData = formDataToResource(data)
 
                           if (editingItemUuid === 'new') {
                             await addItem({
@@ -432,13 +460,13 @@ export const Transaction = () => {
                         }}
                         defaultValues={
                           editingItemUuid === 'new'
-                            ? undefined
-                            : {
-                                ...editingItem,
-                                amount: editingItem?.amount.toString() ?? '',
-                                categoryUuid: editingItem?.category.uuid ?? '',
-                                isCredit: editingItem?.isCredit ?? false,
+                            ? {
+                                amount: missingAmount.toString(),
+                                categoryUuid: null,
+                                reimburseUuid: null,
+                                isCredit: false,
                               }
+                            : resourceToFormData(editingItem!)
                         }
                         onClose={() => setEditingItemUuid(null)}
                       />
@@ -450,13 +478,7 @@ export const Transaction = () => {
                       {data?.transaction.items.map((item) => (
                         <ItemCard
                           key={item.uuid}
-                          uuid={item.uuid}
-                          amount={item.amount}
-                          category={item.category.name}
-                          isCredit={item.isCredit}
-                          reimburse={item.reimburse}
-                          reimbursedBy={item.reimbursedBy}
-                          transactionUuid={data.transaction.uuid}
+                          item={item}
                           onEdit={() => setEditingItemUuid(item.uuid)}
                           onDelete={() => setConfirmDeleteItemUuid(item.uuid)}
                         />

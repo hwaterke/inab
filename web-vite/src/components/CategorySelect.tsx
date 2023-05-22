@@ -13,8 +13,10 @@ const allCategoriesQueryDocument = graphql(`
 `)
 
 type Props = {
-  value: string
+  value: string | null
   onChange: (value?: string) => void
+  withIncome?: boolean
+  withReimbursement?: boolean
 }
 
 type Option = {
@@ -22,18 +24,42 @@ type Option = {
   label: string
 }
 
-export const CategorySelect = ({value, onChange}: Props) => {
+export const CategorySelect = ({
+  value,
+  onChange,
+  withIncome,
+  withReimbursement,
+}: Props) => {
   const {data} = useQuery(allCategoriesQueryDocument)
 
-  const categoryOptions: Option[] = useMemo(
-    () =>
-      data?.categories.map((category) => ({
-        value: category.uuid,
-        label: category.name,
-      })) ?? [],
+  const categoryOptions = useMemo(() => {
+    const options: Option[] = []
 
-    [data]
-  )
+    if (withIncome) {
+      options.push({
+        value: 'income',
+        label: 'Income',
+      })
+    }
+
+    if (withReimbursement) {
+      options.push({
+        value: 'reimbursement',
+        label: 'Reimbursement',
+      })
+    }
+
+    if (data?.categories) {
+      options.push(
+        ...data.categories.map((category) => ({
+          value: category.uuid,
+          label: category.name,
+        }))
+      )
+    }
+
+    return options
+  }, [data, withIncome, withReimbursement])
 
   return (
     <Select

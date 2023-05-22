@@ -2,18 +2,50 @@ import {Controller, FormProvider, useForm} from 'react-hook-form'
 import {Input} from './Input.tsx'
 import {CategorySelect} from './CategorySelect.tsx'
 import {BankTransactionItemSelect} from './BankTransactionItemSelect.tsx'
+import {ModalButtonsSubmit} from './ModalButtonsSubmit.tsx'
 
 type FormData = {
   amount: string
-  categoryUuid: string
+  categoryUuid: string | null
   isCredit: boolean
-  reimburseUuid?: string
+  reimburseUuid: string | null
 }
 
 type Props = {
   onSubmit: (data: FormData) => void
   defaultValues?: FormData
-  onClose?: () => void
+  onClose: () => void
+}
+
+export const resourceToFormData = (resource: {
+  amount: number
+  category: {uuid: string} | null
+  isIncome: boolean
+  isCredit: boolean
+  reimburse: {uuid: string} | null
+}): FormData => {
+  return {
+    amount: resource.amount.toString(),
+    isCredit: resource.isCredit,
+    categoryUuid:
+      resource.category?.uuid ??
+      (resource.isIncome ? 'income' : 'reimbursement'),
+    reimburseUuid: resource.reimburse?.uuid ?? null,
+  }
+}
+
+export const formDataToResource = (data: FormData) => {
+  return {
+    amount: parseInt(data.amount, 10),
+    isCredit: data.isCredit,
+    isIncome: data.categoryUuid === 'income',
+    categoryUuid: data.categoryUuid
+      ? ['income', 'reimbursement'].includes(data.categoryUuid)
+        ? null
+        : data.categoryUuid
+      : null,
+    reimburseUuid: data.reimburseUuid,
+  }
 }
 
 export const TransactionItemForm = ({
@@ -49,6 +81,8 @@ export const TransactionItemForm = ({
                     <CategorySelect
                       value={field.value}
                       onChange={field.onChange}
+                      withIncome
+                      withReimbursement
                     />
                   )}
                   rules={{required: true}}
@@ -86,10 +120,7 @@ export const TransactionItemForm = ({
               </div>
             </div>
 
-            <button type="button" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit">Save</button>
+            <ModalButtonsSubmit onClose={onClose} />
           </div>
         </form>
       </FormProvider>
