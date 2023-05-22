@@ -3,13 +3,17 @@ import {FieldPath, FieldValues, useFormContext} from 'react-hook-form'
 export type HookFormTextInputProps<Values extends FieldValues = FieldValues> = {
   label: string
   name: FieldPath<Values>
-  placeholder: string
+  placeholder?: string
+  type?: string
+  required?: boolean
 }
 
 export const Input = <Values extends FieldValues = FieldValues>({
   label,
   name,
   placeholder,
+  type = 'text',
+  required = true,
 }: HookFormTextInputProps<Values>) => {
   const {
     register,
@@ -26,11 +30,15 @@ export const Input = <Values extends FieldValues = FieldValues>({
       </label>
       <div className="mt-2">
         <input
-          type="text"
+          type={type}
           id={name}
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className={
+            type !== 'checkbox'
+              ? 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              : undefined
+          }
           placeholder={placeholder}
-          {...register(name, {required: true})}
+          {...register(name, {required})}
         />
       </div>
       {errors[name] && (

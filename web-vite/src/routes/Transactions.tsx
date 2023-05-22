@@ -4,11 +4,7 @@ import {useMemo, useState} from 'react'
 import Select from 'react-select'
 import {allPayeesQueryDocument} from './Payees.tsx'
 import {Link} from 'react-router-dom'
-
-const formater = new Intl.NumberFormat('fr-FR', {
-  style: 'currency',
-  currency: 'EUR',
-})
+import {amountFormatter} from '../utils/formatter.ts'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions {
@@ -193,7 +189,7 @@ export const Transactions = () => {
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500" />
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
-                          {formater.format(transaction.amount / 100)}
+                          {amountFormatter.format(transaction.amount / 100)}
                         </td>
                         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                           <Link

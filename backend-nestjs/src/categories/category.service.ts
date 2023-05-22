@@ -43,7 +43,11 @@ export class CategoryService {
   }
 
   findAll() {
-    return this.categoryRepository.find()
+    return this.categoryRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    })
   }
 
   findOne(uuid: string) {

@@ -4,7 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -29,7 +29,6 @@ export class BankTransactionItem {
   @ManyToOne(() => Category)
   @JoinColumn({name: 'category_uuid'})
   category!: Category
-
   @Column('uuid', {name: 'category_uuid'})
   categoryUuid!: string
 
@@ -38,9 +37,14 @@ export class BankTransactionItem {
   isCredit!: boolean
 
   // Link to another item being reimbursed by this one.
-  @OneToOne(() => BankTransactionItem)
+  @ManyToOne(() => BankTransactionItem, (item) => item.reimbursedBy)
   @JoinColumn({name: 'reimburse_uuid'})
   reimburse!: BankTransactionItem | null
+  @Column('uuid', {name: 'reimburse_uuid', nullable: true})
+  reimburseUuid!: string | null
+
+  @OneToMany(() => BankTransactionItem, (item) => item.reimburse)
+  reimbursedBy!: BankTransactionItem[]
 
   @CreateDateColumn({name: 'created_at'})
   createdAt!: Date

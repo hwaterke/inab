@@ -3,6 +3,8 @@ import {BankTransaction} from './entities/bank-transaction.entities'
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
 import * as XLSX from 'xlsx'
+import {BankTransactionItemInputType} from './models/bank-transaction.model'
+import {BankTransactionItem} from './entities/bank-transaction-item.entity'
 
 /*
 TODO
@@ -52,7 +54,9 @@ const extractTime = (text: string | undefined | null): string | null => {
 export class BankTransactionService {
   constructor(
     @InjectRepository(BankTransaction)
-    private transactionRepository: Repository<BankTransaction>
+    private transactionRepository: Repository<BankTransaction>,
+    @InjectRepository(BankTransactionItem)
+    private transactionItemRepository: Repository<BankTransactionItem>
   ) {}
 
   async findAll() {
@@ -75,7 +79,21 @@ export class BankTransactionService {
       relations: {
         bankAccount: true,
         payee: true,
-        items: true,
+        items: {
+          category: true,
+          reimburse: {
+            transaction: {
+              bankAccount: true,
+            },
+            category: true,
+          },
+          reimbursedBy: {
+            transaction: {
+              bankAccount: true,
+            },
+            category: true,
+          },
+        },
       },
     })
   }
@@ -91,6 +109,47 @@ export class BankTransactionService {
       {uuid: bankTransactionUuid},
       {payeeUuid}
     )
+  }
+
+  async findAllItems() {
+    return await this.transactionItemRepository.find({
+      relations: {
+        transaction: {
+          payee: true,
+        },
+        category: true,
+      },
+    })
+  }
+
+  async addItem(
+    bankTransactionUuid: string,
+    item: BankTransactionItemInputType
+  ) {
+    return await this.transactionItemRepository.save(
+      this.transactionItemRepository.create({
+        ...item,
+        transactionUuid: bankTransactionUuid,
+      })
+    )
+  }
+
+  async updateItem(
+    bankTransactionUuid: string,
+    itemUuid: string,
+    item: BankTransactionItemInputType
+  ) {
+    return await this.transactionItemRepository.update(
+      {uuid: itemUuid, transactionUuid: bankTransactionUuid},
+      item
+    )
+  }
+
+  async removeItem(bankTransactionUuid: string, itemUuid: string) {
+    return await this.transactionItemRepository.delete({
+      uuid: itemUuid,
+      transactionUuid: bankTransactionUuid,
+    })
   }
 
   async import({

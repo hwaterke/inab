@@ -1,4 +1,4 @@
-import {Field, ID, Int, ObjectType} from '@nestjs/graphql'
+import {Field, ID, InputType, Int, ObjectType} from '@nestjs/graphql'
 import {BankAccountObjectType} from '../../bank-accounts/models/bank-account.model'
 import {PayeeObjectType} from '../../payees/models/payee.model'
 import {CategoryObjectType} from '../../categories/models/category.model'
@@ -43,4 +43,25 @@ export class BankTransactionItemObjectType {
 
   @Field(() => BankTransactionItemObjectType, {nullable: true})
   reimburse!: BankTransactionItemObjectType | null
+
+  @Field(() => [BankTransactionItemObjectType])
+  reimbursedBy!: BankTransactionItemObjectType[]
+
+  @Field(() => BankTransactionObjectType)
+  transaction!: BankTransactionObjectType
+}
+
+@InputType()
+export class BankTransactionItemInputType {
+  @Field(() => ID)
+  categoryUuid!: string
+
+  @Field(() => Int)
+  amount!: number
+
+  @Field(() => Boolean)
+  isCredit!: boolean
+
+  @Field(() => ID, {nullable: true})
+  reimburseUuid!: string | null
 }
