@@ -12,6 +12,9 @@ import {ChevronRightIcon} from '@heroicons/react/20/solid'
 import {MenuOptions} from '../components/MenuOptions.tsx'
 import {AlertModal} from '../components/AlertModal.tsx'
 import {CategoryTag} from '../components/CategoryTag.tsx'
+import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
+import {setTransactionPayeeMutationDocument} from './Transactions.tsx'
+import classNames from 'classnames'
 
 const transactionQueryDocument = graphql(`
   query transaction($uuid: ID!) {
@@ -288,6 +291,8 @@ export const Transaction = () => {
   const [deleteItem] = useMutation(deleteTransactionItemMutationDocument, {
     refetchQueries: ['transaction'],
   })
+  const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
+  const [payeeSelectOpened, setPayeeSelectOpened] = useState(false)
 
   const [showImportDetails, setShowImportDetails] = useState(false)
   const [editingItemUuid, setEditingItemUuid] = useState<'new' | string | null>(
@@ -346,7 +351,31 @@ export const Transaction = () => {
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-900">Payee</dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {data?.transaction.payee?.name}
+                  {payeeSelectOpened ? (
+                    <PayeeSelect
+                      autoFocus
+                      openMenuOnFocus
+                      onBlur={() => setPayeeSelectOpened(false)}
+                      value={data?.transaction.payee?.uuid ?? null}
+                      onChange={async (payeeUuid) => {
+                        await setPayee({
+                          variables: {uuid: uuid!, payeeUuid},
+                        })
+                        setPayeeSelectOpened(false)
+                      }}
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setPayeeSelectOpened(true)}
+                      className={classNames({
+                        'text-gray-400':
+                          data?.transaction.payee?.uuid === undefined,
+                      })}
+                    >
+                      {data?.transaction.payee?.name ?? 'Select payee'}
+                    </button>
+                  )}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

@@ -1,10 +1,10 @@
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
-import {useMemo, useState} from 'react'
-import Select from 'react-select'
-import {allPayeesQueryDocument} from './Payees.tsx'
+import {useState} from 'react'
 import {Link} from 'react-router-dom'
 import {amountFormatter} from '../utils/formatter.ts'
+import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
+import classNames from 'classnames'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions {
@@ -25,7 +25,7 @@ const allTransactionsQueryDocument = graphql(`
   }
 `)
 
-const setTransactionPayeeMutationDocument = graphql(`
+export const setTransactionPayeeMutationDocument = graphql(`
   mutation setBankTransactionPayee($uuid: ID!, $payeeUuid: ID) {
     setBankTransactionPayee(bankTransactionUuid: $uuid, payeeUuid: $payeeUuid) {
       uuid
@@ -48,18 +48,7 @@ export const Transactions = () => {
   const [selectOpened, setSelectOpened] = useState<string | null>(null)
 
   const {data} = useQuery(allTransactionsQueryDocument)
-  const {data: payeeData} = useQuery(allPayeesQueryDocument)
   const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
-
-  const payeeOptions = useMemo(
-    () =>
-      payeeData?.payees.map((payee) => ({
-        value: payee.uuid,
-        label: payee.name,
-      })) ?? [],
-
-    [payeeData]
-  )
 
   return (
     <>
@@ -139,25 +128,19 @@ export const Transactions = () => {
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                           {selectOpened === transaction.uuid ? (
-                            <Select
+                            <PayeeSelect
                               autoFocus
                               openMenuOnFocus
-                              options={payeeOptions}
-                              value={payeeOptions.find(
-                                (option) =>
-                                  option.value === transaction.payee?.uuid
-                              )}
-                              onChange={async (option) => {
+                              value={transaction.payee?.uuid ?? null}
+                              onChange={async (payeeUuid) => {
                                 await setPayee({
                                   variables: {
                                     uuid: transaction.uuid,
-                                    payeeUuid: option?.value ?? null,
+                                    payeeUuid,
                                   },
                                 })
-
                                 setSelectOpened(null)
                               }}
-                              isClearable
                               onBlur={() => setSelectOpened(null)}
                               styles={{
                                 input: (provided) => ({
@@ -181,7 +164,12 @@ export const Transactions = () => {
                             />
                           ) : (
                             <button
+                              type="button"
                               onClick={() => setSelectOpened(transaction.uuid)}
+                              className={classNames({
+                                'text-gray-400':
+                                  transaction.payee?.uuid === undefined,
+                              })}
                             >
                               {transaction.payee?.name ?? 'No payee'}
                             </button>
