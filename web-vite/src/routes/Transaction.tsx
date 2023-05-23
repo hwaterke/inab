@@ -22,11 +22,12 @@ const transactionQueryDocument = graphql(`
       amount
       items {
         uuid
+        amount
+        description
         category {
           uuid
           name
         }
-        amount
         isIncome
         isCredit
         reimburse {
@@ -75,30 +76,6 @@ const addTransactionItemMutationDocument = graphql(`
   ) {
     addTransactionItem(bankTransactionUuid: $bankTransactionUuid, item: $item) {
       uuid
-      date
-      time
-      amount
-      items {
-        uuid
-        category {
-          uuid
-          name
-        }
-        amount
-        isCredit
-        reimburse {
-          uuid
-          amount
-        }
-      }
-      bankAccount {
-        uuid
-        name
-      }
-      payee {
-        uuid
-        name
-      }
     }
   }
 `)
@@ -115,30 +92,6 @@ const updateTransactionItemMutationDocument = graphql(`
       item: $item
     ) {
       uuid
-      date
-      time
-      amount
-      items {
-        uuid
-        category {
-          uuid
-          name
-        }
-        amount
-        isCredit
-        reimburse {
-          uuid
-          amount
-        }
-      }
-      bankAccount {
-        uuid
-        name
-      }
-      payee {
-        uuid
-        name
-      }
     }
   }
 `)
@@ -150,30 +103,6 @@ const deleteTransactionItemMutationDocument = graphql(`
       itemUuid: $uuid
     ) {
       uuid
-      date
-      time
-      amount
-      items {
-        uuid
-        category {
-          uuid
-          name
-        }
-        amount
-        isCredit
-        reimburse {
-          uuid
-          amount
-        }
-      }
-      bankAccount {
-        uuid
-        name
-      }
-      payee {
-        uuid
-        name
-      }
     }
   }
 `)
@@ -230,6 +159,7 @@ const ItemCard = ({
 }: {
   item: {
     amount: number
+    description: string | null
     isIncome: boolean
     isCredit: boolean
     category: {name: string} | null
@@ -258,32 +188,29 @@ const ItemCard = ({
   onDelete: () => void
 }) => {
   return (
-    <li className="max-w-lg rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5">
-      <dl className="flex flex-wrap p-4">
-        <div className="flex-auto ">
-          <dt className="text-sm font-semibold leading-6 text-gray-900">
-            Amount
-          </dt>
-          <dd className="mt-1 text-base font-semibold leading-6 text-gray-900">
+    <li className="max-w-md rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5">
+      <div className="p-6">
+        <div className="text-grey-700 text-sm font-semibold leading-6">
+          Amount
+        </div>
+        <div className="mt-1 flex justify-between items-center">
+          <span className="text-base font-semibold leading-6 text-gray-900">
             {amountFormatter.format(item.amount / 100)}
-          </dd>
+          </span>
+          <div className="flex items-center">
+            <CategoryTag {...item} />
+            <MenuOptions
+              options={[
+                {label: 'Edit', onClick: onEdit},
+                {
+                  label: 'Delete',
+                  onClick: onDelete,
+                },
+              ]}
+            />
+          </div>
         </div>
-        <div className="flex-none self-end pl-6 pt-4">
-          <dt className="sr-only">Category</dt>
-          <CategoryTag {...item} />
-        </div>
-        <div className="inline-flex items-center self-end">
-          <MenuOptions
-            options={[
-              {label: 'Edit', onClick: onEdit},
-              {
-                label: 'Delete',
-                onClick: onDelete,
-              },
-            ]}
-          />
-        </div>
-      </dl>
+      </div>
 
       {item.reimburse && (
         <ItemListCardDetails title="Reimburses" items={[item.reimburse]} />
@@ -291,6 +218,15 @@ const ItemCard = ({
 
       {item.reimbursedBy.length > 0 && (
         <ItemListCardDetails title="Reimbursed by" items={item.reimbursedBy} />
+      )}
+
+      {item.description && (
+        <div className="border-t border-gray-900/5 p-6">
+          <div className="text-grey-700 text-sm font-semibold leading-6">
+            Description
+          </div>
+          <span className="text-gray-500 text-sm">{item.description}</span>
+        </div>
       )}
 
       {item.isCredit && (
@@ -341,9 +277,15 @@ const MissingItemsCard = ({
 export const Transaction = () => {
   const {uuid} = useParams()
   const {data} = useQuery(transactionQueryDocument, {variables: {uuid: uuid!}})
-  const [addItem] = useMutation(addTransactionItemMutationDocument)
-  const [updateItem] = useMutation(updateTransactionItemMutationDocument)
-  const [deleteItem] = useMutation(deleteTransactionItemMutationDocument)
+  const [addItem] = useMutation(addTransactionItemMutationDocument, {
+    refetchQueries: ['transaction'],
+  })
+  const [updateItem] = useMutation(updateTransactionItemMutationDocument, {
+    refetchQueries: ['transaction'],
+  })
+  const [deleteItem] = useMutation(deleteTransactionItemMutationDocument, {
+    refetchQueries: ['transaction'],
+  })
 
   const [editingItemUuid, setEditingItemUuid] = useState<'new' | string | null>(
     null
@@ -465,6 +407,7 @@ export const Transaction = () => {
                                 categoryUuid: null,
                                 reimburseUuid: null,
                                 isCredit: false,
+                                description: '',
                               }
                             : resourceToFormData(editingItem!)
                         }

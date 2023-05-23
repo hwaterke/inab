@@ -9,6 +9,7 @@ type FormData = {
   categoryUuid: string | null
   isCredit: boolean
   reimburseUuid: string | null
+  description: string
 }
 
 type Props = {
@@ -23,6 +24,7 @@ export const resourceToFormData = (resource: {
   isIncome: boolean
   isCredit: boolean
   reimburse: {uuid: string} | null
+  description: string | null
 }): FormData => {
   return {
     amount: resource.amount.toString(),
@@ -31,6 +33,7 @@ export const resourceToFormData = (resource: {
       resource.category?.uuid ??
       (resource.isIncome ? 'income' : 'reimbursement'),
     reimburseUuid: resource.reimburse?.uuid ?? null,
+    description: resource.description ?? '',
   }
 }
 
@@ -45,6 +48,7 @@ export const formDataToResource = (data: FormData) => {
         : data.categoryUuid
       : null,
     reimburseUuid: data.reimburseUuid,
+    description: data.description.trim() || null,
   }
 }
 
@@ -94,6 +98,14 @@ export const TransactionItemForm = ({
                 </p>
               )}
             </div>
+
+            <Input<FormData>
+              label="Description"
+              name="description"
+              placeholder="Additional information"
+              type="textarea"
+              required={false}
+            />
 
             <Input<FormData>
               label="Credit"
