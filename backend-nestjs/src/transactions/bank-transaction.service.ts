@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {BankTransaction} from './entities/bank-transaction.entities'
 import {InjectRepository} from '@nestjs/typeorm'
-import {Repository} from 'typeorm'
+import {Not, Repository} from 'typeorm'
 import * as XLSX from 'xlsx'
 import {BankTransactionItemInputType} from './models/bank-transaction.model'
 import {BankTransactionItem} from './entities/bank-transaction-item.entity'
@@ -126,6 +126,11 @@ export class BankTransactionService {
     bankTransactionUuid: string,
     item: BankTransactionItemInputType
   ) {
+    await this.validateItem({
+      itemPayload: item,
+      bankTransactionUuid: bankTransactionUuid,
+      bankTransactionItemUuid: null,
+    })
     return await this.transactionItemRepository.save(
       this.transactionItemRepository.create({
         ...item,
@@ -139,6 +144,11 @@ export class BankTransactionService {
     itemUuid: string,
     item: BankTransactionItemInputType
   ) {
+    await this.validateItem({
+      itemPayload: item,
+      bankTransactionUuid: bankTransactionUuid,
+      bankTransactionItemUuid: itemUuid,
+    })
     return await this.transactionItemRepository.update(
       {uuid: itemUuid, transactionUuid: bankTransactionUuid},
       item
@@ -220,6 +230,47 @@ export class BankTransactionService {
             })
           )
         }
+      }
+    }
+  }
+
+  private async validateItem({
+    itemPayload,
+    bankTransactionUuid,
+    bankTransactionItemUuid,
+  }: {
+    itemPayload: BankTransactionItemInputType
+    bankTransactionUuid: string
+    bankTransactionItemUuid: string | null
+  }) {
+    const transaction = await this.transactionRepository.findOneOrFail({
+      where: {
+        uuid: bankTransactionUuid,
+      },
+    })
+    if (transaction.amount > 0 && itemPayload.amount < 0) {
+      throw new Error('Cannot add negative item to a positive transaction')
+    }
+    if (transaction.amount < 0 && itemPayload.amount > 0) {
+      throw new Error('Cannot add positive item to a negative transaction')
+    }
+    if (itemPayload.reimburseUuid) {
+      const allReimbursement = await this.transactionItemRepository.find({
+        where: {
+          uuid: bankTransactionItemUuid
+            ? Not(bankTransactionItemUuid)
+            : undefined,
+          reimburseUuid: itemPayload.reimburseUuid,
+        },
+      })
+
+      // Sum of all the reimbursement in one line
+      const sumReimbursement = allReimbursement.reduce((acc, item) => {
+        return acc + item.amount
+      }, 0)
+
+      if (sumReimbursement + itemPayload.amount > transaction.amount) {
+        throw new Error('Reimbursement amount cannot exceed transaction amount')
       }
     }
   }
