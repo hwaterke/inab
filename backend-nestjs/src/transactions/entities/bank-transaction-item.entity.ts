@@ -44,9 +44,11 @@ export class BankTransactionItem {
   @ManyToOne(() => BankTransaction, (transaction) => transaction.items)
   @JoinColumn({name: 'transaction_uuid'})
   transaction!: BankTransaction
-
   @Column('uuid', {name: 'transaction_uuid'})
   transactionUuid!: string
+
+  @Column('text', {nullable: true})
+  description!: string | null
 
   @ManyToOne(() => Category)
   @JoinColumn({name: 'category_uuid'})

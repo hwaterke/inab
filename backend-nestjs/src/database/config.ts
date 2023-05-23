@@ -9,7 +9,7 @@ import {PayeeMigration1684177974701} from './migrations/1684177974701-PayeeMigra
 import {CategoryMigration1684178212867} from './migrations/1684178212867-CategoryMigration'
 import {AccountMigration1684178437639} from './migrations/1684178437639-AccountMigration'
 import {TransactionMigration1684495931256} from './migrations/1684495931256-TransactionMigration'
-import {TransactionItemMigration1684785173605} from './migrations/1684785173605-TransactionItemMigration'
+import {TransactionItemMigration1684872625977} from './migrations/1684872625977-TransactionItemMigration'
 
 export const DatabaseConfig: SqliteConnectionOptions = {
   type: 'sqlite',
@@ -27,7 +27,7 @@ export const DatabaseConfig: SqliteConnectionOptions = {
     CategoryMigration1684178212867,
     AccountMigration1684178437639,
     TransactionMigration1684495931256,
-    TransactionItemMigration1684785173605,
+    TransactionItemMigration1684872625977,
   ],
   migrationsRun: true,
   synchronize: false,

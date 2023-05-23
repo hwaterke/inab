@@ -52,6 +52,9 @@ export class BankTransactionItemObjectType {
 
   @Field(() => BankTransactionObjectType)
   transaction!: BankTransactionObjectType
+
+  @Field(() => String, {nullable: true})
+  description!: string | null
 }
 
 @InputType()
@@ -70,4 +73,7 @@ export class BankTransactionItemInputType {
 
   @Field(() => ID, {nullable: true})
   reimburseUuid!: string | null
+
+  @Field(() => String, {nullable: true})
+  description!: string | null
 }

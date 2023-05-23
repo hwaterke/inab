@@ -1,9 +1,9 @@
 import {MigrationInterface, QueryRunner} from 'typeorm'
 
-export class TransactionItemMigration1684785173605
+export class TransactionItemMigration1684872625977
   implements MigrationInterface
 {
-  name = 'TransactionItemMigration1684785173605'
+  name = 'TransactionItemMigration1684872625977'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -12,6 +12,7 @@ export class TransactionItemMigration1684785173605
            "uuid"             varchar PRIMARY KEY NOT NULL,
            "amount"           integer             NOT NULL,
            "transaction_uuid" varchar             NOT NULL,
+           "description"      text,
            "category_uuid"    varchar,
            "is_income"        boolean             NOT NULL,
            "is_credit"        boolean             NOT NULL,
