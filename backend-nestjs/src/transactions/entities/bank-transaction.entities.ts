@@ -16,6 +16,8 @@ import {BankTransactionItem} from './bank-transaction-item.entity'
 @Entity()
 @Check(`date IS strftime('%Y-%m-%d', date)`)
 @Check(`time IS strftime('%H:%M:%S', time)`)
+// If the transaction is a transfer, the amount must be negative
+@Check(`transfer_bank_account_uuid IS NULL OR amount < 0`)
 export class BankTransaction {
   @PrimaryGeneratedColumn('uuid')
   uuid!: string
