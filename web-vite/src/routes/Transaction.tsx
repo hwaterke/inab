@@ -20,6 +20,8 @@ const transactionQueryDocument = graphql(`
       date
       time
       amount
+      hash
+      importDetails
       items {
         uuid
         amount
@@ -287,6 +289,7 @@ export const Transaction = () => {
     refetchQueries: ['transaction'],
   })
 
+  const [showImportDetails, setShowImportDetails] = useState(false)
   const [editingItemUuid, setEditingItemUuid] = useState<'new' | string | null>(
     null
   )
@@ -346,6 +349,39 @@ export const Transaction = () => {
                   {data?.transaction.payee?.name}
                 </dd>
               </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-900">
+                  Import hash
+                </dt>
+                <dd className="mt-1 text-sm leading-6 font-mono text-gray-700 sm:col-span-2 sm:mt-0">
+                  {data?.transaction.hash}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-900">
+                  Import details
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    type="button"
+                    onClick={() => setShowImportDetails(!showImportDetails)}
+                  >
+                    Toggle
+                  </button>
+
+                  {showImportDetails && (
+                    <pre className="mt-2 text-sm font-mono whitespace-pre-line">
+                      {JSON.stringify(
+                        JSON.parse(data?.transaction.importDetails ?? '{}'),
+                        null,
+                        2
+                      )}
+                    </pre>
+                  )}
+                </dd>
+              </div>
+
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-900">Items</dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

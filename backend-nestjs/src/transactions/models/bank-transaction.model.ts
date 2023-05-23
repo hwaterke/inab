@@ -25,6 +25,12 @@ export class BankTransactionObjectType {
 
   @Field(() => [BankTransactionItemObjectType])
   items!: BankTransactionItemObjectType[]
+
+  @Field(() => String, {nullable: true})
+  hash!: string | null
+
+  @Field(() => String, {nullable: true})
+  importDetails!: string | null
 }
 
 @ObjectType()
