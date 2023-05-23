@@ -1,4 +1,4 @@
-import {graphql} from '../gql'
+import {graphql} from '../../gql'
 import {useQuery} from '@apollo/client'
 import {useMemo} from 'react'
 import Select from 'react-select'

@@ -1,7 +1,7 @@
 import {FormProvider, useForm} from 'react-hook-form'
 import {Modal} from './Modal.tsx'
 import {Dialog} from '@headlessui/react'
-import {Input} from './Input.tsx'
+import {Input} from './form-elements/Input.tsx'
 import {ModalButtonsSubmit} from './ModalButtonsSubmit.tsx'
 
 type Props = {

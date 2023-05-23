@@ -1,7 +1,7 @@
 import {Controller, FormProvider, useForm} from 'react-hook-form'
-import {Input} from './Input.tsx'
-import {CategorySelect} from './CategorySelect.tsx'
-import {BankTransactionItemSelect} from './BankTransactionItemSelect.tsx'
+import {Input} from './form-elements/Input.tsx'
+import {CategorySelect} from './form-elements/CategorySelect.tsx'
+import {BankTransactionItemSelect} from './form-elements/BankTransactionItemSelect.tsx'
 import {ModalButtonsSubmit} from './ModalButtonsSubmit.tsx'
 
 type FormData = {
