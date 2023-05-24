@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {amountFormatter} from '../utils/formatter.ts'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import classNames from 'classnames'
+import {CategoryTag} from '../components/CategoryTag.tsx'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions {
@@ -20,6 +21,17 @@ const allTransactionsQueryDocument = graphql(`
       payee {
         uuid
         name
+      }
+      items {
+        uuid
+        isIncome
+        reimburse {
+          uuid
+        }
+        category {
+          uuid
+          name
+        }
       }
     }
   }
@@ -167,7 +179,7 @@ export const Transactions = () => {
                               type="button"
                               onClick={() => setSelectOpened(transaction.uuid)}
                               className={classNames({
-                                'text-gray-400':
+                                'text-gray-300':
                                   transaction.payee?.uuid === undefined,
                               })}
                             >
@@ -175,7 +187,12 @@ export const Transactions = () => {
                             </button>
                           )}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500" />
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                          {transaction.items.length === 1 && (
+                            <CategoryTag {...transaction.items[0]} />
+                          )}
+                          {transaction.items.length > 1 && 'Multiple'}
+                        </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
                           {amountFormatter.format(transaction.amount / 100)}
                         </td>
