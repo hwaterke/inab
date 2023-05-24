@@ -64,6 +64,10 @@ export class BankTransactionService {
       relations: {
         bankAccount: true,
         payee: true,
+        items: {
+          category: true,
+          reimburse: true,
+        },
       },
       order: {
         date: 'DESC',
@@ -255,6 +259,20 @@ export class BankTransactionService {
       throw new Error('Cannot add positive item to a negative transaction')
     }
     if (itemPayload.reimburseUuid) {
+      // Get the item being reimbursed
+      const reimbursedItem = await this.transactionItemRepository.findOneOrFail(
+        {
+          where: {
+            uuid: itemPayload.reimburseUuid,
+          },
+        }
+      )
+
+      if (reimbursedItem.amount > 0) {
+        // Only spending can be reimbursed
+        throw new Error('Cannot reimburse a positive item')
+      }
+
       const allReimbursement = await this.transactionItemRepository.find({
         where: {
           uuid: bankTransactionItemUuid
@@ -269,8 +287,10 @@ export class BankTransactionService {
         return acc + item.amount
       }, 0)
 
-      if (sumReimbursement + itemPayload.amount > transaction.amount) {
-        throw new Error('Reimbursement amount cannot exceed transaction amount')
+      if (reimbursedItem.amount + sumReimbursement + itemPayload.amount > 0) {
+        throw new Error(
+          'Reimbursement amount cannot exceed amount being reimbursed'
+        )
       }
     }
   }
