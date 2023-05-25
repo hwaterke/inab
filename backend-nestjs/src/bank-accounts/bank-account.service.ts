@@ -10,10 +10,6 @@ export class BankAccountService {
     private bankAccountRepository: Repository<BankAccount>
   ) {}
 
-  async create(payload: {name: string; iban: string}) {
-    return await this.bankAccountRepository.save(payload)
-  }
-
   async findAll() {
     return await this.bankAccountRepository.find({
       order: {
@@ -26,8 +22,32 @@ export class BankAccountService {
     return await this.bankAccountRepository.findOneBy({uuid})
   }
 
+  async upsert(payload: {name: string; iban: string}) {
+    const existingBankAccount = await this.bankAccountRepository.findOne({
+      where: {
+        iban: payload.iban,
+      },
+    })
+
+    if (existingBankAccount) {
+      return await this.update(existingBankAccount.uuid, payload)
+    }
+
+    return await this.create(payload)
+  }
+
+  async create(payload: {name: string; iban: string}) {
+    return await this.bankAccountRepository.save({
+      name: payload.name.trim(),
+      iban: payload.iban.toUpperCase().trim(),
+    })
+  }
+
   async update(uuid: string, payload: {name: string; iban: string}) {
-    return await this.bankAccountRepository.update(uuid, payload)
+    return await this.bankAccountRepository.update(uuid, {
+      name: payload.name.trim(),
+      iban: payload.iban.toUpperCase().trim(),
+    })
   }
 
   async remove(uuid: string) {

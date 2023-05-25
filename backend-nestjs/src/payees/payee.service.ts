@@ -10,10 +10,6 @@ export class PayeeService {
     private payeeRepository: Repository<Payee>
   ) {}
 
-  async create(payload: {name: string}) {
-    return await this.payeeRepository.save(payload)
-  }
-
   async findAll() {
     return await this.payeeRepository.find({
       order: {
@@ -24,6 +20,24 @@ export class PayeeService {
 
   async findOne(uuid: string) {
     return await this.payeeRepository.findOneBy({uuid})
+  }
+
+  async upsert(payload: {name: string}) {
+    const existingPayee = await this.payeeRepository.findOne({
+      where: {
+        name: payload.name,
+      },
+    })
+
+    if (!existingPayee) {
+      return await this.create(payload)
+    }
+
+    return existingPayee
+  }
+
+  async create(payload: {name: string}) {
+    return await this.payeeRepository.save(payload)
   }
 
   async update(uuid: string, payload: {name: string}) {

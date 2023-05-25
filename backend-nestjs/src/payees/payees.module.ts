@@ -7,5 +7,6 @@ import {PayeesResolver} from './payees.resolver'
 @Module({
   imports: [TypeOrmModule.forFeature([Payee])],
   providers: [PayeeService, PayeesResolver],
+  exports: [PayeeService],
 })
 export class PayeesModule {}

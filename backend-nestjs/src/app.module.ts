@@ -8,9 +8,12 @@ import {DatabaseConfig} from './database/config'
 import {GraphQLModule} from '@nestjs/graphql'
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo'
 import {join} from 'path'
+import {FileImportModule} from './file-import/file-import.module'
+import {ConfigModule} from '@nestjs/config'
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(DatabaseConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -20,6 +23,7 @@ import {join} from 'path'
     PayeesModule,
     BankTransactionsModule,
     BankAccountsModule,
+    FileImportModule,
   ],
   controllers: [],
   providers: [],
