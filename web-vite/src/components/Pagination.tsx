@@ -45,7 +45,7 @@ export const Pagination = ({
   const totalPages = Math.ceil(totalCount / pageSize)
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between border border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <button
           type="button"
@@ -131,16 +131,20 @@ export const Pagination = ({
               </span>
             )}
 
-            <PageButton
-              page={totalPages - 1}
-              currentPage={page}
-              onPageChange={onPageChange}
-            />
-            <PageButton
-              page={totalPages}
-              currentPage={page}
-              onPageChange={onPageChange}
-            />
+            {page < totalPages - 1 && totalPages > 2 && (
+              <PageButton
+                page={totalPages - 1}
+                currentPage={page}
+                onPageChange={onPageChange}
+              />
+            )}
+            {page < totalPages && totalPages > 2 && (
+              <PageButton
+                page={totalPages}
+                currentPage={page}
+                onPageChange={onPageChange}
+              />
+            )}
 
             <button
               type="button"
