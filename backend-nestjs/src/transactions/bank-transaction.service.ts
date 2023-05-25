@@ -59,8 +59,8 @@ export class BankTransactionService {
     private transactionItemRepository: Repository<BankTransactionItem>
   ) {}
 
-  async findAll() {
-    return await this.transactionRepository.find({
+  async findAll({page, pageSize}: {page: number; pageSize: number}) {
+    const result = await this.transactionRepository.findAndCount({
       relations: {
         bankAccount: true,
         payee: true,
@@ -72,7 +72,14 @@ export class BankTransactionService {
       order: {
         date: 'DESC',
       },
+      take: pageSize,
+      skip: ((page < 1 ? 1 : page) - 1) * pageSize,
     })
+
+    return {
+      items: result[0],
+      totalCount: result[1],
+    }
   }
 
   async findOne(uuid: string) {

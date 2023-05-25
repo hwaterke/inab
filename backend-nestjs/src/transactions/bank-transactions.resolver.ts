@@ -3,16 +3,24 @@ import {Args, ID, Mutation, Query, Resolver} from '@nestjs/graphql'
 import {
   BankTransactionItemInputType,
   BankTransactionItemObjectType,
+  BankTransactionListObjectType,
   BankTransactionObjectType,
 } from './models/bank-transaction.model'
+import {PaginationInput} from '../shared/models/pagination.model'
 
 @Resolver(() => BankTransactionObjectType)
 export class BankTransactionsResolver {
   constructor(private bankTransactionService: BankTransactionService) {}
 
-  @Query(() => [BankTransactionObjectType])
-  async transactions(): Promise<BankTransactionObjectType[]> {
-    return this.bankTransactionService.findAll()
+  @Query(() => BankTransactionListObjectType)
+  async transactions(
+    @Args('pagination', {type: () => PaginationInput})
+    pagination: PaginationInput
+  ): Promise<BankTransactionListObjectType> {
+    return this.bankTransactionService.findAll({
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+    })
   }
 
   @Query(() => BankTransactionObjectType)

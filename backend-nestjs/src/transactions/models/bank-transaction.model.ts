@@ -34,6 +34,15 @@ export class BankTransactionObjectType {
 }
 
 @ObjectType()
+export class BankTransactionListObjectType {
+  @Field(() => [BankTransactionObjectType])
+  items!: BankTransactionObjectType[]
+
+  @Field(() => Int)
+  totalCount!: number
+}
+
+@ObjectType()
 export class BankTransactionItemObjectType {
   @Field(() => ID)
   uuid!: string

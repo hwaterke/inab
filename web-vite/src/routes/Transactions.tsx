@@ -1,38 +1,42 @@
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
 import {useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useSearchParams} from 'react-router-dom'
 import {amountFormatter} from '../utils/formatter.ts'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import classNames from 'classnames'
 import {CategoryTag} from '../components/CategoryTag.tsx'
+import {Pagination} from '../components/Pagination.tsx'
 
 const allTransactionsQueryDocument = graphql(`
-  query transactions {
-    transactions {
-      uuid
-      date
-      time
-      amount
-      bankAccount {
-        uuid
-        name
-      }
-      payee {
-        uuid
-        name
-      }
+  query transactions($pagination: PaginationInput!) {
+    transactions(pagination: $pagination) {
       items {
         uuid
-        isIncome
-        reimburse {
-          uuid
-        }
-        category {
+        date
+        time
+        amount
+        bankAccount {
           uuid
           name
         }
+        payee {
+          uuid
+          name
+        }
+        items {
+          uuid
+          isIncome
+          reimburse {
+            uuid
+          }
+          category {
+            uuid
+            name
+          }
+        }
       }
+      totalCount
     }
   }
 `)
@@ -58,8 +62,18 @@ export const setTransactionPayeeMutationDocument = graphql(`
 
 export const Transactions = () => {
   const [selectOpened, setSelectOpened] = useState<string | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const currentPage = parseInt(searchParams.get('page') ?? '1', 10)
+  const pageSize = parseInt(searchParams.get('pageSize') ?? '100', 10)
 
-  const {data} = useQuery(allTransactionsQueryDocument)
+  const {data} = useQuery(allTransactionsQueryDocument, {
+    variables: {
+      pagination: {
+        page: currentPage,
+        pageSize,
+      },
+    },
+  })
   const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
 
   return (
@@ -76,6 +90,15 @@ export const Transactions = () => {
 
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <Pagination
+            page={currentPage}
+            pageSize={pageSize}
+            totalCount={data?.transactions.totalCount ?? 0}
+            onPageChange={(page: number) => {
+              setSearchParams({page: page.toString()})
+            }}
+          />
+
           <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -127,7 +150,7 @@ export const Transactions = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {data?.transactions.map((transaction) => (
+                    {data?.transactions.items.map((transaction) => (
                       <tr key={transaction.uuid}>
                         <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
                           {transaction.bankAccount.name}
