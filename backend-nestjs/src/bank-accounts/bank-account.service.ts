@@ -3,6 +3,10 @@ import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
 import {BankAccount} from './entities/bank-account.entity'
 
+function cleanIBAN(iban: string) {
+  return iban.toUpperCase().trim()
+}
+
 @Injectable()
 export class BankAccountService {
   constructor(
@@ -23,13 +27,15 @@ export class BankAccountService {
   }
 
   async upsert(payload: {name: string; iban: string}) {
+    const iban = cleanIBAN(payload.iban)
+
     const existingBankAccount = await this.bankAccountRepository.findOne({
       where: {
-        iban: payload.iban,
+        iban,
       },
     })
 
-    if (existingBankAccount) {
+    if (existingBankAccount && existingBankAccount.name !== payload.name) {
       return await this.update(existingBankAccount.uuid, payload)
     }
 
@@ -39,14 +45,14 @@ export class BankAccountService {
   async create(payload: {name: string; iban: string}) {
     return await this.bankAccountRepository.save({
       name: payload.name.trim(),
-      iban: payload.iban.toUpperCase().trim(),
+      iban: cleanIBAN(payload.iban),
     })
   }
 
   async update(uuid: string, payload: {name: string; iban: string}) {
     return await this.bankAccountRepository.update(uuid, {
       name: payload.name.trim(),
-      iban: payload.iban.toUpperCase().trim(),
+      iban: cleanIBAN(payload.iban),
     })
   }
 
