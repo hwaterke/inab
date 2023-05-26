@@ -35,11 +35,13 @@ export class BankAccountService {
       },
     })
 
-    if (existingBankAccount && existingBankAccount.name !== payload.name) {
-      return await this.update(existingBankAccount.uuid, payload)
+    if (existingBankAccount) {
+      if (existingBankAccount.name !== payload.name) {
+        return await this.update(existingBankAccount.uuid, payload)
+      }
+    } else {
+      return await this.create(payload)
     }
-
-    return await this.create(payload)
   }
 
   async create(payload: {name: string; iban: string}) {

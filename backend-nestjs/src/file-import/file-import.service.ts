@@ -5,6 +5,7 @@ import * as nodePath from 'node:path'
 import {z} from 'zod'
 import {BankAccountService} from '../bank-accounts/bank-account.service'
 import {PayeeService} from '../payees/payee.service'
+import {CategoryService} from '../categories/category.service'
 
 const JsonSchema = z.object({
   accounts: z.optional(
@@ -22,6 +23,18 @@ const JsonSchema = z.object({
       })
     )
   ),
+  categoryGroups: z.optional(
+    z.array(
+      z.object({
+        name: z.string().min(1).trim(),
+        categories: z.array(
+          z.object({
+            name: z.string().min(1).trim(),
+          })
+        ),
+      })
+    )
+  ),
 })
 
 @Injectable()
@@ -29,7 +42,8 @@ export class FileImportService {
   constructor(
     private configService: ConfigService,
     private bankAccountService: BankAccountService,
-    private payeeService: PayeeService
+    private payeeService: PayeeService,
+    private categoryService: CategoryService
   ) {}
 
   async importFiles() {
@@ -85,6 +99,20 @@ export class FileImportService {
       // Payees
       for (const payee of result.payees ?? []) {
         await this.payeeService.upsert(payee)
+      }
+
+      // Categories
+      for (const categoryGroup of result.categoryGroups ?? []) {
+        const group = await this.categoryService.upsertGroup({
+          name: categoryGroup.name,
+        })
+
+        for (const category of categoryGroup.categories) {
+          await this.categoryService.upsert({
+            name: category.name,
+            categoryGroupUuid: group.uuid,
+          })
+        }
       }
     } catch (e) {
       console.log(e)

@@ -30,6 +30,30 @@ export class CategoryService {
     })
   }
 
+  async upsertGroup(payload: {name: string}) {
+    const existingGroup = await this.categoryGroupRepository.findOne({
+      where: {name: payload.name},
+    })
+
+    if (existingGroup) {
+      return existingGroup
+    }
+
+    return this.createGroup(payload)
+  }
+
+  async upsert(payload: {name: string; categoryGroupUuid: string}) {
+    const existingCategory = await this.categoryRepository.findOne({
+      where: {name: payload.name, categoryGroupUuid: payload.categoryGroupUuid},
+    })
+
+    if (existingCategory) {
+      return existingCategory
+    }
+
+    return this.create(payload)
+  }
+
   createGroup(payload: {name: string}) {
     return this.categoryGroupRepository.save(payload)
   }
