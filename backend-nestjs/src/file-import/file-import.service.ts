@@ -183,12 +183,7 @@ export class FileImportService {
           transactionData.hash
         )
 
-        if (hashExists) {
-          // TODO swap two lines belows
-          // continue
-          console.log({hash: transactionData.hash})
-          throw new Error('HASH CONFLICT')
-        } else {
+        if (!hashExists) {
           await this.transactionService.create({
             ...transactionData,
             bankAccountUuid: account.uuid,
