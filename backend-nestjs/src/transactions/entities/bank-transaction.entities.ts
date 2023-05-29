@@ -41,7 +41,7 @@ export class BankTransaction {
   @JoinColumn({name: 'transfer_bank_account_uuid'})
   transferBankAccount!: BankAccount
   @Column('uuid', {name: 'transfer_bank_account_uuid', nullable: true})
-  transferBankAccountUuid!: string
+  transferBankAccountUuid!: string | null
 
   // Account number of the beneficiary of the transaction
   @Column('varchar', {name: 'beneficiary_account_number', nullable: true})

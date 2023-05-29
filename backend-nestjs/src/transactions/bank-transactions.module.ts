@@ -8,5 +8,6 @@ import {BankTransactionItem} from './entities/bank-transaction-item.entity'
 @Module({
   imports: [TypeOrmModule.forFeature([BankTransaction, BankTransactionItem])],
   providers: [BankTransactionService, BankTransactionsResolver],
+  exports: [BankTransactionService],
 })
 export class BankTransactionsModule {}

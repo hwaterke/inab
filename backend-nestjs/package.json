@@ -30,6 +30,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
+    "remeda": "^1.19.0",
     "rxjs": "^7.2.0",
     "sqlite3": "^5.1.6",
     "typeorm": "^0.3.15",

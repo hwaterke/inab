@@ -6,6 +6,11 @@ import {z} from 'zod'
 import {BankAccountService} from '../bank-accounts/bank-account.service'
 import {PayeeService} from '../payees/payee.service'
 import {CategoryService} from '../categories/category.service'
+import * as XLSX from 'xlsx'
+import {isNil, mapValues, sortBy} from 'remeda'
+import {BankTransactionService} from '../transactions/bank-transaction.service'
+import {TransactionExtractor} from './extractors/TransactionExtractor'
+import {IngExtractor} from './extractors/IngExtractor'
 
 const JsonSchema = z.object({
   accounts: z.optional(
@@ -37,13 +42,22 @@ const JsonSchema = z.object({
   ),
 })
 
+/**
+ * Returns true if the provided path is a directory
+ */
+const isDirectory = async (path: string) => {
+  const stat = await fs.promises.lstat(path)
+  return stat.isDirectory()
+}
+
 @Injectable()
 export class FileImportService {
   constructor(
     private configService: ConfigService,
     private bankAccountService: BankAccountService,
     private payeeService: PayeeService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private transactionService: BankTransactionService
   ) {}
 
   async importFiles() {
@@ -59,23 +73,28 @@ export class FileImportService {
       return
     }
 
-    // Stop if path provided is not a folder
-    const stat = await fs.promises.lstat(importFolder)
-    if (!stat.isDirectory()) {
+    const filesToImport = await this.findAllFilesIn(importFolder)
+
+    if (filesToImport.length === 0) {
+      // Nothing to import
       return
     }
 
-    console.log(`Importing files in folder: ${importFolder}`)
+    console.log(`Importing ${filesToImport.length} files`)
 
-    for await (const d of await fs.promises.opendir(importFolder)) {
-      const entry = nodePath.join(importFolder, d.name)
-      if (!d.isDirectory()) {
-        const ext = nodePath.extname(d.name).toLowerCase()
+    const sortedFiles = sortBy(filesToImport, [
+      (file) => nodePath.extname(file).toLowerCase(),
+      'desc',
+    ])
 
-        if (ext === '.json') {
-          await this.importJsonFile(entry)
-        }
-        // TODO CSV import
+    for await (const entry of sortedFiles) {
+      const ext = nodePath.extname(entry).toLowerCase()
+
+      if (ext === '.json') {
+        await this.importJsonFile(entry)
+      }
+      if (ext === '.csv') {
+        await this.importCsvFile(entry)
       }
     }
   }
@@ -117,5 +136,89 @@ export class FileImportService {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  private async importCsvFile(path: string) {
+    console.log(`Importing file: ${path}`)
+
+    // Name is expected to be <IBAN>-<anything>.csv
+    // The iban is extracted from the name and used to find the account.
+    const basename = nodePath.basename(path)
+    const iban = basename.split('-')[0].toUpperCase().trim()
+    const account = await this.bankAccountService.findOneByIban(iban)
+
+    if (!account) {
+      console.log(`Account with IBAN ${iban} not found`)
+      return
+    }
+
+    const workbook = XLSX.readFile(path, {raw: true})
+    const data: Record<string, string | undefined>[] = XLSX.utils.sheet_to_json(
+      workbook.Sheets[workbook.SheetNames[0]],
+      {
+        blankrows: false,
+        skipHidden: false,
+      }
+    )
+
+    // Trim and remove double spaces
+    const cleanedData = data.map((row) =>
+      mapValues(row, (value) => {
+        if (typeof value === 'string') {
+          return value.replace(/\s+/g, ' ').trim()
+        }
+        return value
+      })
+    )
+
+    // TODO Add logic to use the right extractor.
+    const extractor: TransactionExtractor = IngExtractor
+
+    for (const row of cleanedData) {
+      const transactionData = extractor.convert(row)
+      if (!isNil(transactionData)) {
+        // Check via hash if the transaction already exists
+        const hashExists = await this.transactionService.hashAlreadyExists(
+          account.uuid,
+          transactionData.hash
+        )
+
+        if (hashExists) {
+          // TODO swap two lines belows
+          // continue
+          console.log({hash: transactionData.hash})
+          throw new Error('HASH CONFLICT')
+        } else {
+          await this.transactionService.create({
+            ...transactionData,
+            bankAccountUuid: account.uuid,
+          })
+        }
+      }
+    }
+  }
+
+  private async findAllFilesIn(path: string): Promise<string[]> {
+    const result: string[] = []
+
+    const recurse = async (item: string) => {
+      if (await isDirectory(item)) {
+        for await (const d of await fs.promises.opendir(item)) {
+          const entry = nodePath.join(item, d.name)
+
+          await recurse(entry)
+        }
+      } else {
+        result.push(item)
+      }
+    }
+
+    if (!fs.existsSync(path)) {
+      throw new Error(`${path} does not exist.`)
+    }
+
+    await recurse(path)
+
+    return result
   }
 }

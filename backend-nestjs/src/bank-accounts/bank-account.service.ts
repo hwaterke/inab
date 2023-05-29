@@ -26,6 +26,15 @@ export class BankAccountService {
     return await this.bankAccountRepository.findOneBy({uuid})
   }
 
+  async findOneByIban(iban: string) {
+    return await this.bankAccountRepository
+      .createQueryBuilder('bankAccount')
+      .where("REPLACE(bankAccount.iban, ' ', '') = :iban", {
+        iban: cleanIBAN(iban).replace(/\s/g, ''),
+      })
+      .getOne()
+  }
+
   async upsert(payload: {name: string; iban: string}) {
     const iban = cleanIBAN(payload.iban)
 
