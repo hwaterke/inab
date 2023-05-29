@@ -56,8 +56,6 @@ const extractTime = (text: string | undefined | null): string | null => {
 export const IngExtractor: TransactionExtractor = {
   convert(row) {
     if (isNil(row[ING_HEADERS.AMOUNT])) {
-      console.log('No amount')
-      console.log(row)
       return null
     }
 

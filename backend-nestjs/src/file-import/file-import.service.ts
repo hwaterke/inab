@@ -174,6 +174,7 @@ export class FileImportService {
     // TODO Add logic to use the right extractor.
     const extractor: TransactionExtractor = IngExtractor
 
+    let importedTransactionCount = 0
     for (const row of cleanedData) {
       const transactionData = extractor.convert(row)
       if (!isNil(transactionData)) {
@@ -188,9 +189,11 @@ export class FileImportService {
             ...transactionData,
             bankAccountUuid: account.uuid,
           })
+          importedTransactionCount++
         }
       }
     }
+    console.log(`${importedTransactionCount} transactions imported`)
   }
 
   private async findAllFilesIn(path: string): Promise<string[]> {
