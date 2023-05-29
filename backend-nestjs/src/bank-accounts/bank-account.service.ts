@@ -35,6 +35,15 @@ export class BankAccountService {
       .getOne()
   }
 
+  async findOneByIbanEndingWith(text: string) {
+    return await this.bankAccountRepository
+      .createQueryBuilder('bankAccount')
+      .where("REPLACE(bankAccount.iban, ' ', '') LIKE :iban", {
+        iban: `%${cleanIBAN(text).replace(/\s/g, '')}`,
+      })
+      .getOne()
+  }
+
   async upsert(payload: {name: string; iban: string}) {
     const iban = cleanIBAN(payload.iban)
 

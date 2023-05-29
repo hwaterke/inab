@@ -1,5 +1,12 @@
+import {BankAccountService} from '../../bank-accounts/bank-account.service'
+
 export interface TransactionExtractor {
-  convert(row: Record<string, string | undefined>): {
+  convert(
+    row: Record<string, string | undefined>,
+    context: {
+      bankAccountService: BankAccountService
+    }
+  ): Promise<{
     date: string
     time: string | null
     amount: number
@@ -7,5 +14,5 @@ export interface TransactionExtractor {
     hash: string
     importDetails: string | null
     transferBankAccountUuid: string | null
-  } | null
+  } | null>
 }

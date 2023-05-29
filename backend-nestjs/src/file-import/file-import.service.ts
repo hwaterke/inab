@@ -176,7 +176,9 @@ export class FileImportService {
 
     let importedTransactionCount = 0
     for (const row of cleanedData) {
-      const transactionData = extractor.convert(row)
+      const transactionData = await extractor.convert(row, {
+        bankAccountService: this.bankAccountService,
+      })
       if (!isNil(transactionData)) {
         // Check via hash if the transaction already exists
         const hashExists = await this.transactionService.hashAlreadyExists(
