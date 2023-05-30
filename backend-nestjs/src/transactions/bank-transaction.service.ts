@@ -18,6 +18,7 @@ export class BankTransactionService {
     const result = await this.transactionRepository.findAndCount({
       relations: {
         bankAccount: true,
+        transferBankAccount: true,
         payee: true,
         items: {
           category: true,

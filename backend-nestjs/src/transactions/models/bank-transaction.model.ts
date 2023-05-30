@@ -20,6 +20,9 @@ export class BankTransactionObjectType {
   @Field(() => BankAccountObjectType)
   bankAccount!: BankAccountObjectType
 
+  @Field(() => BankAccountObjectType, {nullable: true})
+  transferBankAccount!: BankAccountObjectType | null
+
   @Field(() => PayeeObjectType, {nullable: true})
   payee!: PayeeObjectType | null
 
