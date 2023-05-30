@@ -1,12 +1,13 @@
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
-import {useState} from 'react'
+import {Fragment, useState} from 'react'
 import {Link, useSearchParams} from 'react-router-dom'
 import {amountFormatter} from '../utils/formatter.ts'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import classNames from 'classnames'
 import {CategoryTag} from '../components/CategoryTag.tsx'
 import {Pagination} from '../components/Pagination.tsx'
+import {ArrowsRightLeftIcon} from '@heroicons/react/20/solid'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions($pagination: PaginationInput!) {
@@ -17,6 +18,10 @@ const allTransactionsQueryDocument = graphql(`
         time
         amount
         bankAccount {
+          uuid
+          name
+        }
+        transferBankAccount {
           uuid
           name
         }
@@ -60,6 +65,126 @@ export const setTransactionPayeeMutationDocument = graphql(`
   }
 `)
 
+const TransactionRow = ({
+  banAccountName,
+  transferBankAccountName,
+  date,
+  time,
+  amount,
+  payee,
+  transactionUuid,
+  payeeSelectUuid,
+  setPayeeSelectUuid,
+  transactionItems,
+}: {
+  banAccountName: string
+  transferBankAccountName: string | null
+  date: string
+  time: string | null
+  amount: number
+  payee: {
+    uuid: string
+    name: string
+  } | null
+  transactionUuid: string
+  payeeSelectUuid: string | null
+  setPayeeSelectUuid: (uuid: string | null) => void
+  transactionItems: {
+    isIncome: boolean
+    category: {
+      name: string
+    } | null
+    reimburse?: {
+      uuid: string
+    } | null
+  }[]
+}) => {
+  const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
+
+  return (
+    <tr>
+      <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+        {banAccountName}
+      </td>
+      <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+        {date}
+      </td>
+      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+        {time}
+      </td>
+      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+        {transferBankAccountName ? (
+          <div className="flex">
+            <ArrowsRightLeftIcon className="h-5 w-5 mr-2 text-gray-400" />
+            {transferBankAccountName}
+          </div>
+        ) : payeeSelectUuid === transactionUuid ? (
+          <PayeeSelect
+            autoFocus
+            openMenuOnFocus
+            value={payee?.uuid ?? null}
+            onChange={async (payeeUuid) => {
+              await setPayee({
+                variables: {
+                  uuid: transactionUuid,
+                  payeeUuid,
+                },
+              })
+              setPayeeSelectUuid(null)
+            }}
+            onBlur={() => setPayeeSelectUuid(null)}
+            styles={{
+              input: (provided) => ({
+                ...provided,
+                '& input': {
+                  boxShadow: 'none!important',
+                  outline: 'none!important',
+                  fontSize: 14,
+                },
+              }),
+            }}
+            classNames={{
+              control: () => 'min-h-0 border-0 shadow-none',
+              valueContainer: () => 'p-0',
+              input: () => 'p-0 m-0 text-sm',
+              indicatorsContainer: () => 'p-0 border-red-900 border-1',
+              dropdownIndicator: () => 'p-0',
+              clearIndicator: () => 'p-0',
+            }}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPayeeSelectUuid(transactionUuid)}
+            className={classNames({
+              'text-gray-300': payee === null,
+            })}
+          >
+            {payee?.name ?? 'No payee'}
+          </button>
+        )}
+      </td>
+      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+        {transactionItems.length === 1 && (
+          <CategoryTag {...transactionItems[0]} />
+        )}
+        {transactionItems.length > 1 && 'Multiple'}
+      </td>
+      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
+        {amountFormatter.format(amount / 100)}
+      </td>
+      <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+        <Link
+          to={`/transactions/${transactionUuid}`}
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Edit
+        </Link>
+      </td>
+    </tr>
+  )
+}
+
 export const Transactions = () => {
   const [selectOpened, setSelectOpened] = useState<string | null>(null)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -74,7 +199,6 @@ export const Transactions = () => {
       },
     },
   })
-  const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
 
   return (
     <>
@@ -151,83 +275,40 @@ export const Transactions = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {data?.transactions.items.map((transaction) => (
-                      <tr key={transaction.uuid}>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                          {transaction.bankAccount.name}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                          {transaction.date}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          {transaction.time}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                          {selectOpened === transaction.uuid ? (
-                            <PayeeSelect
-                              autoFocus
-                              openMenuOnFocus
-                              value={transaction.payee?.uuid ?? null}
-                              onChange={async (payeeUuid) => {
-                                await setPayee({
-                                  variables: {
-                                    uuid: transaction.uuid,
-                                    payeeUuid,
-                                  },
-                                })
-                                setSelectOpened(null)
-                              }}
-                              onBlur={() => setSelectOpened(null)}
-                              styles={{
-                                input: (provided) => ({
-                                  ...provided,
-                                  '& input': {
-                                    boxShadow: 'none!important',
-                                    outline: 'none!important',
-                                    fontSize: 14,
-                                  },
-                                }),
-                              }}
-                              classNames={{
-                                control: () => 'min-h-0 border-0 shadow-none',
-                                valueContainer: () => 'p-0',
-                                input: () => 'p-0 m-0 text-sm',
-                                indicatorsContainer: () =>
-                                  'p-0 border-red-900 border-1',
-                                dropdownIndicator: () => 'p-0',
-                                clearIndicator: () => 'p-0',
-                              }}
-                            />
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setSelectOpened(transaction.uuid)}
-                              className={classNames({
-                                'text-gray-300':
-                                  transaction.payee?.uuid === undefined,
-                              })}
-                            >
-                              {transaction.payee?.name ?? 'No payee'}
-                            </button>
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                          {transaction.items.length === 1 && (
-                            <CategoryTag {...transaction.items[0]} />
-                          )}
-                          {transaction.items.length > 1 && 'Multiple'}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
-                          {amountFormatter.format(transaction.amount / 100)}
-                        </td>
-                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          <Link
-                            to={`/transactions/${transaction.uuid}`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </Link>
-                        </td>
-                      </tr>
+                      <Fragment key={transaction.uuid}>
+                        <TransactionRow
+                          banAccountName={transaction.bankAccount.name}
+                          transferBankAccountName={
+                            transaction.transferBankAccount?.name ?? null
+                          }
+                          date={transaction.date}
+                          time={transaction.time}
+                          amount={transaction.amount}
+                          payeeSelectUuid={selectOpened}
+                          setPayeeSelectUuid={setSelectOpened}
+                          payee={transaction.payee}
+                          transactionItems={transaction.items}
+                          transactionUuid={transaction.uuid}
+                        />
+                        {transaction.transferBankAccount && (
+                          <TransactionRow
+                            banAccountName={
+                              transaction.transferBankAccount.name
+                            }
+                            transferBankAccountName={
+                              transaction.bankAccount.name
+                            }
+                            date={transaction.date}
+                            time={transaction.time}
+                            amount={-transaction.amount}
+                            payeeSelectUuid={selectOpened}
+                            setPayeeSelectUuid={setSelectOpened}
+                            payee={null}
+                            transactionItems={transaction.items}
+                            transactionUuid={transaction.uuid}
+                          />
+                        )}
+                      </Fragment>
                     ))}
                   </tbody>
                 </table>
