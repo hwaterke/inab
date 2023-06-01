@@ -8,10 +8,12 @@ import classNames from 'classnames'
 import {CategoryTag} from '../components/CategoryTag.tsx'
 import {Pagination} from '../components/Pagination.tsx'
 import {ArrowsRightLeftIcon} from '@heroicons/react/20/solid'
+import useLocalStorage from 'use-local-storage'
+import {ACCOUNTS_LOCAL_STORAGE_KEY} from '../constants.ts'
 
 const allTransactionsQueryDocument = graphql(`
-  query transactions($pagination: PaginationInput!) {
-    transactions(pagination: $pagination) {
+  query transactions($pagination: PaginationInput!, $bankAccounts: [ID!]) {
+    transactions(pagination: $pagination, bankAccounts: $bankAccounts) {
       items {
         uuid
         date
@@ -190,6 +192,7 @@ export const Transactions = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10)
   const pageSize = parseInt(searchParams.get('pageSize') ?? '100', 10)
+  const [accounts] = useLocalStorage<string[]>(ACCOUNTS_LOCAL_STORAGE_KEY, [])
 
   const {data} = useQuery(allTransactionsQueryDocument, {
     variables: {
@@ -197,6 +200,7 @@ export const Transactions = () => {
         page: currentPage,
         pageSize,
       },
+      bankAccounts: accounts.length > 0 ? accounts : null,
     },
   })
 
@@ -276,38 +280,51 @@ export const Transactions = () => {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {data?.transactions.items.map((transaction) => (
                       <Fragment key={transaction.uuid}>
-                        <TransactionRow
-                          banAccountName={transaction.bankAccount.name}
-                          transferBankAccountName={
-                            transaction.transferBankAccount?.name ?? null
-                          }
-                          date={transaction.date}
-                          time={transaction.time}
-                          amount={transaction.amount}
-                          payeeSelectUuid={selectOpened}
-                          setPayeeSelectUuid={setSelectOpened}
-                          payee={transaction.payee}
-                          transactionItems={transaction.items}
-                          transactionUuid={transaction.uuid}
-                        />
-                        {transaction.transferBankAccount && (
+                        {(accounts.length === 0 ||
+                          accounts.find(
+                            (account) =>
+                              account === transaction.bankAccount.uuid
+                          )) && (
                           <TransactionRow
-                            banAccountName={
-                              transaction.transferBankAccount.name
-                            }
+                            banAccountName={transaction.bankAccount.name}
                             transferBankAccountName={
-                              transaction.bankAccount.name
+                              transaction.transferBankAccount?.name ?? null
                             }
                             date={transaction.date}
                             time={transaction.time}
-                            amount={-transaction.amount}
+                            amount={transaction.amount}
                             payeeSelectUuid={selectOpened}
                             setPayeeSelectUuid={setSelectOpened}
-                            payee={null}
+                            payee={transaction.payee}
                             transactionItems={transaction.items}
                             transactionUuid={transaction.uuid}
                           />
                         )}
+
+                        {transaction.transferBankAccount &&
+                          (accounts.length === 0 ||
+                            accounts.find(
+                              (account) =>
+                                account ===
+                                transaction.transferBankAccount?.uuid
+                            )) && (
+                            <TransactionRow
+                              banAccountName={
+                                transaction.transferBankAccount.name
+                              }
+                              transferBankAccountName={
+                                transaction.bankAccount.name
+                              }
+                              date={transaction.date}
+                              time={transaction.time}
+                              amount={-transaction.amount}
+                              payeeSelectUuid={selectOpened}
+                              setPayeeSelectUuid={setSelectOpened}
+                              payee={null}
+                              transactionItems={transaction.items}
+                              transactionUuid={transaction.uuid}
+                            />
+                          )}
                       </Fragment>
                     ))}
                   </tbody>

@@ -6,7 +6,7 @@ import {PrimaryButtonClassnames} from '../tailwind-utils.ts'
 import {AlertModal} from '../components/AlertModal.tsx'
 import {AccountList} from '../components/AccountList.tsx'
 
-const allAccountsQueryDocument = graphql(`
+export const allAccountsQueryDocument = graphql(`
   query accounts {
     accounts {
       uuid

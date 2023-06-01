@@ -4,6 +4,7 @@ import {InjectRepository} from '@nestjs/typeorm'
 import {Not, Repository} from 'typeorm'
 import {BankTransactionItemInputType} from './models/bank-transaction.model'
 import {BankTransactionItem} from './entities/bank-transaction-item.entity'
+import {isNil} from 'remeda'
 
 @Injectable()
 export class BankTransactionService {
@@ -14,23 +15,39 @@ export class BankTransactionService {
     private transactionItemRepository: Repository<BankTransactionItem>
   ) {}
 
-  async findAll({page, pageSize}: {page: number; pageSize: number}) {
-    const result = await this.transactionRepository.findAndCount({
-      relations: {
-        bankAccount: true,
-        transferBankAccount: true,
-        payee: true,
-        items: {
-          category: true,
-          reimburse: true,
-        },
-      },
-      order: {
-        date: 'DESC',
-      },
-      take: pageSize,
-      skip: ((page < 1 ? 1 : page) - 1) * pageSize,
-    })
+  async findAll({
+    page,
+    pageSize,
+    bankAccounts,
+  }: {
+    page: number
+    pageSize: number
+    bankAccounts: string[] | null
+  }) {
+    const query = this.transactionRepository
+      .createQueryBuilder('transaction')
+      .innerJoinAndSelect('transaction.bankAccount', 'bankAccount')
+      .leftJoinAndSelect(
+        'transaction.transferBankAccount',
+        'transferBankAccount'
+      )
+      .leftJoinAndSelect('transaction.payee', 'payee')
+      .leftJoinAndSelect('transaction.items', 'items')
+      .leftJoinAndSelect('items.category', 'category')
+      .leftJoinAndSelect('items.reimburse', 'reimburse')
+      .orderBy('transaction.date', 'DESC')
+      .take(pageSize)
+      .skip(((page < 1 ? 1 : page) - 1) * pageSize)
+
+    if (!isNil(bankAccounts)) {
+      query
+        .where('bankAccount.uuid IN (:...bankAccounts)', {bankAccounts})
+        .orWhere('transferBankAccount.uuid IN (:...bankAccounts)', {
+          bankAccounts,
+        })
+    }
+
+    const result = await query.getManyAndCount()
 
     return {
       items: result[0],

@@ -15,11 +15,14 @@ export class BankTransactionsResolver {
   @Query(() => BankTransactionListObjectType)
   async transactions(
     @Args('pagination', {type: () => PaginationInput})
-    pagination: PaginationInput
+    pagination: PaginationInput,
+    @Args('bankAccounts', {type: () => [ID], nullable: true})
+    bankAccounts: string[] | null
   ): Promise<BankTransactionListObjectType> {
     return this.bankTransactionService.findAll({
       page: pagination.page,
       pageSize: pagination.pageSize,
+      bankAccounts,
     })
   }
 
