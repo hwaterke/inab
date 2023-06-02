@@ -2,7 +2,6 @@ import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
 import {Fragment, useState} from 'react'
 import {Link, useSearchParams} from 'react-router-dom'
-import {amountFormatter} from '../utils/formatter.ts'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import classNames from 'classnames'
 import {CategoryTag} from '../components/CategoryTag.tsx'
@@ -10,6 +9,7 @@ import {Pagination} from '../components/Pagination.tsx'
 import {ArrowsRightLeftIcon} from '@heroicons/react/20/solid'
 import useLocalStorage from 'use-local-storage'
 import {ACCOUNTS_LOCAL_STORAGE_KEY} from '../constants.ts'
+import {AmountBadge} from '../components/AmountBadge.tsx'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions($pagination: PaginationInput!, $bankAccounts: [ID!]) {
@@ -173,7 +173,7 @@ const TransactionRow = ({
         {transactionItems.length > 1 && 'Multiple'}
       </td>
       <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
-        {amountFormatter.format(amount / 100)}
+        <AmountBadge amount={amount} />
       </td>
       <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
         <Link

@@ -15,6 +15,7 @@ import {CategoryTag} from '../components/CategoryTag.tsx'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import {setTransactionPayeeMutationDocument} from './Transactions.tsx'
 import classNames from 'classnames'
+import {AmountBadge} from '../components/AmountBadge.tsx'
 
 const transactionQueryDocument = graphql(`
   query transaction($uuid: ID!) {
@@ -336,8 +337,9 @@ export const Transaction = () => {
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-900">Amount</dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {data?.transaction.amount !== undefined &&
-                    amountFormatter.format(data.transaction.amount / 100)}
+                  {data?.transaction.amount !== undefined && (
+                    <AmountBadge amount={data.transaction.amount} />
+                  )}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
