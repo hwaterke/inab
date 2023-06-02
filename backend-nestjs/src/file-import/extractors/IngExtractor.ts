@@ -54,6 +54,10 @@ const extractTime = (text: string | undefined | null): string | null => {
 }
 
 export const IngExtractor: TransactionExtractor = {
+  canHandle(rows: Record<string, string | undefined>[]): boolean {
+    return !isNil(rows[0][ING_HEADERS.ACCOUNT_NUMBER])
+  },
+
   async convert(row, {bankAccountService}) {
     if (isNil(row[ING_HEADERS.AMOUNT])) {
       return null
@@ -81,10 +85,20 @@ export const IngExtractor: TransactionExtractor = {
 
     // Try to find the transfer account
     let transferBankAccountUuid = null
-    if (amount < 0 && !isNil(row[ING_HEADERS.BENEFICIARY_ACCOUNT])) {
+    if (!isNil(row[ING_HEADERS.BENEFICIARY_ACCOUNT])) {
       const transferAccount = await bankAccountService.findOneByIbanEndingWith(
-        row[ING_HEADERS.BENEFICIARY_ACCOUNT].replaceAll('-', '')
+        row[ING_HEADERS.BENEFICIARY_ACCOUNT]
       )
+      if (transferAccount) {
+        transferBankAccountUuid = transferAccount.uuid
+      }
+    }
+    if (!isNil(row[ING_HEADERS.DETAILS])) {
+      const allAccounts = await bankAccountService.findAll()
+      const transferAccount = allAccounts.find((account) => {
+        return row[ING_HEADERS.DETAILS]!.includes(account.iban)
+      })
+
       if (transferAccount) {
         transferBankAccountUuid = transferAccount.uuid
       }

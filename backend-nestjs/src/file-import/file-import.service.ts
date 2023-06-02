@@ -11,6 +11,9 @@ import {isNil, mapValues, sortBy} from 'remeda'
 import {BankTransactionService} from '../transactions/bank-transaction.service'
 import {TransactionExtractor} from './extractors/TransactionExtractor'
 import {IngExtractor} from './extractors/IngExtractor'
+import {N26Extractor} from './extractors/N26Extractor'
+
+const EXTRACTORS: TransactionExtractor[] = [IngExtractor, N26Extractor]
 
 const JsonSchema = z.object({
   accounts: z.optional(
@@ -171,15 +174,32 @@ export class FileImportService {
       })
     )
 
-    // TODO Add logic to use the right extractor.
-    const extractor: TransactionExtractor = IngExtractor
+    const extractor: TransactionExtractor | undefined = EXTRACTORS.find(
+      (extractor) => extractor.canHandle(cleanedData)
+    )
+
+    if (!extractor) {
+      console.log(`No valid extractor found for ${path}`)
+      return
+    }
 
     let importedTransactionCount = 0
+    const cache = new Map<string, number>()
     for (const row of cleanedData) {
       const transactionData = await extractor.convert(row, {
         bankAccountService: this.bankAccountService,
+        cache,
       })
+
       if (!isNil(transactionData)) {
+        if (
+          !isNil(transactionData.transferBankAccountUuid) &&
+          transactionData.amount > 0
+        ) {
+          // Ony import transfers if the amount is negative to avoid duplicates
+          continue
+        }
+
         // Check via hash if the transaction already exists
         const hashExists = await this.transactionService.hashAlreadyExists(
           account.uuid,
