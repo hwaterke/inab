@@ -206,7 +206,7 @@ export const Transactions = () => {
 
   return (
     <>
-      <header className="bg-white shadow">
+      <header className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="md:flex md:items-center md:justify-between">
             <h1 className="text-2xl font-bold leading-7 text-gray-900">
@@ -216,7 +216,7 @@ export const Transactions = () => {
         </div>
       </header>
 
-      <main>
+      <main className="bg-white">
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Pagination
             page={currentPage}
