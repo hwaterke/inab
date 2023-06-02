@@ -2,9 +2,13 @@ import {Injectable} from '@nestjs/common'
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
 import {BankAccount} from './entities/bank-account.entity'
+import {isEmpty} from 'remeda'
 
 function cleanIBAN(iban: string) {
-  return iban.toUpperCase().trim()
+  return iban
+    .replace(/[^A-Za-z0-9]+/g, '')
+    .toUpperCase()
+    .trim()
 }
 
 @Injectable()
@@ -27,31 +31,33 @@ export class BankAccountService {
   }
 
   async findOneByIban(iban: string) {
+    if (isEmpty(iban)) {
+      throw new Error('IBAN cannot be empty')
+    }
+
     return await this.bankAccountRepository
       .createQueryBuilder('bankAccount')
-      .where("REPLACE(bankAccount.iban, ' ', '') = :iban", {
-        iban: cleanIBAN(iban).replace(/\s/g, ''),
+      .where('bankAccount.iban = :iban', {
+        iban: cleanIBAN(iban),
       })
       .getOne()
   }
 
   async findOneByIbanEndingWith(text: string) {
+    if (isEmpty(text)) {
+      throw new Error('IBAN search cannot be empty')
+    }
+
     return await this.bankAccountRepository
       .createQueryBuilder('bankAccount')
-      .where("REPLACE(bankAccount.iban, ' ', '') LIKE :iban", {
-        iban: `%${cleanIBAN(text).replace(/\s/g, '')}`,
+      .where('bankAccount.iban LIKE :iban', {
+        iban: `%${cleanIBAN(text)}`,
       })
       .getOne()
   }
 
   async upsert(payload: {name: string; iban: string}) {
-    const iban = cleanIBAN(payload.iban)
-
-    const existingBankAccount = await this.bankAccountRepository.findOne({
-      where: {
-        iban,
-      },
-    })
+    const existingBankAccount = await this.findOneByIban(payload.iban)
 
     if (existingBankAccount) {
       if (existingBankAccount.name !== payload.name) {
