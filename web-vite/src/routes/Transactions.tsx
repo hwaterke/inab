@@ -10,6 +10,7 @@ import {ArrowsRightLeftIcon} from '@heroicons/react/20/solid'
 import useLocalStorage from 'use-local-storage'
 import {ACCOUNTS_LOCAL_STORAGE_KEY} from '../constants.ts'
 import {AmountBadge} from '../components/AmountBadge.tsx'
+import {sumBy} from 'remeda'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions($pagination: PaginationInput!, $bankAccounts: [ID!]) {
@@ -33,6 +34,7 @@ const allTransactionsQueryDocument = graphql(`
         }
         items {
           uuid
+          amount
           isIncome
           reimburse {
             uuid
@@ -92,6 +94,7 @@ const TransactionRow = ({
   payeeSelectUuid: string | null
   setPayeeSelectUuid: (uuid: string | null) => void
   transactionItems: {
+    amount: number
     isIncome: boolean
     category: {
       name: string
@@ -174,6 +177,17 @@ const TransactionRow = ({
       </td>
       <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
         <AmountBadge amount={amount} />
+      </td>
+      <td>
+        {amount !== sumBy(transactionItems, (item) => item.amount) && (
+          <svg
+            className="h-1.5 w-1.5 fill-yellow-500"
+            viewBox="0 0 6 6"
+            aria-hidden="true"
+          >
+            <circle cx={3} cy={3} r={3} />
+          </svg>
+        )}
       </td>
       <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
         <Link
@@ -269,6 +283,7 @@ export const Transactions = () => {
                       >
                         Amount
                       </th>
+                      <th />
                       <th
                         scope="col"
                         className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0"
