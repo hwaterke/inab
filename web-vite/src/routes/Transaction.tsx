@@ -446,6 +446,8 @@ export const Transaction = () => {
                   {editingItemUuid !== null && (
                     <div className="mb-4">
                       <TransactionItemForm
+                        totalAmount={data?.transaction.amount ?? 0}
+                        remainingAmount={missingAmount}
                         onSubmit={async (data) => {
                           const itemData = formDataToResource(data)
 

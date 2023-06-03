@@ -3,6 +3,7 @@ import {Input} from './form-elements/Input.tsx'
 import {CategorySelect} from './form-elements/CategorySelect.tsx'
 import {BankTransactionItemSelect} from './form-elements/BankTransactionItemSelect.tsx'
 import {ModalButtonsSubmit} from './ModalButtonsSubmit.tsx'
+import {MenuOptions} from './MenuOptions.tsx'
 
 type FormData = {
   amount: string
@@ -16,6 +17,8 @@ type Props = {
   onSubmit: (data: FormData) => void
   defaultValues?: FormData
   onClose: () => void
+  totalAmount: number
+  remainingAmount: number
 }
 
 export const resourceToFormData = (resource: {
@@ -56,6 +59,8 @@ export const TransactionItemForm = ({
   defaultValues,
   onSubmit,
   onClose,
+  totalAmount,
+  remainingAmount,
 }: Props) => {
   const methods = useForm<FormData>({
     defaultValues,
@@ -66,12 +71,67 @@ export const TransactionItemForm = ({
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="space-y-6">
-            <Input<FormData>
-              label="Amount"
-              name="amount"
-              placeholder="100"
-              type="number"
-            />
+            <div>
+              <label
+                htmlFor="amount"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Amount
+              </label>
+
+              <div className="mt-2 flex items-center space-x-2">
+                <input
+                  type="number"
+                  id="amount"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="100"
+                  {...methods.register('amount', {required: true})}
+                />
+
+                <MenuOptions
+                  options={[
+                    {
+                      label: 'Remaining',
+                      onClick: () => {
+                        methods.setValue('amount', remainingAmount.toString())
+                      },
+                    },
+                    {
+                      label: '50%',
+                      onClick: () => {
+                        methods.setValue(
+                          'amount',
+                          Math.floor(totalAmount / 2).toString()
+                        )
+                      },
+                    },
+                    {
+                      label: '33%',
+                      onClick: () => {
+                        methods.setValue(
+                          'amount',
+                          Math.floor(totalAmount / 3).toString()
+                        )
+                      },
+                    },
+                    {
+                      label: '25%',
+                      onClick: () => {
+                        methods.setValue(
+                          'amount',
+                          Math.floor(totalAmount / 4).toString()
+                        )
+                      },
+                    },
+                  ]}
+                />
+              </div>
+              {methods.formState.errors.amount && (
+                <p className="mt-2 text-sm text-red-600">
+                  This field is required
+                </p>
+              )}
+            </div>
 
             <div>
               <label className="block text-sm font-medium leading-6 text-gray-900">

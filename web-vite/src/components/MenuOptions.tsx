@@ -28,6 +28,7 @@ export const MenuOptions = ({options}: Props) => {
             <Menu.Item key={option.label}>
               {({active}) => (
                 <button
+                  type="button"
                   onClick={option.onClick}
                   className={classNames(
                     active ? 'bg-gray-50' : '',
