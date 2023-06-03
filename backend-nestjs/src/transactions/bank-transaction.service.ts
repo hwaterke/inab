@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {BankTransaction} from './entities/bank-transaction.entities'
 import {InjectRepository} from '@nestjs/typeorm'
-import {Not, Repository} from 'typeorm'
+import {Brackets, Not, Repository} from 'typeorm'
 import {BankTransactionItemInputType} from './models/bank-transaction.model'
 import {BankTransactionItem} from './entities/bank-transaction-item.entity'
 import {isNil} from 'remeda'
@@ -19,10 +19,12 @@ export class BankTransactionService {
     page,
     pageSize,
     bankAccounts,
+    creditsMissingReimbursement,
   }: {
     page: number
     pageSize: number
     bankAccounts: string[] | null
+    creditsMissingReimbursement: boolean
   }) {
     const query = this.transactionRepository
       .createQueryBuilder('transaction')
@@ -36,15 +38,42 @@ export class BankTransactionService {
       .leftJoinAndSelect('items.category', 'category')
       .leftJoinAndSelect('items.reimburse', 'reimburse')
       .orderBy('transaction.date', 'DESC')
+      .addOrderBy('transaction.time', 'DESC')
+      .addOrderBy('transaction.uuid', 'ASC')
       .take(pageSize)
       .skip(((page < 1 ? 1 : page) - 1) * pageSize)
 
     if (!isNil(bankAccounts)) {
-      query
-        .where('bankAccount.uuid IN (:...bankAccounts)', {bankAccounts})
-        .orWhere('transferBankAccount.uuid IN (:...bankAccounts)', {
-          bankAccounts,
+      query.andWhere(
+        new Brackets((qb) => {
+          qb.where('bankAccount.uuid IN (:...bankAccounts)', {
+            bankAccounts,
+          }).orWhere('transferBankAccount.uuid IN (:...bankAccounts)', {
+            bankAccounts,
+          })
         })
+      )
+    }
+
+    if (creditsMissingReimbursement) {
+      query.andWhere((qb) => {
+        const subQuery = qb
+          .subQuery()
+          .select('item.transactionUuid')
+          .from(BankTransactionItem, 'item')
+          .where('item.isCredit IS TRUE')
+          .andWhere((qbr) => {
+            const sumQuery = qbr
+              .subQuery()
+              .select('ifnull(SUM(r.amount), 0)')
+              .from(BankTransactionItem, 'r')
+              .where('r.reimburseUuid = item.uuid')
+              .getQuery()
+            return '-item.amount <> ' + sumQuery
+          })
+          .getQuery()
+        return 'transaction.uuid IN ' + subQuery
+      })
     }
 
     const result = await query.getManyAndCount()

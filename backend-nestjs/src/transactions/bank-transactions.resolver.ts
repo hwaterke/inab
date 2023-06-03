@@ -1,5 +1,13 @@
 import {BankTransactionService} from './bank-transaction.service'
-import {Args, ID, Mutation, Query, Resolver} from '@nestjs/graphql'
+import {
+  Args,
+  Field,
+  ID,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+} from '@nestjs/graphql'
 import {
   BankTransactionItemInputType,
   BankTransactionItemObjectType,
@@ -7,6 +15,15 @@ import {
   BankTransactionObjectType,
 } from './models/bank-transaction.model'
 import {PaginationInput} from '../shared/models/pagination.model'
+
+@InputType()
+class TransactionFiltersInputType {
+  @Field(() => [ID], {nullable: true})
+  bankAccounts!: string[] | null
+
+  @Field(() => Boolean, {nullable: true})
+  creditsMissingReimbursement!: boolean | null
+}
 
 @Resolver(() => BankTransactionObjectType)
 export class BankTransactionsResolver {
@@ -16,13 +33,15 @@ export class BankTransactionsResolver {
   async transactions(
     @Args('pagination', {type: () => PaginationInput})
     pagination: PaginationInput,
-    @Args('bankAccounts', {type: () => [ID], nullable: true})
-    bankAccounts: string[] | null
+    @Args('filters', {type: () => TransactionFiltersInputType, nullable: true})
+    filters: TransactionFiltersInputType | null
   ): Promise<BankTransactionListObjectType> {
     return this.bankTransactionService.findAll({
       page: pagination.page,
       pageSize: pagination.pageSize,
-      bankAccounts,
+      bankAccounts: filters?.bankAccounts ?? null,
+      creditsMissingReimbursement:
+        filters?.creditsMissingReimbursement ?? false,
     })
   }
 

@@ -13,8 +13,11 @@ import {AmountBadge} from '../components/AmountBadge.tsx'
 import {sumBy} from 'remeda'
 
 const allTransactionsQueryDocument = graphql(`
-  query transactions($pagination: PaginationInput!, $bankAccounts: [ID!]) {
-    transactions(pagination: $pagination, bankAccounts: $bankAccounts) {
+  query transactions(
+    $pagination: PaginationInput!
+    $filters: TransactionFiltersInputType
+  ) {
+    transactions(pagination: $pagination, filters: $filters) {
       items {
         uuid
         date
@@ -207,6 +210,8 @@ export const Transactions = () => {
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10)
   const pageSize = parseInt(searchParams.get('pageSize') ?? '100', 10)
   const [accounts] = useLocalStorage<string[]>(ACCOUNTS_LOCAL_STORAGE_KEY, [])
+  const [creditsMissingReimbursement, setCreditsMissingReimbursement] =
+    useState(false)
 
   const {data} = useQuery(allTransactionsQueryDocument, {
     variables: {
@@ -214,7 +219,10 @@ export const Transactions = () => {
         page: currentPage,
         pageSize,
       },
-      bankAccounts: accounts.length > 0 ? accounts : null,
+      filters: {
+        bankAccounts: accounts.length > 0 ? accounts : null,
+        creditsMissingReimbursement,
+      },
     },
   })
 
@@ -232,6 +240,24 @@ export const Transactions = () => {
 
       <main className="bg-white">
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="px-4 sm:px-6 flex justify-end">
+            <select
+              name="credits"
+              id="credits"
+              className="block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              onChange={(e) =>
+                setCreditsMissingReimbursement(
+                  e.target.value === 'missing-reimbursement'
+                )
+              }
+            >
+              <option value="all">All</option>
+              <option value="missing-reimbursement">
+                Missing reimbursement
+              </option>
+            </select>
+          </div>
+
           <Pagination
             page={currentPage}
             pageSize={pageSize}
