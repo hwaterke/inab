@@ -3,6 +3,9 @@
 *.sqlite3
 *.db
 
+# Import files
+/import
+
 # compiled output
 /dist
 /node_modules
