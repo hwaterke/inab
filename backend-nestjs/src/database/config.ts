@@ -13,7 +13,7 @@ import {TransactionItemMigration1684872625977} from './migrations/1684872625977-
 
 export const DatabaseConfig: SqliteConnectionOptions = {
   type: 'sqlite',
-  database: 'db.sqlite',
+  database: process.env.DATABASE_PATH ?? 'inab.sqlite',
   entities: [
     BankAccount,
     Category,

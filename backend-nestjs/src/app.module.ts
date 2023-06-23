@@ -10,6 +10,7 @@ import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo'
 import {join} from 'path'
 import {FileImportModule} from './file-import/file-import.module'
 import {ConfigModule} from '@nestjs/config'
+import {ServeStaticModule} from '@nestjs/serve-static'
 
 @Module({
   imports: [
@@ -24,6 +25,9 @@ import {ConfigModule} from '@nestjs/config'
     BankTransactionsModule,
     BankAccountsModule,
     FileImportModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
+    }),
   ],
   controllers: [],
   providers: [],
