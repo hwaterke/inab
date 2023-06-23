@@ -1,9 +1,9 @@
 import {Controller, FormProvider, useForm} from 'react-hook-form'
 import {Input} from './form-elements/Input.tsx'
 import {CategorySelect} from './form-elements/CategorySelect.tsx'
-import {BankTransactionItemSelect} from './form-elements/BankTransactionItemSelect.tsx'
 import {ModalButtonsSubmit} from './ModalButtonsSubmit.tsx'
 import {MenuOptions} from './MenuOptions.tsx'
+import {CreditBankTransactionItemSelect} from './form-elements/CreditBankTransactionItemSelect.tsx'
 
 type FormData = {
   amount: string
@@ -167,30 +167,34 @@ export const TransactionItemForm = ({
               required={false}
             />
 
-            <Input<FormData>
-              label="Credit"
-              name="isCredit"
-              type="checkbox"
-              required={false}
-            />
+            {remainingAmount < 0 && (
+              <Input<FormData>
+                label="Credit"
+                name="isCredit"
+                type="checkbox"
+                required={false}
+              />
+            )}
 
-            <div>
-              <label className="block text-sm font-medium leading-6 text-gray-900">
-                Reimburses
-              </label>
-              <div className="mt-2">
-                <Controller<FormData, 'reimburseUuid'>
-                  name="reimburseUuid"
-                  control={methods.control}
-                  render={({field}) => (
-                    <BankTransactionItemSelect
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
+            {remainingAmount > 0 && (
+              <div>
+                <label className="block text-sm font-medium leading-6 text-gray-900">
+                  Reimburses
+                </label>
+                <div className="mt-2">
+                  <Controller<FormData, 'reimburseUuid'>
+                    name="reimburseUuid"
+                    control={methods.control}
+                    render={({field}) => (
+                      <CreditBankTransactionItemSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <ModalButtonsSubmit onClose={onClose} />
           </div>

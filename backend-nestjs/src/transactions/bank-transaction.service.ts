@@ -143,6 +143,26 @@ export class BankTransactionService {
     })
   }
 
+  async findCreditsMissingReimbursement(): Promise<BankTransactionItem[]> {
+    const query = this.transactionItemRepository
+      .createQueryBuilder('item')
+      .leftJoinAndSelect('item.transaction', 'transaction')
+      .leftJoinAndSelect('transaction.payee', 'payee')
+      .leftJoinAndSelect('item.category', 'category')
+      .where('item.isCredit IS TRUE')
+      .andWhere((qb) => {
+        const sumQuery = qb
+          .subQuery()
+          .select('ifnull(SUM(r.amount), 0)')
+          .from(BankTransactionItem, 'r')
+          .where('r.reimburseUuid = item.uuid')
+          .getQuery()
+        return '-item.amount <> ' + sumQuery
+      })
+
+    return await query.getMany()
+  }
+
   async addItem(
     bankTransactionUuid: string,
     item: BankTransactionItemInputType

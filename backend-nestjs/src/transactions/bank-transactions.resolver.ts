@@ -69,6 +69,13 @@ export class BankTransactionsResolver {
     return this.bankTransactionService.findAllItems()
   }
 
+  @Query(() => [BankTransactionItemObjectType])
+  async creditTransactionItemsMissingReimbursement(): Promise<
+    BankTransactionItemObjectType[]
+  > {
+    return this.bankTransactionService.findCreditsMissingReimbursement()
+  }
+
   @Mutation(() => BankTransactionObjectType)
   async addTransactionItem(
     @Args('bankTransactionUuid', {type: () => ID}) bankTransactionUuid: string,

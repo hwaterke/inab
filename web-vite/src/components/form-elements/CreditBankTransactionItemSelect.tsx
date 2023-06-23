@@ -2,10 +2,11 @@ import {graphql} from '../../gql'
 import {useQuery} from '@apollo/client'
 import {useMemo} from 'react'
 import Select from 'react-select'
+import {amountFormatter} from '../../utils/formatter.ts'
 
-const allBankTransactionItemsQueryDocument = graphql(`
-  query transactionItems {
-    transactionItems {
+const allCreditsMissingReimbursementQueryDocument = graphql(`
+  query creditTransactionItemsMissingReimbursement {
+    creditTransactionItemsMissingReimbursement {
       uuid
       amount
       transaction {
@@ -30,14 +31,18 @@ type Props = {
   onChange: (value: string | null) => void
 }
 
-export const BankTransactionItemSelect = ({value, onChange}: Props) => {
-  const {data} = useQuery(allBankTransactionItemsQueryDocument)
+export const CreditBankTransactionItemSelect = ({value, onChange}: Props) => {
+  const {data} = useQuery(allCreditsMissingReimbursementQueryDocument, {
+    fetchPolicy: 'cache-and-network',
+  })
 
   const itemOptions = useMemo(
     () =>
-      data?.transactionItems.map((item) => ({
+      data?.creditTransactionItemsMissingReimbursement.map((item) => ({
         value: item.uuid,
-        label: `${item.transaction.date} ${item.amount} ${item.category?.name}`,
+        label: `${item.transaction.date} ${amountFormatter.format(
+          item.amount / 100
+        )} ${item.category?.name}`,
       })) ?? [],
 
     [data]
