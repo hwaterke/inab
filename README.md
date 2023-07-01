@@ -4,81 +4,65 @@
 
 INAB is a budgeting tool.
 
-This is a monorepo that contains different packages
+# Usage
 
-- [packages/web](packages/web) contains the web app
-- [packages/native](packages/native) contains the mobile app
-- [packages/shared](packages/shared) contains common files for web and native
-  apps
-- [packages/server](packages/server) contains the server
+INAB is a web application.
 
-# Use
-
-INAB consists of two parts. A backend that exposes an API and a frontend (web or
-native). There are several ways of deploying and using INAB.  
-The simplest solution that works out of the box is to use the existing docker
-image for the backend
+The easiest is to run everything locally using docker-compose.
 
 ```
-docker run -d -p 3003:3003 -v $(pwd)/database:/db hwaterke/inab-api
+version: '3.6'
+services:
+  inab:
+    image: hwaterke/inab
+    environment:
+      - IMPORT_FOLDER=/app/imports
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./data:/app/data
+      - ./imports:/app/imports
 ```
 
-This starts the server. You can then access the INAB api at
-http://localhost:3003
+You can then open your browser at http://localhost:3000
 
-You then need to build and serve the frontend code yourself or use the latest
-version deployed at https://inab.accountant/
+## Importing transactions
 
-When running the docker image, it is recommended to add another environment
-variable. `-e "TOKEN_SECRET=some_secret"`. This is optional, a random secret
-will be used if none is provided. But providing one will allow your users to
-stay connected after a container restart.
+INAB can import transactions from CSV and JSON files. As of today, INAB can
+import transactions from the following banks:
 
-### Production build
+- [x] ING
+- [x] N26
+- [x] N26 (through API export)
+- [ ] Belfius
+- [ ] VanBreda
+
+Simply drop your CSV or JSON file in the `imports` folder and restart the
+container. Transactions will not be imported twice so you can safely keep the
+files in the `imports` folder.
+
+### How to export N26 transaction through the API
+
+```shell
+git clone git@github.com:femueller/python-n26.git
+pipenv shell
+pipenv install
+python3 -m n26 -json transactions --limit 1000 > n26.json
+```
+
+## Compile
 
 If you want to create the docker image yourself, execute the following steps.
 
-- Navigate to the `packages/server` folder.
-- Execute `./docker_build.sh`
+- Execute `./scripts/docker_build.sh`
 
-You can then run inab by using:
-
-```
-docker run -d -p 8080:8080 -v $(pwd)/database:/db hwaterke/inab-api
-```
+You can then use the docker-compose file from above.
 
 ### Development
 
-A new version is under development The backend is in backend-nestjs and the
-frontend in web-vite.
-
 If you want to contribute and help developing INAB, you can use the development
-configuration.
-
-You first need to bootstrap the repo and compile the shared code:
-
-```
-yarn
-cd packages/shared
-yarn build
-yarn build:flow
-```
-
-You can then start the server in dev mode by issuing the following commands in
-the `packages/server` folder:
-
-```
-yarn start
-```
-
-Once the server is up and running, you can then start the client in dev mode by
-issuing the following commands in the `packages/web` folder:
-
-```
-yarn start
-```
-
-Note that in development, the server uses an in-memory database.
+configuration. A new version is under development The backend is in
+backend-nestjs and the frontend in web-vite.
 
 # Some todos
 
