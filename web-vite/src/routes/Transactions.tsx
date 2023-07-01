@@ -10,7 +10,7 @@ import {ArrowsRightLeftIcon} from '@heroicons/react/20/solid'
 import useLocalStorage from 'use-local-storage'
 import {ACCOUNTS_LOCAL_STORAGE_KEY} from '../constants.ts'
 import {AmountBadge} from '../components/AmountBadge.tsx'
-import {sumBy} from 'remeda'
+import {sumBy, uniq} from 'remeda'
 import {SearchInput} from '../components/form-elements/SearchInput.tsx'
 import debounce from 'lodash.debounce'
 
@@ -111,6 +111,10 @@ const TransactionRow = ({
 }) => {
   const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
 
+  const numberOfCategories = uniq(
+    transactionItems.map((i) => i.category?.name)
+  ).length
+
   return (
     <tr>
       <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
@@ -175,10 +179,8 @@ const TransactionRow = ({
         )}
       </td>
       <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-        {transactionItems.length === 1 && (
-          <CategoryTag {...transactionItems[0]} />
-        )}
-        {transactionItems.length > 1 && 'Multiple'}
+        {numberOfCategories === 1 && <CategoryTag {...transactionItems[0]} />}
+        {numberOfCategories > 1 && 'Multiple'}
       </td>
       <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 text-right">
         <AmountBadge amount={amount} />
