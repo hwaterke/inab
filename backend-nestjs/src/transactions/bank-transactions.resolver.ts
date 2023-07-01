@@ -23,6 +23,9 @@ class TransactionFiltersInputType {
 
   @Field(() => Boolean, {nullable: true})
   creditsMissingReimbursement!: boolean | null
+
+  @Field(() => String, {nullable: true})
+  search!: string | null
 }
 
 @Resolver(() => BankTransactionObjectType)
@@ -40,6 +43,7 @@ export class BankTransactionsResolver {
       page: pagination.page,
       pageSize: pagination.pageSize,
       bankAccounts: filters?.bankAccounts ?? null,
+      search: filters?.search ?? null,
       creditsMissingReimbursement:
         filters?.creditsMissingReimbursement ?? false,
     })

@@ -1,6 +1,6 @@
 import {graphql} from '../gql'
 import {useMutation, useQuery} from '@apollo/client'
-import {Fragment, useState} from 'react'
+import {Fragment, useMemo, useState} from 'react'
 import {Link, useSearchParams} from 'react-router-dom'
 import {PayeeSelect} from '../components/form-elements/PayeeSelect.tsx'
 import classNames from 'classnames'
@@ -11,6 +11,8 @@ import useLocalStorage from 'use-local-storage'
 import {ACCOUNTS_LOCAL_STORAGE_KEY} from '../constants.ts'
 import {AmountBadge} from '../components/AmountBadge.tsx'
 import {sumBy} from 'remeda'
+import {SearchInput} from '../components/form-elements/SearchInput.tsx'
+import debounce from 'lodash.debounce'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions(
@@ -212,6 +214,7 @@ export const Transactions = () => {
   const [accounts] = useLocalStorage<string[]>(ACCOUNTS_LOCAL_STORAGE_KEY, [])
   const [creditsMissingReimbursement, setCreditsMissingReimbursement] =
     useState(false)
+  const [search, setSearch] = useState<string | null>(null)
 
   const {data} = useQuery(allTransactionsQueryDocument, {
     variables: {
@@ -221,10 +224,17 @@ export const Transactions = () => {
       },
       filters: {
         bankAccounts: accounts.length > 0 ? accounts : null,
+        search,
         creditsMissingReimbursement,
       },
     },
   })
+
+  const onSearchChange = useMemo(() => {
+    return debounce((value) => {
+      setSearch(value)
+    }, 500)
+  }, [])
 
   return (
     <>
@@ -240,7 +250,9 @@ export const Transactions = () => {
 
       <main className="bg-white">
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <div className="px-4 sm:px-6 flex justify-end">
+          <div className="px-4 sm:px-6 flex justify-between items-center">
+            <SearchInput onChange={onSearchChange} />
+
             <select
               name="credits"
               id="credits"

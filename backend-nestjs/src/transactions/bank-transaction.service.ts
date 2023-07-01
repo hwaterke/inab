@@ -19,11 +19,13 @@ export class BankTransactionService {
     page,
     pageSize,
     bankAccounts,
+    search,
     creditsMissingReimbursement,
   }: {
     page: number
     pageSize: number
     bankAccounts: string[] | null
+    search: string | null
     creditsMissingReimbursement: boolean
   }) {
     const query = this.transactionRepository
@@ -50,6 +52,18 @@ export class BankTransactionService {
             bankAccounts,
           }).orWhere('transferBankAccount.uuid IN (:...bankAccounts)', {
             bankAccounts,
+          })
+        })
+      )
+    }
+
+    if (!isNil(search)) {
+      query.andWhere(
+        new Brackets((qb) => {
+          qb.where('transaction.importDetails LIKE :search', {
+            search: `%${search}%`,
+          }).orWhere('payee.name LIKE :search', {
+            search: `%${search}%`,
           })
         })
       )
