@@ -10,6 +10,7 @@ import {CategoryMigration1684178212867} from './migrations/1684178212867-Categor
 import {AccountMigration1684178437639} from './migrations/1684178437639-AccountMigration'
 import {TransactionMigration1684495931256} from './migrations/1684495931256-TransactionMigration'
 import {TransactionItemMigration1684872625977} from './migrations/1684872625977-TransactionItemMigration'
+import {UniqueHashMigration1689529533769} from './migrations/1689529533769-UniqueHashMigration'
 
 export const DatabaseConfig: SqliteConnectionOptions = {
   type: 'sqlite',
@@ -28,6 +29,7 @@ export const DatabaseConfig: SqliteConnectionOptions = {
     AccountMigration1684178437639,
     TransactionMigration1684495931256,
     TransactionItemMigration1684872625977,
+    UniqueHashMigration1689529533769,
   ],
   migrationsRun: true,
   synchronize: false,

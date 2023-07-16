@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm'
 import {BankAccount} from '../../bank-accounts/entities/bank-account.entity'
@@ -20,6 +21,7 @@ import {BankTransactionItem} from './bank-transaction-item.entity'
 @Check(`transfer_bank_account_uuid IS NULL OR amount < 0`)
 // Transfers have no payee
 @Check(`transfer_bank_account_uuid IS NULL OR payee_uuid IS NULL`)
+@Unique(['bankAccountUuid', 'hash'])
 export class BankTransaction {
   @PrimaryGeneratedColumn('uuid')
   uuid!: string
