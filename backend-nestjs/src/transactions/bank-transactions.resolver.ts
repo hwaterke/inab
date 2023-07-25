@@ -24,6 +24,12 @@ class TransactionFiltersInputType {
   @Field(() => Boolean, {nullable: true})
   creditsMissingReimbursement!: boolean | null
 
+  @Field(() => Boolean, {nullable: true})
+  withPayee!: boolean | null
+
+  @Field(() => Boolean, {nullable: true})
+  missingCategory!: boolean | null
+
   @Field(() => String, {nullable: true})
   search!: string | null
 }
@@ -46,6 +52,8 @@ export class BankTransactionsResolver {
       search: filters?.search ?? null,
       creditsMissingReimbursement:
         filters?.creditsMissingReimbursement ?? false,
+      withPayee: filters?.withPayee ?? null,
+      missingCategory: filters?.missingCategory ?? null,
     })
   }
 

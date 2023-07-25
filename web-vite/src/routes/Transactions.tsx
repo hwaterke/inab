@@ -216,6 +216,8 @@ export const Transactions = () => {
   const [accounts] = useLocalStorage<string[]>(ACCOUNTS_LOCAL_STORAGE_KEY, [])
   const [creditsMissingReimbursement, setCreditsMissingReimbursement] =
     useState(false)
+  const [withPayee, setWithPayee] = useState<boolean | null>(null)
+  const [missingCategory, setMissingCategory] = useState<boolean | null>(null)
   const [search, setSearch] = useState<string | null>(null)
 
   const {data} = useQuery(allTransactionsQueryDocument, {
@@ -228,6 +230,8 @@ export const Transactions = () => {
         bankAccounts: accounts.length > 0 ? accounts : null,
         search,
         creditsMissingReimbursement,
+        withPayee,
+        missingCategory,
       },
     },
   })
@@ -254,22 +258,92 @@ export const Transactions = () => {
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <div className="px-4 sm:px-6 flex justify-between items-center">
             <SearchInput onChange={onSearchChange} />
+          </div>
 
-            <select
-              name="credits"
-              id="credits"
-              className="block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              onChange={(e) =>
-                setCreditsMissingReimbursement(
-                  e.target.value === 'missing-reimbursement'
-                )
-              }
-            >
-              <option value="all">All</option>
-              <option value="missing-reimbursement">
-                Missing reimbursement
-              </option>
-            </select>
+          <div className="px-4 mt-4 sm:px-6 flex gap-4">
+            <div>
+              <label
+                htmlFor="credits"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Reimbursement
+              </label>
+              <div className="mt-0.5">
+                <select
+                  name="credits"
+                  id="credits"
+                  className="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) =>
+                    setCreditsMissingReimbursement(
+                      e.target.value === 'missing-reimbursement'
+                    )
+                  }
+                >
+                  <option value="all">All</option>
+                  <option value="missing-reimbursement">
+                    Missing reimbursement
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="payee-filter"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Payee
+              </label>
+              <div className="mt-0.5">
+                <select
+                  name="payee-filter"
+                  id="payee-filter"
+                  className="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) =>
+                    setWithPayee(
+                      e.target.value === 'with-payee'
+                        ? true
+                        : e.target.value === 'no-payee'
+                        ? false
+                        : null
+                    )
+                  }
+                >
+                  <option value="all">All</option>
+                  <option value="with-payee">With payee</option>
+                  <option value="no-payee">No payee</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="category-filter"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Categorised
+              </label>
+              <div className="mt-0.5">
+                <select
+                  name="category-filter"
+                  id="category-filter"
+                  className="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) =>
+                    setMissingCategory(
+                      e.target.value === 'missing-category'
+                        ? true
+                        : e.target.value === 'with-category'
+                        ? false
+                        : null
+                    )
+                  }
+                >
+                  <option value="all">All</option>
+                  <option value="with-category">All category</option>
+                  <option value="missing-category">Missing category</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <Pagination

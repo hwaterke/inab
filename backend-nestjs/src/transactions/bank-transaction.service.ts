@@ -21,12 +21,16 @@ export class BankTransactionService {
     bankAccounts,
     search,
     creditsMissingReimbursement,
+    withPayee,
+    missingCategory,
   }: {
     page: number
     pageSize: number
     bankAccounts: string[] | null
     search: string | null
     creditsMissingReimbursement: boolean
+    withPayee: boolean | null
+    missingCategory: boolean | null
   }) {
     const query = this.transactionRepository
       .createQueryBuilder('transaction')
@@ -55,6 +59,26 @@ export class BankTransactionService {
           })
         })
       )
+    }
+
+    if (!isNil(withPayee)) {
+      if (withPayee) {
+        query.andWhere('transaction.payeeUuid IS NOT NULL')
+      } else {
+        query.andWhere('transaction.payeeUuid IS NULL')
+      }
+    }
+
+    if (!isNil(missingCategory)) {
+      query.andWhere((qb) => {
+        const sq = qb
+          .subQuery()
+          .select('ifnull(SUM(item.amount), 0)')
+          .from(BankTransactionItem, 'item')
+          .where('item.transactionUuid = transaction.uuid')
+          .getQuery()
+        return `transaction.amount ${missingCategory ? '<>' : '='} ${sq}`
+      })
     }
 
     if (!isNil(search)) {
