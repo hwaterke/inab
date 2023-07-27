@@ -170,6 +170,40 @@ export class BankTransactionService {
     )
   }
 
+  async quickSetCategory({
+    bankTransactionUuids,
+    categoryUuid,
+  }: {
+    bankTransactionUuids: string[]
+    categoryUuid: string | null
+  }) {
+    // It only updates transactions that have no items yet.
+    const transactions = await this.transactionRepository
+      .createQueryBuilder('transaction')
+      .where('transaction.uuid IN (:...uuids)', {uuids: bankTransactionUuids})
+      .andWhere((qb) => {
+        const subQuery = qb
+          .subQuery()
+          .select('item.transactionUuid')
+          .from(BankTransactionItem, 'item')
+          .where('item.transactionUuid = transaction.uuid')
+          .getQuery()
+        return `NOT EXISTS ${subQuery}`
+      })
+      .getMany()
+
+    for (const transaction of transactions) {
+      await this.addItem(transaction.uuid, {
+        amount: transaction.amount,
+        categoryUuid,
+        description: null,
+        isCredit: false,
+        reimburseUuid: null,
+        isIncome: false,
+      })
+    }
+  }
+
   async findAllItems() {
     return await this.transactionItemRepository.find({
       relations: {

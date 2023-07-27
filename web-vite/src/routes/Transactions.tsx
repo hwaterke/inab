@@ -14,6 +14,7 @@ import {sumBy, uniq} from 'remeda'
 import {SearchInput} from '../components/form-elements/SearchInput.tsx'
 import debounce from 'lodash.debounce'
 import {Checkbox} from '../components/form-elements/Checkbox.tsx'
+import {CategorySelect} from '../components/form-elements/CategorySelect.tsx'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions(
@@ -59,6 +60,15 @@ const allTransactionsQueryDocument = graphql(`
 export const setTransactionPayeeMutationDocument = graphql(`
   mutation setBankTransactionPayee($uuids: [ID!]!, $payeeUuid: ID) {
     setBankTransactionPayee(bankTransactionUuids: $uuids, payeeUuid: $payeeUuid)
+  }
+`)
+
+const setTransactionCategoryMutationDocument = graphql(`
+  mutation setBankTransactionCategory($uuids: [ID!]!, $categoryUuid: ID!) {
+    setBankTransactionCategory(
+      bankTransactionUuids: $uuids
+      categoryUuid: $categoryUuid
+    )
   }
 `)
 
@@ -223,6 +233,9 @@ export const Transactions = () => {
   const [setPayee] = useMutation(setTransactionPayeeMutationDocument, {
     refetchQueries: ['transactions'],
   })
+  const [setCategory] = useMutation(setTransactionCategoryMutationDocument, {
+    refetchQueries: ['transactions'],
+  })
 
   const {data} = useQuery(allTransactionsQueryDocument, {
     onCompleted: () => {
@@ -377,6 +390,20 @@ export const Transactions = () => {
                       payeeUuid: payee,
                     },
                   })
+                }}
+              />
+
+              <CategorySelect
+                value={null}
+                onChange={(category) => {
+                  if (category) {
+                    return setCategory({
+                      variables: {
+                        uuids: Array.from(selectedTransactions),
+                        categoryUuid: category,
+                      },
+                    })
+                  }
                 }}
               />
             </div>

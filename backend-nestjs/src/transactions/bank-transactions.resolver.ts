@@ -77,6 +77,19 @@ export class BankTransactionsResolver {
     return true
   }
 
+  @Mutation(() => Boolean)
+  async setBankTransactionCategory(
+    @Args('bankTransactionUuids', {type: () => [ID]})
+    bankTransactionUuids: string[],
+    @Args('categoryUuid', {type: () => ID}) categoryUuid: string
+  ): Promise<boolean> {
+    await this.bankTransactionService.quickSetCategory({
+      bankTransactionUuids: bankTransactionUuids,
+      categoryUuid: categoryUuid,
+    })
+    return true
+  }
+
   @Query(() => [BankTransactionItemObjectType])
   async transactionItems(): Promise<BankTransactionItemObjectType[]> {
     return this.bankTransactionService.findAllItems()
