@@ -361,7 +361,7 @@ export const Transaction = () => {
                       value={data?.transaction.payee?.uuid ?? null}
                       onChange={async (payeeUuid) => {
                         await setPayee({
-                          variables: {uuid: uuid!, payeeUuid},
+                          variables: {uuids: [uuid!], payeeUuid},
                         })
                         setPayeeSelectOpened(false)
                       }}

@@ -13,6 +13,7 @@ import {AmountBadge} from '../components/AmountBadge.tsx'
 import {sumBy, uniq} from 'remeda'
 import {SearchInput} from '../components/form-elements/SearchInput.tsx'
 import debounce from 'lodash.debounce'
+import {Checkbox} from '../components/form-elements/Checkbox.tsx'
 
 const allTransactionsQueryDocument = graphql(`
   query transactions(
@@ -56,25 +57,14 @@ const allTransactionsQueryDocument = graphql(`
 `)
 
 export const setTransactionPayeeMutationDocument = graphql(`
-  mutation setBankTransactionPayee($uuid: ID!, $payeeUuid: ID) {
-    setBankTransactionPayee(bankTransactionUuid: $uuid, payeeUuid: $payeeUuid) {
-      uuid
-      date
-      time
-      amount
-      bankAccount {
-        uuid
-        name
-      }
-      payee {
-        uuid
-        name
-      }
-    }
+  mutation setBankTransactionPayee($uuids: [ID!]!, $payeeUuid: ID) {
+    setBankTransactionPayee(bankTransactionUuids: $uuids, payeeUuid: $payeeUuid)
   }
 `)
 
 const TransactionRow = ({
+  selected,
+  onSelect,
   banAccountName,
   transferBankAccountName,
   date,
@@ -86,6 +76,8 @@ const TransactionRow = ({
   setPayeeSelectUuid,
   transactionItems,
 }: {
+  selected: boolean
+  onSelect: (selected: boolean) => void
   banAccountName: string
   transferBankAccountName: string | null
   date: string
@@ -109,7 +101,9 @@ const TransactionRow = ({
     } | null
   }[]
 }) => {
-  const [setPayee] = useMutation(setTransactionPayeeMutationDocument)
+  const [setPayee] = useMutation(setTransactionPayeeMutationDocument, {
+    refetchQueries: ['transactions'],
+  })
 
   const numberOfCategories = uniq(
     transactionItems.map((i) => i.category?.name)
@@ -117,6 +111,9 @@ const TransactionRow = ({
 
   return (
     <tr>
+      <td>
+        <Checkbox checked={selected} onChange={(value) => onSelect(value)} />
+      </td>
       <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
         {banAccountName}
       </td>
@@ -140,7 +137,7 @@ const TransactionRow = ({
             onChange={async (payeeUuid) => {
               await setPayee({
                 variables: {
-                  uuid: transactionUuid,
+                  uuids: [transactionUuid],
                   payeeUuid,
                 },
               })
@@ -220,7 +217,17 @@ export const Transactions = () => {
   const [missingCategory, setMissingCategory] = useState<boolean | null>(null)
   const [search, setSearch] = useState<string | null>(null)
 
+  const [selectedTransactions, setSelectedTransactions] = useState<Set<string>>(
+    new Set()
+  )
+  const [setPayee] = useMutation(setTransactionPayeeMutationDocument, {
+    refetchQueries: ['transactions'],
+  })
+
   const {data} = useQuery(allTransactionsQueryDocument, {
+    onCompleted: () => {
+      setSelectedTransactions(new Set())
+    },
     variables: {
       pagination: {
         page: currentPage,
@@ -355,6 +362,26 @@ export const Transactions = () => {
             }}
           />
 
+          {selectedTransactions.size > 0 && (
+            <div className="flex gap-6 items-center">
+              <span className="text-sm font-medium text-gray-900">
+                {selectedTransactions.size} selected
+              </span>
+
+              <PayeeSelect
+                value={null}
+                onChange={(payee) => {
+                  return setPayee({
+                    variables: {
+                      uuids: Array.from(selectedTransactions),
+                      payeeUuid: payee,
+                    },
+                  })
+                }}
+              />
+            </div>
+          )}
+
           <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -364,6 +391,29 @@ export const Transactions = () => {
                       <th
                         scope="col"
                         className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      >
+                        <Checkbox
+                          checked={
+                            selectedTransactions.size ===
+                            data?.transactions.items.length
+                          }
+                          onChange={(value) => {
+                            if (value) {
+                              setSelectedTransactions(
+                                new Set(
+                                  data?.transactions.items.map((t) => t.uuid)
+                                )
+                              )
+                            } else {
+                              setSelectedTransactions(new Set())
+                            }
+                          }}
+                        />
+                      </th>
+
+                      <th
+                        scope="col"
+                        className="whitespace-nowrap py-3.5 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                       >
                         Account
                       </th>
@@ -415,6 +465,22 @@ export const Transactions = () => {
                               account === transaction.bankAccount.uuid
                           )) && (
                           <TransactionRow
+                            selected={selectedTransactions.has(
+                              transaction.uuid
+                            )}
+                            onSelect={(selected) => {
+                              if (selected) {
+                                setSelectedTransactions((prev) =>
+                                  new Set(prev).add(transaction.uuid)
+                                )
+                              } else {
+                                setSelectedTransactions((prev) => {
+                                  const copy = new Set(prev)
+                                  copy.delete(transaction.uuid)
+                                  return copy
+                                })
+                              }
+                            }}
                             banAccountName={transaction.bankAccount.name}
                             transferBankAccountName={
                               transaction.transferBankAccount?.name ?? null
@@ -438,6 +504,22 @@ export const Transactions = () => {
                                 transaction.transferBankAccount?.uuid
                             )) && (
                             <TransactionRow
+                              selected={selectedTransactions.has(
+                                transaction.uuid
+                              )}
+                              onSelect={(selected) => {
+                                if (selected) {
+                                  setSelectedTransactions((prev) =>
+                                    prev.add(transaction.uuid)
+                                  )
+                                } else {
+                                  setSelectedTransactions((prev) => {
+                                    const copy = new Set(prev)
+                                    copy.delete(transaction.uuid)
+                                    return copy
+                                  })
+                                }
+                              }}
                               banAccountName={
                                 transaction.transferBankAccount.name
                               }

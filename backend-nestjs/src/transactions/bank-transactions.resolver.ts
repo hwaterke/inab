@@ -64,16 +64,17 @@ export class BankTransactionsResolver {
     return this.bankTransactionService.findOne(uuid)
   }
 
-  @Mutation(() => BankTransactionObjectType)
+  @Mutation(() => Boolean)
   async setBankTransactionPayee(
-    @Args('bankTransactionUuid', {type: () => ID}) bankTransactionUuid: string,
+    @Args('bankTransactionUuids', {type: () => [ID]})
+    bankTransactionUuids: string[],
     @Args('payeeUuid', {type: () => ID, nullable: true}) payeeUuid: string
-  ): Promise<BankTransactionObjectType> {
+  ): Promise<boolean> {
     await this.bankTransactionService.setPayee({
-      bankTransactionUuid: bankTransactionUuid,
+      bankTransactionUuids: bankTransactionUuids,
       payeeUuid: payeeUuid,
     })
-    return this.bankTransactionService.findOne(bankTransactionUuid)
+    return true
   }
 
   @Query(() => [BankTransactionItemObjectType])

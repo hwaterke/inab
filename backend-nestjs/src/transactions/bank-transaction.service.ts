@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {BankTransaction} from './entities/bank-transaction.entities'
 import {InjectRepository} from '@nestjs/typeorm'
-import {Brackets, Not, Repository} from 'typeorm'
+import {Brackets, In, Not, Repository} from 'typeorm'
 import {BankTransactionItemInputType} from './models/bank-transaction.model'
 import {BankTransactionItem} from './entities/bank-transaction-item.entity'
 import {isNil} from 'remeda'
@@ -158,14 +158,14 @@ export class BankTransactionService {
   }
 
   setPayee({
-    bankTransactionUuid,
+    bankTransactionUuids,
     payeeUuid,
   }: {
-    bankTransactionUuid: string
+    bankTransactionUuids: string[]
     payeeUuid: string | null
   }) {
     return this.transactionRepository.update(
-      {uuid: bankTransactionUuid},
+      {uuid: In(bankTransactionUuids)},
       {payeeUuid}
     )
   }
@@ -197,6 +197,7 @@ export class BankTransactionService {
           .getQuery()
         return '-item.amount <> ' + sumQuery
       })
+      .orderBy('transaction.date', 'DESC')
 
     return await query.getMany()
   }
