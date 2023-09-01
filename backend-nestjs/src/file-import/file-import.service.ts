@@ -13,11 +13,13 @@ import {TransactionExtractor} from './extractors/TransactionExtractor'
 import {IngExtractor} from './extractors/IngExtractor'
 import {N26Extractor} from './extractors/N26Extractor'
 import {N26ApiExtractor} from './extractors/N26ApiExtractor'
+import {GenericExtractor} from './extractors/GenericExtractor'
 
 const EXTRACTORS: TransactionExtractor[] = [
   IngExtractor,
   N26ApiExtractor,
   N26Extractor,
+  GenericExtractor,
 ]
 
 const JsonSchema = z.object({
